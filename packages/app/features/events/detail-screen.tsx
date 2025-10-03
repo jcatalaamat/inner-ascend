@@ -4,7 +4,6 @@ import { Calendar, Clock, MapPin, DollarSign, User, Mail } from '@tamagui/lucide
 import { formatDate, formatTime } from 'app/utils/date-helpers'
 import { CATEGORY_COLORS } from 'app/utils/constants'
 import { useTranslation } from 'react-i18next'
-import { ScreenWrapper } from 'app/components/ScreenWrapper'
 import { usePostHog } from 'posthog-react-native'
 import { useEffect } from 'react'
 
@@ -47,8 +46,7 @@ export function EventDetailScreen({ id }: EventDetailScreenProps) {
   const categoryLabel = t(`events.categories.${event.category}`)
 
   return (
-    <ScreenWrapper>
-      <ScrollView bg="$background">
+    <ScrollView bg="$background">
         <YStack pb="$4">
           {/* Image */}
           {event.image_url && (
@@ -148,6 +146,5 @@ export function EventDetailScreen({ id }: EventDetailScreenProps) {
           </YStack>
         </YStack>
       </ScrollView>
-    </ScreenWrapper>
   )
 }

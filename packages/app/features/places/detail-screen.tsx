@@ -4,7 +4,6 @@ import { MapPin, DollarSign, Phone, Mail, Globe, Instagram } from '@tamagui/luci
 import { PLACE_TYPE_COLORS } from 'app/utils/constants'
 import { Linking } from 'react-native'
 import { useTranslation } from 'react-i18next'
-import { ScreenWrapper } from 'app/components/ScreenWrapper'
 
 interface PlaceDetailScreenProps {
   id: string
@@ -52,8 +51,7 @@ export function PlaceDetailScreen({ id }: PlaceDetailScreenProps) {
   }
 
   return (
-    <ScreenWrapper>
-      <ScrollView bg="$background">
+    <ScrollView bg="$background">
         <YStack pb="$4">
           {/* Image */}
           {place.images && place.images.length > 0 && (
@@ -201,6 +199,5 @@ export function PlaceDetailScreen({ id }: PlaceDetailScreenProps) {
           </YStack>
         </YStack>
       </ScrollView>
-    </ScreenWrapper>
   )
 }

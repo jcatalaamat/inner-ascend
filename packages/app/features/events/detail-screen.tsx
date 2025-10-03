@@ -145,6 +145,7 @@ export function EventDetailScreen({ id }: EventDetailScreenProps) {
           {/* TODO: Add map preview with marker */}
           {/* TODO: Add share button */}
           {/* TODO: Add "Get Directions" button if lat/lng available */}
+          </YStack>
         </YStack>
       </ScrollView>
     </ScreenWrapper>

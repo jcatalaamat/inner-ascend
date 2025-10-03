@@ -1,17 +1,9 @@
-import { FormWrapper, H2, H4, KVTable, Separator, SizableText, YStack, isWeb, styled, Button, Text } from '@my/ui'
+import { FormWrapper, H2, H4, KVTable, Separator, SizableText, YStack, isWeb, styled } from '@my/ui'
 import { useUser } from 'app/utils/useUser'
 import { Link } from 'solito/link'
-import * as Sentry from '@sentry/react-native'
 
 export const GeneralSettingsScreen = () => {
   const { user, profile } = useUser()
-
-  // Test Sentry crash function
-  const testSentryCrash = () => {
-    Sentry.captureException(new Error('Test crash from General Settings!'))
-    Sentry.captureMessage('Test message from General Settings', 'info')
-    console.log('Sentry test crash triggered from General Settings!')
-  }
 
   return (
     <FormWrapper>
@@ -70,20 +62,6 @@ export const GeneralSettingsScreen = () => {
           </KVTable>
         </Section>
 
-        <Section>
-          <YStack gap="$4">
-            <H4>Development Tools</H4>
-            <Separator />
-            <Button
-              size="$4"
-              variant="outlined"
-              backgroundColor="$red9"
-              onPress={testSentryCrash}
-            >
-              <Text color="white">Test Sentry Crash</Text>
-            </Button>
-          </YStack>
-        </Section>
       </FormWrapper.Body>
     </FormWrapper>
   )

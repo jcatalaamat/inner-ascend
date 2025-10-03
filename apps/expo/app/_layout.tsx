@@ -124,11 +124,6 @@ function HomeLayout() {
                   headerShown: true,
                   headerTitle: '',
                   presentation: 'card',
-                  headerStyle: {
-                    backgroundColor: '#ffffff',
-                  },
-                  headerTintColor: '#000000',
-                  headerBackTitleVisible: false,
                 }}
               />
               <Stack.Screen
@@ -137,11 +132,6 @@ function HomeLayout() {
                   headerShown: true,
                   headerTitle: '',
                   presentation: 'card',
-                  headerStyle: {
-                    backgroundColor: '#ffffff',
-                  },
-                  headerTintColor: '#000000',
-                  headerBackTitleVisible: false,
                 }}
               />
               </Stack>

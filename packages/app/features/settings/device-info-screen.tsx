@@ -7,6 +7,7 @@ import { useLanguage } from 'app/contexts/LanguageContext'
 import { useUser } from 'app/utils/useUser'
 import { useState } from 'react'
 import { ScreenWrapper } from 'app/components/ScreenWrapper'
+import * as Device from 'expo-device'
 
 export const DeviceInfoScreen = () => {
   const { t } = useTranslation()
@@ -48,6 +49,12 @@ export const DeviceInfoScreen = () => {
     appVersion: '1.0.1',
     platform: Platform.OS,
     platformVersion: Platform.Version,
+    deviceName: Device.deviceName || 'Unknown',
+    deviceModel: Device.modelName || 'Unknown',
+    deviceBrand: Device.brand || 'Unknown',
+    deviceType: Device.deviceType || 'Unknown',
+    deviceYear: Device.deviceYearClass || 'Unknown',
+    isDevice: Device.isDevice,
     language: currentLanguage,
     userId: profile?.id || 'Not logged in',
     userEmail: profile?.email || 'Not logged in',
@@ -60,6 +67,11 @@ export const DeviceInfoScreen = () => {
 
 App: ${deviceInfo.appName} v${deviceInfo.appVersion}
 Platform: ${deviceInfo.platform} ${deviceInfo.platformVersion}
+Device: ${deviceInfo.deviceName} (${deviceInfo.deviceModel})
+Brand: ${deviceInfo.deviceBrand}
+Type: ${deviceInfo.deviceType}
+Year: ${deviceInfo.deviceYear}
+Is Device: ${deviceInfo.isDevice}
 Language: ${deviceInfo.language}
 User ID: ${deviceInfo.userId}
 User Email: ${deviceInfo.userEmail}
@@ -100,11 +112,17 @@ Please include this information when reporting bugs or issues.`
               <Settings.Item icon={Info} accentTheme="gray">
                 App Version: {deviceInfo.appVersion}
               </Settings.Item>
+              <Settings.Item icon={Smartphone} accentTheme="gray">
+                Device: {deviceInfo.deviceName} ({deviceInfo.deviceModel})
+              </Settings.Item>
               <Settings.Item icon={Info} accentTheme="gray">
                 Platform: {deviceInfo.platform} {deviceInfo.platformVersion}
               </Settings.Item>
               <Settings.Item icon={Book} accentTheme="gray">
                 Language: {deviceInfo.language}
+              </Settings.Item>
+              <Settings.Item icon={Smartphone} accentTheme="gray">
+                Brand: {deviceInfo.deviceBrand}
               </Settings.Item>
               <Settings.Item icon={Info} accentTheme="gray">
                 User ID: {deviceInfo.userId}

@@ -190,7 +190,22 @@
     "about": "About",
     "theme": "Theme",
     "language": "Language",
-    "log_out": "Log Out"
+    "log_out": "Log Out",
+    "device_information": "Device Information"
+  },
+  "device_info": {
+    "title": "Device Information",
+    "copy_all": "Copy All",
+    "copied": "Copied!",
+    "copy_success": "Device information copied to clipboard",
+    "copy_error": "Failed to copy device information",
+    "app_version": "App Version",
+    "device": "Device",
+    "platform": "Platform",
+    "language": "Language",
+    "brand": "Brand",
+    "user_id": "User ID",
+    "posthog_id": "PostHog ID"
   },
   "create": {
     "title": "Create",

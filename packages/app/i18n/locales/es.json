@@ -190,7 +190,22 @@
     "about": "Acerca de",
     "theme": "Tema",
     "language": "Idioma",
-    "log_out": "Cerrar Sesión"
+    "log_out": "Cerrar Sesión",
+    "device_information": "Información del Dispositivo"
+  },
+  "device_info": {
+    "title": "Información del Dispositivo",
+    "copy_all": "Copiar Todo",
+    "copied": "¡Copiado!",
+    "copy_success": "Información del dispositivo copiada al portapapeles",
+    "copy_error": "Error al copiar la información del dispositivo",
+    "app_version": "Versión de la App",
+    "device": "Dispositivo",
+    "platform": "Plataforma",
+    "language": "Idioma",
+    "brand": "Marca",
+    "user_id": "ID de Usuario",
+    "posthog_id": "ID de PostHog"
   },
   "create": {
     "title": "Crear",

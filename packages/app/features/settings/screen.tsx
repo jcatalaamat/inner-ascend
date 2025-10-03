@@ -71,9 +71,9 @@ export const SettingsScreen = () => {
                   {t('settings.about')}
                 </Settings.Item>
               )}
-              <Settings.Item icon={Smartphone} {...useLink({ href: '/settings/device-info' })} accentTheme="purple">
-                Device Information
-              </Settings.Item>
+                      <Settings.Item icon={Smartphone} {...useLink({ href: '/settings/device-info' })} accentTheme="purple">
+                        {t('settings.device_information')}
+                      </Settings.Item>
             </Settings.Group>
             {isWeb && <Separator boc="$color3" mx="$-4" bw="$0.25" />}
             <Settings.Group>

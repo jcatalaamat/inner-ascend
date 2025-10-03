@@ -63,19 +63,15 @@ export const DeviceInfoScreen = () => {
   }
 
   const copyDeviceInfo = async () => {
-    const infoText = `Device Information for Mazunte Connect:
+    const infoText = `${t('device_info.title')} - Mazunte Connect:
 
-App: ${deviceInfo.appName} v${deviceInfo.appVersion}
-Platform: ${deviceInfo.platform} ${deviceInfo.platformVersion}
-Device: ${deviceInfo.deviceName} (${deviceInfo.deviceModel})
-Brand: ${deviceInfo.deviceBrand}
-Type: ${deviceInfo.deviceType}
-Year: ${deviceInfo.deviceYear}
-Is Device: ${deviceInfo.isDevice}
-Language: ${deviceInfo.language}
-User ID: ${deviceInfo.userId}
-User Email: ${deviceInfo.userEmail}
-PostHog ID: ${deviceInfo.posthogDistinctId}
+${t('device_info.app_version')}: ${deviceInfo.appName} v${deviceInfo.appVersion}
+${t('device_info.platform')}: ${deviceInfo.platform} ${deviceInfo.platformVersion}
+${t('device_info.device')}: ${deviceInfo.deviceName} (${deviceInfo.deviceModel})
+${t('device_info.brand')}: ${deviceInfo.deviceBrand}
+${t('device_info.language')}: ${deviceInfo.language}
+${t('device_info.user_id')}: ${deviceInfo.userId}
+${t('device_info.posthog_id')}: ${deviceInfo.posthogDistinctId}
 Timestamp: ${deviceInfo.timestamp}
 
 Please include this information when reporting bugs or issues.`
@@ -83,10 +79,10 @@ Please include this information when reporting bugs or issues.`
     try {
       Clipboard.setString(infoText)
       setCopied(true)
-      Alert.alert('Copied!', 'Device information copied to clipboard')
+      Alert.alert(t('device_info.copied'), t('device_info.copy_success'))
       setTimeout(() => setCopied(false), 2000)
     } catch (error) {
-      Alert.alert('Error', 'Failed to copy device information')
+      Alert.alert(t('common.error'), t('device_info.copy_error'))
     }
   }
 
@@ -100,9 +96,9 @@ Please include this information when reporting bugs or issues.`
                 icon={Smartphone}
                 accentTheme="blue"
                 onPress={copyDeviceInfo}
-                rightLabel={copied ? 'Copied!' : 'Copy All'}
+                rightLabel={copied ? t('device_info.copied') : t('device_info.copy_all')}
               >
-                Copy Device Information
+                {t('device_info.title')}
               </Settings.Item>
             </Settings.Group>
             
@@ -110,25 +106,25 @@ Please include this information when reporting bugs or issues.`
             
             <Settings.Group>
               <Settings.Item icon={Info} accentTheme="gray">
-                App Version: {deviceInfo.appVersion}
+                {t('device_info.app_version')}: {deviceInfo.appVersion}
               </Settings.Item>
               <Settings.Item icon={Smartphone} accentTheme="gray">
-                Device: {deviceInfo.deviceName} ({deviceInfo.deviceModel})
+                {t('device_info.device')}: {deviceInfo.deviceName} ({deviceInfo.deviceModel})
               </Settings.Item>
               <Settings.Item icon={Info} accentTheme="gray">
-                Platform: {deviceInfo.platform} {deviceInfo.platformVersion}
+                {t('device_info.platform')}: {deviceInfo.platform} {deviceInfo.platformVersion}
               </Settings.Item>
               <Settings.Item icon={Book} accentTheme="gray">
-                Language: {deviceInfo.language}
+                {t('device_info.language')}: {deviceInfo.language}
               </Settings.Item>
               <Settings.Item icon={Smartphone} accentTheme="gray">
-                Brand: {deviceInfo.deviceBrand}
+                {t('device_info.brand')}: {deviceInfo.deviceBrand}
               </Settings.Item>
               <Settings.Item icon={Info} accentTheme="gray">
-                User ID: {deviceInfo.userId}
+                {t('device_info.user_id')}: {deviceInfo.userId}
               </Settings.Item>
               <Settings.Item icon={Info} accentTheme="gray">
-                PostHog ID: {deviceInfo.posthogDistinctId}
+                {t('device_info.posthog_id')}: {deviceInfo.posthogDistinctId}
               </Settings.Item>
             </Settings.Group>
           </Settings.Items>

@@ -54,3 +54,4 @@ thumbs.db
 
 # Turborepo
 .turbo
+# Trigger build with EXPO_TOKEN

@@ -1,4 +1,4 @@
-name: EAS Build
+name: EAS Full Production Build
 
 on:
   # Disabled automatic builds - too expensive

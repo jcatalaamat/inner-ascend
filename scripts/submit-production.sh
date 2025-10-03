@@ -23,10 +23,10 @@ if ! eas whoami &> /dev/null; then
 fi
 
 echo "🍎 Submitting to App Store (iOS)..."
-eas submit --platform ios --profile production --non-interactive
+eas submit --platform ios --profile production --latest --non-interactive
 
 echo "📱 Submitting to Google Play Store (Android)..."
-eas submit --platform android --profile production --non-interactive
+eas submit --platform android --profile production --latest --non-interactive
 
 echo "✅ Production submissions completed!"
 echo "📥 Check App Store Connect and Google Play Console for your builds"

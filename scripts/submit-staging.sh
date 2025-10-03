@@ -23,10 +23,10 @@ if ! eas whoami &> /dev/null; then
 fi
 
 echo "🍎 Submitting to TestFlight (iOS)..."
-eas submit --platform ios --profile staging --non-interactive
+eas submit --platform ios --profile staging --latest --non-interactive
 
 echo "📱 Submitting to Google Play Internal Testing (Android)..."
-eas submit --platform android --profile staging --non-interactive
+eas submit --platform android --profile staging --latest --non-interactive
 
 echo "✅ Staging submissions completed!"
 echo "📥 Check TestFlight and Google Play Console for your builds"

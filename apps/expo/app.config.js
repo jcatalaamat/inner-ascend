@@ -6,7 +6,7 @@ export default {
     slug: 'mazunte-connect',
     jsEngine: 'hermes',
     scheme: 'mazunteconnect',
-    version: '1.0.0',
+    version: '1.0.1',
     orientation: 'portrait',
     icon: './assets/icon.png',
     userInterfaceStyle: 'automatic',
@@ -23,7 +23,7 @@ export default {
     ios: {
       supportsTablet: true,
       bundleIdentifier: 'com.mazunte.connect',
-      buildNumber: '6',
+      buildNumber: '7',
       infoPlist: {
         ITSAppUsesNonExemptEncryption: false,
       },
@@ -36,7 +36,7 @@ export default {
       },
       package: 'com.mazunte.connect',
       permissions: ['android.permission.RECORD_AUDIO'],
-      versionCode: 3,
+      versionCode: 4,
     },
     web: {
       favicon: './assets/favicon.png',

@@ -8,8 +8,6 @@ import { useLink } from 'solito/link'
 import { LanguageSwitcher } from 'app/components/LanguageSwitcher'
 import { useTranslation } from 'react-i18next'
 
-import rootPackageJson from '../../../../package.json'
-import packageJson from '../../package.json'
 
 export const SettingsScreen = () => {
   const media = useMedia()
@@ -96,13 +94,6 @@ export const SettingsScreen = () => {
           </Settings.Items>
         </Settings>
       </ScrollView>
-      {/*
-      NOTE: you should probably get the actual native version here using https://www.npmjs.com/package/react-native-version-info
-      we just did a simple package.json read since we want to keep things simple for the starter
-       */}
-      <Paragraph py="$2" ta="center" theme="alt2">
-        {packageJson.name} {packageJson.version}
-      </Paragraph>
     </YStack>
   )
 }

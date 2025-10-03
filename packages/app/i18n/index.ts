@@ -30,9 +30,6 @@ const getDeviceLanguage = () => {
   }
 }
 
-// Check if running in development mode (supports dev/staging/production)
-const isDev = process.env.NODE_ENV === 'development'
-
 // Initialize with device language, will be overridden by LanguageProvider
 i18n
   .use(initReactI18next)
@@ -40,7 +37,7 @@ i18n
     resources,
     lng: getDeviceLanguage(), // This will be overridden by LanguageProvider
     fallbackLng: 'en',
-    debug: isDev,
+    debug: __DEV__,
     
     interpolation: {
       escapeValue: false, // React already does escaping

@@ -1,0 +1,78 @@
+name: EAS Trigger Build Only
+
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: 'Platform to build'
+        required: true
+        default: 'ios'
+        type: choice
+        options:
+        - ios
+        - android
+        - both
+      profile:
+        description: 'Build profile'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+        - development
+        - staging
+        - production
+
+jobs:
+  trigger-build:
+    name: Trigger Build Only
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for EXPO_TOKEN
+        run: |
+          if [ -z "${{ secrets.EXPO_TOKEN }}" ]; then
+            echo "You must provide an EXPO_TOKEN secret linked to this project's Expo account in this repo's secrets."
+            exit 1
+          fi
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: yarn
+
+      - name: Setup Expo and EAS
+        uses: expo/expo-github-action@v8
+        with:
+          expo-version: latest
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+          expo-cli-version: latest
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Trigger iOS Build
+        if: ${{ inputs.platform == 'ios' || inputs.platform == 'both' }}
+        run: |
+          cd apps/expo
+          echo "🚀 Triggering iOS ${{ inputs.profile }} build..."
+          eas build --platform ios --profile ${{ inputs.profile }} --non-interactive --no-wait
+          echo "✅ iOS ${{ inputs.profile }} build triggered successfully"
+
+      - name: Trigger Android Build
+        if: ${{ inputs.platform == 'android' || inputs.platform == 'both' }}
+        run: |
+          cd apps/expo
+          echo "🚀 Triggering Android ${{ inputs.profile }} build..."
+          eas build --platform android --profile ${{ inputs.profile }} --non-interactive --no-wait
+          echo "✅ Android ${{ inputs.profile }} build triggered successfully"
+
+      - name: Build Status
+        run: |
+          echo "📋 Builds have been triggered and are running in the background"
+          echo "🔗 Check build status at: https://expo.dev/accounts/inner-ascend-expo/projects/mazunte-connect/builds"
+          echo "⏱️  Builds typically take 10-30 minutes to complete"
+          echo "📱 When builds are ready, use 'EAS Trigger Submit Only' workflow to submit"

@@ -123,7 +123,7 @@ supabase db reset
 ### Adding New Translations:
 
 1. **Add keys to translation files:**
-   ```json
+```json
    // packages/app/i18n/locales/en.json
    {
      "new_section": {
@@ -138,12 +138,12 @@ supabase db reset
    {
      "new_section": {
        "key": "Texto en español"
-     }
-   }
-   ```
+  }
+}
+```
 
 3. **Use in components:**
-   ```tsx
+```tsx
    import { useTranslation } from 'react-i18next'
    
    const { t } = useTranslation()

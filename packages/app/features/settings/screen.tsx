@@ -1,5 +1,5 @@
 import { Paragraph, ScrollView, Separator, Settings, YStack, isWeb, useMedia } from '@my/ui'
-import { Book, Cog, Info, Lock, LogOut, Mail, Moon, Twitter } from '@tamagui/lucide-icons'
+import { Book, Cog, Info, Lock, LogOut, Mail, Moon, Smartphone, Twitter } from '@tamagui/lucide-icons'
 import { useThemeSetting } from 'app/provider/theme'
 import { redirect } from 'app/utils/redirect'
 import { useSupabase } from 'app/utils/supabase/useSupabase'
@@ -73,6 +73,9 @@ export const SettingsScreen = () => {
                   {t('settings.about')}
                 </Settings.Item>
               )}
+              <Settings.Item icon={Smartphone} {...useLink({ href: '/settings/device-info' })} accentTheme="purple">
+                Device Information
+              </Settings.Item>
             </Settings.Group>
             {isWeb && <Separator boc="$color3" mx="$-4" bw="$0.25" />}
             <Settings.Group>
@@ -98,7 +101,7 @@ export const SettingsScreen = () => {
       we just did a simple package.json read since we want to keep things simple for the starter
        */}
       <Paragraph py="$2" ta="center" theme="alt2">
-        {rootPackageJson.name} {packageJson.version}
+        {packageJson.name} {packageJson.version}
       </Paragraph>
     </YStack>
   )

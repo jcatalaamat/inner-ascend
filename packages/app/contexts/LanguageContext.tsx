@@ -58,9 +58,6 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       posthog?.capture('language_changed', {
         from_language: currentLanguage,
         to_language: language,
-      })
-      // Update user properties
-      posthog?.setPersonProperties({
         preferred_language: language,
       })
     } catch (error) {

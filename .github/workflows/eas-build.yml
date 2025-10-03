@@ -68,13 +68,13 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           cd apps/expo
-          eas submit --platform android --profile staging --non-interactive
+          eas submit --platform android --profile staging --latest --non-interactive
 
       - name: Submit to App Store (staging)
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           cd apps/expo
-          eas submit --platform ios --profile staging --non-interactive
+          eas submit --platform ios --profile staging --latest --non-interactive
 
       - name: Build for production (Android)
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -92,10 +92,10 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           cd apps/expo
-          eas submit --platform android --profile production --non-interactive
+          eas submit --platform android --profile production --latest --non-interactive
 
       - name: Submit to App Store (production)
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           cd apps/expo
-          eas submit --platform ios --profile production --non-interactive
+          eas submit --platform ios --profile production --latest --non-interactive

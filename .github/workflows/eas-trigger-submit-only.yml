@@ -58,7 +58,7 @@ jobs:
         run: |
           cd apps/expo
           echo "🚀 Triggering iOS ${{ inputs.profile }} submission..."
-          eas submit --platform ios --profile ${{ inputs.profile }} --non-interactive --no-wait
+          eas submit --platform ios --profile ${{ inputs.profile }} --latest --non-interactive --no-wait
           echo "✅ iOS ${{ inputs.profile }} submission triggered successfully"
 
       - name: Trigger Android Submit
@@ -66,7 +66,7 @@ jobs:
         run: |
           cd apps/expo
           echo "🚀 Triggering Android ${{ inputs.profile }} submission..."
-          eas submit --platform android --profile ${{ inputs.profile }} --non-interactive --no-wait
+          eas submit --platform android --profile ${{ inputs.profile }} --latest --non-interactive --no-wait
           echo "✅ Android ${{ inputs.profile }} submission triggered successfully"
 
       - name: Submit Status

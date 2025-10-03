@@ -143,14 +143,14 @@ export function MapScreen() {
     )
   }
 
-  // Web fallback
+  // Web fallback or when maps are not available
   if (Platform.OS === 'web' || !MapView) {
     return (
       <ScreenWrapper>
         <YStack f={1} ai="center" jc="center" gap="$4" p="$4">
           <YStack gap="$2" w="100%">
             <Text fontSize="$4" fontWeight="600" color="$color11">
-              {t('map.mazunte_location')}
+              {Platform.OS === 'web' ? t('map.web_not_supported') : t('map.maps_not_available')}
             </Text>
             <Text color="$color10">
               • {t('map.events_available', { count: filteredEvents.length })}
@@ -158,6 +158,11 @@ export function MapScreen() {
             <Text color="$color10">
               • {t('map.places_available', { count: filteredPlaces.length })}
             </Text>
+            {Platform.OS === 'android' && (
+              <Text fontSize="$3" color="$color9" mt="$2">
+                {t('map.android_maps_help')}
+              </Text>
+            )}
           </YStack>
         </YStack>
       </ScreenWrapper>

@@ -141,7 +141,10 @@
     "tap_again_for_details": "Tap again to view details",
     "mazunte_location": "📍 Mazunte, Mexico (15.666°N, 96.556°W)",
     "events_available": "Events: {count} available",
-    "places_available": "Places: {count} available"
+    "places_available": "Places: {count} available",
+    "web_not_supported": "Maps not supported on web",
+    "maps_not_available": "Maps not available",
+    "android_maps_help": "Maps may require Google Maps API key for Android"
   },
   "favorites": {
     "title": "Favorites",

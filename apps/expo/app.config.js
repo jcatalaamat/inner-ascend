@@ -35,8 +35,17 @@ export default {
         backgroundColor: '#FFFFFF',
       },
       package: 'com.mazunte.connect',
-      permissions: ['android.permission.RECORD_AUDIO'],
+      permissions: [
+        'android.permission.RECORD_AUDIO',
+        'android.permission.ACCESS_FINE_LOCATION',
+        'android.permission.ACCESS_COARSE_LOCATION',
+      ],
       versionCode: 4,
+      config: {
+        googleMaps: {
+          apiKey: process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
+        },
+      },
     },
     web: {
       favicon: './assets/favicon.png',

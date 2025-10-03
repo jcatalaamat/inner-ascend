@@ -18,18 +18,22 @@ export default function Layout() {
   // Use PostHog hooks for feature flags
   const disableCreateButton = useFeatureFlag('disable-create-button')
   const disableMapTab = useFeatureFlag('disable-map-tab')
+  const disableDrawerMenu = useFeatureFlag('disable-drawer-menu')
 
   // Show features when flag is undefined (loading) or false (disabled)
   const showCreateButton = !disableCreateButton
   const showMapTab = !disableMapTab
+  const showDrawerMenu = !disableDrawerMenu
 
   if (__DEV__) {
     console.log('pathname', pathname)
     console.log('🚩 Feature Flags:', {
       disableCreateButton,
       disableMapTab,
+      disableDrawerMenu,
       showCreateButton,
-      showMapTab
+      showMapTab,
+      showDrawerMenu
     })
   }
   return (
@@ -49,6 +53,7 @@ export default function Layout() {
               onPress={() => {
                 navigation.dispatch(DrawerActions.openDrawer())
               }}
+              style={{ display: showDrawerMenu ? 'flex' : 'none' }}
             >
               <Menu size={24} />
             </Button>
@@ -84,6 +89,7 @@ export default function Layout() {
           },
           tabBarItemStyle: {
             paddingBottom: 5,
+            flex: 1,
           },
           tabBarLabelStyle: {
             fontSize: 11,
@@ -113,19 +119,18 @@ export default function Layout() {
             ),
           }}
         />
-        {showMapTab && (
-          <Tabs.Screen
-            name="map"
-            key="map"
-            options={{
-              headerShown: false,
-              title: t('navigation.map'),
-              tabBarIcon: ({ size, color, focused }) => (
-                <Map color={focused ? '$color12' : '$color10'} size={22} strokeWidth={focused ? 2.5 : 2} />
-              ),
-            }}
-          />
-        )}
+        <Tabs.Screen
+          name="map"
+          key="map"
+          options={{
+            headerShown: false,
+            title: t('navigation.map'),
+            tabBarIcon: ({ size, color, focused }) => (
+              <Map color={focused ? '$color12' : '$color10'} size={22} strokeWidth={focused ? 2.5 : 2} />
+            ),
+            tabBarButton: showMapTab ? undefined : () => null,
+          }}
+        />
         <Tabs.Screen
           name="favorites"
           key="favorites"

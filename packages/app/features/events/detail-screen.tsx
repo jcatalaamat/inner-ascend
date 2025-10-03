@@ -3,7 +3,6 @@ import { useEventDetailQuery } from 'app/utils/react-query/useEventsQuery'
 import { Calendar, Clock, MapPin, DollarSign, User, Mail } from '@tamagui/lucide-icons'
 import { formatDate, formatTime } from 'app/utils/date-helpers'
 import { CATEGORY_COLORS } from 'app/utils/constants'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useTranslation } from 'react-i18next'
 import { ScreenWrapper } from 'app/components/ScreenWrapper'
 import { usePostHog } from 'posthog-react-native'
@@ -14,7 +13,6 @@ interface EventDetailScreenProps {
 }
 
 export function EventDetailScreen({ id }: EventDetailScreenProps) {
-  const insets = useSafeAreaInsets()
   const { data: event, isLoading } = useEventDetailQuery(id)
   const { t } = useTranslation()
   const posthog = usePostHog()
@@ -49,8 +47,9 @@ export function EventDetailScreen({ id }: EventDetailScreenProps) {
   const categoryLabel = t(`events.categories.${event.category}`)
 
   return (
-    <ScrollView bg="$background">
-      <YStack pb={insets.bottom + 20}>
+    <ScreenWrapper>
+      <ScrollView bg="$background">
+        <YStack pb="$4">
           {/* Image */}
           {event.image_url && (
             <Image
@@ -146,8 +145,8 @@ export function EventDetailScreen({ id }: EventDetailScreenProps) {
           {/* TODO: Add map preview with marker */}
           {/* TODO: Add share button */}
           {/* TODO: Add "Get Directions" button if lat/lng available */}
-          </YStack>
         </YStack>
       </ScrollView>
+    </ScreenWrapper>
   )
 }

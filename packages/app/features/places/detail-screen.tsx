@@ -2,7 +2,6 @@ import { FullscreenSpinner, Text, YStack, XStack, Image, Button, ScrollView, Car
 import { usePlaceDetailQuery } from 'app/utils/react-query/usePlacesQuery'
 import { MapPin, DollarSign, Phone, Mail, Globe, Instagram } from '@tamagui/lucide-icons'
 import { PLACE_TYPE_COLORS } from 'app/utils/constants'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Linking } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { ScreenWrapper } from 'app/components/ScreenWrapper'
@@ -12,7 +11,6 @@ interface PlaceDetailScreenProps {
 }
 
 export function PlaceDetailScreen({ id }: PlaceDetailScreenProps) {
-  const insets = useSafeAreaInsets()
   const { data: place, isLoading } = usePlaceDetailQuery(id)
   const { t } = useTranslation()
 
@@ -54,8 +52,9 @@ export function PlaceDetailScreen({ id }: PlaceDetailScreenProps) {
   }
 
   return (
-    <ScrollView bg="$background">
-      <YStack pb={insets.bottom + 20}>
+    <ScreenWrapper>
+      <ScrollView bg="$background">
+        <YStack pb="$4">
           {/* Image */}
           {place.images && place.images.length > 0 && (
             <Image
@@ -202,5 +201,6 @@ export function PlaceDetailScreen({ id }: PlaceDetailScreenProps) {
           </YStack>
         </YStack>
       </ScrollView>
+    </ScreenWrapper>
   )
 }

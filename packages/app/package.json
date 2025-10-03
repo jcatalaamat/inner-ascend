@@ -1,6 +1,6 @@
 {
   "version": "1.0.1",
-  "name": "Mazunte Connect",
+  "name": "mazunte-connect-app",
   "main": "index.ts",
   "types": "./index.ts",
   "private": true,
@@ -17,7 +17,7 @@
     "@my/api": "*",
     "@my/supabase": "*",
     "@my/ui": "*",
-    "@react-native-async-storage/async-storage": "2.1.2",
+    "@react-native-async-storage/async-storage": "^2.2.0",
     "@rehookify/datepicker": "^6.6.6",
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/auth-helpers-react": "^0.5.0",

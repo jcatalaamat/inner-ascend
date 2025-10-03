@@ -5023,17 +5023,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-async-storage/async-storage@npm:2.1.2":
-  version: 2.1.2
-  resolution: "@react-native-async-storage/async-storage@npm:2.1.2"
-  dependencies:
-    merge-options: "npm:^3.0.4"
-  peerDependencies:
-    react-native: ^0.0.0-0 || >=0.65 <1.0
-  checksum: 10/d4f14fe520a1664935ea771db86be397902b743ae7dd805d7cfe142698bcb9758bfe075fe11f20347cc5551ee0673f15822be3127658957a276ac28e0c8dd5ca
-  languageName: node
-  linkType: hard
-
 "@react-native-async-storage/async-storage@npm:^2.2.0":
   version: 2.2.0
   resolution: "@react-native-async-storage/async-storage@npm:2.2.0"
@@ -10761,50 +10750,6 @@ __metadata:
   checksum: 10/cd19e1114aaf10a05126aeea8833ef4ca8af8a46e88e12884f8359d19333fd19711036dbc2698dbe937f81f037070cf9a8da45c2e8c6ca19cafd7d15659094ed
   languageName: node
   linkType: hard
-
-"Mazunte Connect@workspace:packages/app":
-  version: 0.0.0-use.local
-  resolution: "Mazunte Connect@workspace:packages/app"
-  dependencies:
-    "@my/api": "npm:*"
-    "@my/supabase": "npm:*"
-    "@my/ui": "npm:*"
-    "@react-native-async-storage/async-storage": "npm:2.1.2"
-    "@rehookify/datepicker": "npm:^6.6.6"
-    "@supabase/auth-helpers-nextjs": "npm:^0.10.0"
-    "@supabase/auth-helpers-react": "npm:^0.5.0"
-    "@supabase/supabase-js": "npm:^2.48.1"
-    "@tamagui/animations-react-native": "npm:^1.132.7"
-    "@tamagui/colors": "npm:^1.132.7"
-    "@tamagui/font-inter": "npm:^1.132.7"
-    "@tamagui/helpers-icon": "npm:^1.132.7"
-    "@tamagui/lucide-icons": "npm:^1.132.7"
-    "@tamagui/shorthands": "npm:^1.132.7"
-    "@tamagui/themes": "npm:^1.132.7"
-    "@tanstack/react-query": "npm:^5.83.0"
-    "@trpc/client": "npm:^11.4.3"
-    "@trpc/react-query": "npm:^11.4.3"
-    "@types/react": "npm:^18.0.27"
-    base64-arraybuffer: "npm:^1.0.2"
-    burnt: "npm:^0.12.1"
-    eslint-config-custom: "npm:*"
-    expo-constants: "npm:~17.1.7"
-    expo-device: "npm:~7.1.4"
-    expo-document-picker: "npm:~13.1.6"
-    expo-image-picker: "npm:~16.1.4"
-    expo-linking: "npm:~7.1.7"
-    expo-secure-store: "npm:~14.2.4"
-    react-dropzone: "npm:^14.2.3"
-    react-hook-form: "npm:^7.46.1"
-    react-native: "npm:0.79.5"
-    react-native-safe-area-context: "npm:5.4.0"
-    solito: "npm:4.3.0"
-    superjson: "npm:^1.13.1"
-    typescript: "npm:~5.8.3"
-    zod: "npm:^3.22.2"
-    zustand: "npm:5.0.2"
-  languageName: unknown
-  linkType: soft
 
 "abbrev@npm:1, abbrev@npm:^1.0.0":
   version: 1.1.1
@@ -19685,6 +19630,50 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mazunte-connect-app@workspace:packages/app":
+  version: 0.0.0-use.local
+  resolution: "mazunte-connect-app@workspace:packages/app"
+  dependencies:
+    "@my/api": "npm:*"
+    "@my/supabase": "npm:*"
+    "@my/ui": "npm:*"
+    "@react-native-async-storage/async-storage": "npm:^2.2.0"
+    "@rehookify/datepicker": "npm:^6.6.6"
+    "@supabase/auth-helpers-nextjs": "npm:^0.10.0"
+    "@supabase/auth-helpers-react": "npm:^0.5.0"
+    "@supabase/supabase-js": "npm:^2.48.1"
+    "@tamagui/animations-react-native": "npm:^1.132.7"
+    "@tamagui/colors": "npm:^1.132.7"
+    "@tamagui/font-inter": "npm:^1.132.7"
+    "@tamagui/helpers-icon": "npm:^1.132.7"
+    "@tamagui/lucide-icons": "npm:^1.132.7"
+    "@tamagui/shorthands": "npm:^1.132.7"
+    "@tamagui/themes": "npm:^1.132.7"
+    "@tanstack/react-query": "npm:^5.83.0"
+    "@trpc/client": "npm:^11.4.3"
+    "@trpc/react-query": "npm:^11.4.3"
+    "@types/react": "npm:^18.0.27"
+    base64-arraybuffer: "npm:^1.0.2"
+    burnt: "npm:^0.12.1"
+    eslint-config-custom: "npm:*"
+    expo-constants: "npm:~17.1.7"
+    expo-device: "npm:~7.1.4"
+    expo-document-picker: "npm:~13.1.6"
+    expo-image-picker: "npm:~16.1.4"
+    expo-linking: "npm:~7.1.7"
+    expo-secure-store: "npm:~14.2.4"
+    react-dropzone: "npm:^14.2.3"
+    react-hook-form: "npm:^7.46.1"
+    react-native: "npm:0.79.5"
+    react-native-safe-area-context: "npm:5.4.0"
+    solito: "npm:4.3.0"
+    superjson: "npm:^1.13.1"
+    typescript: "npm:~5.8.3"
+    zod: "npm:^3.22.2"
+    zustand: "npm:5.0.2"
+  languageName: unknown
+  linkType: soft
+
 "mazunte-connect-supabase@workspace:.":
   version: 0.0.0-use.local
   resolution: "mazunte-connect-supabase@workspace:."
@@ -19712,6 +19701,7 @@ __metadata:
     expo-localization: "npm:~16.1.6"
     fs-extra: "npm:^11.2.0"
     i18next: "npm:^25.5.3"
+    node-addon-api: "npm:^8.5.0"
     node-gyp: "npm:^9.3.1"
     npm-run-all: "npm:^4.1.5"
     patch-package: "npm:^8.0.0"
@@ -20852,6 +20842,15 @@ __metadata:
   version: 3.1.1
   resolution: "node-abort-controller@npm:3.1.1"
   checksum: 10/0a2cdb7ec0aeaf3cb31e1ca0e192f5add48f1c5c9c9ed822129f9dddbd9432f69b7425982f94ce803c56a2104884530aa67cd57696e5774b2e5b8ec2f58de042
+  languageName: node
+  linkType: hard
+
+"node-addon-api@npm:^8.5.0":
+  version: 8.5.0
+  resolution: "node-addon-api@npm:8.5.0"
+  dependencies:
+    node-gyp: "npm:latest"
+  checksum: 10/9a893f4f835fbc3908e0070f7bcacf36e37fd06be8008409b104c30df4092a0d9a29927b3a74cdbc1d34338274ba4116d597a41f573e06c29538a1a70d07413f
   languageName: node
   linkType: hard
 
@@ -25376,7 +25375,7 @@ __metadata:
     "@expo/vector-icons": "npm:^14.1.0"
     "@gorhom/bottom-sheet": "npm:^5.1.6"
     "@my/ui": "npm:*"
-    "@react-native-async-storage/async-storage": "npm:2.1.2"
+    "@react-native-async-storage/async-storage": "npm:^2.2.0"
     "@react-native-community/datetimepicker": "npm:8.3.0"
     "@react-native-community/slider": "npm:4.5.6"
     "@storybook/addon-actions": "npm:8.6.4"

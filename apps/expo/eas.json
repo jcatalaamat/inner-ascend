@@ -62,7 +62,9 @@
         "NODE_ENV": "staging",
         "EXPO_PUBLIC_URL": "https://unistack-next-delta.vercel.app",
         "EXPO_PUBLIC_SUPABASE_URL": "https://ddbuvzotcasyanocqcsh.supabase.co",
-        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRkYnV2em90Y2FzeWFub2NxY3NoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkyMTc2OTUsImV4cCI6MjA3NDc5MzY5NX0.PMT70ZA13edRBikancgh1COnEeT_0OPAR6puegXPFsM"
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRkYnV2em90Y2FzeWFub2NxY3NoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkyMTc2OTUsImV4cCI6MjA3NDc5MzY5NX0.PMT70ZA13edRBikancgh1COnEeT_0OPAR6puegXPFsM",
+        "EXPO_PUBLIC_POSTHOG_API_KEY": "phc_BkmJVuwBbxUTgPNSmFJqComY0An1HnUmWe0VzBZUIu9",
+        "EXPO_PUBLIC_POSTHOG_HOST": "https://eu.i.posthog.com"
       },
       "ios": {
         "image": "latest"
@@ -80,7 +82,9 @@
         "NODE_ENV": "staging",
         "EXPO_PUBLIC_URL": "https://unistack-next-delta.vercel.app",
         "EXPO_PUBLIC_SUPABASE_URL": "https://ddbuvzotcasyanocqcsh.supabase.co",
-        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRkYnV2em90Y2FzeWFub2NxY3NoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkyMTc2OTUsImV4cCI6MjA3NDc5MzY5NX0.PMT70ZA13edRBikancgh1COnEeT_0OPAR6puegXPFsM"
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRkYnV2em90Y2FzeWFub2NxY3NoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkyMTc2OTUsImV4cCI6MjA3NDc5MzY5NX0.PMT70ZA13edRBikancgh1COnEeT_0OPAR6puegXPFsM",
+        "EXPO_PUBLIC_POSTHOG_API_KEY": "phc_BkmJVuwBbxUTgPNSmFJqComY0An1HnUmWe0VzBZUIu9",
+        "EXPO_PUBLIC_POSTHOG_HOST": "https://eu.i.posthog.com"
       },
       "ios": {
         "image": "latest"

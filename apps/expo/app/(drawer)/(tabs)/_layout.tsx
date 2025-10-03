@@ -7,6 +7,9 @@ import { useTranslation } from 'react-i18next'
 import { usePostHog, useFeatureFlag } from 'posthog-react-native'
 import { useEffect, useState } from 'react'
 
+// Check if running in development mode (supports dev/staging/production)
+const isDev = process.env.NODE_ENV === 'development'
+
 export default function Layout() {
   const { accentColor } = useTheme()
   const navigation = useNavigation()
@@ -25,7 +28,7 @@ export default function Layout() {
   const showMapTab = !disableMapTab
   const showDrawerMenu = !disableDrawerMenu
 
-  if (__DEV__) {
+  if (isDev) {
     console.log('pathname', pathname)
     console.log('🚩 Feature Flags:', {
       disableCreateButton,

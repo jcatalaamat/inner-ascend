@@ -1,16 +1,19 @@
 import * as Sentry from '@sentry/react-native';
 
-// Determine environment from NODE_ENV (more reliable than __DEV__ in standalone builds)
+// Determine environment from NODE_ENV (supports dev/staging/production)
 const getEnvironment = () => {
   return process.env.NODE_ENV || 'production';
 };
+
+// Check if running in development mode
+const isDev = process.env.NODE_ENV === 'development';
 
 // Simple, safe initialization for Expo
 Sentry.init({
   dsn: 'https://2f77c6b4748e9a863a593894e56f4cff@o4510118163906560.ingest.de.sentry.io/4510118172491856',
 
   // Enable debug mode in development
-  debug: __DEV__,
+  debug: isDev,
 
   // Set environment
   environment: getEnvironment(),
@@ -19,7 +22,7 @@ Sentry.init({
   enabled: true,
 
   // Performance monitoring sample rate
-  tracesSampleRate: __DEV__ ? 1.0 : 0.2,
+  tracesSampleRate: isDev ? 1.0 : 0.2,
 
   // Enable native crash handling
   enableNative: true,
@@ -29,7 +32,7 @@ Sentry.init({
 
   // Before send hook
   beforeSend(event, hint) {
-    if (__DEV__) {
+    if (isDev) {
       console.log('📨 Sentry Event:', event.message || event.exception);
     }
     return event;
@@ -39,5 +42,5 @@ Sentry.init({
 // Log initialization (always log to help debug crashes)
 console.log('✅ Sentry initialized');
 console.log('🌍 Environment:', getEnvironment());
-console.log('📍 Debug mode:', __DEV__);
+console.log('📍 Debug mode:', isDev);
 console.log('🔧 NODE_ENV:', process.env.NODE_ENV);

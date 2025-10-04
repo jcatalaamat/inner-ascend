@@ -4,6 +4,8 @@ import { MapPin, DollarSign, Phone, Mail, Globe, Instagram } from '@tamagui/luci
 import { PLACE_TYPE_COLORS } from 'app/utils/constants'
 import { Linking } from 'react-native'
 import { useTranslation } from 'react-i18next'
+import { useState } from 'react'
+import { ImageViewer } from 'app/components/ImageViewer'
 
 interface PlaceDetailScreenProps {
   id: string
@@ -12,6 +14,7 @@ interface PlaceDetailScreenProps {
 export function PlaceDetailScreen({ id }: PlaceDetailScreenProps) {
   const { data: place, isLoading } = usePlaceDetailQuery(id)
   const { t } = useTranslation()
+  const [imageViewerVisible, setImageViewerVisible] = useState(false)
 
   if (isLoading) {
     return <FullscreenSpinner />
@@ -50,15 +53,30 @@ export function PlaceDetailScreen({ id }: PlaceDetailScreenProps) {
     if (place.contact_instagram) Linking.openURL(`https://instagram.com/${place.contact_instagram.replace('@', '')}`)
   }
 
+  const handleImagePress = () => {
+    setImageViewerVisible(true)
+  }
+
   return (
     <ScrollView bg="$background">
         <YStack pb="$4">
           {/* Image */}
           {place.images && place.images.length > 0 && (
-            <Image
-              source={{ uri: place.images[0] }}
-              height={280}
-              width="100%"
+            <YStack onPress={handleImagePress} cursor="pointer">
+              <Image
+                source={{ uri: place.images[0] }}
+                height={280}
+                width="100%"
+              />
+            </YStack>
+          )}
+
+          {/* Image Viewer */}
+          {place.images && place.images.length > 0 && (
+            <ImageViewer
+              imageUrl={place.images[0]}
+              isVisible={imageViewerVisible}
+              onClose={() => setImageViewerVisible(false)}
             />
           )}
 

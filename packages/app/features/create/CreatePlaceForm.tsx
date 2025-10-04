@@ -114,6 +114,7 @@ export const CreatePlaceForm = ({ onSuccess }: { onSuccess: () => void }) => {
             <UploadImage
               bucketName="place-images"
               onUploadComplete={setImageUrl}
+              initialImageUrl={imageUrl}
               aspectRatio={[16, 9]}
             />
 

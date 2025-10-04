@@ -114,6 +114,7 @@ export const CreateEventForm = ({ onSuccess }: { onSuccess: () => void }) => {
             <UploadImage
               bucketName="event-images"
               onUploadComplete={setImageUrl}
+              initialImageUrl={imageUrl}
               aspectRatio={[16, 9]}
             />
 

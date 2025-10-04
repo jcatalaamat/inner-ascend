@@ -5,8 +5,9 @@ import { formatDate, formatTime } from 'app/utils/date-helpers'
 import { CATEGORY_COLORS } from 'app/utils/constants'
 import { useTranslation } from 'react-i18next'
 import { usePostHog } from 'posthog-react-native'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Linking } from 'react-native'
+import { ImageViewer } from 'app/components/ImageViewer'
 
 interface EventDetailScreenProps {
   id: string
@@ -16,6 +17,7 @@ export function EventDetailScreen({ id }: EventDetailScreenProps) {
   const { data: event, isLoading } = useEventDetailQuery(id)
   const { t } = useTranslation()
   const posthog = usePostHog()
+  const [imageViewerVisible, setImageViewerVisible] = useState(false)
 
   useEffect(() => {
     if (event) {
@@ -45,6 +47,10 @@ export function EventDetailScreen({ id }: EventDetailScreenProps) {
     if (event?.contact_instagram) Linking.openURL(`https://instagram.com/${event.contact_instagram.replace('@', '')}`)
   }
 
+  const handleImagePress = () => {
+    setImageViewerVisible(true)
+  }
+
   if (isLoading) {
     return <FullscreenSpinner />
   }
@@ -67,10 +73,21 @@ export function EventDetailScreen({ id }: EventDetailScreenProps) {
         <YStack pb="$4">
           {/* Image */}
           {event.image_url && (
-            <Image
-              source={{ uri: event.image_url }}
-              height={280}
-              width="100%"
+            <YStack onPress={handleImagePress} cursor="pointer">
+              <Image
+                source={{ uri: event.image_url }}
+                height={280}
+                width="100%"
+              />
+            </YStack>
+          )}
+
+          {/* Image Viewer */}
+          {event.image_url && (
+            <ImageViewer
+              imageUrl={event.image_url}
+              isVisible={imageViewerVisible}
+              onClose={() => setImageViewerVisible(false)}
             />
           )}
 

@@ -82,9 +82,10 @@ export function PlacesScreen() {
         onSearch={handleSearch}
         defaultValue={searchQuery}
         showMapButton={true}
+        mapViewType="places"
         onMapPress={() => {
           posthog?.capture('map_button_tapped', { from: 'places' })
-          router.push('/map')
+          router.push('/map?view=places')
         }}
       />
 

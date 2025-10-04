@@ -1,5 +1,5 @@
 import { Text, YStack, XStack, Button } from '@my/ui'
-import { router } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
 import { useState, useEffect } from 'react'
 import { Alert, Platform } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -28,6 +28,7 @@ if (Platform.OS !== 'web') {
 type MapViewType = 'events' | 'places' | 'both'
 
 export function MapScreen() {
+  const params = useLocalSearchParams<{ view?: string }>()
   const [viewType, setViewType] = useState<MapViewType>('both')
   const [headerDismissed, setHeaderDismissed] = useState(false)
   const [tappedMarkers, setTappedMarkers] = useState<Set<string>>(new Set())
@@ -35,9 +36,19 @@ export function MapScreen() {
   const { t } = useTranslation()
   const posthog = usePostHog()
 
+  // Auto-select view type based on URL parameter
   useEffect(() => {
-    posthog?.capture('map_screen_viewed')
-  }, [posthog])
+    if (params.view === 'events' || params.view === 'places') {
+      setViewType(params.view as MapViewType)
+    }
+  }, [params.view])
+
+  useEffect(() => {
+    posthog?.capture('map_screen_viewed', { 
+      initial_view: params.view || 'both',
+      selected_view: viewType 
+    })
+  }, [posthog, params.view, viewType])
 
   const { data: events = [], isLoading: eventsLoading } = useEventsQuery({ includePast: true })
   const { data: places = [], isLoading: placesLoading } = usePlacesQuery({})
@@ -171,52 +182,63 @@ export function MapScreen() {
 
   return (
     <>
-      {/* View type toggle - always visible */}
+      {/* Minimal view type toggle */}
       <YStack 
         bg="$background" 
         borderBottomWidth={1} 
         borderBottomColor="$borderColor"
+        px="$4"
+        py="$2"
       >
         <XStack 
           w="100%" 
-          bg="$background" 
-          px="$4"
-          py="$3"
-          gap="$2"
+          bg="$color3" 
+          borderRadius="$3"
+          p="$1"
+          gap="$1"
         >
-        <Button
-          size="$3"
-          variant={viewType === 'events' ? 'outlined' : 'ghost'}
-          onPress={() => {
-            setViewType('events')
-            posthog?.capture('map_view_type_changed', { view_type: 'events' })
-          }}
-          f={1}
-        >
-          <Text>{t('map.events')} ({events.filter(event => event.lat && event.lng).length})</Text>
-        </Button>
-        <Button
-          size="$3"
-          variant={viewType === 'places' ? 'outlined' : 'ghost'}
-          onPress={() => {
-            setViewType('places')
-            posthog?.capture('map_view_type_changed', { view_type: 'places' })
-          }}
-          f={1}
-        >
-          <Text>{t('map.places')} ({places.filter(place => place.lat && place.lng).length})</Text>
-        </Button>
-        <Button
-          size="$3"
-          variant={viewType === 'both' ? 'outlined' : 'ghost'}
-          onPress={() => {
-            setViewType('both')
-            posthog?.capture('map_view_type_changed', { view_type: 'both' })
-          }}
-          f={1}
-        >
-          <Text>{t('map.both')}</Text>
-        </Button>
+          <Button
+            size="$2"
+            variant={viewType === 'events' ? 'outlined' : undefined}
+            onPress={() => {
+              setViewType('events')
+              posthog?.capture('map_view_type_changed', { view_type: 'events' })
+            }}
+            f={1}
+            borderRadius="$2"
+          >
+            <Text fontSize="$3" fontWeight={viewType === 'events' ? '600' : '400'}>
+              {t('map.events')}
+            </Text>
+          </Button>
+          <Button
+            size="$2"
+            variant={viewType === 'places' ? 'outlined' : undefined}
+            onPress={() => {
+              setViewType('places')
+              posthog?.capture('map_view_type_changed', { view_type: 'places' })
+            }}
+            f={1}
+            borderRadius="$2"
+          >
+            <Text fontSize="$3" fontWeight={viewType === 'places' ? '600' : '400'}>
+              {t('map.places')}
+            </Text>
+          </Button>
+          <Button
+            size="$2"
+            variant={viewType === 'both' ? 'outlined' : undefined}
+            onPress={() => {
+              setViewType('both')
+              posthog?.capture('map_view_type_changed', { view_type: 'both' })
+            }}
+            f={1}
+            borderRadius="$2"
+          >
+            <Text fontSize="$3" fontWeight={viewType === 'both' ? '600' : '400'}>
+              {t('map.both')}
+            </Text>
+          </Button>
         </XStack>
       </YStack>
 

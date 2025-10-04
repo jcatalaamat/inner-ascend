@@ -1,6 +1,7 @@
 import { Search, X, Map } from '@tamagui/lucide-icons'
 import { useState } from 'react'
 import { Button, Input, XStack } from 'tamagui'
+import { router } from 'expo-router'
 
 export type SearchBarProps = {
   onSearch: (query: string) => void
@@ -8,6 +9,7 @@ export type SearchBarProps = {
   defaultValue?: string
   showMapButton?: boolean
   onMapPress?: () => void
+  mapViewType?: 'events' | 'places' | 'both'
 }
 
 export const SearchBar = ({ 
@@ -15,7 +17,8 @@ export const SearchBar = ({
   placeholder = 'Search...', 
   defaultValue = '',
   showMapButton = false,
-  onMapPress
+  onMapPress,
+  mapViewType = 'both'
 }: SearchBarProps) => {
   const [query, setQuery] = useState(defaultValue)
 
@@ -60,7 +63,13 @@ export const SearchBar = ({
         <Button
           size="$3"
           icon={Map}
-          onPress={onMapPress}
+          onPress={() => {
+            if (onMapPress) {
+              onMapPress()
+            } else {
+              router.push(`/map?view=${mapViewType}`)
+            }
+          }}
         />
       )}
     </XStack>

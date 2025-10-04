@@ -88,9 +88,10 @@ export function EventsScreen() {
           onSearch={handleSearch}
           defaultValue={searchQuery}
           showMapButton={true}
+          mapViewType="events"
           onMapPress={() => {
             posthog?.capture('map_button_tapped', { from: 'events' })
-            router.push('/map')
+            router.push('/map?view=events')
           }}
         />
 

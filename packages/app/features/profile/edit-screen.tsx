@@ -25,6 +25,7 @@ import { z } from 'zod'
 import { FlatList, Alert } from 'react-native'
 import { router } from 'expo-router'
 import { useFavoritesQuery } from 'app/utils/react-query/useFavoritesQuery'
+import { useTranslation } from 'react-i18next'
 
 import { api } from '../../utils/api'
 import { UploadAvatar } from '../settings/components/upload-avatar'
@@ -39,11 +40,6 @@ export const EditProfileScreen = () => {
   return <EditProfileForm userId={user.id} initial={{ name: profile.name, about: profile.about }} />
 }
 
-const ProfileSchema = z.object({
-  name: formFields.text.describe('Name // John Doe'),
-  about: formFields.textarea.describe('About // Tell us a bit about yourself'),
-})
-
 const EditProfileForm = ({
   initial,
   userId,
@@ -57,6 +53,12 @@ const EditProfileForm = ({
   const queryClient = useQueryClient()
   const solitoRouter = useRouter()
   const apiUtils = api.useUtils()
+  const { t } = useTranslation()
+
+  const ProfileSchema = z.object({
+    name: formFields.text.describe(`${t('profile.name')} // John Doe`),
+    about: formFields.textarea.describe(`${t('profile.about')} // Tell us a bit about yourself`),
+  })
   const mutation = useMutation({
     async mutationFn(data: z.infer<typeof ProfileSchema>) {
       await supabase
@@ -66,7 +68,7 @@ const EditProfileForm = ({
     },
 
     async onSuccess() {
-      toast.show('Successfully updated!')
+      toast.show(t('profile.update_success'))
       await queryClient.invalidateQueries({ queryKey: ['profile', userId] })
       await apiUtils.greeting.invalidate()
       solitoRouter.back()
@@ -83,10 +85,10 @@ const EditProfileForm = ({
     .map((fav) => fav.item)
 
   const handleLogout = async () => {
-    Alert.alert('Logout', 'Are you sure you want to logout?', [
-      { text: 'Cancel', style: 'cancel' },
+    Alert.alert(t('profile.logout'), t('profile.logout_confirm'), [
+      { text: t('common.cancel'), style: 'cancel' },
       {
-        text: 'Logout',
+        text: t('profile.logout'),
         style: 'destructive',
         onPress: async () => {
           await supabase.auth.signOut()
@@ -119,7 +121,6 @@ const EditProfileForm = ({
               },
               about: {
                 autoFocus: !!params?.edit_about,
-                numberOfLines: 4,
                 multiline: true,
               },
             }}
@@ -130,7 +131,7 @@ const EditProfileForm = ({
             onSubmit={(values) => mutation.mutate(values)}
             renderAfter={({ submit }) => (
               <Theme inverse>
-                <SubmitButton onPress={() => submit()}>Update Profile</SubmitButton>
+                <SubmitButton onPress={() => submit()}>{t('profile.update_profile')}</SubmitButton>
               </Theme>
             )}
           >

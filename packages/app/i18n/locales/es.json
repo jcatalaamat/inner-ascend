@@ -177,8 +177,10 @@
     "name": "Nombre",
     "about": "Acerca de",
     "update_profile": "Actualizar Perfil",
+    "update_success": "¡Perfil actualizado exitosamente!",
     "settings": "Configuración",
     "logout": "Cerrar Sesión",
+    "logout_confirm": "¿Estás seguro de que quieres cerrar sesión?",
     "no_name": "Sin Nombre",
     "avatar_alt": "tu avatar"
   },

@@ -228,7 +228,7 @@
     "posthog_id": "ID de PostHog"
   },
   "create": {
-    "title": "Crear",
+    "title": "Crear Evento",
     "add_event": "Agregar Evento",
     "add_place": "Agregar Lugar",
     "create_event": "Crear Evento",

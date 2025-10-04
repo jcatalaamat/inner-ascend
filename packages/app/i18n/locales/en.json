@@ -228,7 +228,7 @@
     "posthog_id": "PostHog ID"
   },
   "create": {
-    "title": "Create",
+    "title": "Create Event",
     "add_event": "Add Event",
     "add_place": "Add Place",
     "create_event": "Create Event",

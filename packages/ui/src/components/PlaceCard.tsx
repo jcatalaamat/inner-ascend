@@ -88,11 +88,6 @@ export const PlaceCard = ({ place, onPress, showFavorite = false, onToggleFavori
           </Button>
         </Theme>
 
-        {/* Category */}
-        <Text fontSize="$3" color="$color11" fontWeight="500">
-          {place.category}
-        </Text>
-
         {/* Location */}
         <XStack ai="center" gap="$2">
           <MapPin size={14} color="$color10" />

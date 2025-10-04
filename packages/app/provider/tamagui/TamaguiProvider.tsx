@@ -1,4 +1,4 @@
-import { config, isWeb, TamaguiProvider as TamaguiProviderOG, useDidFinishSSR } from '@my/ui'
+import { config, isWeb, TamaguiProvider as TamaguiProviderOG, useDidFinishSSR, PortalProvider } from '@my/ui'
 
 import { useRootTheme, useThemeSetting } from '../theme/UniversalThemeProvider'
 
@@ -15,7 +15,9 @@ export const TamaguiProvider = ({ children }: { children: React.ReactNode }) => 
       disableRootThemeClass
       defaultTheme={defaultTheme}
     >
-      {children}
+      <PortalProvider shouldAddRootHost>
+        {children}
+      </PortalProvider>
     </TamaguiProviderOG>
   )
 }

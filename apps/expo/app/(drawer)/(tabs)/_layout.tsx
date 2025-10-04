@@ -16,19 +16,19 @@ export default function Layout() {
   const posthog = usePostHog()
 
   // Use PostHog hooks for feature flags
-  const disableCreateButton = useFeatureFlag('disable-create-button')
+  const disableEventCreation = useFeatureFlag('disable-event-creation')
+  const disablePlaceCreation = useFeatureFlag('disable-place-creation')
   const disableDrawerMenu = useFeatureFlag('disable-drawer-menu')
 
   // Show features when flag is undefined (loading) or false (disabled)
-  const showCreateButton = !disableCreateButton
   const showDrawerMenu = !disableDrawerMenu
 
   if (__DEV__) {
     console.log('pathname', pathname)
     console.log('🚩 Feature Flags:', {
-      disableCreateButton,
+      disableEventCreation,
+      disablePlaceCreation,
       disableDrawerMenu,
-      showCreateButton,
       showDrawerMenu
     })
   }
@@ -54,22 +54,7 @@ export default function Layout() {
               <Menu size={24} />
             </Button>
           ),
-          headerRight: showCreateButton ? () => (
-            <Button
-              borderStyle="unset"
-              borderWidth={0}
-              marginRight="$-1"
-              backgroundColor="transparent"
-              onPress={() => {
-                posthog?.capture('create_button_tapped', {
-                  from_screen: pathname,
-                })
-                router.navigate('create')
-              }}
-            >
-              <Plus size={24} />
-            </Button>
-          ) : undefined,
+          headerRight: undefined, // No create button in header anymore - use SearchBar buttons
         }}
       />
       <Tabs

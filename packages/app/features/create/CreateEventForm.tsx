@@ -28,7 +28,10 @@ export const CreateEventForm = ({ onSuccess }: { onSuccess: () => void }) => {
     price: formFields.text.describe(`${t('create.event_form.price')} // e.g. Free, $500 MXN, $20 USD`).nullable().optional(),
     eco_conscious: formFields.boolean_switch.describe(`${t('create.event_form.eco_conscious')} // Is this eco-friendly?`).default(false),
     organizer_name: formFields.text.describe(`${t('create.event_form.organizer')} // Your name or organization`).nullable().optional(),
-    organizer_contact: formFields.text.describe('Contact // Email, phone, or WhatsApp').nullable().optional(),
+    contact_phone: formFields.text.describe('Phone // Contact number').nullable().optional(),
+    contact_whatsapp: formFields.text.describe('WhatsApp // WhatsApp number').nullable().optional(),
+    contact_email: formFields.text.describe('Email // Contact email').nullable().optional(),
+    contact_instagram: formFields.text.describe('Instagram // Instagram handle').nullable().optional(),
     image_url: formFields.text.describe(`${t('create.event_form.image')} // Optional event image`).nullable().optional(),
   })
   const mutation = useMutation({
@@ -50,7 +53,10 @@ export const CreateEventForm = ({ onSuccess }: { onSuccess: () => void }) => {
         price: data.price?.trim() || null,
         eco_conscious: data.eco_conscious || false,
         organizer_name: data.organizer_name?.trim() || null,
-        organizer_contact: data.organizer_contact?.trim() || null,
+        contact_phone: data.contact_phone?.trim() || null,
+        contact_whatsapp: data.contact_whatsapp?.trim() || null,
+        contact_email: data.contact_email?.trim() || null,
+        contact_instagram: data.contact_instagram?.trim() || null,
         image_url: data.image_url?.trim() || null,
         profile_id: user?.id,
       }
@@ -86,7 +92,10 @@ export const CreateEventForm = ({ onSuccess }: { onSuccess: () => void }) => {
           price: '',
           eco_conscious: false,
           organizer_name: '',
-          organizer_contact: '',
+          contact_phone: '',
+          contact_whatsapp: '',
+          contact_email: '',
+          contact_instagram: '',
           image_url: '',
         }}
         props={{

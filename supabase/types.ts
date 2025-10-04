@@ -65,101 +65,42 @@ export type Database = {
       }
       events: {
         Row: {
-          category: string
           created_at: string
-          date: string
           description: string | null
-          eco_conscious: boolean | null
-          featured: boolean | null
+          end_time: string | null
           id: string
-          image_url: string | null
-          lat: number
-          lng: number
-          location_name: string
-          organizer_contact: string | null
-          organizer_name: string | null
-          price: string | null
+          name: string
           profile_id: string | null
-          time: string | null
-          title: string
+          start_time: string | null
+          status: string
           updated_at: string
         }
         Insert: {
-          category: string
           created_at?: string
-          date: string
           description?: string | null
-          eco_conscious?: boolean | null
-          featured?: boolean | null
+          end_time?: string | null
           id?: string
-          image_url?: string | null
-          lat: number
-          lng: number
-          location_name: string
-          organizer_contact?: string | null
-          organizer_name?: string | null
-          price?: string | null
+          name: string
           profile_id?: string | null
-          time?: string | null
-          title: string
+          start_time?: string | null
+          status: string
           updated_at?: string
         }
         Update: {
-          category?: string
           created_at?: string
-          date?: string
           description?: string | null
-          eco_conscious?: boolean | null
-          featured?: boolean | null
+          end_time?: string | null
           id?: string
-          image_url?: string | null
-          lat?: number
-          lng?: number
-          location_name?: string
-          organizer_contact?: string | null
-          organizer_name?: string | null
-          price?: string | null
+          name?: string
           profile_id?: string | null
-          time?: string | null
-          title?: string
+          start_time?: string | null
+          status?: string
           updated_at?: string
         }
         Relationships: [
           {
             foreignKeyName: "events_user_id_fkey"
             columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      favorites: {
-        Row: {
-          created_at: string
-          id: string
-          item_id: string
-          item_type: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          item_id: string
-          item_type: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          item_id?: string
-          item_type?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "favorites_user_id_fkey"
-            columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
@@ -180,92 +121,6 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
-      }
-      places: {
-        Row: {
-          category: string
-          contact_email: string | null
-          contact_instagram: string | null
-          contact_phone: string | null
-          contact_whatsapp: string | null
-          created_at: string
-          created_by: string | null
-          description: string
-          eco_conscious: boolean | null
-          featured: boolean | null
-          hours: string | null
-          id: string
-          images: string[] | null
-          lat: number
-          lng: number
-          location_name: string
-          name: string
-          price_range: string | null
-          tags: string[] | null
-          type: string
-          updated_at: string
-          verified: boolean | null
-          website_url: string | null
-        }
-        Insert: {
-          category: string
-          contact_email?: string | null
-          contact_instagram?: string | null
-          contact_phone?: string | null
-          contact_whatsapp?: string | null
-          created_at?: string
-          created_by?: string | null
-          description: string
-          eco_conscious?: boolean | null
-          featured?: boolean | null
-          hours?: string | null
-          id?: string
-          images?: string[] | null
-          lat: number
-          lng: number
-          location_name: string
-          name: string
-          price_range?: string | null
-          tags?: string[] | null
-          type: string
-          updated_at?: string
-          verified?: boolean | null
-          website_url?: string | null
-        }
-        Update: {
-          category?: string
-          contact_email?: string | null
-          contact_instagram?: string | null
-          contact_phone?: string | null
-          contact_whatsapp?: string | null
-          created_at?: string
-          created_by?: string | null
-          description?: string
-          eco_conscious?: boolean | null
-          featured?: boolean | null
-          hours?: string | null
-          id?: string
-          images?: string[] | null
-          lat?: number
-          lng?: number
-          location_name?: string
-          name?: string
-          price_range?: string | null
-          tags?: string[] | null
-          type?: string
-          updated_at?: string
-          verified?: boolean | null
-          website_url?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "places_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
       }
       posts: {
         Row: {

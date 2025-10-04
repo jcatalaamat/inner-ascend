@@ -29,6 +29,9 @@
     "price_range": "Rango de precios",
     "contact_available": "Contacto disponible"
   },
+  "event_card": {
+    "contact_available": "Contacto disponible"
+  },
   "navigation": {
     "home": "Inicio",
     "events": "Eventos",

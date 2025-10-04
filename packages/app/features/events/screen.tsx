@@ -8,7 +8,7 @@ import { CATEGORY_LABELS, EVENT_CATEGORIES, type EventCategory } from 'app/utils
 import { useEventsQuery } from 'app/utils/react-query/useEventsQuery'
 import { formatDate, formatTime, getRelativeDay } from 'app/utils/date-helpers'
 import { useTranslation } from 'react-i18next'
-import { usePostHog } from 'posthog-react-native'
+import { usePostHog, useFeatureFlag } from 'posthog-react-native'
 import { ScreenWrapper } from 'app/components/ScreenWrapper'
 
 export function EventsScreen() {
@@ -18,6 +18,10 @@ export function EventsScreen() {
   const insets = useSafeAreaInsets()
   const { t } = useTranslation()
   const posthog = usePostHog()
+
+  // Feature flag for event creation
+  const disableEventCreation = useFeatureFlag('disable-event-creation')
+  const showCreateButton = !disableEventCreation
 
   useEffect(() => {
     posthog?.capture('events_screen_viewed')
@@ -82,7 +86,7 @@ export function EventsScreen() {
   return (
     <ScreenWrapper>
       <YStack f={1} bg="$background">
-        {/* Search with Map Button */}
+        {/* Search with Map and Create Buttons */}
         <SearchBar
           placeholder={t('events.search_placeholder')}
           onSearch={handleSearch}
@@ -92,6 +96,12 @@ export function EventsScreen() {
           onMapPress={() => {
             posthog?.capture('map_button_tapped', { from: 'events' })
             router.push('/map?view=events')
+          }}
+          showCreateButton={showCreateButton}
+          createType="event"
+          onCreatePress={() => {
+            posthog?.capture('create_button_tapped', { from: 'events', type: 'event' })
+            router.push('/create?type=event')
           }}
         />
 

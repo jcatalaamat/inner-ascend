@@ -1,11 +1,12 @@
 import { FullscreenSpinner, Text, YStack, XStack, Image, Button, ScrollView, Card, H4, Paragraph, EcoBadge, FavoriteButtonWrapper, Theme } from '@my/ui'
 import { useEventDetailQuery } from 'app/utils/react-query/useEventsQuery'
-import { Calendar, Clock, MapPin, DollarSign, User, Mail } from '@tamagui/lucide-icons'
+import { Calendar, Clock, MapPin, DollarSign, User, Mail, Phone, Globe, Instagram } from '@tamagui/lucide-icons'
 import { formatDate, formatTime } from 'app/utils/date-helpers'
 import { CATEGORY_COLORS } from 'app/utils/constants'
 import { useTranslation } from 'react-i18next'
 import { usePostHog } from 'posthog-react-native'
 import { useEffect } from 'react'
+import { Linking } from 'react-native'
 
 interface EventDetailScreenProps {
   id: string
@@ -27,6 +28,22 @@ export function EventDetailScreen({ id }: EventDetailScreenProps) {
       })
     }
   }, [event, posthog])
+
+  const handlePhonePress = () => {
+    if (event?.contact_phone) Linking.openURL(`tel:${event.contact_phone}`)
+  }
+
+  const handleWhatsAppPress = () => {
+    if (event?.contact_whatsapp) Linking.openURL(`https://wa.me/${event.contact_whatsapp}`)
+  }
+
+  const handleEmailPress = () => {
+    if (event?.contact_email) Linking.openURL(`mailto:${event.contact_email}`)
+  }
+
+  const handleInstagramPress = () => {
+    if (event?.contact_instagram) Linking.openURL(`https://instagram.com/${event.contact_instagram.replace('@', '')}`)
+  }
 
   if (isLoading) {
     return <FullscreenSpinner />
@@ -119,8 +136,8 @@ export function EventDetailScreen({ id }: EventDetailScreenProps) {
             </YStack>
           )}
 
-          {/* Organizer Info */}
-          {(event.organizer_name || event.organizer_contact) && (
+          {/* Organizer & Contact Info */}
+          {(event.organizer_name || event.contact_phone || event.contact_whatsapp || event.contact_email || event.contact_instagram) && (
             <Card p="$3" gap="$3">
               <Text fontSize="$5" fontWeight="600">
                 {t('events.detail.organizer')}
@@ -131,11 +148,49 @@ export function EventDetailScreen({ id }: EventDetailScreenProps) {
                   <Text fontSize="$4">{event.organizer_name}</Text>
                 </XStack>
               )}
-              {event.organizer_contact && (
-                <XStack gap="$3" ai="center">
-                  <Mail size={20} color="$color10" />
-                  <Text fontSize="$4">{event.organizer_contact}</Text>
-                </XStack>
+              {event.contact_phone && (
+                <Button
+                  onPress={handlePhonePress}
+                  icon={Phone}
+                  theme="blue"
+                  chromeless
+                  jc="flex-start"
+                >
+                  {event.contact_phone}
+                </Button>
+              )}
+              {event.contact_whatsapp && (
+                <Button
+                  onPress={handleWhatsAppPress}
+                  icon={Phone}
+                  theme="green"
+                  chromeless
+                  jc="flex-start"
+                >
+                  WhatsApp: {event.contact_whatsapp}
+                </Button>
+              )}
+              {event.contact_email && (
+                <Button
+                  onPress={handleEmailPress}
+                  icon={Mail}
+                  theme="blue"
+                  chromeless
+                  jc="flex-start"
+                >
+                  {event.contact_email}
+                </Button>
+              )}
+              {event.contact_instagram && (
+                <Button
+                  onPress={handleInstagramPress}
+                  icon={Instagram}
+                  theme="purple"
+                  chromeless
+                  jc="flex-start"
+                >
+                  {event.contact_instagram}
+                </Button>
               )}
             </Card>
           )}

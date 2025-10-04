@@ -1,5 +1,5 @@
 import type { Database } from '@my/supabase/types'
-import { Calendar, Leaf, MapPin } from '@tamagui/lucide-icons'
+import { Calendar, Leaf, MapPin, Phone } from '@tamagui/lucide-icons'
 import { useState } from 'react'
 import { Button, Card, type CardProps, H6, Image, Paragraph, Text, Theme, XStack, YStack } from 'tamagui'
 import { FavoriteButtonWrapper } from './FavoriteButtonWrapper'
@@ -138,6 +138,16 @@ export const EventCard = ({ event, onPress, showFavorite = false, onToggleFavori
           <Text fontSize="$3" fontWeight="600" color="$color12">
             {event.price}
           </Text>
+        )}
+
+        {/* Contact Info */}
+        {(event.contact_phone || event.contact_whatsapp || event.contact_email || event.contact_instagram) && (
+          <XStack ai="center" gap="$2">
+            <Phone size={14} color="$color10" />
+            <Text fontSize="$3" color="$color11" numberOfLines={1}>
+              {t('event_card.contact_available')}
+            </Text>
+          </XStack>
         )}
 
         {/* Description Preview */}

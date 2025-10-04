@@ -8,7 +8,7 @@ import { PLACE_TYPE_COLORS, PLACE_TYPE_LABELS, PLACE_TYPES, type PlaceType } fro
 import { usePlacesQuery } from 'app/utils/react-query/usePlacesQuery'
 import { ScreenWrapper } from 'app/components/ScreenWrapper'
 import { useTranslation } from 'react-i18next'
-import { usePostHog } from 'posthog-react-native'
+import { usePostHog, useFeatureFlag } from 'posthog-react-native'
 
 export function PlacesScreen() {
   const [selectedType, setSelectedType] = useState<PlaceType | null>(null)
@@ -17,6 +17,10 @@ export function PlacesScreen() {
   const insets = useSafeAreaInsets()
   const { t } = useTranslation()
   const posthog = usePostHog()
+
+  // Feature flag for place creation
+  const disablePlaceCreation = useFeatureFlag('disable-place-creation')
+  const showCreateButton = !disablePlaceCreation
 
   useEffect(() => {
     posthog?.capture('places_screen_viewed')
@@ -76,7 +80,7 @@ export function PlacesScreen() {
 
   return (
     <ScreenWrapper>
-      {/* Search with Map Button */}
+      {/* Search with Map and Create Buttons */}
       <SearchBar
         placeholder={t('places.search_placeholder')}
         onSearch={handleSearch}
@@ -86,6 +90,12 @@ export function PlacesScreen() {
         onMapPress={() => {
           posthog?.capture('map_button_tapped', { from: 'places' })
           router.push('/map?view=places')
+        }}
+        showCreateButton={showCreateButton}
+        createType="place"
+        onCreatePress={() => {
+          posthog?.capture('create_button_tapped', { from: 'places', type: 'place' })
+          router.push('/create?type=place')
         }}
       />
 

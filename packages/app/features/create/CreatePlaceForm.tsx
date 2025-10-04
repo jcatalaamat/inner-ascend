@@ -19,7 +19,6 @@ export const CreatePlaceForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const CreatePlaceFormSchema = z.object({
     name: formFields.text.min(3).describe(`${t('create.place_form.name')} // ${t('create.place_form.name')}`),
     type: formFields.select.describe(`${t('create.place_form.type')} // ${t('create.place_form.type')}`),
-    category: formFields.text.describe(`${t('create.place_form.category')} // e.g. Vinyasa, Cacao, Sound Healing`),
     description: formFields.textarea.describe(`${t('create.place_form.description')} // Tell us about this place`),
     location_name: formFields.text.describe(`${t('create.place_form.location')} // e.g. Playa Mermejita, Centro`),
     lat: formFields.number.describe('Latitude // GPS coordinate').default(15.6658),
@@ -42,7 +41,7 @@ export const CreatePlaceForm = ({ onSuccess }: { onSuccess: () => void }) => {
       const insertData: InsertPlace = {
         name: data.name.trim(),
         type: data.type,
-        category: data.category.trim(),
+        category: data.type, // Use type as category for simplicity
         description: data.description,
         location_name: data.location_name.trim(),
         lat: data.lat,
@@ -77,7 +76,6 @@ export const CreatePlaceForm = ({ onSuccess }: { onSuccess: () => void }) => {
         defaultValues={{
           name: '',
           type: 'wellness',
-          category: '',
           description: '',
           location_name: 'Mazunte',
           lat: 15.6658,

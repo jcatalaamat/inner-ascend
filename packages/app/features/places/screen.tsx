@@ -76,11 +76,16 @@ export function PlacesScreen() {
 
   return (
     <ScreenWrapper>
-      {/* Search */}
+      {/* Search with Map Button */}
       <SearchBar
         placeholder={t('places.search_placeholder')}
         onSearch={handleSearch}
         defaultValue={searchQuery}
+        showMapButton={true}
+        onMapPress={() => {
+          posthog?.capture('map_button_tapped', { from: 'places' })
+          router.push('/map')
+        }}
       />
 
       {/* Type Filter - Horizontal Scrollable */}

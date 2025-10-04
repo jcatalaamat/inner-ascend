@@ -9,6 +9,7 @@ import { useEventsQuery } from 'app/utils/react-query/useEventsQuery'
 import { formatDate, formatTime, getRelativeDay } from 'app/utils/date-helpers'
 import { useTranslation } from 'react-i18next'
 import { usePostHog } from 'posthog-react-native'
+import { ScreenWrapper } from 'app/components/ScreenWrapper'
 
 export function EventsScreen() {
   const [selectedCategory, setSelectedCategory] = useState<EventCategory | null>(null)
@@ -79,93 +80,100 @@ export function EventsScreen() {
   }
 
   return (
-    <YStack f={1} bg="$background">
-      {/* Search */}
-      <SearchBar
-        placeholder={t('events.search_placeholder')}
-        onSearch={handleSearch}
-        defaultValue={searchQuery}
-      />
+    <ScreenWrapper>
+      <YStack f={1} bg="$background">
+        {/* Search with Map Button */}
+        <SearchBar
+          placeholder={t('events.search_placeholder')}
+          onSearch={handleSearch}
+          defaultValue={searchQuery}
+          showMapButton={true}
+          onMapPress={() => {
+            posthog?.capture('map_button_tapped', { from: 'events' })
+            router.push('/map')
+          }}
+        />
 
-      {/* Category Filter - Horizontal Scrollable */}
-      <YStack bg="$background" borderBottomWidth={1} borderBottomColor="$borderColor">
-        <ScrollView 
-          horizontal 
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 8 }}
-        >
-          <XStack gap="$2">
-            <Button
-              size="$3"
-              variant={selectedCategory === null ? 'outlined' : undefined}
-              onPress={() => handleCategorySelect(null)}
-            >
-              <Text>{t('events.all_events')} ({allEvents.length})</Text>
-            </Button>
-            {EVENT_CATEGORIES.map((category) => (
+        {/* Category Filter - Horizontal Scrollable */}
+        <YStack bg="$background" borderBottomWidth={1} borderBottomColor="$borderColor">
+          <ScrollView 
+            horizontal 
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 8 }}
+          >
+            <XStack gap="$2">
               <Button
-                key={category}
                 size="$3"
-                variant={selectedCategory === category ? 'outlined' : undefined}
-                onPress={() => handleCategorySelect(category)}
+                variant={selectedCategory === null ? 'outlined' : undefined}
+                onPress={() => handleCategorySelect(null)}
               >
-                <Text>{t(`events.categories.${category}`)}</Text>
+                <Text>{t('events.all_events')} ({allEvents.length})</Text>
               </Button>
-            ))}
-          </XStack>
-        </ScrollView>
-      </YStack>
-
-
-      {/* Events List */}
-      <FlatList
-        data={filteredEvents}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <EventCard
-            event={item}
-            onPress={() => {
-              posthog?.capture('event_card_tapped', {
-                event_id: item.id,
-                event_title: item.title,
-                event_category: item.category,
-              })
-              router.push(`/event/${item.id}`)
-            }}
-            mx="$4"
-            mb="$3"
-          />
-        )}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-        contentContainerStyle={{
-          paddingTop: 16,
-          paddingBottom: insets.bottom + 80,
-        }}
-        ListEmptyComponent={
-          <YStack ai="center" jc="center" py="$10">
-            <Text fontSize="$5" color="$color10">
-              {t('events.no_events_found')}
-            </Text>
-            {(selectedCategory || searchQuery) && (
-              <Text fontSize="$3" color="$color9" mt="$2">
-                {t('events.try_adjusting_filters')}
-              </Text>
-            )}
-            {!selectedCategory && !searchQuery && (
-              <YStack ai="center" gap="$3" mt="$4">
-                <Text fontSize="$4" color="$color11" ta="center">
-                  {t('events.no_events_scheduled')}
-                </Text>
-                <Button onPress={() => router.push('/create')} size="$4">
-                  <Text>{t('events.create_first_event')}</Text>
+              {EVENT_CATEGORIES.map((category) => (
+                <Button
+                  key={category}
+                  size="$3"
+                  variant={selectedCategory === category ? 'outlined' : undefined}
+                  onPress={() => handleCategorySelect(category)}
+                >
+                  <Text>{t(`events.categories.${category}`)}</Text>
                 </Button>
-              </YStack>
-            )}
-          </YStack>
-        }
-      />
-    </YStack>
+              ))}
+            </XStack>
+          </ScrollView>
+        </YStack>
+
+
+        {/* Events List */}
+        <FlatList
+          data={filteredEvents}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <EventCard
+              event={item}
+              onPress={() => {
+                posthog?.capture('event_card_tapped', {
+                  event_id: item.id,
+                  event_title: item.title,
+                  event_category: item.category,
+                })
+                router.push(`/event/${item.id}`)
+              }}
+              mx="$4"
+              mb="$3"
+            />
+          )}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          contentContainerStyle={{
+            paddingTop: 16,
+            paddingBottom: insets.bottom + 80,
+          }}
+          ListEmptyComponent={
+            <YStack ai="center" jc="center" py="$10">
+              <Text fontSize="$5" color="$color10">
+                {t('events.no_events_found')}
+              </Text>
+              {(selectedCategory || searchQuery) && (
+                <Text fontSize="$3" color="$color9" mt="$2">
+                  {t('events.try_adjusting_filters')}
+                </Text>
+              )}
+              {!selectedCategory && !searchQuery && (
+                <YStack ai="center" gap="$3" mt="$4">
+                  <Text fontSize="$4" color="$color11" ta="center">
+                    {t('events.no_events_scheduled')}
+                  </Text>
+                  <Button onPress={() => router.push('/create')} size="$4">
+                    <Text>{t('events.create_first_event')}</Text>
+                  </Button>
+                </YStack>
+              )}
+            </YStack>
+          }
+        />
+      </YStack>
+    </ScreenWrapper>
   )
 }

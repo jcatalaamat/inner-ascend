@@ -141,3 +141,78 @@ export function sortByDateTime<T extends { date: string; time?: string | null }>
     return 0
   })
 }
+
+/**
+ * Get start and end of current week (Monday-Sunday)
+ */
+export function getThisWeekRange(): { start: string; end: string } {
+  const today = new Date()
+  const dayOfWeek = today.getDay()
+  const daysToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek
+
+  const monday = new Date(today)
+  monday.setDate(today.getDate() + daysToMonday)
+  monday.setHours(0, 0, 0, 0)
+
+  const sunday = new Date(monday)
+  sunday.setDate(monday.getDate() + 6)
+  sunday.setHours(23, 59, 59, 999)
+
+  return {
+    start: monday.toISOString().split('T')[0],
+    end: sunday.toISOString().split('T')[0],
+  }
+}
+
+/**
+ * Get start and end of this weekend (Saturday-Sunday)
+ */
+export function getThisWeekendRange(): { start: string; end: string } {
+  const today = new Date()
+  const dayOfWeek = today.getDay()
+  const daysToSaturday = 6 - dayOfWeek
+
+  const saturday = new Date(today)
+  saturday.setDate(today.getDate() + daysToSaturday)
+  saturday.setHours(0, 0, 0, 0)
+
+  const sunday = new Date(saturday)
+  sunday.setDate(saturday.getDate() + 1)
+  sunday.setHours(23, 59, 59, 999)
+
+  return {
+    start: saturday.toISOString().split('T')[0],
+    end: sunday.toISOString().split('T')[0],
+  }
+}
+
+/**
+ * Get start and end of next week (Monday-Sunday)
+ */
+export function getNextWeekRange(): { start: string; end: string } {
+  const thisWeek = getThisWeekRange()
+  const nextMonday = new Date(thisWeek.start)
+  nextMonday.setDate(nextMonday.getDate() + 7)
+
+  const nextSunday = new Date(thisWeek.end)
+  nextSunday.setDate(nextSunday.getDate() + 7)
+
+  return {
+    start: nextMonday.toISOString().split('T')[0],
+    end: nextSunday.toISOString().split('T')[0],
+  }
+}
+
+/**
+ * Filter events by date range
+ */
+export function filterEventsByDateRange<T extends { date: string }>(
+  events: T[],
+  start: string,
+  end: string
+): T[] {
+  return events.filter((event) => {
+    const eventDate = event.date
+    return eventDate >= start && eventDate <= end
+  })
+}

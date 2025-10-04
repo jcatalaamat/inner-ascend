@@ -134,6 +134,15 @@ function HomeLayout() {
                   presentation: 'card',
                 }}
               />
+              <Stack.Screen
+                name="map"
+                options={{
+                  headerShown: true,
+                  headerTitle: '',
+                  headerBackButtonDisplayMode: 'minimal',
+                  presentation: 'card',
+                }}
+              />
               </Stack>
             </LanguageProvider>
           </Provider>

@@ -17,6 +17,11 @@
     "done": "Done",
     "language": "Language"
   },
+  "greetings": {
+    "morning": "Good morning, {{name}}!",
+    "afternoon": "Good afternoon, {{name}}!",
+    "evening": "Good evening, {{name}}!"
+  },
   "app": {
     "title": "Mazunte Connect"
   },
@@ -38,7 +43,14 @@
     "discover": "Discover amazing events and places in Mazunte",
     "upcoming_events": "Upcoming Events",
     "featured_places": "Featured Places",
-    "explore_all": "Explore All"
+    "explore_all": "Explore All",
+    "this_week": "This Week",
+    "this_weekend": "This Weekend",
+    "next_week": "Next Week",
+    "view_all": "View All",
+    "no_events_this_week": "No events this week",
+    "no_events_this_weekend": "No events this weekend",
+    "no_events_next_week": "No events next week"
   },
   "events": {
     "title": "Events",

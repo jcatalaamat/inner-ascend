@@ -170,7 +170,7 @@ export function MapScreen() {
   }
 
   return (
-    <ScreenWrapper>
+    <>
       {/* View type toggle - always visible */}
       <YStack 
         bg="$background" 
@@ -296,6 +296,6 @@ export function MapScreen() {
             )
           })}
       </MapView>
-    </ScreenWrapper>
+    </>
   )
 }

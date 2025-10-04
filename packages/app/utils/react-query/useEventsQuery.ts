@@ -26,6 +26,7 @@ const getEvents = async (
   // Filter by date (only upcoming events by default)
   if (!filters.includePast) {
     const today = new Date().toISOString().split('T')[0]
+    console.log('Filtering events from date:', today)
     query = query.gte('date', today)
   }
 
@@ -59,13 +60,21 @@ export function useEventsQuery(filters: EventFilters = {}) {
   return useQuery({
     queryKey: ['events', filters],
     queryFn: async () => {
-      const result = await getEvents(supabase, filters)
+      try {
+        console.log('Fetching events with filters:', filters)
+        const result = await getEvents(supabase, filters)
 
-      if (result.error) {
-        throw new Error(result.error.message)
+        if (result.error) {
+          console.error('Events query error:', result.error)
+          throw new Error(result.error.message)
+        }
+
+        console.log('Events fetched successfully:', result.data?.length || 0, 'events')
+        return result.data as Event[]
+      } catch (error) {
+        console.error('Events query failed:', error)
+        throw error
       }
-
-      return result.data as Event[]
     },
     staleTime: 1000 * 60 * 5, // 5 minutes
   })

@@ -17,6 +17,11 @@
     "done": "Listo",
     "language": "Idioma"
   },
+  "greetings": {
+    "morning": "¡Buenos días, {{name}}!",
+    "afternoon": "¡Buenas tardes, {{name}}!",
+    "evening": "¡Buenas noches, {{name}}!"
+  },
   "app": {
     "title": "Mazunte Connect"
   },
@@ -38,7 +43,14 @@
     "discover": "Descubre eventos y lugares increíbles en Mazunte",
     "upcoming_events": "Próximos Eventos",
     "featured_places": "Lugares Destacados",
-    "explore_all": "Explorar Todo"
+    "explore_all": "Explorar Todo",
+    "this_week": "Esta Semana",
+    "this_weekend": "Este Fin de Semana",
+    "next_week": "Próxima Semana",
+    "view_all": "Ver Todos",
+    "no_events_this_week": "No hay eventos esta semana",
+    "no_events_this_weekend": "No hay eventos este fin de semana",
+    "no_events_next_week": "No hay eventos la próxima semana"
   },
   "events": {
     "title": "Eventos",

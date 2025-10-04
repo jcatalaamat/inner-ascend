@@ -51,6 +51,6 @@ export const useUser = () => {
     updateProfile: () => refetch(),
     isLoadingSession,
     isLoadingProfile,
-    isLoading: isLoadingSession || isLoadingProfile,
+    isPending: isLoadingSession || isLoadingProfile,
   }
 }

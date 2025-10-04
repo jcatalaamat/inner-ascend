@@ -1,4 +1,4 @@
-import { Search, X } from '@tamagui/lucide-icons'
+import { Search, X, Map } from '@tamagui/lucide-icons'
 import { useState } from 'react'
 import { Button, Input, XStack } from 'tamagui'
 
@@ -6,9 +6,17 @@ export type SearchBarProps = {
   onSearch: (query: string) => void
   placeholder?: string
   defaultValue?: string
+  showMapButton?: boolean
+  onMapPress?: () => void
 }
 
-export const SearchBar = ({ onSearch, placeholder = 'Search...', defaultValue = '' }: SearchBarProps) => {
+export const SearchBar = ({ 
+  onSearch, 
+  placeholder = 'Search...', 
+  defaultValue = '',
+  showMapButton = false,
+  onMapPress
+}: SearchBarProps) => {
   const [query, setQuery] = useState(defaultValue)
 
   const handleClear = () => {
@@ -47,6 +55,14 @@ export const SearchBar = ({ onSearch, placeholder = 'Search...', defaultValue = 
           />
         )}
       </XStack>
+      
+      {showMapButton && (
+        <Button
+          size="$3"
+          icon={Map}
+          onPress={onMapPress}
+        />
+      )}
     </XStack>
   )
 }

@@ -21,10 +21,10 @@ import useEventsQuery from 'app/utils/react-query/useEventQuery'
 import { useUser } from 'app/utils/useUser'
 import { useState } from 'react'
 
-import { AchievementsSection } from './components/achievements-section'
 import { Greetings } from './components/greetings'
-import { OverviewSection } from './components/overview-section'
-import { PostsSection } from './components/posts-section'
+import { NextWeekEventsSection } from './components/next-week-events-section'
+import { ThisWeekEventsSection } from './components/this-week-events-section'
+import { ThisWeekendEventsSection } from './components/this-weekend-events-section'
 
 export function HomeScreen() {
   const { user, isPending } = useUser()
@@ -47,9 +47,9 @@ export function HomeScreen() {
             {isWeb && <EventDrawer />}
           </XStack>
           <YStack gap="$7" pb="$10">
-            <AchievementsSection />
-            <OverviewSection />
-            <PostsSection />
+            <ThisWeekEventsSection />
+            <ThisWeekendEventsSection />
+            <NextWeekEventsSection />
           </YStack>
         </ScrollToTopTabBarContainer>
       </ScrollView>

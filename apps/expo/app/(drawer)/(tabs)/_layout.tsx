@@ -1,6 +1,6 @@
 import { useTheme, Button } from '@my/ui'
 import { DrawerActions } from '@react-navigation/native'
-import { Calendar, Heart, Map, MapPin, Menu, Plus, User } from '@tamagui/lucide-icons'
+import { Calendar, Heart, Home, MapPin, Menu, Plus, User } from '@tamagui/lucide-icons'
 import { router, Stack, Tabs, useNavigation, usePathname } from 'expo-router'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useTranslation } from 'react-i18next'
@@ -17,22 +17,18 @@ export default function Layout() {
 
   // Use PostHog hooks for feature flags
   const disableCreateButton = useFeatureFlag('disable-create-button')
-  const disableMapTab = useFeatureFlag('disable-map-tab')
   const disableDrawerMenu = useFeatureFlag('disable-drawer-menu')
 
   // Show features when flag is undefined (loading) or false (disabled)
   const showCreateButton = !disableCreateButton
-  const showMapTab = !disableMapTab
   const showDrawerMenu = !disableDrawerMenu
 
   if (__DEV__) {
     console.log('pathname', pathname)
     console.log('🚩 Feature Flags:', {
       disableCreateButton,
-      disableMapTab,
       disableDrawerMenu,
       showCreateButton,
-      showMapTab,
       showDrawerMenu
     })
   }
@@ -102,6 +98,17 @@ export default function Layout() {
           key="index"
           options={{
             headerShown: false,
+            title: t('navigation.home'),
+            tabBarIcon: ({ size, color, focused }) => (
+              <Home color={focused ? '$color12' : '$color10'} size={22} strokeWidth={focused ? 2.5 : 2} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="events"
+          key="events"
+          options={{
+            headerShown: false,
             title: t('navigation.events'),
             tabBarIcon: ({ size, color, focused }) => (
               <Calendar color={focused ? '$color12' : '$color10'} size={22} strokeWidth={focused ? 2.5 : 2} />
@@ -117,18 +124,6 @@ export default function Layout() {
             tabBarIcon: ({ size, color, focused }) => (
               <MapPin color={focused ? '$color12' : '$color10'} size={22} strokeWidth={focused ? 2.5 : 2} />
             ),
-          }}
-        />
-        <Tabs.Screen
-          name="map"
-          key="map"
-          options={{
-            headerShown: false,
-            title: t('navigation.map'),
-            tabBarIcon: ({ size, color, focused }) => (
-              <Map color={focused ? '$color12' : '$color10'} size={22} strokeWidth={focused ? 2.5 : 2} />
-            ),
-            tabBarButton: showMapTab ? undefined : () => null,
           }}
         />
         <Tabs.Screen

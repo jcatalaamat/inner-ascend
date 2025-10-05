@@ -31,7 +31,7 @@ export default {
         CFBundleURLTypes: [
           {
             CFBundleURLName: "GoogleSignIn",
-            CFBundleURLSchemes: [process.env.GOOGLE_IOS_SCHEME || 'com.googleusercontent.apps.571497840649-tqcs8mtqtnrkorj0iagsktomose67k5q']
+            CFBundleURLSchemes: [process.env.GOOGLE_IOS_SCHEME || 'com.googleusercontent.apps.7491021027-dj901lvn943vgmstd41vraejfpinucra']
           }
         ]
       },

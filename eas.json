@@ -8,30 +8,13 @@
       "developmentClient": true,
       "distribution": "internal",
       "ios": {
-        "buildConfiguration": "Debug",
-        "buildNumber": "30"
-      },
-      "android": {
-        "versionCode": 30
+        "buildConfiguration": "Debug"
       }
     },
     "preview": {
-      "distribution": "internal",
-      "ios": {
-        "buildNumber": "30"
-      },
-      "android": {
-        "versionCode": 30
-      }
+      "distribution": "internal"
     },
-    "production": {
-      "ios": {
-        "buildNumber": "30"
-      },
-      "android": {
-        "versionCode": 30
-      }
-    }
+    "production": {}
   },
   "submit": {
     "production": {}

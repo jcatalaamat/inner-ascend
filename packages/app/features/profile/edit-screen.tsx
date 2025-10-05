@@ -28,6 +28,8 @@ import { useFavoritesQuery } from 'app/utils/react-query/useFavoritesQuery'
 import { useTranslation } from 'react-i18next'
 import { Cog } from '@tamagui/lucide-icons'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { usePostHog } from 'posthog-react-native'
+import { useEffect } from 'react'
 
 import { api } from '../../utils/api'
 import { UploadAvatar } from '../settings/components/upload-avatar'
@@ -57,6 +59,11 @@ const EditProfileForm = ({
   const apiUtils = api.useUtils()
   const { t } = useTranslation()
   const insets = useSafeAreaInsets()
+  const posthog = usePostHog()
+
+  useEffect(() => {
+    posthog?.capture('profile_edit_viewed')
+  }, [posthog])
 
   const ProfileSchema = z.object({
     name: formFields.text.describe(`${t('profile.name')} // ${t('profile.name_placeholder')}`),

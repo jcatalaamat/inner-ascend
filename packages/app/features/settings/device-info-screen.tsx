@@ -5,7 +5,7 @@ import { usePostHog } from 'posthog-react-native'
 import { Platform, Alert, Clipboard } from 'react-native'
 import { useLanguage } from 'app/contexts/LanguageContext'
 import { useUser } from 'app/utils/useUser'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ScreenWrapper } from 'app/components/ScreenWrapper'
 import * as Device from 'expo-device'
 
@@ -15,6 +15,10 @@ export const DeviceInfoScreen = () => {
   const { profile } = useUser()
   const posthog = usePostHog()
   const [copied, setCopied] = useState(false)
+
+  useEffect(() => {
+    posthog?.capture('settings_device_info_viewed')
+  }, [posthog])
 
   // Get PostHog distinct ID
   const getPostHogId = () => {

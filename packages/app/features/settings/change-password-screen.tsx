@@ -4,12 +4,19 @@ import { useSupabase } from 'app/utils/supabase/useSupabase'
 import { useRouter } from 'solito/router'
 import { z } from 'zod'
 import { useTranslation } from 'react-i18next'
+import { usePostHog } from 'posthog-react-native'
+import { useEffect } from 'react'
 
 export const ChangePasswordScreen = () => {
   const { t } = useTranslation()
   const supabase = useSupabase()
   const toast = useToastController()
   const router = useRouter()
+  const posthog = usePostHog()
+
+  useEffect(() => {
+    posthog?.capture('settings_change_password_viewed')
+  }, [posthog])
 
   const ChangePasswordSchema = z
     .object({

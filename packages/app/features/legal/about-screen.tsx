@@ -2,9 +2,16 @@ import { H1, Paragraph, Text, YStack, isWeb } from '@my/ui'
 import { Link } from 'expo-router'
 import { ScrollView } from 'react-native'
 import { useTranslation } from 'react-i18next'
+import { usePostHog } from 'posthog-react-native'
+import { useEffect } from 'react'
 
 export const AboutScreen = () => {
   const { t } = useTranslation()
+  const posthog = usePostHog()
+
+  useEffect(() => {
+    posthog?.capture('about_viewed')
+  }, [posthog])
   
   return (
     <ScrollView>

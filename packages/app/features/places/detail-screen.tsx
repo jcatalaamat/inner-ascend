@@ -4,8 +4,9 @@ import { MapPin, DollarSign, Phone, Mail, Globe, Instagram, Navigation } from '@
 import { PLACE_TYPE_COLORS } from 'app/utils/constants'
 import { Linking, Platform } from 'react-native'
 import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ImageViewer } from 'app/components/ImageViewer'
+import { usePostHog } from 'posthog-react-native'
 
 let MapView: any = null
 let Marker: any = null
@@ -28,6 +29,22 @@ export function PlaceDetailScreen({ id }: PlaceDetailScreenProps) {
   const { data: place, isLoading } = usePlaceDetailQuery(id)
   const { t } = useTranslation()
   const [imageViewerVisible, setImageViewerVisible] = useState(false)
+  const posthog = usePostHog()
+
+  useEffect(() => {
+    if (place) {
+      posthog?.capture('place_detail_viewed', {
+        place_id: place.id,
+        place_name: place.name,
+        place_type: place.type,
+        has_coordinates: !!(place.lat && place.lng),
+        has_contact_info: !!(place.contact_phone || place.contact_email || place.contact_whatsapp),
+        is_verified: place.verified,
+        is_featured: place.featured,
+        is_eco_conscious: place.eco_conscious
+      })
+    }
+  }, [posthog, place])
 
   if (isLoading) {
     return <FullscreenSpinner />

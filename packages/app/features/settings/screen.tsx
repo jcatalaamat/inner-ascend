@@ -8,12 +8,19 @@ import { useLink } from 'solito/link'
 import { LanguageSwitcher } from 'app/components/LanguageSwitcher'
 import { useTranslation } from 'react-i18next'
 import { Linking } from 'react-native'
+import { usePostHog } from 'posthog-react-native'
+import { useEffect } from 'react'
 
 
 export const SettingsScreen = () => {
   const media = useMedia()
   const pathname = usePathname()
   const { t } = useTranslation()
+  const posthog = usePostHog()
+
+  useEffect(() => {
+    posthog?.capture('settings_screen_viewed')
+  }, [posthog])
 
   return (
     <YStack f={1}>

@@ -19,7 +19,8 @@ import { Calendar, X } from '@tamagui/lucide-icons'
 import ScrollToTopTabBarContainer from 'app/utils/NativeScreenContainer'
 import useEventsQuery from 'app/utils/react-query/useEventQuery'
 import { useUser } from 'app/utils/useUser'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { usePostHog } from 'posthog-react-native'
 
 import { Greetings } from './components/greetings'
 import { NextWeekEventsSection } from './components/next-week-events-section'
@@ -29,6 +30,11 @@ import { ScreenWrapper } from 'app/components/ScreenWrapper'
 
 export function HomeScreen() {
   const { user, isPending } = useUser()
+  const posthog = usePostHog()
+
+  useEffect(() => {
+    posthog?.capture('home_screen_viewed')
+  }, [posthog])
 
   if (isPending)
     return (

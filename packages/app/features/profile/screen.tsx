@@ -5,8 +5,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useUser } from 'app/utils/useUser'
 import { SolitoImage } from 'solito/image'
 import { useLink } from 'solito/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { usePostHog } from 'posthog-react-native'
 
 export function ProfileScreen(props) {
   const { profile, avatarUrl } = useUser()
@@ -15,6 +16,11 @@ export function ProfileScreen(props) {
   const height = useWindowDimensions().height
   const [headerDismissed, setHeaderDismissed] = useState(false)
   const { t } = useTranslation()
+  const posthog = usePostHog()
+
+  useEffect(() => {
+    posthog?.capture('profile_screen_viewed')
+  }, [posthog])
 
   return (
     <YStack f={1} bg="$background">

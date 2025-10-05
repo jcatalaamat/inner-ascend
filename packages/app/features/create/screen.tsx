@@ -3,6 +3,8 @@ import { useGlobalStore } from 'app/utils/global-store'
 import { usePathname } from 'app/utils/usePathname'
 import { useRouter } from 'solito/router'
 import { useTranslation } from 'react-i18next'
+import { usePostHog } from 'posthog-react-native'
+import { useEffect } from 'react'
 
 import { CreateEventForm } from './CreateEventForm'
 import { CreatePlaceForm } from './CreatePlaceForm'
@@ -17,6 +19,14 @@ export const CreateScreen = ({ type = 'event' }: CreateScreenProps) => {
   const toast = useToastController()
   const router = useRouter()
   const { t } = useTranslation()
+  const posthog = usePostHog()
+
+  useEffect(() => {
+    posthog?.capture('create_screen_viewed', { 
+      type: type,
+      path: pathName 
+    })
+  }, [posthog, type, pathName])
 
   const onSuccess = () => {
     toast.show('Successfully created!')

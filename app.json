@@ -1,6 +1,8 @@
 {
   "expo": {
+    "name": "Mazunte Connect",
     "slug": "mazunte-connect",
+    "version": "1.0.3",
     "owner": "inner-ascend-expo",
     "extra": {
       "eas": {
@@ -8,7 +10,12 @@
       }
     },
     "ios": {
-      "bundleIdentifier": "com.inner-ascend.mazunte-connect"
+      "bundleIdentifier": "com.inner-ascend.mazunte-connect",
+      "buildNumber": "30"
+    },
+    "android": {
+      "package": "com.inner-ascend.mazunte-connect",
+      "versionCode": 30
     }
   }
 }

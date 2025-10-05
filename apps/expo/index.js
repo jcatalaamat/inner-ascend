@@ -7,7 +7,7 @@ console.log('🚀 App starting...')
 console.log('📦 React Native loaded')
 
 //NOTE: do not remove. this is a workaround for build to work with expo v51.0.0
-React.AnimatedComponent = ({ children }) => <>{children}</>
+// React.AnimatedComponent = ({ children }) => <>{children}</>
 
 // Initialize Sentry AFTER React Native polyfills are loaded
 try {

@@ -25,10 +25,9 @@ export const StepContent = ({
       <YStack
         animation="lazy"
         y={0}
-        enterStyle={{ scale: 0.8, y: -10, o: 0 }}
-        exitStyle={{ scale: 0.8, y: -10, o: 0 }}
+        enterStyle={{ y: -10, o: 0 }}
+        exitStyle={{ y: -10, o: 0 }}
         o={1}
-        scale={1}
       >
         <Icon col="$color9" size={96} />
       </YStack>
@@ -36,10 +35,9 @@ export const StepContent = ({
         mt="$5"
         animation="bouncy"
         y={0}
-        enterStyle={{ scale: 0.95, y: 4, o: 0 }}
-        exitStyle={{ scale: 0.95, y: 4, o: 0 }}
+        enterStyle={{ y: 4, o: 0 }}
+        exitStyle={{ y: 4, o: 0 }}
         o={1}
-        scale={1}
         size="$7"
         col="$color10"
         selectable={false}
@@ -58,10 +56,9 @@ export const StepContent = ({
         mx="auto"
         animation="bouncy"
         y={0}
-        enterStyle={{ scale: 0.95, y: -2, o: 0 }}
-        exitStyle={{ scale: 0.95, y: -2, o: 0 }}
+        enterStyle={{ y: -2, o: 0 }}
+        exitStyle={{ y: -2, o: 0 }}
         o={1}
-        scale={1}
         size="$4"
         lh="$6"
         ta="center"

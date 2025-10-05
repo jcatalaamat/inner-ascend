@@ -24,7 +24,7 @@ export const FavoriteButton = ({ isFavorited, onToggle, size = 24, ...props }: F
       chromeless
       backgroundColor={isFavorited ? '$red3' : '$color3'}
       onPress={handlePress}
-      pressStyle={{ scale: 0.9 }}
+      pressStyle={{ opacity: 0.8 }}
       animation="bouncy"
       {...props}
     >

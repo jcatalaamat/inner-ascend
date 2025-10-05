@@ -1,5 +1,6 @@
 import { createAnimations } from '@tamagui/animations-moti'
 
+// Temporarily disable animations to test if this fixes the Reanimated scale error
 export const animations = createAnimations({
   '100ms': {
     type: 'timing',

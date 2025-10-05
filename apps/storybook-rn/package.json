@@ -26,7 +26,7 @@
   "devDependencies": {
     "@babel/core": "^7.26.0",
     "@babel/plugin-transform-class-static-block": "^7.27.1",
-    "@react-native-async-storage/async-storage": "2.1.2",
+    "@react-native-async-storage/async-storage": "2.2.0",
     "@react-native-community/slider": "4.5.6",
     "@storybook/addon-actions": "8.6.4",
     "@storybook/addon-controls": "8.6.4",

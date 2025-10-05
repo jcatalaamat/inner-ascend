@@ -1,5 +1,6 @@
 {
   "expo": {
+    "owner": "inner-ascend-expo",
     "extra": {
       "eas": {
         "projectId": "6b8628d3-8fb0-43ff-b54e-b36301b0385e"

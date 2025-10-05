@@ -5016,17 +5016,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-async-storage/async-storage@npm:2.1.2":
-  version: 2.1.2
-  resolution: "@react-native-async-storage/async-storage@npm:2.1.2"
-  dependencies:
-    merge-options: "npm:^3.0.4"
-  peerDependencies:
-    react-native: ^0.0.0-0 || >=0.65 <1.0
-  checksum: 10/d4f14fe520a1664935ea771db86be397902b743ae7dd805d7cfe142698bcb9758bfe075fe11f20347cc5551ee0673f15822be3127658957a276ac28e0c8dd5ca
-  languageName: node
-  linkType: hard
-
 "@react-native-async-storage/async-storage@npm:^2.2.0":
   version: 2.2.0
   resolution: "@react-native-async-storage/async-storage@npm:2.2.0"
@@ -14201,7 +14190,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:^16.0.0, dotenv@npm:^16.3.0, dotenv@npm:^16.4.4, dotenv@npm:^16.4.5, dotenv@npm:^16.4.7, dotenv@npm:~16.4.5":
+"dotenv@npm:^16.0.0, dotenv@npm:^16.3.0, dotenv@npm:^16.4.4, dotenv@npm:^16.4.5, dotenv@npm:~16.4.5":
   version: 16.4.7
   resolution: "dotenv@npm:16.4.7"
   checksum: 10/f13bfe97db88f0df4ec505eeffb8925ec51f2d56a3d0b6d916964d8b4af494e6fb1633ba5d09089b552e77ab2a25de58d70259b2c5ed45ec148221835fc99a0c
@@ -15646,7 +15635,7 @@ __metadata:
     "@babel/core": "npm:^7.26.0"
     "@babel/runtime": "npm:^7.18.9"
     "@my/ui": "npm:*"
-    "@react-native-async-storage/async-storage": "npm:2.1.2"
+    "@react-native-async-storage/async-storage": "npm:^2.2.0"
     "@react-native-community/netinfo": "npm:11.4.1"
     "@react-native-google-signin/google-signin": "npm:^16.0.0"
     "@sentry/react-native": "npm:~6.14.0"
@@ -16164,7 +16153,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo@npm:~53.0.22, expo@npm:~53.0.23":
+"expo@npm:~53.0.23":
   version: 53.0.23
   resolution: "expo@npm:53.0.23"
   dependencies:
@@ -19689,14 +19678,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"mazunte-connect-supabase@workspace:.":
+"mazunte-connect@workspace:.":
   version: 0.0.0-use.local
-  resolution: "mazunte-connect-supabase@workspace:."
+  resolution: "mazunte-connect@workspace:."
   dependencies:
     "@babel/runtime": "npm:^7.18.9"
     "@manypkg/cli": "npm:^0.19.1"
     "@nderscore/tamagui-typescript-plugin": "npm:^0.6.0"
-    "@react-native-async-storage/async-storage": "npm:2.1.2"
+    "@react-native-async-storage/async-storage": "npm:^2.2.0"
     "@react-navigation/drawer": "npm:^6.6.15"
     "@sentry/core": "npm:^10.17.0"
     "@sentry/react": "npm:^10.17.0"
@@ -19710,10 +19699,10 @@ __metadata:
     "@types/fs-extra": "npm:^11"
     axios: "npm:^1.7.2"
     check-dependency-version-consistency: "npm:^3.0.3"
-    dotenv: "npm:^16.4.7"
+    dotenv: "npm:^17.2.3"
     dotenv-cli: "npm:^8.0.0"
     eslint: "npm:^8.46.0"
-    expo: "npm:~53.0.22"
+    expo: "npm:~53.0.23"
     expo-localization: "npm:~16.1.6"
     fs-extra: "npm:^11.2.0"
     i18next: "npm:^25.5.3"

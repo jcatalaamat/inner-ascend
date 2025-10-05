@@ -1,5 +1,5 @@
 {
-  "name": "mazunte-connect-supabase",
+  "name": "mazunte-connect",
   "private": true,
   "workspaces": [
     "apps/*",

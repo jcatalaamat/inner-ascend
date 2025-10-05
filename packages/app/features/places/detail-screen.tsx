@@ -177,7 +177,7 @@ export function PlaceDetailScreen({ id }: PlaceDetailScreenProps) {
             <XStack gap="$2" flexWrap="wrap">
               {place.tags.map((tag) => (
                 <Button key={tag} size="$2" disabled theme="gray">
-                  {tag}
+                  {t(`tags.${tag}`)}
                 </Button>
               ))}
             </XStack>

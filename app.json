@@ -14,7 +14,7 @@
       "buildNumber": "30"
     },
     "android": {
-      "package": "com.inner-ascend.mazunte-connect",
+      "package": "com.innerascend.mazunteconnect",
       "versionCode": 30
     }
   }

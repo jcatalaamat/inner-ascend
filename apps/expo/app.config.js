@@ -27,7 +27,13 @@ export default {
       infoPlist: {
         ITSAppUsesNonExemptEncryption: false,
         "NSBluetoothAlwaysUsageDescription": "This app uses Bluetooth for nearby device verification during sign-in.",
-        "NSBluetoothPeripheralUsageDescription": "Bluetooth is used to discover and connect to nearby devices for sign-in flow if needed."
+        "NSBluetoothPeripheralUsageDescription": "Bluetooth is used to discover and connect to nearby devices for sign-in flow if needed.",
+        CFBundleURLTypes: [
+          {
+            CFBundleURLName: "GoogleSignIn",
+            CFBundleURLSchemes: [process.env.GOOGLE_IOS_SCHEME || 'com.googleusercontent.apps.571497840649-tqcs8mtqtnrkorj0iagsktomose67k5q']
+          }
+        ]
       },
     },
     android: {

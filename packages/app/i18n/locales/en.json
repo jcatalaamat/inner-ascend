@@ -17,6 +17,11 @@
     "done": "Done",
     "language": "Language"
   },
+  "date": {
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "at": "at"
+  },
   "greetings": {
     "morning": "Good morning, {{name}}!",
     "afternoon": "Good afternoon, {{name}}!",
@@ -94,7 +99,9 @@
       "eco_conscious": "Eco Conscious",
       "verified": "Verified",
       "featured": "Featured",
-      "about": "About"
+      "about": "About",
+      "location": "Location",
+      "get_directions": "Get Directions"
     }
   },
   "places": {
@@ -143,7 +150,9 @@
       "price_range": "Price Range",
       "hours": "Hours",
       "tags": "Tags",
-      "about": "About"
+      "about": "About",
+      "location": "Location",
+      "get_directions": "Get Directions"
     }
   },
   "map": {

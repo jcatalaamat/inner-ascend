@@ -17,6 +17,11 @@
     "done": "Listo",
     "language": "Idioma"
   },
+  "date": {
+    "today": "Hoy",
+    "tomorrow": "Mañana",
+    "at": "a las"
+  },
   "greetings": {
     "morning": "¡Buenos días, {{name}}!",
     "afternoon": "¡Buenas tardes, {{name}}!",
@@ -94,7 +99,9 @@
       "eco_conscious": "Consciente del Medio Ambiente",
       "verified": "Verificado",
       "featured": "Destacado",
-      "about": "Acerca de"
+      "about": "Acerca de",
+      "location": "Ubicación",
+      "get_directions": "Obtener Direcciones"
     }
   },
   "places": {
@@ -143,7 +150,9 @@
       "price_range": "Rango de Precios",
       "hours": "Horarios",
       "tags": "Etiquetas",
-      "about": "Acerca de"
+      "about": "Acerca de",
+      "location": "Ubicación",
+      "get_directions": "Obtener Direcciones"
     }
   },
   "map": {

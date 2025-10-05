@@ -1,13 +1,27 @@
 import { FullscreenSpinner, Text, YStack, XStack, Image, Button, ScrollView, Card, H4, Paragraph, EcoBadge, FavoriteButtonWrapper, Theme } from '@my/ui'
 import { useEventDetailQuery } from 'app/utils/react-query/useEventsQuery'
-import { Calendar, Clock, MapPin, DollarSign, User, Mail, Phone, Globe, Instagram } from '@tamagui/lucide-icons'
+import { Calendar, Clock, MapPin, DollarSign, User, Mail, Phone, Globe, Instagram, Navigation } from '@tamagui/lucide-icons'
 import { formatDate, formatTime } from 'app/utils/date-helpers'
 import { CATEGORY_COLORS } from 'app/utils/constants'
 import { useTranslation } from 'react-i18next'
 import { usePostHog } from 'posthog-react-native'
 import { useEffect, useState } from 'react'
-import { Linking } from 'react-native'
+import { Linking, Platform } from 'react-native'
 import { ImageViewer } from 'app/components/ImageViewer'
+import i18n from 'app/i18n'
+
+let MapView: any = null
+let Marker: any = null
+
+if (Platform.OS !== 'web') {
+  try {
+    const Maps = require('react-native-maps')
+    MapView = Maps.default
+    Marker = Maps.Marker
+  } catch (error) {
+    console.log('react-native-maps not available')
+  }
+}
 
 interface EventDetailScreenProps {
   id: string
@@ -49,6 +63,21 @@ export function EventDetailScreen({ id }: EventDetailScreenProps) {
 
   const handleImagePress = () => {
     setImageViewerVisible(true)
+  }
+
+  const handleGetDirections = () => {
+    if (!event?.lat || !event?.lng) return
+
+    const scheme = Platform.select({
+      ios: 'maps:',
+      android: 'geo:',
+    })
+    const url = Platform.select({
+      ios: `${scheme}?q=${event.lat},${event.lng}`,
+      android: `${scheme}${event.lat},${event.lng}?q=${event.lat},${event.lng}`,
+    })
+
+    if (url) Linking.openURL(url)
   }
 
   if (isLoading) {
@@ -117,21 +146,28 @@ export function EventDetailScreen({ id }: EventDetailScreenProps) {
           <Card p="$3" gap="$3">
             <XStack gap="$3" ai="center">
               <Calendar size={20} color="$color10" />
-              <Text fontSize="$4">{formatDate(event.date)}</Text>
+              <Text fontSize="$4">{formatDate(event.date, i18n.language === 'es' ? 'es-ES' : 'en-US', t)}</Text>
             </XStack>
             {event.time && (
               <XStack gap="$3" ai="center">
                 <Clock size={20} color="$color10" />
-                <Text fontSize="$4">{event.time}</Text>
+                <Text fontSize="$4">{formatTime(event.time, i18n.language === 'es' ? 'es-ES' : 'en-US')}</Text>
               </XStack>
             )}
             {event.location_name && (
-              <XStack gap="$3" ai="center">
-                <MapPin size={20} color="$color10" />
-                <Text fontSize="$4" f={1}>
-                  {event.location_name}
-                </Text>
-              </XStack>
+              <YStack gap="$1">
+                <XStack gap="$3" ai="center">
+                  <MapPin size={20} color="$color10" />
+                  <Text fontSize="$4" f={1}>
+                    {event.location_name}
+                  </Text>
+                </XStack>
+                {event.location_directions && (
+                  <Text fontSize="$3" color="$color11" paddingLeft="$7">
+                    {event.location_directions}
+                  </Text>
+                )}
+              </YStack>
             )}
             {event.price && (
               <XStack gap="$3" ai="center">
@@ -212,9 +248,45 @@ export function EventDetailScreen({ id }: EventDetailScreenProps) {
             </Card>
           )}
 
-          {/* TODO: Add map preview with marker */}
+          {/* Map Preview */}
+          {event.lat && event.lng && MapView && (
+            <YStack gap="$2">
+              <Text fontSize="$5" fontWeight="600">
+                {t('events.detail.location')}
+              </Text>
+              <YStack height={200} borderRadius="$4" overflow="hidden" borderWidth={1} borderColor="$borderColor">
+                <MapView
+                  style={{ flex: 1 }}
+                  initialRegion={{
+                    latitude: event.lat,
+                    longitude: event.lng,
+                    latitudeDelta: 0.01,
+                    longitudeDelta: 0.01,
+                  }}
+                  scrollEnabled={false}
+                  zoomEnabled={false}
+                >
+                  <Marker
+                    coordinate={{
+                      latitude: event.lat,
+                      longitude: event.lng,
+                    }}
+                    title={event.location_name}
+                  />
+                </MapView>
+              </YStack>
+              <Button
+                onPress={handleGetDirections}
+                icon={Navigation}
+                theme="blue"
+                size="$4"
+              >
+                {t('events.detail.get_directions')}
+              </Button>
+            </YStack>
+          )}
+
           {/* TODO: Add share button */}
-          {/* TODO: Add "Get Directions" button if lat/lng available */}
           </YStack>
         </YStack>
       </ScrollView>

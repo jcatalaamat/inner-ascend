@@ -68,7 +68,9 @@ export const CreateEventForm = ({ onSuccess }: { onSuccess: () => void }) => {
         image_url: imageUploadRef.current?.getImageUrl() || null,
         profile_id: user?.id,
       }
-      await supabase.from('events').insert(insertData)
+
+      const { error } = await supabase.from('events').insert(insertData)
+      if (error) throw error
     },
 
     async onSuccess() {

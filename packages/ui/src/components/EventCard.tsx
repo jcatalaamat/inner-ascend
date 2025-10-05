@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { Button, Card, type CardProps, H6, Image, Paragraph, Text, Theme, XStack, YStack } from 'tamagui'
 import { FavoriteButtonWrapper } from './FavoriteButtonWrapper'
 import { useTranslation } from 'react-i18next'
+import { formatDate, formatTime } from '../../../app/utils/date-helpers'
+import i18n from '../../../app/i18n'
 
 type Event = Database['public']['Tables']['events']['Row']
 
@@ -13,36 +15,6 @@ export type EventCardProps = {
   showFavorite?: boolean
   onToggleFavorite?: () => void
 } & Omit<CardProps, 'onPress'>
-
-// Helper to format date
-const formatDate = (dateString: string): string => {
-  const date = new Date(dateString)
-  const today = new Date()
-  const tomorrow = new Date(today)
-  tomorrow.setDate(tomorrow.getDate() + 1)
-
-  if (date.toDateString() === today.toDateString()) return 'Today'
-  if (date.toDateString() === tomorrow.toDateString()) return 'Tomorrow'
-
-  return date.toLocaleDateString('en-US', {
-    weekday: 'short',
-    month: 'short',
-    day: 'numeric',
-  })
-}
-
-// Helper to format time
-const formatTime = (timeString: string | null): string => {
-  if (!timeString) return ''
-  const [hours, minutes] = timeString.split(':').map(Number)
-  const date = new Date()
-  date.setHours(hours, minutes, 0)
-  return date.toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-  })
-}
 
 // Category colors
 const categoryColors: Record<string, string> = {
@@ -57,6 +29,7 @@ const categoryColors: Record<string, string> = {
 export const EventCard = ({ event, onPress, showFavorite = false, onToggleFavorite, ...props }: EventCardProps) => {
   const [hover, setHover] = useState(false)
   const { t } = useTranslation()
+  const locale = i18n.language === 'es' ? 'es-ES' : 'en-US'
 
   return (
     <Card
@@ -120,8 +93,8 @@ export const EventCard = ({ event, onPress, showFavorite = false, onToggleFavori
         <XStack ai="center" gap="$2">
           <Calendar size={14} color="$color10" />
           <Text fontSize="$3" color="$color11">
-            {formatDate(event.date)}
-            {event.time && ` • ${formatTime(event.time)}`}
+            {formatDate(event.date, locale, t)}
+            {event.time && ` • ${formatTime(event.time, locale)}`}
           </Text>
         </XStack>
 

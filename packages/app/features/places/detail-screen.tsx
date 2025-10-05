@@ -1,11 +1,24 @@
 import { FullscreenSpinner, Text, YStack, XStack, Image, Button, ScrollView, Card, H4, Paragraph, EcoBadge, FavoriteButtonWrapper, Theme } from '@my/ui'
 import { usePlaceDetailQuery } from 'app/utils/react-query/usePlacesQuery'
-import { MapPin, DollarSign, Phone, Mail, Globe, Instagram } from '@tamagui/lucide-icons'
+import { MapPin, DollarSign, Phone, Mail, Globe, Instagram, Navigation } from '@tamagui/lucide-icons'
 import { PLACE_TYPE_COLORS } from 'app/utils/constants'
-import { Linking } from 'react-native'
+import { Linking, Platform } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import { ImageViewer } from 'app/components/ImageViewer'
+
+let MapView: any = null
+let Marker: any = null
+
+if (Platform.OS !== 'web') {
+  try {
+    const Maps = require('react-native-maps')
+    MapView = Maps.default
+    Marker = Maps.Marker
+  } catch (error) {
+    console.log('react-native-maps not available')
+  }
+}
 
 interface PlaceDetailScreenProps {
   id: string
@@ -55,6 +68,21 @@ export function PlaceDetailScreen({ id }: PlaceDetailScreenProps) {
 
   const handleImagePress = () => {
     setImageViewerVisible(true)
+  }
+
+  const handleGetDirections = () => {
+    if (!place?.lat || !place?.lng) return
+
+    const scheme = Platform.select({
+      ios: 'maps:',
+      android: 'geo:',
+    })
+    const url = Platform.select({
+      ios: `${scheme}?q=${place.lat},${place.lng}`,
+      android: `${scheme}${place.lat},${place.lng}?q=${place.lat},${place.lng}`,
+    })
+
+    if (url) Linking.openURL(url)
   }
 
   return (
@@ -110,12 +138,19 @@ export function PlaceDetailScreen({ id }: PlaceDetailScreenProps) {
           {/* Quick Info */}
           <Card p="$3" gap="$3">
             {place.location_name && (
-              <XStack gap="$3" ai="center">
-                <MapPin size={20} color="$color10" />
-                <Text fontSize="$4" f={1}>
-                  {place.location_name}
-                </Text>
-              </XStack>
+              <YStack gap="$1">
+                <XStack gap="$3" ai="center">
+                  <MapPin size={20} color="$color10" />
+                  <Text fontSize="$4" f={1}>
+                    {place.location_name}
+                  </Text>
+                </XStack>
+                {place.location_directions && (
+                  <Text fontSize="$3" color="$color11" paddingLeft="$7">
+                    {place.location_directions}
+                  </Text>
+                )}
+              </YStack>
             )}
             {place.price_range && (
               <XStack gap="$3" ai="center">
@@ -210,10 +245,46 @@ export function PlaceDetailScreen({ id }: PlaceDetailScreenProps) {
             )}
           </Card>
 
+          {/* Map Preview */}
+          {place.lat && place.lng && MapView && (
+            <YStack gap="$2">
+              <Text fontSize="$5" fontWeight="600">
+                {t('places.detail.location')}
+              </Text>
+              <YStack height={200} borderRadius="$4" overflow="hidden" borderWidth={1} borderColor="$borderColor">
+                <MapView
+                  style={{ flex: 1 }}
+                  initialRegion={{
+                    latitude: place.lat,
+                    longitude: place.lng,
+                    latitudeDelta: 0.01,
+                    longitudeDelta: 0.01,
+                  }}
+                  scrollEnabled={false}
+                  zoomEnabled={false}
+                >
+                  <Marker
+                    coordinate={{
+                      latitude: place.lat,
+                      longitude: place.lng,
+                    }}
+                    title={place.location_name}
+                  />
+                </MapView>
+              </YStack>
+              <Button
+                onPress={handleGetDirections}
+                icon={Navigation}
+                theme="blue"
+                size="$4"
+              >
+                {t('places.detail.get_directions')}
+              </Button>
+            </YStack>
+          )}
+
           {/* TODO: Add image gallery if multiple images */}
-          {/* TODO: Add map preview with marker */}
           {/* TODO: Add share button */}
-          {/* TODO: Add "Get Directions" button if lat/lng available */}
           </YStack>
         </YStack>
       </ScrollView>

@@ -5,9 +5,11 @@
 /**
  * Format a date string to a readable format
  * @param dateString - ISO date string (e.g., "2025-01-15")
- * @returns Formatted date (e.g., "Jan 15, 2025" or "Today")
+ * @param locale - Locale string (e.g., 'en-US', 'es-ES')
+ * @param t - Translation function for "today"/"tomorrow"
+ * @returns Formatted date (e.g., "Jan 15, 2025" or "Today"/"Hoy")
  */
-export function formatDate(dateString: string): string {
+export function formatDate(dateString: string, locale: string = 'en-US', t?: (key: string) => string): string {
   const date = new Date(dateString)
   const today = new Date()
   const tomorrow = new Date(today)
@@ -15,16 +17,16 @@ export function formatDate(dateString: string): string {
 
   // Check if date is today
   if (date.toDateString() === today.toDateString()) {
-    return 'Today'
+    return t ? t('date.today') : 'Today'
   }
 
   // Check if date is tomorrow
   if (date.toDateString() === tomorrow.toDateString()) {
-    return 'Tomorrow'
+    return t ? t('date.tomorrow') : 'Tomorrow'
   }
 
-  // Format as "Mon, Jan 15"
-  return date.toLocaleDateString('en-US', {
+  // Format as "Mon, Jan 15" or "Lun, Ene 15"
+  return date.toLocaleDateString(locale, {
     weekday: 'short',
     month: 'short',
     day: 'numeric',
@@ -34,21 +36,22 @@ export function formatDate(dateString: string): string {
 /**
  * Format a time string
  * @param timeString - Time string (e.g., "18:00:00" or "18:00")
- * @returns Formatted time (e.g., "6:00 PM")
+ * @param locale - Locale string (e.g., 'en-US', 'es-ES')
+ * @returns Formatted time (e.g., "6:00 PM" or "18:00")
  */
-export function formatTime(timeString: string | null | undefined): string {
+export function formatTime(timeString: string | null | undefined, locale: string = 'en-US'): string {
   if (!timeString) return ''
 
-  // Handle both "HH:mm:ss" and "HH:mm" formats
+  // Handle both "HH:mm:ss" and "HH:mm" formats - strip seconds
   const [hours, minutes] = timeString.split(':').map(Number)
 
   const date = new Date()
   date.setHours(hours, minutes, 0)
 
-  return date.toLocaleTimeString('en-US', {
+  return date.toLocaleTimeString(locale, {
     hour: 'numeric',
     minute: '2-digit',
-    hour12: true,
+    hour12: locale.startsWith('en'),
   })
 }
 
@@ -56,14 +59,17 @@ export function formatTime(timeString: string | null | undefined): string {
  * Format date and time together
  * @param dateString - ISO date string
  * @param timeString - Time string
- * @returns Combined formatted string (e.g., "Today at 6:00 PM")
+ * @param locale - Locale string
+ * @param t - Translation function
+ * @returns Combined formatted string (e.g., "Today at 6:00 PM" or "Hoy a las 18:00")
  */
-export function formatDateTime(dateString: string, timeString: string | null | undefined): string {
-  const formattedDate = formatDate(dateString)
-  const formattedTime = timeString ? formatTime(timeString) : ''
+export function formatDateTime(dateString: string, timeString: string | null | undefined, locale: string = 'en-US', t?: (key: string) => string): string {
+  const formattedDate = formatDate(dateString, locale, t)
+  const formattedTime = timeString ? formatTime(timeString, locale) : ''
 
   if (formattedTime) {
-    return `${formattedDate} at ${formattedTime}`
+    const atWord = t ? t('date.at') : 'at'
+    return `${formattedDate} ${atWord} ${formattedTime}`
   }
 
   return formattedDate
@@ -94,9 +100,11 @@ export function isUpcoming(dateString: string): boolean {
 /**
  * Get relative day text
  * @param dateString - ISO date string
- * @returns "Today", "Tomorrow", or number of days
+ * @param locale - Locale string
+ * @param t - Translation function
+ * @returns "Today"/"Hoy", "Tomorrow"/"Mañana", or number of days
  */
-export function getRelativeDay(dateString: string): string {
+export function getRelativeDay(dateString: string, locale: string = 'en-US', t?: (key: string) => string): string {
   const date = new Date(dateString)
   const today = new Date()
   today.setHours(0, 0, 0, 0)
@@ -105,11 +113,11 @@ export function getRelativeDay(dateString: string): string {
   const diffTime = date.getTime() - today.getTime()
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
 
-  if (diffDays === 0) return 'Today'
-  if (diffDays === 1) return 'Tomorrow'
-  if (diffDays > 1 && diffDays <= 7) return `in ${diffDays} days`
+  if (diffDays === 0) return t ? t('date.today') : 'Today'
+  if (diffDays === 1) return t ? t('date.tomorrow') : 'Tomorrow'
+  if (diffDays > 1 && diffDays <= 7) return `in ${diffDays} days` // TODO: localize this
 
-  return formatDate(dateString)
+  return formatDate(dateString, locale, t)
 }
 
 /**

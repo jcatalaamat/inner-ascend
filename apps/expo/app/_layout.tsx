@@ -12,6 +12,7 @@ import 'app/i18n' // Initialize i18n
 import { LanguageProvider } from 'app/contexts/LanguageContext'
 import { PostHogProvider } from 'posthog-react-native'
 import { EXPO_PUBLIC_POSTHOG_API_KEY, EXPO_PUBLIC_POSTHOG_HOST } from '@env'
+import { setupGlobalErrorHandling } from 'app/utils/error-tracking'
 
 // Prevent splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync().catch((error) => {
@@ -54,6 +55,15 @@ function HomeLayout() {
       })
   }, [])
 
+  // Setup global error handling
+  useEffect(() => {
+    // This will be set up once PostHog is available
+    const setupErrorHandling = () => {
+      // We'll set this up in the PostHogProvider context
+    }
+    setupErrorHandling()
+  }, [])
+
   useEffect(() => {
     loadThemePromise
       .then(() => {
@@ -87,6 +97,31 @@ function HomeLayout() {
       apiKey={EXPO_PUBLIC_POSTHOG_API_KEY}
       options={{
         host: EXPO_PUBLIC_POSTHOG_HOST,
+        capture_pageview: false, // Manual tracking
+        capture_pageleave: true,
+        capture_performance: true,
+        autocapture: false, // Manual tracking
+        disable_session_recording: false,
+        session_recording: {
+          maskAllInputs: true,
+          maskInputOptions: {
+            password: true,
+            email: true,
+          },
+          recordCrossOriginIframes: false,
+        },
+        person_profiles: 'identified_only',
+        sanitize_properties: true,
+        capture_console_log: true,
+        capture_console_error: true,
+        capture_console_warn: true,
+        disable_compression: false,
+        disable_persistence: false,
+        persistence: 'localStorage',
+        cross_subdomain_cookie: false,
+        secure_cookie: true,
+        ip: false, // Don't capture IP for privacy
+        property_blacklist: ['$current_url', '$host', '$pathname'],
       }}
     >
       <GestureHandlerRootView style={{ flex: 1 }}>

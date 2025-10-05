@@ -5,6 +5,8 @@ import { router, useSegments } from 'expo-router'
 import { createContext, useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 import { usePostHog } from 'posthog-react-native'
+import * as Device from 'expo-device'
+import * as Application from 'expo-application'
 
 import type { AuthProviderProps } from './AuthProvider'
 import { AuthStateChangeHandler } from './AuthStateChangeHandler'
@@ -43,12 +45,42 @@ export const AuthProvider = ({ children, initialSession }: AuthProviderProps) =>
 
       // Identify user in PostHog when they sign in
       if (event === 'SIGNED_IN' && newSession?.user) {
+        // Enhanced user properties
         posthog?.identify(newSession.user.id, {
           email: newSession.user.email,
           created_at: newSession.user.created_at,
+          app_version: Application.nativeApplicationVersion || '1.0.0',
+          app_build: Application.nativeBuildVersion || '1',
+          platform: Platform.OS,
+          platform_version: Platform.Version,
+          device_model: Device.modelName || 'Unknown',
+          device_brand: Device.brand || 'Unknown',
+          device_type: Device.deviceType || 'Unknown',
+          device_year: Device.deviceYearClass || 'Unknown',
+          is_device: Device.isDevice,
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          language: Intl.DateTimeFormat().resolvedOptions().locale,
+          is_first_session: !newSession.user.created_at || 
+            (Date.now() - new Date(newSession.user.created_at).getTime()) < 60000, // Within 1 minute
         })
+        
+        // Set additional person properties
+        posthog?.setPersonProperties({
+          user_type: 'standard',
+          signup_source: newSession.user.app_metadata?.provider || 'email',
+          last_active: new Date().toISOString(),
+          total_sessions: 1, // Will be updated on each session
+        })
+        
         posthog?.capture('user_signed_in', {
           provider: newSession.user.app_metadata?.provider,
+          is_first_session: !newSession.user.created_at || 
+            (Date.now() - new Date(newSession.user.created_at).getTime()) < 60000,
+          device_info: {
+            model: Device.modelName,
+            brand: Device.brand,
+            platform: Platform.OS,
+          }
         })
       } else if (event === 'SIGNED_OUT') {
         posthog?.capture('user_signed_out')

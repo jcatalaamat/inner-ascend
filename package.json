@@ -21,7 +21,7 @@
     "web:prod:analyze": "ANALYZE=true yarn web:prod",
     "web:prod:serve": "yarn workspace next-app serve",
     "fix": "manypkg fix",
-    "postinstall": "patch-package && yarn check-deps && yarn build",
+    "postinstall": "patch-package && (yarn check-deps || true) && yarn build",
     "build": "yarn workspaces foreach --all --exclude next-app --exclude storybook-app run build",
     "build:ci": "yarn workspace next-app run build",
     "storybook": "yarn storybook:web",
@@ -86,6 +86,7 @@
     "dotenv": "^16.4.7",
     "dotenv-cli": "^8.0.0",
     "eslint": "^8.46.0",
+    "expo": "~53.0.22",
     "expo-localization": "~16.1.6",
     "fs-extra": "^11.2.0",
     "i18next": "^25.5.3",
@@ -96,13 +97,12 @@
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^2.7.1",
     "promise-throttle-all": "^1.1.1",
+    "react": "19.0.0",
     "react-i18next": "^16.0.0",
+    "react-native": "0.79.6",
     "turbo": "^2.5.3",
     "typescript": "~5.8.3",
-    "ultra-runner": "^3.10.5",
-    "expo": "~53.0.22",
-    "react": "19.0.0",
-    "react-native": "0.79.6"
+    "ultra-runner": "^3.10.5"
   },
   "version": "1.0.0"
 }

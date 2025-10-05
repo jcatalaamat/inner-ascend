@@ -6,8 +6,8 @@ import { useSupabase } from 'app/utils/supabase/useSupabase'
 import { useUser } from 'app/utils/useUser'
 import { z } from 'zod'
 import { useTranslation } from 'react-i18next'
-import { UploadImage } from 'app/components/UploadImage'
-import { useState } from 'react'
+import { UploadImage, type UploadImageRef } from 'app/components/UploadImage'
+import { useRef } from 'react'
 
 type InsertPlace = Database['public']['Tables']['places']['Insert']
 
@@ -17,7 +17,7 @@ export const CreatePlaceForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const supabase = useSupabase()
   const queryClient = useQueryClient()
   const { t } = useTranslation()
-  const [imageUrl, setImageUrl] = useState<string>('')
+  const imageUploadRef = useRef<UploadImageRef>(null)
 
   const CreatePlaceFormSchema = z.object({
     name: formFields.text.min(3).describe(`${t('create.place_form.name')} // Place name`),
@@ -37,6 +37,7 @@ export const CreatePlaceForm = ({ onSuccess }: { onSuccess: () => void }) => {
     },
 
     async mutationFn(data: z.infer<typeof CreatePlaceFormSchema>) {
+      const uploadedImageUrl = imageUploadRef.current?.getImageUrl()
       const insertData: InsertPlace = {
         name: data.name.trim(),
         type: data.type,
@@ -50,7 +51,7 @@ export const CreatePlaceForm = ({ onSuccess }: { onSuccess: () => void }) => {
         contact_instagram: data.contact_instagram?.trim() || null,
         website_url: data.website_url?.trim() || null,
         eco_conscious: data.eco_conscious || false,
-        images: imageUrl ? [imageUrl] : null,
+        images: uploadedImageUrl ? [uploadedImageUrl] : null,
         created_by: user?.id,
       }
       await supabase.from('places').insert(insertData)
@@ -112,9 +113,8 @@ export const CreatePlaceForm = ({ onSuccess }: { onSuccess: () => void }) => {
           <YStack gap="$3" py="$4" px="$4" width="100%" maxWidth={480} alignSelf="center">
             {/* Image Upload */}
             <UploadImage
+              ref={imageUploadRef}
               bucketName="place-images"
-              onUploadComplete={setImageUrl}
-              initialImageUrl={imageUrl}
               aspectRatio={[16, 9]}
             />
 

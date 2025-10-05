@@ -6,8 +6,8 @@ import { useSupabase } from 'app/utils/supabase/useSupabase'
 import { useUser } from 'app/utils/useUser'
 import { z } from 'zod'
 import { useTranslation } from 'react-i18next'
-import { UploadImage } from 'app/components/UploadImage'
-import { useState } from 'react'
+import { UploadImage, type UploadImageRef } from 'app/components/UploadImage'
+import { useRef } from 'react'
 
 type InsertEvent = Database['public']['Tables']['events']['Insert']
 
@@ -17,7 +17,7 @@ export const CreateEventForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const supabase = useSupabase()
   const queryClient = useQueryClient()
   const { t } = useTranslation()
-  const [imageUrl, setImageUrl] = useState<string>('')
+  const imageUploadRef = useRef<UploadImageRef>(null)
 
   // Simplified schema - only essential fields
   const CreateEventFormSchema = z.object({
@@ -56,7 +56,7 @@ export const CreateEventForm = ({ onSuccess }: { onSuccess: () => void }) => {
         organizer_name: data.organizer_name?.trim() || null,
         contact_whatsapp: data.contact_whatsapp?.trim() || null,
         contact_instagram: data.contact_instagram?.trim() || null,
-        image_url: imageUrl || null,
+        image_url: imageUploadRef.current?.getImageUrl() || null,
         profile_id: user?.id,
       }
       await supabase.from('events').insert(insertData)
@@ -112,9 +112,8 @@ export const CreateEventForm = ({ onSuccess }: { onSuccess: () => void }) => {
           <YStack gap="$3" py="$4" px="$4" width="100%" maxWidth={480} alignSelf="center">
             {/* Image Upload */}
             <UploadImage
+              ref={imageUploadRef}
               bucketName="event-images"
-              onUploadComplete={setImageUrl}
-              initialImageUrl={imageUrl}
               aspectRatio={[16, 9]}
             />
 

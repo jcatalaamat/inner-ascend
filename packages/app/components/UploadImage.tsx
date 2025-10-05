@@ -3,24 +3,31 @@ import { Upload, X } from '@tamagui/lucide-icons'
 import { useSupabase } from 'app/utils/supabase/useSupabase'
 import { decode } from 'base64-arraybuffer'
 import * as ImagePicker from 'expo-image-picker'
-import { useState } from 'react'
+import { useState, useImperativeHandle, forwardRef } from 'react'
 
 type UploadImageProps = {
   bucketName: 'event-images' | 'place-images'
-  onUploadComplete?: (url: string) => void
   initialImageUrl?: string | null
   aspectRatio?: [number, number]
 }
 
-export const UploadImage = ({
+export type UploadImageRef = {
+  getImageUrl: () => string | null
+}
+
+export const UploadImage = forwardRef<UploadImageRef, UploadImageProps>(({
   bucketName,
-  onUploadComplete,
   initialImageUrl,
   aspectRatio = [16, 9],
-}: UploadImageProps) => {
+}, ref) => {
   const supabase = useSupabase()
   const [imageUrl, setImageUrl] = useState<string | null>(initialImageUrl || null)
   const [uploading, setUploading] = useState(false)
+
+  // Expose getImageUrl method to parent via ref
+  useImperativeHandle(ref, () => ({
+    getImageUrl: () => imageUrl,
+  }))
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -72,7 +79,6 @@ export const UploadImage = ({
 
       const publicUrl = publicUrlRes.data.publicUrl
       setImageUrl(publicUrl)
-      onUploadComplete?.(publicUrl)
     } catch (e) {
       console.error('Upload failed:', e)
       alert('Upload failed. Please try again.')
@@ -83,7 +89,6 @@ export const UploadImage = ({
 
   const removeImage = () => {
     setImageUrl(null)
-    onUploadComplete?.('')
   }
 
   return (
@@ -130,4 +135,4 @@ export const UploadImage = ({
       )}
     </YStack>
   )
-}
+})

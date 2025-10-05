@@ -9,23 +9,36 @@ export function AppleSignIn() {
   const router = useRouter()
   async function signInWithApple() {
     try {
+      console.log('[AppleSignIn] Starting Apple Sign-In flow...')
       const { token, nonce } = await initiateAppleSignIn()
-      const { error } = await supabase.auth.signInWithIdToken({
+      console.log('[AppleSignIn] Got Apple credentials, signing in with Supabase...')
+
+      const { data, error } = await supabase.auth.signInWithIdToken({
         provider: 'apple',
         token,
         nonce,
       })
-      if (!error) router.replace('/')
-      if (error) throw error
+
+      console.log('[AppleSignIn] Supabase response:', { data, error })
+
+      if (error) {
+        console.error('[AppleSignIn] Supabase auth error:', error)
+        throw error
+      }
+
+      if (data?.session) {
+        console.log('[AppleSignIn] Sign-in successful, redirecting...')
+        router.replace('/')
+      }
     } catch (e) {
       if (e instanceof Error && 'code' in e) {
         if (e.code === 'ERR_REQUEST_CANCELED') {
-          // handle if the user canceled the sign-in flow
+          console.log('[AppleSignIn] User canceled the sign-in flow')
         } else {
-          // handle any other errors
+          console.error('[AppleSignIn] Error with code:', e.code, e)
         }
       } else {
-        console.error('Unexpected error from Apple SignIn: ', e)
+        console.error('[AppleSignIn] Unexpected error:', e)
       }
     }
   }

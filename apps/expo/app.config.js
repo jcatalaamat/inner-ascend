@@ -26,6 +26,8 @@ export default {
       buildNumber: '7',
       infoPlist: {
         ITSAppUsesNonExemptEncryption: false,
+        "NSBluetoothAlwaysUsageDescription": "This app uses Bluetooth for nearby device verification during sign-in.",
+        "NSBluetoothPeripheralUsageDescription": "Bluetooth is used to discover and connect to nearby devices for sign-in flow if needed."
       },
     },
     android: {
@@ -66,14 +68,13 @@ export default {
           photosPermission: 'The app accesses your photos to let you share them with your friends.',
         },
       ],
-      // COMMENTED OUT: Google Sign-In functionality
-      // [
-      //   '@react-native-google-signin/google-signin',
-      //   {
-      //     // https://react-native-google-signin.github.io/docs/setting-up/expo
-      //     iosUrlScheme: process.env.GOOGLE_IOS_SCHEME || 'com.googleusercontent.apps.571497840649-tqcs8mtqtnrkorj0iagsktomose67k5q',
-      //   },
-      // ],
+      [
+        '@react-native-google-signin/google-signin',
+        {
+          // https://react-native-google-signin.github.io/docs/setting-up/expo
+          iosUrlScheme: process.env.GOOGLE_IOS_SCHEME || 'com.googleusercontent.apps.571497840649-tqcs8mtqtnrkorj0iagsktomose67k5q',
+        },
+      ],
       'expo-apple-authentication',
       'expo-router',
       'expo-build-properties',

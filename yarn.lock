@@ -5062,6 +5062,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-google-signin/google-signin@npm:^16.0.0":
+  version: 16.0.0
+  resolution: "@react-native-google-signin/google-signin@npm:16.0.0"
+  peerDependencies:
+    expo: ">=52.0.40"
+    react: "*"
+    react-native: "*"
+  peerDependenciesMeta:
+    expo:
+      optional: true
+  checksum: 10/777808a3f4d6beb0d85b8bd465b4fee9aabb9c7cfd66cfbc3541f59a102036ec261e47832845aba78e1891de70df900fa79ea01fbf0cec610473e8d99ef78370
+  languageName: node
+  linkType: hard
+
 "@react-native/assets-registry@npm:0.79.5":
   version: 0.79.5
   resolution: "@react-native/assets-registry@npm:0.79.5"
@@ -15616,6 +15630,7 @@ __metadata:
     "@my/ui": "npm:*"
     "@react-native-async-storage/async-storage": "npm:^2.2.0"
     "@react-native-community/netinfo": "npm:11.4.1"
+    "@react-native-google-signin/google-signin": "npm:^16.0.0"
     "@sentry/react-native": "npm:~6.14.0"
     "@tamagui/babel-plugin": "npm:^1.132.7"
     app: "npm:*"

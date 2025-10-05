@@ -26,6 +26,8 @@ import { FlatList, Alert } from 'react-native'
 import { router } from 'expo-router'
 import { useFavoritesQuery } from 'app/utils/react-query/useFavoritesQuery'
 import { useTranslation } from 'react-i18next'
+import { Cog } from '@tamagui/lucide-icons'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { api } from '../../utils/api'
 import { UploadAvatar } from '../settings/components/upload-avatar'
@@ -54,6 +56,7 @@ const EditProfileForm = ({
   const solitoRouter = useRouter()
   const apiUtils = api.useUtils()
   const { t } = useTranslation()
+  const insets = useSafeAreaInsets()
 
   const ProfileSchema = z.object({
     name: formFields.text.describe(`${t('profile.name')} // John Doe`),
@@ -105,8 +108,15 @@ const EditProfileForm = ({
     <FormWrapper>
       <FormWrapper.Body>
         <YStack gap="$4">
+          {/* Settings Button - Top Right */}
+          <XStack pos='absolute' right="0" zIndex={10} jc="flex-end">
+            <Button circular onPress={handleSettings}>
+              <Cog size={28} />
+            </Button>
+          </XStack>
+
           {/* Avatar */}
-          <YStack ai="center" jc="center" mt="$4">
+          <YStack ai="center" jc="center">
             <UploadAvatar>
               <UserAvatar />
             </UploadAvatar>

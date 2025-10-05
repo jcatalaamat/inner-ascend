@@ -1,5 +1,5 @@
-import { Paragraph, ScrollView, Separator, Settings, YStack, isWeb, useMedia } from '@my/ui'
-import { Book, Cog, Info, Lock, LogOut, Mail, Moon, Smartphone, Twitter } from '@tamagui/lucide-icons'
+import { Paragraph, ScrollView, Separator, Settings, YStack, isWeb, useMedia, useToastController } from '@my/ui'
+import { Book, Cog, Info, Lock, LogOut, Mail, Moon, Smartphone, Twitter, MessageCircle, Instagram } from '@tamagui/lucide-icons'
 import { useThemeSetting } from 'app/provider/theme'
 import { redirect } from 'app/utils/redirect'
 import { useSupabase } from 'app/utils/supabase/useSupabase'
@@ -7,6 +7,7 @@ import { usePathname } from 'app/utils/usePathname'
 import { useLink } from 'solito/link'
 import { LanguageSwitcher } from 'app/components/LanguageSwitcher'
 import { useTranslation } from 'react-i18next'
+import { Linking } from 'react-native'
 
 
 export const SettingsScreen = () => {
@@ -71,19 +72,13 @@ export const SettingsScreen = () => {
                   {t('settings.about')}
                 </Settings.Item>
               )}
-                      <Settings.Item icon={Smartphone} {...useLink({ href: '/settings/device-info' })} accentTheme="purple">
-                        {t('settings.device_information')}
-                      </Settings.Item>
+              <Settings.Item icon={Smartphone} {...useLink({ href: '/settings/device-info' })} accentTheme="purple">
+                {t('settings.device_information')}
+              </Settings.Item>
             </Settings.Group>
             {isWeb && <Separator boc="$color3" mx="$-4" bw="$0.25" />}
             <Settings.Group>
-              {/* <Settings.Item
-                icon={Twitter}
-                onPress={() => redirect('https://twitter.com/tamagui_js')}
-                accentTheme="blue"
-              >
-                Our Twitter
-              </Settings.Item> */}
+              <SettingsHelpSupportItems />
             </Settings.Group>
             {isWeb && <Separator boc="$color3" mx="$-4" bw="$0.25" />}
             <Settings.Group>
@@ -109,6 +104,59 @@ const SettingsThemeAction = () => {
   )
 }
 
+
+const SettingsHelpSupportItems = () => {
+  const { t } = useTranslation()
+  const toast = useToastController()
+
+  const handleContactPress = async (url: string, fallbackMessage: string) => {
+    try {
+      const canOpen = await Linking.canOpenURL(url)
+      if (canOpen) {
+        await Linking.openURL(url)
+      } else {
+        toast.show(fallbackMessage, { duration: 5000 })
+      }
+    } catch (error) {
+      toast.show(fallbackMessage, { duration: 5000 })
+    }
+  }
+
+  const handleWhatsAppPress = () => {
+    handleContactPress(
+      'https://wa.me/34611144170?text=Hi!%20I%27d%20like%20to%20share%20feedback%20about%20Mazunte%20Connect',
+      t('settings.contact_unavailable_whatsapp')
+    )
+  }
+
+  const handleInstagramPress = () => {
+    handleContactPress(
+      'https://instagram.com/astralintegration',
+      t('settings.contact_unavailable_instagram')
+    )
+  }
+
+  const handleEmailPress = () => {
+    handleContactPress(
+      'mailto:support@mazunteconnect.com?subject=Mazunte%20Connect%20-%20Feedback',
+      t('settings.contact_unavailable_email')
+    )
+  }
+
+  return (
+    <>
+      <Settings.Item icon={MessageCircle} onPress={handleWhatsAppPress} accentTheme="green">
+        {t('settings.contact_whatsapp')}
+      </Settings.Item>
+      <Settings.Item icon={Instagram} onPress={handleInstagramPress} accentTheme="purple">
+        {t('settings.contact_instagram')}
+      </Settings.Item>
+      <Settings.Item icon={Mail} onPress={handleEmailPress} accentTheme="blue">
+        {t('settings.contact_email')}
+      </Settings.Item>
+    </>
+  )
+}
 
 const SettingsItemLogoutAction = () => {
   const supabase = useSupabase()

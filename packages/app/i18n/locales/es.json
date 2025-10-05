@@ -211,7 +211,14 @@
     "theme": "Tema",
     "language": "Idioma",
     "log_out": "Cerrar Sesión",
-    "device_information": "Información del Dispositivo"
+    "device_information": "Información del Dispositivo",
+    "help_support": "Ayuda y Soporte",
+    "contact_whatsapp": "Contáctanos por WhatsApp",
+    "contact_instagram": "Envíanos mensaje en Instagram",
+    "contact_email": "Envíanos un Email",
+    "contact_unavailable_whatsapp": "WhatsApp no disponible. Contáctanos al +34 611 144 170",
+    "contact_unavailable_instagram": "Instagram no disponible. Encuéntranos en @astralintegration",
+    "contact_unavailable_email": "Email no configurado. Contáctanos en support@mazunteconnect.com"
   },
   "device_info": {
     "title": "Información del Dispositivo",

@@ -5027,17 +5027,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-async-storage/async-storage@npm:^2.2.0":
-  version: 2.2.0
-  resolution: "@react-native-async-storage/async-storage@npm:2.2.0"
-  dependencies:
-    merge-options: "npm:^3.0.4"
-  peerDependencies:
-    react-native: ^0.0.0-0 || >=0.65 <1.0
-  checksum: 10/625e42134f0c487acfd4ba9b3ba182e6f6f29581485004cc658850ef024372cdb7381b7399393f4416fda39df2d822e3008427d7671d635a7363f9a65430a2dd
-  languageName: node
-  linkType: hard
-
 "@react-native-community/datetimepicker@npm:8.3.0":
   version: 8.3.0
   resolution: "@react-native-community/datetimepicker@npm:8.3.0"
@@ -19652,7 +19641,7 @@ __metadata:
     "@my/api": "npm:*"
     "@my/supabase": "npm:*"
     "@my/ui": "npm:*"
-    "@react-native-async-storage/async-storage": "npm:^2.2.0"
+    "@react-native-async-storage/async-storage": "npm:2.1.2"
     "@rehookify/datepicker": "npm:^6.6.6"
     "@supabase/auth-helpers-nextjs": "npm:^0.10.0"
     "@supabase/auth-helpers-react": "npm:^0.5.0"
@@ -19696,7 +19685,7 @@ __metadata:
     "@babel/runtime": "npm:^7.18.9"
     "@manypkg/cli": "npm:^0.19.1"
     "@nderscore/tamagui-typescript-plugin": "npm:^0.6.0"
-    "@react-native-async-storage/async-storage": "npm:^2.2.0"
+    "@react-native-async-storage/async-storage": "npm:2.1.2"
     "@react-navigation/drawer": "npm:^6.6.15"
     "@sentry/core": "npm:^10.17.0"
     "@sentry/react": "npm:^10.17.0"
@@ -25393,7 +25382,7 @@ __metadata:
     "@expo/vector-icons": "npm:^14.1.0"
     "@gorhom/bottom-sheet": "npm:^5.1.6"
     "@my/ui": "npm:*"
-    "@react-native-async-storage/async-storage": "npm:^2.2.0"
+    "@react-native-async-storage/async-storage": "npm:2.1.2"
     "@react-native-community/datetimepicker": "npm:8.3.0"
     "@react-native-community/slider": "npm:4.5.6"
     "@storybook/addon-actions": "npm:8.6.4"

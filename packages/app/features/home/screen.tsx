@@ -25,6 +25,7 @@ import { Greetings } from './components/greetings'
 import { NextWeekEventsSection } from './components/next-week-events-section'
 import { ThisWeekEventsSection } from './components/this-week-events-section'
 import { ThisWeekendEventsSection } from './components/this-weekend-events-section'
+import { ScreenWrapper } from 'app/components/ScreenWrapper'
 
 export function HomeScreen() {
   const { user, isPending } = useUser()
@@ -39,27 +40,29 @@ export function HomeScreen() {
   if (!user) return null
 
   return (
-    <XStack maw={1480} als="center" f={1}>
-      <ScrollView f={4} fb={0}>
-        <ScrollToTopTabBarContainer>
-          <XStack ai="center" jc="space-between">
-            <Greetings />
-            {isWeb && <EventDrawer />}
-          </XStack>
-          <YStack gap="$7" pb="$10">
-            <ThisWeekEventsSection />
-            <ThisWeekendEventsSection />
-            <NextWeekEventsSection />
-          </YStack>
-        </ScrollToTopTabBarContainer>
-      </ScrollView>
+    <ScreenWrapper>
+      <XStack maw={1480} als="center" f={1}>
+        <ScrollView f={4} fb={0}>
+          <ScrollToTopTabBarContainer>
+            <XStack ai="center" jc="space-between">
+              <Greetings />
+              {isWeb && <EventDrawer />}
+            </XStack>
+            <YStack gap="$7" pb="$10">
+              <ThisWeekEventsSection />
+              <ThisWeekendEventsSection />
+              <NextWeekEventsSection />
+            </YStack>
+          </ScrollToTopTabBarContainer>
+        </ScrollView>
 
-      {isWeb && (
-        <View $lg={{ dsp: 'none' }}>
-          <EventCards />
-        </View>
-      )}
-    </XStack>
+        {isWeb && (
+          <View $lg={{ dsp: 'none' }}>
+            <EventCards />
+          </View>
+        )}
+      </XStack>
+    </ScreenWrapper>
   )
 }
 

@@ -37,7 +37,8 @@ export default function Layout() {
       <Stack.Screen
         options={{
           title: t('app.title'),
-          headerShown: pathname === '/' || pathname === '/create',
+          headerShown: false,
+          // headerShown: pathname === '/' || pathname === '/create',
           headerTintColor: accentColor.val,
           headerLeft: () => (
             <Button

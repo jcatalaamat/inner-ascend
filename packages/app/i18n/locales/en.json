@@ -188,6 +188,8 @@
     "edit_profile": "Edit Profile",
     "name": "Name",
     "about": "About",
+    "name_placeholder": "John Doe",
+    "about_placeholder": "Tell us a bit about yourself",
     "update_profile": "Update Profile",
     "update_success": "Profile updated successfully!",
     "settings": "Settings",

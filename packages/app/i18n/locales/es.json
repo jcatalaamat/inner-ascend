@@ -188,6 +188,8 @@
     "edit_profile": "Editar Perfil",
     "name": "Nombre",
     "about": "Acerca de",
+    "name_placeholder": "Juan Pérez",
+    "about_placeholder": "Cuéntanos un poco sobre ti",
     "update_profile": "Actualizar Perfil",
     "update_success": "¡Perfil actualizado exitosamente!",
     "settings": "Configuración",

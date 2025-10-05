@@ -59,8 +59,8 @@ const EditProfileForm = ({
   const insets = useSafeAreaInsets()
 
   const ProfileSchema = z.object({
-    name: formFields.text.describe(`${t('profile.name')} // John Doe`),
-    about: formFields.textarea.describe(`${t('profile.about')} // Tell us a bit about yourself`),
+    name: formFields.text.describe(`${t('profile.name')} // ${t('profile.name_placeholder')}`),
+    about: formFields.textarea.describe(`${t('profile.about')} // ${t('profile.about_placeholder')}`),
   })
   const mutation = useMutation({
     async mutationFn(data: z.infer<typeof ProfileSchema>) {

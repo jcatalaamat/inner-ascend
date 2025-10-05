@@ -105,13 +105,13 @@ export function PlaceDetailScreen({ id }: PlaceDetailScreenProps) {
   const handleShare = async () => {
     if (!place) return
 
-    const shareContent = {
-      title: place.name,
-      message: `${place.name}\n\n${place.description}\n\n${place.location_name}`,
-      url: Platform.OS === 'ios' ? `https://mazunteconnect.com/place/${place.id}` : undefined,
-    }
-
     try {
+      const shareContent = {
+        title: place.name,
+        message: `${place.name}\n\n${place.description || 'Check out this place in Mazunte!'}\n\n${place.location_name || 'Mazunte, Oaxaca'}`,
+        url: Platform.OS === 'ios' ? `https://mazunteconnect.com/place/${place.id}` : undefined,
+      }
+
       await Share.share(shareContent)
       posthog?.capture('place_shared', {
         place_id: place.id,

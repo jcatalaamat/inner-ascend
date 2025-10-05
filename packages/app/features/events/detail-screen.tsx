@@ -83,17 +83,51 @@ export function EventDetailScreen({ id }: EventDetailScreenProps) {
   const handleShare = async () => {
     if (!event) return
 
-    const shareContent = {
-      title: event.name,
-      message: `${event.name}\n\n${event.description}\n\n${formatDate(event.start_time, i18n.language)} at ${formatTime(event.start_time, i18n.language)}\n${event.location_name}`,
-      url: Platform.OS === 'ios' ? `https://mazunteconnect.com/event/${event.id}` : undefined,
-    }
-
     try {
+      // Debug: Log the event data
+      console.log('Event data for sharing:', {
+        title: event.title,
+        date: event.date,
+        time: event.time,
+        description: event.description,
+        location_name: event.location_name
+      })
+
+      // Format date and time safely using the correct fields
+      let eventDate = 'Date TBD'
+      let eventTime = 'Time TBD'
+      
+      if (event.date) {
+        try {
+          eventDate = formatDate(event.date, i18n.language === 'es' ? 'es-ES' : 'en-US', t) || 'Date TBD'
+        } catch (error) {
+          console.log('Date formatting error:', error)
+          eventDate = new Date(event.date).toLocaleDateString(i18n.language)
+        }
+      }
+      
+      if (event.time) {
+        try {
+          eventTime = formatTime(event.time, i18n.language === 'es' ? 'es-ES' : 'en-US') || 'Time TBD'
+        } catch (error) {
+          console.log('Time formatting error:', error)
+          eventTime = new Date(`2000-01-01T${event.time}`).toLocaleTimeString(i18n.language, { 
+            hour: '2-digit', 
+            minute: '2-digit' 
+          })
+        }
+      }
+      
+      const shareContent = {
+        title: event.title || 'Event',
+        message: `${event.title || 'Event'}\n\n${event.description || 'Join us for this event!'}\n\n${eventDate} at ${eventTime}\n${event.location_name || 'Location TBD'}`,
+        url: Platform.OS === 'ios' ? `https://mazunteconnect.com/event/${event.id}` : undefined,
+      }
+
       await Share.share(shareContent)
       posthog?.capture('event_shared', {
         event_id: event.id,
-        event_name: event.name,
+        event_name: event.title,
       })
     } catch (error) {
       console.error('Error sharing event:', error)

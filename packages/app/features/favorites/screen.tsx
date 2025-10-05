@@ -67,30 +67,51 @@ export function FavoritesScreen() {
 
   return (
     <ScreenWrapper>
-      <XStack w="100%" bg="$background" borderBottomWidth={1} borderBottomColor="$borderColor">
-        <Button
-          f={1}
-          variant={activeTab === 'events' ? 'outlined' : undefined}
-          onPress={() => {
-            setActiveTab('events')
-            posthog?.capture('favorites_tab_changed', { tab: 'events' })
-          }}
-          borderRadius={0}
+      {/* Switcher with map screen style */}
+      <YStack 
+        bg="$background" 
+        borderBottomWidth={1} 
+        borderBottomColor="$borderColor"
+        px="$4"
+        py="$2"
+      >
+        <XStack 
+          w="100%" 
+          bg="$color3" 
+          borderRadius="$3"
+          p="$1"
+          gap="$1"
         >
-          <Text>{t('favorites.events')} ({favoriteEvents.length})</Text>
-        </Button>
-        <Button
-          f={1}
-          variant={activeTab === 'places' ? 'outlined' : undefined}
-          onPress={() => {
-            setActiveTab('places')
-            posthog?.capture('favorites_tab_changed', { tab: 'places' })
-          }}
-          borderRadius={0}
-        >
-          <Text>{t('favorites.places')} ({favoritePlaces.length})</Text>
-        </Button>
-      </XStack>
+          <Button
+            size="$2"
+            variant={activeTab === 'events' ? 'outlined' : undefined}
+            onPress={() => {
+              setActiveTab('events')
+              posthog?.capture('favorites_tab_changed', { tab: 'events' })
+            }}
+            f={1}
+            borderRadius="$2"
+          >
+            <Text fontSize="$3" fontWeight={activeTab === 'events' ? '600' : '400'}>
+              {t('favorites.events')}
+            </Text>
+          </Button>
+          <Button
+            size="$2"
+            variant={activeTab === 'places' ? 'outlined' : undefined}
+            onPress={() => {
+              setActiveTab('places')
+              posthog?.capture('favorites_tab_changed', { tab: 'places' })
+            }}
+            f={1}
+            borderRadius="$2"
+          >
+            <Text fontSize="$3" fontWeight={activeTab === 'places' ? '600' : '400'}>
+              {t('favorites.places')}
+            </Text>
+          </Button>
+        </XStack>
+      </YStack>
 
       {activeTab === 'events' && (
         <FlatList

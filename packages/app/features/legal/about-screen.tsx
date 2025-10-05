@@ -29,15 +29,11 @@ export const AboutScreen = () => {
       </Paragraph>
 
       <Paragraph>
-        <Text fontWeight="bold">{t('about.get_involved')}</Text> Have an event to share? Know a great place 
-        others should discover? Want to connect with like-minded people? Join our community and 
-        help make Mazunte an even more connected and vibrant place to live and visit.
+        <Text fontWeight="bold">{t('about.get_involved')}</Text> {t('about.get_involved_text')}
       </Paragraph>
 
       <Paragraph>
-        <Text fontWeight="bold">Contact Us:</Text> Questions, suggestions, or want to get involved? 
-        Reach out to us at hello@mazunteconnect.com or connect with us through the app. We'd love 
-        to hear from you!
+        <Text fontWeight="bold">{t('about.contact_us')}</Text> {t('about.contact_us_text')}
       </Paragraph>
       </YStack>
     </ScrollView>

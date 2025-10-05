@@ -3,33 +3,35 @@ import { SchemaForm, formFields } from 'app/utils/SchemaForm'
 import { useSupabase } from 'app/utils/supabase/useSupabase'
 import { useRouter } from 'solito/router'
 import { z } from 'zod'
-
-const ChangePasswordSchema = z
-  .object({
-    password: formFields.text.min(6).describe('New Password // Enter your new password'),
-    passwordConfirm: formFields.text.min(6).describe('Confirm Password // Repeat your password'),
-  })
-  .superRefine(({ passwordConfirm, password }, ctx) => {
-    if (passwordConfirm !== password) {
-      ctx.addIssue({
-        path: ['passwordConfirm'],
-        code: 'custom',
-        message: 'The passwords did not match',
-      })
-    }
-  })
+import { useTranslation } from 'react-i18next'
 
 export const ChangePasswordScreen = () => {
+  const { t } = useTranslation()
   const supabase = useSupabase()
   const toast = useToastController()
   const router = useRouter()
+
+  const ChangePasswordSchema = z
+    .object({
+      password: formFields.text.min(6).describe(`${t('settings.new_password')} // ${t('settings.new_password_placeholder')}`),
+      passwordConfirm: formFields.text.min(6).describe(`${t('settings.confirm_password')} // ${t('settings.confirm_password_placeholder')}`),
+    })
+    .superRefine(({ passwordConfirm, password }, ctx) => {
+      if (passwordConfirm !== password) {
+        ctx.addIssue({
+          path: ['passwordConfirm'],
+          code: 'custom',
+          message: t('settings.passwords_no_match'),
+        })
+      }
+    })
 
   const handleChangePassword = async ({ password }: z.infer<typeof ChangePasswordSchema>) => {
     const { error } = await supabase.auth.updateUser({ password })
     if (error) {
       toast.show(error.message)
     } else {
-      toast.show('Successfully updated!')
+      toast.show(t('settings.successfully_updated'))
       if (!isWeb) {
         router.back()
       }
@@ -56,13 +58,13 @@ export const ChangePasswordScreen = () => {
         renderBefore={() =>
           isWeb && (
             <YStack px="$4" py="$4" pb="$2">
-              <H2>Change Password</H2>
+              <H2>{t('settings.change_password')}</H2>
             </YStack>
           )
         }
         renderAfter={({ submit }) => (
           <Theme inverse>
-            <SubmitButton onPress={() => submit()}>Update Password</SubmitButton>
+            <SubmitButton onPress={() => submit()}>{t('settings.update_password')}</SubmitButton>
           </Theme>
         )}
       />

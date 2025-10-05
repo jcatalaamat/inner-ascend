@@ -27,7 +27,7 @@ export function LanguageSwitcher() {
       onPress={toggleLanguage} 
       rightLabel={currentLanguageName}
     >
-      Language
+      {t('settings.language')}
     </Settings.Item>
   )
 }

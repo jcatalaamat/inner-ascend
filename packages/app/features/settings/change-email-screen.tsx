@@ -15,24 +15,26 @@ import { useSupabase } from 'app/utils/supabase/useSupabase'
 import { useUser } from 'app/utils/useUser'
 import { useRouter } from 'solito/router'
 import { z } from 'zod'
-
-const ChangeEmailSchema = z.object({
-  email: formFields.text.email().describe('New Email // email@address.com'),
-})
+import { useTranslation } from 'react-i18next'
 
 export const ChangeEmailScreen = () => {
+  const { t } = useTranslation()
   const { user } = useUser()
   const supabase = useSupabase()
   const toast = useToastController()
   const router = useRouter()
+  
+  const ChangeEmailSchema = z.object({
+    email: formFields.text.email().describe(`${t('settings.new_email')} // ${t('settings.new_email_placeholder')}`),
+  })
 
   const handleChangePassword = async ({ email }: z.infer<typeof ChangeEmailSchema>) => {
     const { data, error } = await supabase.auth.updateUser({ email })
     if (error) {
       toast.show(error.message)
     } else {
-      toast.show('Check your inbox', {
-        message: `We sent you a confirmation email to ${data.user.new_email}.`,
+      toast.show(t('settings.check_inbox'), {
+        message: `${t('settings.confirmation_email_sent')} ${data.user.new_email}.`,
       })
       router.back()
       if (!isWeb) {
@@ -49,7 +51,7 @@ export const ChangeEmailScreen = () => {
         renderBefore={() =>
           isWeb && (
             <YStack px="$4" py="$4" pb="$2">
-              <H2>Change Email</H2>
+              <H2>{t('settings.change_email')}</H2>
             </YStack>
           )
         }
@@ -58,7 +60,7 @@ export const ChangeEmailScreen = () => {
         }}
         renderAfter={({ submit }) => (
           <Theme inverse>
-            <SubmitButton onPress={() => submit()}>Update Email</SubmitButton>
+            <SubmitButton onPress={() => submit()}>{t('settings.update_email')}</SubmitButton>
           </Theme>
         )}
       >
@@ -66,7 +68,7 @@ export const ChangeEmailScreen = () => {
           <>
             <Fieldset>
               <Label theme="alt1" size="$3" htmlFor="current-email">
-                Current Email
+                {t('settings.current_email')}
               </Label>
               <Input
                 keyboardType="email-address"

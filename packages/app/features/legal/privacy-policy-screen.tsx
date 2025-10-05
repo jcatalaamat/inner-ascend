@@ -1,51 +1,41 @@
 import { H1, Paragraph, YStack, isWeb, Text } from '@my/ui'
 import { ScrollView } from 'react-native'
+import { useTranslation } from 'react-i18next'
 
 export const PrivacyPolicyScreen = () => {
+  const { t } = useTranslation()
+  
   return (
     <ScrollView>
       <YStack gap="$4" p="$4">
       {/* only show title on web since mobile has navigator title */}
-      {isWeb && <H1>Privacy Policy</H1>}
+      {isWeb && <H1>{t('privacy_policy.title')}</H1>}
       <Paragraph>
-        At Mazunte Connect, we are committed to protecting your privacy and personal information. 
-        This Privacy Policy explains how we collect, use, and safeguard your data when you use our 
-        community platform to discover events and places in Mazunte, Mexico.
+        {t('privacy_policy.intro')}
       </Paragraph>
 
       <Paragraph>
-        <Text fontWeight="bold">Information We Collect:</Text> We collect information you provide directly, such as 
-        your name, email address, and profile information when you create an account. We also collect 
-        location data to show you nearby events and places, and usage information to improve our services.
+        <Text fontWeight="bold">{t('privacy_policy.information_we_collect')}</Text> {t('privacy_policy.information_we_collect_text')}
       </Paragraph>
 
       <Paragraph>
-        <Text fontWeight="bold">How We Use Your Information:</Text> We use your information to provide and improve 
-        our services, send you notifications about events and places you're interested in, and help 
-        you connect with the Mazunte community. We never sell your personal information to third parties.
+        <Text fontWeight="bold">{t('privacy_policy.how_we_use')}</Text> {t('privacy_policy.how_we_use_text')}
       </Paragraph>
 
       <Paragraph>
-        <Text fontWeight="bold">Data Security:</Text> We implement appropriate security measures to protect your 
-        personal information against unauthorized access, alteration, disclosure, or destruction. 
-        Your data is stored securely and encrypted in transit.
+        <Text fontWeight="bold">{t('privacy_policy.data_security')}</Text> {t('privacy_policy.data_security_text')}
       </Paragraph>
 
       <Paragraph>
-        <Text fontWeight="bold">Your Rights:</Text> You have the right to access, update, or delete your personal 
-        information at any time. You can also opt out of certain communications from us. Contact us 
-        at privacy@mazunteconnect.com if you have any questions about your data.
+        <Text fontWeight="bold">{t('privacy_policy.your_rights')}</Text> {t('privacy_policy.your_rights_text')}
       </Paragraph>
 
       <Paragraph>
-        <Text fontWeight="bold">Changes to This Policy:</Text> We may update this Privacy Policy from time to time. 
-        We will notify you of any changes by posting the new Privacy Policy on this page and updating 
-        the "Last Updated" date.
+        <Text fontWeight="bold">{t('privacy_policy.changes_to_policy')}</Text> {t('privacy_policy.changes_to_policy_text')}
       </Paragraph>
 
       <Paragraph>
-        <Text fontWeight="bold">Contact Us:</Text> If you have any questions about this Privacy Policy, please 
-        contact us at privacy@mazunteconnect.com or through our app support channels.
+        <Text fontWeight="bold">{t('privacy_policy.contact_us')}</Text> {t('privacy_policy.contact_us_text')}
       </Paragraph>
       </YStack>
     </ScrollView>

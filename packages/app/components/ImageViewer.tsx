@@ -29,51 +29,77 @@ export const ImageViewer = ({ imageUrl, isVisible, onClose }: ImageViewerProps) 
   // Reset when modal closes
   useEffect(() => {
     if (!isVisible) {
-      scale.value = 1
-      savedScale.value = 1
-      translateX.value = 0
-      translateY.value = 0
-      savedTranslateX.value = 0
-      savedTranslateY.value = 0
+      if (scale && scale.value !== undefined) {
+        scale.value = 1
+      }
+      if (savedScale && savedScale.value !== undefined) {
+        savedScale.value = 1
+      }
+      if (translateX && translateX.value !== undefined) {
+        translateX.value = 0
+      }
+      if (translateY && translateY.value !== undefined) {
+        translateY.value = 0
+      }
+      if (savedTranslateX && savedTranslateX.value !== undefined) {
+        savedTranslateX.value = 0
+      }
+      if (savedTranslateY && savedTranslateY.value !== undefined) {
+        savedTranslateY.value = 0
+      }
     }
   }, [isVisible])
 
   // Pinch gesture
   const pinchGesture = Gesture.Pinch()
     .onUpdate((e) => {
-      scale.value = Math.max(1, Math.min(savedScale.value * e.scale, 3))
+      if (scale && savedScale && scale.value !== undefined && savedScale.value !== undefined) {
+        scale.value = Math.max(1, Math.min(savedScale.value * e.scale, 3))
+      }
     })
     .onEnd(() => {
-      savedScale.value = scale.value
+      if (scale && savedScale && scale.value !== undefined) {
+        savedScale.value = scale.value
+      }
     })
 
   // Pan gesture (only when zoomed)
   const panGesture = Gesture.Pan()
     .onUpdate((e) => {
-      if (scale.value > 1) {
-        translateX.value = savedTranslateX.value + e.translationX
-        translateY.value = savedTranslateY.value + e.translationY
+      if (scale && scale.value !== undefined && scale.value > 1) {
+        if (translateX && savedTranslateX && translateX.value !== undefined && savedTranslateX.value !== undefined) {
+          translateX.value = savedTranslateX.value + e.translationX
+        }
+        if (translateY && savedTranslateY && translateY.value !== undefined && savedTranslateY.value !== undefined) {
+          translateY.value = savedTranslateY.value + e.translationY
+        }
       }
     })
     .onEnd(() => {
-      savedTranslateX.value = translateX.value
-      savedTranslateY.value = translateY.value
+      if (translateX && savedTranslateX && translateX.value !== undefined) {
+        savedTranslateX.value = translateX.value
+      }
+      if (translateY && savedTranslateY && translateY.value !== undefined) {
+        savedTranslateY.value = translateY.value
+      }
     })
 
   // Double tap to zoom
   const doubleTap = Gesture.Tap()
     .numberOfTaps(2)
     .onEnd(() => {
-      if (scale.value > 1) {
-        scale.value = withSpring(1)
-        savedScale.value = 1
-        translateX.value = withSpring(0)
-        translateY.value = withSpring(0)
-        savedTranslateX.value = 0
-        savedTranslateY.value = 0
-      } else {
-        scale.value = withSpring(2)
-        savedScale.value = 2
+      if (scale && scale.value !== undefined) {
+        if (scale.value > 1) {
+          if (scale.value !== undefined) scale.value = withSpring(1)
+          if (savedScale && savedScale.value !== undefined) savedScale.value = 1
+          if (translateX && translateX.value !== undefined) translateX.value = withSpring(0)
+          if (translateY && translateY.value !== undefined) translateY.value = withSpring(0)
+          if (savedTranslateX && savedTranslateX.value !== undefined) savedTranslateX.value = 0
+          if (savedTranslateY && savedTranslateY.value !== undefined) savedTranslateY.value = 0
+        } else {
+          if (scale.value !== undefined) scale.value = withSpring(2)
+          if (savedScale && savedScale.value !== undefined) savedScale.value = 2
+        }
       }
     })
 
@@ -84,9 +110,9 @@ export const ImageViewer = ({ imageUrl, isVisible, onClose }: ImageViewerProps) 
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [
-      { translateX: translateX.value },
-      { translateY: translateY.value },
-      { scale: scale.value },
+      { translateX: translateX?.value || 0 },
+      { translateY: translateY?.value || 0 },
+      { scale: scale?.value || 1 },
     ],
   }))
 

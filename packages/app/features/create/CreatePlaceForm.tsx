@@ -7,6 +7,7 @@ import { useUser } from 'app/utils/useUser'
 import { z } from 'zod'
 import { useTranslation } from 'react-i18next'
 import { UploadImage, type UploadImageRef } from 'app/components/UploadImage'
+import { LocationPicker, type LocationPickerRef } from 'app/components/LocationPicker'
 import { useRef } from 'react'
 
 type InsertPlace = Database['public']['Tables']['places']['Insert']
@@ -18,11 +19,11 @@ export const CreatePlaceForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const queryClient = useQueryClient()
   const { t } = useTranslation()
   const imageUploadRef = useRef<UploadImageRef>(null)
+  const locationPickerRef = useRef<LocationPickerRef>(null)
 
   const CreatePlaceFormSchema = z.object({
     name: formFields.text.min(3).describe(`${t('create.place_form.name')} // Place name`),
     type: formFields.select.describe(`${t('create.place_form.type')} // Category`),
-    location_name: formFields.text.describe(`${t('create.place_form.location')} // Where?`),
     description: formFields.textarea.describe(`${t('create.place_form.description')} // Tell us more`),
     price_range: formFields.select.describe(`${t('create.place_form.price_range')} // Price level`).nullable().optional(),
     contact_whatsapp: formFields.text.describe('WhatsApp // Contact number').nullable().optional(),
@@ -38,14 +39,22 @@ export const CreatePlaceForm = ({ onSuccess }: { onSuccess: () => void }) => {
 
     async mutationFn(data: z.infer<typeof CreatePlaceFormSchema>) {
       const uploadedImageUrl = imageUploadRef.current?.getImageUrl()
+      const location = locationPickerRef.current?.getLocation() || {
+        name: 'Mazunte',
+        lat: 15.6658,
+        lng: -96.5347,
+        directions: undefined,
+      }
+
       const insertData: InsertPlace = {
         name: data.name.trim(),
         type: data.type,
         category: data.type,
         description: data.description.trim(),
-        location_name: data.location_name.trim(),
-        lat: 15.6658,
-        lng: -96.7347,
+        location_name: location.name.trim(),
+        lat: location.lat,
+        lng: location.lng,
+        location_directions: location.directions || null,
         price_range: data.price_range || null,
         contact_whatsapp: data.contact_whatsapp?.trim() || null,
         contact_instagram: data.contact_instagram?.trim() || null,
@@ -74,7 +83,6 @@ export const CreatePlaceForm = ({ onSuccess }: { onSuccess: () => void }) => {
       defaultValues={{
           name: '',
           type: 'wellness',
-          location_name: 'Mazunte',
           description: '',
           price_range: '$$',
           contact_whatsapp: '',
@@ -120,7 +128,10 @@ export const CreatePlaceForm = ({ onSuccess }: { onSuccess: () => void }) => {
 
             {fields.name}
             {fields.type}
-            {fields.location_name}
+
+            {/* Location Picker */}
+            <LocationPicker ref={locationPickerRef} />
+
             {fields.description}
             {fields.price_range}
 

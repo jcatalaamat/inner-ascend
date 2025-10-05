@@ -7,6 +7,7 @@ import { useUser } from 'app/utils/useUser'
 import { z } from 'zod'
 import { useTranslation } from 'react-i18next'
 import { UploadImage, type UploadImageRef } from 'app/components/UploadImage'
+import { LocationPicker, type LocationPickerRef } from 'app/components/LocationPicker'
 import { useRef } from 'react'
 
 type InsertEvent = Database['public']['Tables']['events']['Insert']
@@ -18,6 +19,7 @@ export const CreateEventForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const queryClient = useQueryClient()
   const { t } = useTranslation()
   const imageUploadRef = useRef<UploadImageRef>(null)
+  const locationPickerRef = useRef<LocationPickerRef>(null)
 
   // Simplified schema - only essential fields
   const CreateEventFormSchema = z.object({
@@ -25,7 +27,6 @@ export const CreateEventForm = ({ onSuccess }: { onSuccess: () => void }) => {
     category: formFields.select.describe(`${t('create.event_form.category')} // Type of event`),
     date: formFields.date.describe(`${t('create.event_form.date')} // When?`),
     time: formFields.text.describe(`${t('create.event_form.time')} // e.g. 18:00`).nullable().optional(),
-    location_name: formFields.text.describe(`${t('create.event_form.location')} // Where?`),
     description: formFields.textarea.describe(`${t('create.event_form.description')} // Tell us more`).nullable().optional(),
     // Optional fields
     price: formFields.text.describe(`${t('create.event_form.price')} // e.g. Free, $500 MXN`).nullable().optional(),
@@ -42,15 +43,23 @@ export const CreateEventForm = ({ onSuccess }: { onSuccess: () => void }) => {
     },
 
     async mutationFn(data: z.infer<typeof CreateEventFormSchema>) {
+      const location = locationPickerRef.current?.getLocation() || {
+        name: 'Mazunte',
+        lat: 15.6658,
+        lng: -96.5347,
+        directions: undefined,
+      }
+
       const insertData: InsertEvent = {
         title: data.title.trim(),
         description: data.description?.trim() || null,
         category: data.category,
         date: data.date.dateValue.toISOString().split('T')[0],
         time: data.time?.trim() || null,
-        location_name: data.location_name.trim(),
-        lat: 15.6658, // Default Mazunte coordinates
-        lng: -96.7347,
+        location_name: location.name.trim(),
+        lat: location.lat,
+        lng: location.lng,
+        location_directions: location.directions || null,
         price: data.price?.trim() || null,
         eco_conscious: data.eco_conscious || false,
         organizer_name: data.organizer_name?.trim() || null,
@@ -122,7 +131,10 @@ export const CreateEventForm = ({ onSuccess }: { onSuccess: () => void }) => {
             {fields.category}
             {fields.date}
             {fields.time}
-            {fields.location_name}
+
+            {/* Location Picker */}
+            <LocationPicker ref={locationPickerRef} />
+
             {fields.description}
 
             <Separator marginVertical="$2" />

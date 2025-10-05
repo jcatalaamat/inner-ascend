@@ -64,8 +64,8 @@ export const AuthProvider = ({ children, initialSession }: AuthProviderProps) =>
             (Date.now() - new Date(newSession.user.created_at).getTime()) < 60000, // Within 1 minute
         })
         
-        // Set additional person properties
-        posthog?.setPersonProperties({
+        // Set additional person properties using capture with $set
+        posthog?.capture('$set', {
           user_type: 'standard',
           signup_source: newSession.user.app_metadata?.provider || 'email',
           last_active: new Date().toISOString(),

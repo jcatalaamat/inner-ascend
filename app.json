@@ -1,10 +1,10 @@
 {
   "expo": {
     "slug": "mazunte-connect",
-    "owner": "inner-ascend",
+    "owner": "inner-ascend-expo",
     "extra": {
       "eas": {
-        "projectId": "6b8628d3-8fb0-43ff-b54e-b36301b0385e"
+        "projectId": "f4f14c35-489b-4fc5-bd7e-6e156faf5928"
       }
     },
     "ios": {

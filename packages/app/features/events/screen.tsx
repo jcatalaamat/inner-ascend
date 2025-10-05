@@ -37,8 +37,10 @@ export function EventsScreen() {
     setRefreshing(false)
   }
 
-  // Debug logging
-  console.log('Events data:', { allEvents, isLoading, error })
+  // Debug logging (development only)
+  if (__DEV__) {
+    console.log('Events data:', { allEvents, isLoading, error })
+  }
 
   // Filter locally for better performance
   const filteredEvents = useMemo(() => {

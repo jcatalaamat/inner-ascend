@@ -20,7 +20,8 @@
   "date": {
     "today": "Hoy",
     "tomorrow": "Mañana",
-    "at": "a las"
+    "at": "a las",
+    "in_days": "en {{count}} días"
   },
   "greetings": {
     "morning": "¡Buenos días, {{name}}!",

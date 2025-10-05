@@ -9,7 +9,6 @@ import {
   ScrollView,
   Text,
   Theme,
-  TodoCard,
   View,
   XStack,
   YStack,
@@ -19,7 +18,7 @@ import { Calendar, X } from '@tamagui/lucide-icons'
 import ScrollToTopTabBarContainer from 'app/utils/NativeScreenContainer'
 import useEventsQuery from 'app/utils/react-query/useEventQuery'
 import { useUser } from 'app/utils/useUser'
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { usePostHog } from 'posthog-react-native'
 
 import { Greetings } from './components/greetings'
@@ -176,35 +175,8 @@ const EventCards = () => {
             </Paragraph>
           </Banner>
         </Theme>
-
-        <TodoList />
       </YStack>
     </ScrollView>
   )
 }
 
-const TodoList = () => {
-  const [data, setData] = useState(todoData)
-
-  return (
-    <YStack borderRadius="$4" overflow="hidden">
-      {data.map((todo, index) => (
-        <TodoCard
-          onCheckedChange={(checked) => {
-            setData((prev) => prev.map((t, i) => (i === index ? { ...t, checked: !!checked } : t)))
-          }}
-          key={index}
-          label={todo.label}
-          checked={todo.checked}
-        />
-      ))}
-    </YStack>
-  )
-}
-
-const todoData = [
-  { label: 'Contribute to OSS', checked: false },
-  { label: 'Contribute to OSS', checked: true },
-  { label: 'Upgrade to the new Expo version', checked: false },
-  { label: 'Do the dishes', checked: false },
-]

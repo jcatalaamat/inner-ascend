@@ -20,7 +20,8 @@
   "date": {
     "today": "Today",
     "tomorrow": "Tomorrow",
-    "at": "at"
+    "at": "at",
+    "in_days": "in {{count}} days"
   },
   "greetings": {
     "morning": "Good morning, {{name}}!",

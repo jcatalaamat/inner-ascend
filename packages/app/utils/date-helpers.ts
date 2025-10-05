@@ -115,7 +115,7 @@ export function getRelativeDay(dateString: string, locale: string = 'en-US', t?:
 
   if (diffDays === 0) return t ? t('date.today') : 'Today'
   if (diffDays === 1) return t ? t('date.tomorrow') : 'Tomorrow'
-  if (diffDays > 1 && diffDays <= 7) return `in ${diffDays} days` // TODO: localize this
+  if (diffDays > 1 && diffDays <= 7) return t ? t('date.in_days', { count: diffDays }) : `in ${diffDays} days`
 
   return formatDate(dateString, locale, t)
 }

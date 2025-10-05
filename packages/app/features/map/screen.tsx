@@ -63,44 +63,16 @@ export function MapScreen() {
     ? places.filter(place => place.lat && place.lng) 
     : []
 
-  // Debug: Log what we're about to render
-  console.log('About to render markers:', {
-    viewType,
-    filteredEvents: filteredEvents.length,
-    filteredPlaces: filteredPlaces.length,
-    eventsWithCoords: events.filter(e => e.lat && e.lng).length,
-    placesWithCoords: places.filter(p => p.lat && p.lng).length
-  })
-
-  // Debug logging
-  console.log('MapScreen Debug:', {
-    eventsCount: events.length,
-    placesCount: places.length,
-    eventsWithCoords: events.filter(event => event.lat && event.lng).length,
-    placesWithCoords: places.filter(place => place.lat && place.lng).length,
-    viewType,
-    filteredEventsCount: filteredEvents.length,
-    filteredPlacesCount: filteredPlaces.length,
-    sampleEvents: events.slice(0, 3).map(event => ({
-      id: event.id,
-      title: event.title,
-      lat: event.lat,
-      lng: event.lng,
-      date: event.date
-    })),
-    samplePlaces: places.slice(0, 3).map(place => ({
-      id: place.id,
-      name: place.name,
-      lat: place.lat,
-      lng: place.lng
-    })),
-    allEventsWithCoords: events.filter(event => event.lat && event.lng).map(event => ({
-      id: event.id,
-      title: event.title,
-      lat: event.lat,
-      lng: event.lng
-    }))
-  })
+  // Debug logging (development only)
+  if (__DEV__) {
+    console.log('MapScreen Debug:', {
+      viewType,
+      filteredEvents: filteredEvents.length,
+      filteredPlaces: filteredPlaces.length,
+      eventsWithCoords: events.filter(e => e.lat && e.lng).length,
+      placesWithCoords: places.filter(p => p.lat && p.lng).length
+    })
+  }
 
   const handleEventPress = (eventId: string) => {
     const markerKey = `event-${eventId}`

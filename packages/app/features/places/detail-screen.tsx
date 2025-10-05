@@ -2,7 +2,7 @@ import { FullscreenSpinner, Text, YStack, XStack, Image, Button, ScrollView, Car
 import { usePlaceDetailQuery } from 'app/utils/react-query/usePlacesQuery'
 import { MapPin, DollarSign, Phone, Mail, Globe, Instagram, Navigation } from '@tamagui/lucide-icons'
 import { PLACE_TYPE_COLORS } from 'app/utils/constants'
-import { Linking, Platform } from 'react-native'
+import { Linking, Platform, Share } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { useState, useEffect } from 'react'
 import { ImageViewer } from 'app/components/ImageViewer'
@@ -100,6 +100,26 @@ export function PlaceDetailScreen({ id }: PlaceDetailScreenProps) {
     })
 
     if (url) Linking.openURL(url)
+  }
+
+  const handleShare = async () => {
+    if (!place) return
+
+    const shareContent = {
+      title: place.name,
+      message: `${place.name}\n\n${place.description}\n\n${place.location_name}`,
+      url: Platform.OS === 'ios' ? `https://mazunteconnect.com/place/${place.id}` : undefined,
+    }
+
+    try {
+      await Share.share(shareContent)
+      posthog?.capture('place_shared', {
+        place_id: place.id,
+        place_name: place.name,
+      })
+    } catch (error) {
+      console.error('Error sharing place:', error)
+    }
   }
 
   return (
@@ -301,7 +321,16 @@ export function PlaceDetailScreen({ id }: PlaceDetailScreenProps) {
           )}
 
           {/* TODO: Add image gallery if multiple images */}
-          {/* TODO: Add share button */}
+          
+          {/* Share Button */}
+          <Button
+            onPress={handleShare}
+            icon={Globe}
+            theme="blue"
+            size="$4"
+          >
+            {t('places.detail.share_place')}
+          </Button>
           </YStack>
         </YStack>
       </ScrollView>

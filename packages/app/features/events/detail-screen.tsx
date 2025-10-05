@@ -6,7 +6,7 @@ import { CATEGORY_COLORS } from 'app/utils/constants'
 import { useTranslation } from 'react-i18next'
 import { usePostHog } from 'posthog-react-native'
 import { useEffect, useState } from 'react'
-import { Linking, Platform } from 'react-native'
+import { Linking, Platform, Share } from 'react-native'
 import { ImageViewer } from 'app/components/ImageViewer'
 import i18n from 'app/i18n'
 
@@ -78,6 +78,26 @@ export function EventDetailScreen({ id }: EventDetailScreenProps) {
     })
 
     if (url) Linking.openURL(url)
+  }
+
+  const handleShare = async () => {
+    if (!event) return
+
+    const shareContent = {
+      title: event.name,
+      message: `${event.name}\n\n${event.description}\n\n${formatDate(event.start_time, i18n.language)} at ${formatTime(event.start_time, i18n.language)}\n${event.location_name}`,
+      url: Platform.OS === 'ios' ? `https://mazunteconnect.com/event/${event.id}` : undefined,
+    }
+
+    try {
+      await Share.share(shareContent)
+      posthog?.capture('event_shared', {
+        event_id: event.id,
+        event_name: event.name,
+      })
+    } catch (error) {
+      console.error('Error sharing event:', error)
+    }
   }
 
   if (isLoading) {
@@ -286,7 +306,15 @@ export function EventDetailScreen({ id }: EventDetailScreenProps) {
             </YStack>
           )}
 
-          {/* TODO: Add share button */}
+          {/* Share Button */}
+          <Button
+            onPress={handleShare}
+            icon={Globe}
+            theme="blue"
+            size="$4"
+          >
+            {t('events.detail.share_event')}
+          </Button>
           </YStack>
         </YStack>
       </ScrollView>

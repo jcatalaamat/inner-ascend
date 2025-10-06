@@ -81,22 +81,30 @@ yarn ios --device
 
 **What:** Share with wife, friends, and beta testers via TestFlight
 
-#### Step 1: Build for Staging
+#### Recommended: One-Step Deploy (Build + Submit)
 ```bash
-cd apps/expo
-eas build --platform ios --profile staging
-```
-
-#### Step 2: Submit to TestFlight
-```bash
-eas submit --platform ios --profile staging --latest
+# Single command - builds locally + submits to TestFlight
+yarn deploy:staging
 ```
 
 **Benefits:**
+- ✅ **FREE** - Builds on your Mac (no EAS cloud costs!)
+- ✅ **Simple** - One command does everything
+- ✅ **Fast** - ~20-25 minutes total
 - ✅ Up to 10,000 beta testers
 - ✅ No device registration needed
 - ✅ Testers just need TestFlight app
-- ✅ Push updates anytime
+
+#### Advanced: Separate Build + Submit (Optional)
+```bash
+# If you want to check the build before submitting:
+yarn build:staging   # Build only (~10-15 min)
+yarn submit:staging  # Submit later (~2-5 min)
+```
+
+**Use this when:**
+- You want to verify build completed successfully first
+- You're building multiple versions and choosing which to submit
 - ✅ Automatic notifications to testers
 
 **Timing:**
@@ -115,44 +123,70 @@ eas submit --platform ios --profile staging --latest
 
 **What:** Submit to App Store for public release
 
-#### Step 1: Build for Production
+#### Recommended: One-Step Deploy (Build + Submit)
 ```bash
-cd apps/expo
-eas build --platform ios --profile production
+# Single command - builds locally + submits to App Store
+yarn deploy:production
 ```
-
-#### Step 2: Submit to App Store
-```bash
-eas submit --platform ios --profile production --latest
-```
-
-#### Step 3: Wait for Review
-- Apple reviews app (~1-2 days)
-- You get notified via email
-- App goes live after approval
 
 **Benefits:**
+- ✅ **FREE** - Builds on your Mac (no EAS cloud costs!)
+- ✅ **Simple** - One command does everything
+- ✅ **Fast** - ~20-25 minutes total
 - ✅ Public App Store listing
 - ✅ Available to all iOS users
 - ✅ Automatic updates via App Store
+
+#### Advanced: Separate Build + Submit (Optional)
+```bash
+# If you want to check the build before submitting:
+yarn build:production   # Build only (~10-15 min)
+yarn submit:production  # Submit later (~2-5 min)
+```
+
+#### Wait for Review
+- Apple reviews app (~1-2 days)
+- You get notified via email
+- App goes live after approval
 
 ---
 
 ## Commands Reference
 
-### Build Commands
+### Yarn Scripts (Recommended - Local Builds, FREE!)
 
 ```bash
-# Development builds (hot reload)
-eas build --platform ios --profile development:simulator
-eas build --platform ios --profile development:device
+# Daily development (instant, free!)
+yarn ios --device
 
-# Staging builds (beta testing)
-eas build --platform ios --profile staging          # For TestFlight
-eas build --platform ios --profile staging:device   # For ad-hoc
+# Staging (build + submit to TestFlight)
+yarn deploy:staging      # ⭐ Recommended: One command
+yarn build:staging       # Advanced: Build only
+yarn submit:staging      # Advanced: Submit after build
 
-# Production builds (App Store)
+# Production (build + submit to App Store)
+yarn deploy:production   # ⭐ Recommended: One command
+yarn build:production    # Advanced: Build only
+yarn submit:production   # Advanced: Submit after build
+
+# Development builds (special cases only)
+yarn build:dev          # Warns you to use yarn ios --device instead!
+```
+
+### Direct EAS Commands (Alternative)
+
+```bash
+# ⚠️ Cloud builds (cost money!) - avoid unless necessary
+eas build --platform ios --profile staging
 eas build --platform ios --profile production
+
+# ✅ Local builds (FREE!) - add --local flag
+eas build --platform ios --profile staging --local
+eas build --platform ios --profile production --local
+
+# Submit commands
+eas submit --platform ios --profile staging --latest
+eas submit --platform ios --profile production --latest
 ```
 
 ### Submit Commands
@@ -390,23 +424,19 @@ git push
 
 ### "I want to test on my device"
 ```bash
-yarn ios --device
+yarn ios --device  # FREE & instant!
 ```
 
 ### "I want my wife to test the app"
 ```bash
-cd apps/expo
-eas build --platform ios --profile staging
-eas submit --platform ios --profile staging --latest
+yarn deploy:staging  # Build + submit to TestFlight (FREE!)
 # Then invite her as TestFlight beta tester
 ```
 
 ### "I want to release to the public"
 ```bash
-cd apps/expo
-eas build --platform ios --profile production
-eas submit --platform ios --profile production --latest
-# Then submit for review in App Store Connect
+yarn deploy:production  # Build + submit to App Store (FREE!)
+# Then wait for Apple review (~1-2 days)
 ```
 
 ### "I want to test without building locally"

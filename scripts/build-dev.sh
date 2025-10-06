@@ -1,11 +1,24 @@
 #!/bin/bash
 
 # Development Build Script
-# This script builds development versions for testing
+# ⚠️ WARNING: For daily development, use 'yarn ios --device' instead (FREE & instant!)
+# This script is only needed for special development builds (e.g., for other devices)
 
 set -e
 
-echo "🚀 Starting development build..."
+echo "⚠️  WARNING: You're about to build a development build."
+echo "💡 For daily development, use 'yarn ios --device' instead (FREE & instant!)"
+echo ""
+echo "This script is only useful if you need:"
+echo "  - Development build for someone else's device"
+echo "  - Development build with specific configuration"
+echo ""
+read -p "Do you want to continue? (y/N) " -n 1 -r
+echo
+if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    echo "❌ Cancelled. Use 'yarn ios --device' for daily development!"
+    exit 1
+fi
 
 # Navigate to expo app directory
 cd apps/expo
@@ -22,11 +35,10 @@ if ! eas whoami &> /dev/null; then
     exit 1
 fi
 
-echo "📱 Building for Android..."
-eas build --platform android --profile development --non-interactive
+echo "🍎 Building for iOS (locally on your Mac)..."
+eas build --platform ios --profile development:device --local --non-interactive
 
-echo "🍎 Building for iOS..."
-eas build --platform ios --profile development --non-interactive
-
-echo "✅ Development builds completed!"
-echo "📥 Check your email or visit https://expo.dev to download the builds"
+echo ""
+echo "✅ Development build completed!"
+echo "💰 Cost: $0 (built locally!)"
+echo "💡 Remember: Use 'yarn ios --device' for daily development (faster & free!)"

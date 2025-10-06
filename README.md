@@ -230,7 +230,47 @@ supabase db reset
 4. Ensure translations are complete
 5. Follow the component library patterns
 
+## 💰 Monetization (AdMob)
+
+### Implementation:
+- **react-native-google-mobile-ads** v15.8.0 for banner and interstitial ads
+- **PostHog feature flag** `enable-ads` for A/B testing and gradual rollout
+- **Banner ads** on Events, Places, and Favorites list screens
+- **Interstitial ads** after every 3rd event view (3-minute frequency cap)
+
+### Ad Placements:
+- Events list screen (bottom banner)
+- Places list screen (bottom banner)
+- Favorites screen (bottom banner)
+- Event detail screen (interstitial after 3 views)
+
+### Configuration:
+Ad unit IDs are stored in `.env` file:
+- `EXPO_PUBLIC_ADMOB_IOS_APP_ID`
+- `EXPO_PUBLIC_ADMOB_IOS_EVENTS_BANNER`
+- `EXPO_PUBLIC_ADMOB_IOS_PLACES_BANNER`
+- `EXPO_PUBLIC_ADMOB_IOS_FAVORITES_BANNER`
+- `EXPO_PUBLIC_ADMOB_IOS_INTERSTITIAL`
+- (Similar Android keys)
+
+### Build Configuration:
+**IMPORTANT**: The app must have New Architecture explicitly disabled to build with react-native-google-mobile-ads:
+
+`apps/expo/ios/Podfile.properties.json`:
+```json
+{
+  "newArchEnabled": "false"
+}
+```
+
+This file is force-tracked in git despite `ios/` being gitignored. Without this setting, EAS builds will fail with missing `RNGoogleMobileAdsSpec` codegen errors.
+
 ## 🐛 Common Issues
+
+### AdMob Build Failures:
+- Ensure `newArchEnabled: "false"` is set in `apps/expo/ios/Podfile.properties.json`
+- This prevents react-native-google-mobile-ads from looking for New Architecture codegen specs
+- Run `npx expo prebuild --clean` if you see `RNGoogleMobileAdsSpec.h` not found errors
 
 ### Language Not Persisting:
 - Check AsyncStorage implementation

@@ -11,7 +11,10 @@
     },
     "ios": {
       "bundleIdentifier": "com.inner-ascend.mazunte-connect",
-      "buildNumber": "30"
+      "buildNumber": "30",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "com.innerascend.mazunteconnect",

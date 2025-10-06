@@ -254,21 +254,29 @@ Ad unit IDs are stored in `.env` file:
 - (Similar Android keys)
 
 ### Build Configuration:
-**IMPORTANT**: The app must have New Architecture explicitly disabled to build with react-native-google-mobile-ads:
+**IMPORTANT**: The app must have New Architecture explicitly disabled to build with react-native-google-mobile-ads.
 
-`apps/expo/ios/Podfile.properties.json`:
-```json
-{
-  "newArchEnabled": "false"
-}
+Configure in `apps/expo/app.config.js`:
+```javascript
+[
+  'expo-build-properties',
+  {
+    ios: {
+      newArchEnabled: false
+    },
+    android: {
+      newArchEnabled: false
+    }
+  }
+]
 ```
 
-This file is force-tracked in git despite `ios/` being gitignored. Without this setting, EAS builds will fail with missing `RNGoogleMobileAdsSpec` codegen errors.
+Without this setting, EAS builds will fail with missing `RNGoogleMobileAdsSpec` codegen errors.
 
 ## 🐛 Common Issues
 
 ### AdMob Build Failures:
-- Ensure `newArchEnabled: "false"` is set in `apps/expo/ios/Podfile.properties.json`
+- Ensure `expo-build-properties` plugin is configured with `newArchEnabled: false` in `apps/expo/app.config.js`
 - This prevents react-native-google-mobile-ads from looking for New Architecture codegen specs
 - Run `npx expo prebuild --clean` if you see `RNGoogleMobileAdsSpec.h` not found errors
 

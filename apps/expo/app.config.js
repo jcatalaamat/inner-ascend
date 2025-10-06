@@ -88,7 +88,17 @@ export default {
       ],
       'expo-apple-authentication',
       'expo-router',
-      'expo-build-properties',
+      [
+        'expo-build-properties',
+        {
+          ios: {
+            newArchEnabled: false
+          },
+          android: {
+            newArchEnabled: false
+          }
+        }
+      ],
       'expo-font',
       'expo-secure-store',
       [

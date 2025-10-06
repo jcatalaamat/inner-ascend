@@ -1,18 +1,36 @@
-// COMMENTED OUT: Google Sign-In functionality
-// import { CryptoDigestAlgorithm, digestStringAsync, randomUUID } from 'expo-crypto'
+import { GoogleSignin } from '@react-native-google-signin/google-signin'
 
 /**
- * COMMENTED OUT: Initiates the auth flow for the native Google Sign In AKA One Tap.
- * In order to use this method, you need to sponsor here: https://github.com/react-native-google-signin/google-signin
- * Sponsoring unlocks the repo which contains the GoogleOneTapSignIn method where you can pass in a nonce (the only way Supabase will allow you to do native sign in)
- * Then you can use this method, which returns the token and nonce that will later be passed
- * to Supabase to complete the sign in.
+ * Initiates the auth flow for the native Google Sign In.
+ * Returns the token that will be passed to Supabase to complete the sign in.
+ *
+ * Note: Nonce validation is disabled in Supabase Dashboard ("Skip nonce check")
+ * because iOS Google Sign-In SDK doesn't support Supabase's nonce format.
  */
 export async function initiateGoogleSignIn() {
-  // COMMENTED OUT: Google Sign-In functionality
-  throw new Error('Google Sign-In has been disabled')
-  
-  // const rawNonce = randomUUID()
-  // const hashedNonce = await digestStringAsync(CryptoDigestAlgorithm.SHA256, rawNonce)
-  // return { rawNonce, hashedNonce }
+  console.log('[initiateGoogleSignIn] Configuring Google Sign-In...')
+  GoogleSignin.configure({
+    iosClientId: process.env.GOOGLE_IOS_CLIENT_ID,
+    webClientId: process.env.GOOGLE_WEB_CLIENT_ID,
+  })
+
+  console.log('[initiateGoogleSignIn] Checking Play Services...')
+  await GoogleSignin.hasPlayServices()
+
+  console.log('[initiateGoogleSignIn] Requesting Google Sign-In...')
+  const response = await GoogleSignin.signIn()
+
+  console.log('[initiateGoogleSignIn] Received credential:', {
+    hasToken: !!response?.data?.idToken,
+    user: response?.data?.user,
+  })
+
+  const token = response?.data?.idToken
+  if (!token) {
+    console.error('[initiateGoogleSignIn] No identity token received from Google')
+    throw new Error('Google Sign In failed: No identity token received')
+  }
+
+  console.log('[initiateGoogleSignIn] Successfully got ID token')
+  return { token }
 }

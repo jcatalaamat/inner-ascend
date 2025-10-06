@@ -1,5 +1,6 @@
 import { Button } from '@my/ui'
-import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin'
+import { statusCodes } from '@react-native-google-signin/google-signin'
+import { initiateGoogleSignIn } from 'app/utils/auth/initiateGoogleSignIn'
 import { useSupabase } from 'app/utils/supabase/useSupabase'
 import { useRouter } from 'solito/router'
 
@@ -11,49 +12,26 @@ export function GoogleSignIn() {
 
   async function signInWithGoogle() {
     try {
-      console.log('[GoogleSignIn] Configuring Google Sign-In with:', {
-        iosClientId: process.env.GOOGLE_IOS_CLIENT_ID,
-        webClientId: process.env.GOOGLE_WEB_CLIENT_ID,
+      console.log('[GoogleSignIn] Starting Google Sign-In flow...')
+      const { token } = await initiateGoogleSignIn()
+      console.log('[GoogleSignIn] Got Google credentials, signing in with Supabase...')
+
+      const { data, error } = await supabase.auth.signInWithIdToken({
+        provider: 'google',
+        token,
+        // No nonce - using "Skip nonce check" in Supabase Dashboard
       })
 
-      GoogleSignin.configure({
-        iosClientId: process.env.GOOGLE_IOS_CLIENT_ID,
-        webClientId: process.env.GOOGLE_WEB_CLIENT_ID,
-      })
+      console.log('[GoogleSignIn] Supabase response:', { data, error })
 
-      console.log('[GoogleSignIn] Checking Play Services...')
-      await GoogleSignin.hasPlayServices()
+      if (error) {
+        console.error('[GoogleSignIn] Supabase auth error:', error)
+        throw error
+      }
 
-      console.log('[GoogleSignIn] Requesting Google Sign-In...')
-      const response = await GoogleSignin.signIn()
-      console.log('[GoogleSignIn] Got Google response:', {
-        hasIdToken: !!response?.data?.idToken,
-        user: response?.data?.user,
-      })
-
-      const token = response?.data?.idToken
-
-      if (token) {
-        console.log('[GoogleSignIn] Signing in with Supabase...')
-        const { data, error } = await supabase.auth.signInWithIdToken({
-          provider: 'google',
-          token,
-        })
-
-        console.log('[GoogleSignIn] Supabase response:', { data, error })
-
-        if (error) {
-          console.error('[GoogleSignIn] Supabase auth error:', error)
-          throw error
-        }
-
-        if (data?.session) {
-          console.log('[GoogleSignIn] Sign-in successful, redirecting...')
-          router.replace('/')
-        }
-      } else {
-        console.error('[GoogleSignIn] No ID token received from Google')
-        throw new Error('No ID token present!')
+      if (data?.session) {
+        console.log('[GoogleSignIn] Sign-in successful, redirecting...')
+        router.replace('/')
       }
     } catch (error) {
       if (error && typeof error === 'object' && 'code' in error) {

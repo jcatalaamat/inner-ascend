@@ -1,11 +1,9 @@
 name: Deploy Staging
 
-# This workflow automatically deploys staging builds to TestFlight
-# Triggers on every push to main OR can be manually triggered
+# This workflow deploys staging builds to TestFlight
+# Manual trigger only - deploy when you're ready for beta testing
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
     inputs:
       skip_submit:

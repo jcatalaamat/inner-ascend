@@ -1,0 +1,86 @@
+name: Deploy Staging
+
+# This workflow automatically deploys staging builds to TestFlight
+# Triggers on every push to main OR can be manually triggered
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      skip_submit:
+        description: 'Skip TestFlight submission (build only)'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  deploy-staging:
+    name: Build & Deploy Staging to TestFlight
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🔐 Check for EXPO_TOKEN
+        run: |
+          if [ -z "${{ secrets.EXPO_TOKEN }}" ]; then
+            echo "❌ EXPO_TOKEN secret is missing!"
+            echo "Add it in: Settings → Secrets → Actions → New repository secret"
+            echo "Generate token with: eas build:configure"
+            exit 1
+          fi
+
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: yarn
+
+      - name: 🔧 Setup Expo and EAS
+        uses: expo/expo-github-action@v8
+        with:
+          expo-version: latest
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: 📦 Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: 🍎 Build iOS Staging
+        run: |
+          cd apps/expo
+          echo "🚀 Building iOS staging profile..."
+          eas build --platform ios --profile staging --non-interactive
+          echo "✅ iOS staging build completed!"
+
+      - name: 📤 Submit to TestFlight
+        if: ${{ !inputs.skip_submit }}
+        run: |
+          cd apps/expo
+          echo "📤 Submitting to TestFlight..."
+          eas submit --platform ios --profile staging --latest --non-interactive
+          echo "✅ Submitted to TestFlight!"
+          echo ""
+          echo "🎉 Beta testers will receive the update shortly."
+          echo "📱 Check status: https://expo.dev/accounts/inner-ascend-expo/projects/mazunte-connect/builds"
+
+      - name: 📊 Build Summary
+        run: |
+          echo "### ✅ Staging Deployment Complete!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Platform:** iOS" >> $GITHUB_STEP_SUMMARY
+          echo "**Profile:** staging" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ inputs.skip_submit }}" != "true" ]; then
+            echo "**TestFlight:** Submitted ✅" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "🎉 Beta testers will receive the update in ~5-10 minutes." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "**TestFlight:** Skipped (build only)" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 [View builds](https://expo.dev/accounts/inner-ascend-expo/projects/mazunte-connect/builds)" >> $GITHUB_STEP_SUMMARY

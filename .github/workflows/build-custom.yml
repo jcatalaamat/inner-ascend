@@ -1,0 +1,139 @@
+name: Custom Build
+
+# Flexible build workflow for special cases
+# Use this when you need:
+# - Android builds
+# - Development builds
+# - Custom configurations
+# - Experiments
+
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: 'Platform to build'
+        required: true
+        type: choice
+        default: 'ios'
+        options:
+          - ios
+          - android
+          - both
+      profile:
+        description: 'Build profile'
+        required: true
+        type: choice
+        default: 'staging'
+        options:
+          - development
+          - development:simulator
+          - development:device
+          - staging
+          - staging:device
+          - production
+      auto_submit:
+        description: 'Automatically submit to store after build?'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  custom-build:
+    name: Custom Build (${{ inputs.platform }} - ${{ inputs.profile }})
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🔐 Check for EXPO_TOKEN
+        run: |
+          if [ -z "${{ secrets.EXPO_TOKEN }}" ]; then
+            echo "❌ EXPO_TOKEN secret is missing!"
+            echo "Add it in: Settings → Secrets → Actions → New repository secret"
+            echo "Generate token with: eas build:configure"
+            exit 1
+          fi
+
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: yarn
+
+      - name: 🔧 Setup Expo and EAS
+        uses: expo/expo-github-action@v8
+        with:
+          expo-version: latest
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: 📦 Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: 🍎 Build iOS
+        if: ${{ inputs.platform == 'ios' || inputs.platform == 'both' }}
+        run: |
+          cd apps/expo
+          echo "🚀 Building iOS (${{ inputs.profile }})..."
+          eas build --platform ios --profile ${{ inputs.profile }} --non-interactive
+          echo "✅ iOS build completed!"
+
+      - name: 🤖 Build Android
+        if: ${{ inputs.platform == 'android' || inputs.platform == 'both' }}
+        run: |
+          cd apps/expo
+          echo "🚀 Building Android (${{ inputs.profile }})..."
+          eas build --platform android --profile ${{ inputs.profile }} --non-interactive
+          echo "✅ Android build completed!"
+
+      - name: 📤 Submit iOS
+        if: ${{ inputs.auto_submit && (inputs.platform == 'ios' || inputs.platform == 'both') && (inputs.profile == 'staging' || inputs.profile == 'production') }}
+        run: |
+          cd apps/expo
+          echo "📤 Submitting iOS to App Store..."
+          eas submit --platform ios --profile ${{ inputs.profile }} --latest --non-interactive
+          echo "✅ iOS submitted!"
+
+      - name: 📤 Submit Android
+        if: ${{ inputs.auto_submit && (inputs.platform == 'android' || inputs.platform == 'both') && (inputs.profile == 'staging' || inputs.profile == 'production') }}
+        run: |
+          cd apps/expo
+          echo "📤 Submitting Android to Play Store..."
+          eas submit --platform android --profile ${{ inputs.profile }} --latest --non-interactive
+          echo "✅ Android submitted!"
+
+      - name: 📊 Build Summary
+        run: |
+          echo "### ✅ Custom Build Complete!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Platform:** ${{ inputs.platform }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Profile:** ${{ inputs.profile }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Auto-submit:** ${{ inputs.auto_submit }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Profile-specific info
+          if [[ "${{ inputs.profile }}" == *"development"* ]]; then
+            echo "ℹ️ **Development Build:** This build includes developer tools and can connect to Metro bundler." >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            if [[ "${{ inputs.profile }}" == *"simulator"* ]]; then
+              echo "📱 **Target:** iOS Simulator only" >> $GITHUB_STEP_SUMMARY
+            elif [[ "${{ inputs.profile }}" == *"device"* ]]; then
+              echo "📱 **Target:** Real devices (internal distribution)" >> $GITHUB_STEP_SUMMARY
+            fi
+          elif [[ "${{ inputs.profile }}" == "staging:device" ]]; then
+            echo "ℹ️ **Internal Distribution:** Download link will be provided for direct installation (up to 100 devices)." >> $GITHUB_STEP_SUMMARY
+          elif [[ "${{ inputs.profile }}" == "staging" ]]; then
+            echo "ℹ️ **TestFlight:** Beta testing distribution via TestFlight." >> $GITHUB_STEP_SUMMARY
+          elif [[ "${{ inputs.profile }}" == "production" ]]; then
+            echo "ℹ️ **Production:** App Store/Play Store distribution." >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 [View builds](https://expo.dev/accounts/inner-ascend-expo/projects/mazunte-connect/builds)" >> $GITHUB_STEP_SUMMARY
+
+          if [ "${{ inputs.auto_submit }}" == "true" ]; then
+            echo "🔗 [View submissions](https://expo.dev/accounts/inner-ascend-expo/projects/mazunte-connect/submissions)" >> $GITHUB_STEP_SUMMARY
+          fi

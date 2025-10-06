@@ -1,0 +1,117 @@
+name: Deploy Production
+
+# This workflow builds and submits production releases to the App Store
+# MANUAL TRIGGER ONLY - Production releases should be intentional
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version being released (for confirmation, e.g., 1.0.2)'
+        required: true
+        type: string
+      skip_submit:
+        description: 'Skip App Store submission (build only)'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  deploy-production:
+    name: Build & Deploy Production to App Store
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🔐 Check for EXPO_TOKEN
+        run: |
+          if [ -z "${{ secrets.EXPO_TOKEN }}" ]; then
+            echo "❌ EXPO_TOKEN secret is missing!"
+            echo "Add it in: Settings → Secrets → Actions → New repository secret"
+            echo "Generate token with: eas build:configure"
+            exit 1
+          fi
+
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: yarn
+
+      - name: 🔧 Setup Expo and EAS
+        uses: expo/expo-github-action@v8
+        with:
+          expo-version: latest
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: 📦 Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: ⚠️ Production Release Confirmation
+        run: |
+          echo "🚨 PRODUCTION RELEASE"
+          echo "===================="
+          echo "Version: ${{ inputs.version }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Commit: ${{ github.sha }}"
+          echo ""
+          echo "This will build and submit to the App Store for review."
+          echo "Make sure:"
+          echo "  ✅ Staging has been tested thoroughly"
+          echo "  ✅ Version number is correct in app.config.js"
+          echo "  ✅ Release notes are ready"
+          echo "  ✅ All critical features are working"
+
+      - name: 🍎 Build iOS Production
+        run: |
+          cd apps/expo
+          echo "🚀 Building iOS production profile..."
+          eas build --platform ios --profile production --non-interactive
+          echo "✅ iOS production build completed!"
+
+      - name: 📤 Submit to App Store
+        if: ${{ !inputs.skip_submit }}
+        run: |
+          cd apps/expo
+          echo "📤 Submitting to App Store..."
+          eas submit --platform ios --profile production --latest --non-interactive
+          echo "✅ Submitted to App Store for review!"
+          echo ""
+          echo "⏱️  Apple review typically takes 1-2 days."
+          echo "📧 You'll receive email updates about the review status."
+          echo "🔗 Monitor: https://appstoreconnect.apple.com"
+
+      - name: 🏷️ Create Release Tag
+        if: ${{ !inputs.skip_submit }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "v${{ inputs.version }}" -m "Release v${{ inputs.version }}"
+          git push origin "v${{ inputs.version }}"
+          echo "✅ Created git tag: v${{ inputs.version }}"
+
+      - name: 📊 Release Summary
+        run: |
+          echo "### 🚀 Production Release Complete!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Version:** ${{ inputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Platform:** iOS" >> $GITHUB_STEP_SUMMARY
+          echo "**Profile:** production" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ inputs.skip_submit }}" != "true" ]; then
+            echo "**App Store:** Submitted for Review ✅" >> $GITHUB_STEP_SUMMARY
+            echo "**Git Tag:** v${{ inputs.version }} created" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "⏱️ Apple review typically takes 1-2 days." >> $GITHUB_STEP_SUMMARY
+            echo "📧 You'll receive email updates about the review status." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "**App Store:** Skipped (build only)" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 [View builds](https://expo.dev/accounts/inner-ascend-expo/projects/mazunte-connect/builds)" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 [App Store Connect](https://appstoreconnect.apple.com)" >> $GITHUB_STEP_SUMMARY

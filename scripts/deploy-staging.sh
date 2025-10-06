@@ -8,9 +8,14 @@ set -e
 
 echo "🚀 Starting LOCAL staging deploy (FREE!)..."
 echo "⚠️  This will:"
+echo "   0. Bump app version (patch)"
 echo "   1. Build on your Mac using Xcode (~10-15 min)"
 echo "   2. Submit to TestFlight automatically (~2-5 min)"
 echo ""
+
+# Step 0: Bump version
+echo "📦 Step 0/3: Bumping version..."
+./scripts/bump-version.sh patch
 
 # Navigate to expo app directory
 cd apps/expo
@@ -47,7 +52,7 @@ if [ -z "$SENTRY_AUTH_TOKEN" ]; then
 fi
 
 # Step 1: Build locally (FREE!)
-echo "🍎 Step 1/2: Building for iOS (locally on your Mac)..."
+echo "🍎 Step 1/3: Building for iOS (locally on your Mac)..."
 eas build --platform ios --profile staging --local --non-interactive
 
 echo ""
@@ -55,8 +60,18 @@ echo "✅ Build completed!"
 echo ""
 
 # Step 2: Submit to TestFlight
-echo "📤 Step 2/2: Submitting to TestFlight..."
+echo "📤 Step 2/3: Submitting to TestFlight..."
 eas submit --platform ios --profile staging --latest --non-interactive
+
+echo ""
+echo "✅ Submitted to TestFlight!"
+echo ""
+
+# Step 3: Commit version bump
+echo "📝 Step 3/3: Committing version bump..."
+cd ../..
+git add apps/expo/app.config.js
+git commit -m "chore: bump version for staging release" || echo "⚠️  No version changes to commit"
 
 echo ""
 echo "🎉 Staging deploy completed!"

@@ -1,5 +1,10 @@
 name: Deploy Staging
 
+# ⚠️ WARNING: This workflow uses EAS CLOUD BUILDS which cost money!
+# ⚠️ Consider using local builds instead to avoid costs:
+# ⚠️   eas build --platform ios --profile staging --local
+# ⚠️   eas submit --platform ios --profile staging --latest
+#
 # This workflow deploys staging builds to TestFlight
 # Manual trigger only - deploy when you're ready for beta testing
 

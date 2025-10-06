@@ -1,5 +1,10 @@
 name: Deploy Production
 
+# ⚠️ WARNING: This workflow uses EAS CLOUD BUILDS which cost money!
+# ⚠️ Consider using local builds instead to avoid costs:
+# ⚠️   eas build --platform ios --profile production --local
+# ⚠️   eas submit --platform ios --profile production --latest
+#
 # This workflow builds and submits production releases to the App Store
 # MANUAL TRIGGER ONLY - Production releases should be intentional
 

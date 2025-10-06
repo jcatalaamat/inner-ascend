@@ -1,11 +1,14 @@
 #!/bin/bash
 
-# Staging Build Script
-# This script builds staging versions for beta testing
+# Staging Build Script (LOCAL - FREE!)
+# This script builds staging versions for beta testing on YOUR Mac
+# Uses --local flag to avoid EAS cloud build costs
 
 set -e
 
-echo "🚀 Starting staging build..."
+echo "🚀 Starting LOCAL staging build (FREE!)..."
+echo "⚠️  This will build on your Mac using Xcode"
+echo ""
 
 # Navigate to expo app directory
 cd apps/expo
@@ -22,12 +25,11 @@ if ! eas whoami &> /dev/null; then
     exit 1
 fi
 
-echo "📱 Building for Android..."
-eas build --platform android --profile staging --non-interactive
+# iOS only (local Android builds require more setup)
+echo "🍎 Building for iOS (locally on your Mac)..."
+eas build --platform ios --profile staging --local --non-interactive
 
-echo "🍎 Building for iOS..."
-eas build --platform ios --profile staging --non-interactive
-
-echo "✅ Staging builds completed!"
-echo "📥 Check your email or visit https://expo.dev to download the builds"
-echo "📤 You can now submit to TestFlight (iOS) or Google Play Internal Testing (Android)"
+echo ""
+echo "✅ Staging build completed!"
+echo "💰 Cost: $0 (built locally!)"
+echo "📤 Next step: Submit to TestFlight with: yarn submit:staging"

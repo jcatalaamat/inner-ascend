@@ -1,11 +1,14 @@
 #!/bin/bash
 
-# Production Build Script
-# This script builds production versions for app store submission
+# Production Build Script (LOCAL - FREE!)
+# This script builds production versions for app store submission on YOUR Mac
+# Uses --local flag to avoid EAS cloud build costs
 
 set -e
 
-echo "🚀 Starting production build..."
+echo "🚀 Starting LOCAL production build (FREE!)..."
+echo "⚠️  This will build on your Mac using Xcode"
+echo ""
 
 # Navigate to expo app directory
 cd apps/expo
@@ -22,12 +25,11 @@ if ! eas whoami &> /dev/null; then
     exit 1
 fi
 
-echo "📱 Building for Android..."
-eas build --platform android --profile production --non-interactive
+# iOS only (local Android builds require more setup)
+echo "🍎 Building for iOS (locally on your Mac)..."
+eas build --platform ios --profile production --local --non-interactive
 
-echo "🍎 Building for iOS..."
-eas build --platform ios --profile production --non-interactive
-
-echo "✅ Production builds completed!"
-echo "📥 Check your email or visit https://expo.dev to download the builds"
-echo "📤 You can now submit to Google Play Store and App Store"
+echo ""
+echo "✅ Production build completed!"
+echo "💰 Cost: $0 (built locally!)"
+echo "📤 Next step: Submit to App Store with: yarn submit:production"

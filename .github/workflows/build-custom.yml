@@ -1,5 +1,8 @@
 name: Custom Build
 
+# ⚠️ WARNING: This workflow uses EAS CLOUD BUILDS which cost money!
+# ⚠️ Use local builds instead: eas build --platform ios --profile [PROFILE] --local
+#
 # Flexible build workflow for special cases
 # Use this when you need:
 # - Android builds

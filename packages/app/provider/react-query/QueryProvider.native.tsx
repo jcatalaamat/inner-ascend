@@ -1,22 +1,12 @@
-import * as Network from 'expo-network'
 import {
   QueryClient,
   QueryClientProvider as QueryClientProviderOG,
   focusManager,
-  onlineManager,
 } from '@tanstack/react-query'
 import { api, createTrpcClient } from 'app/utils/api.native'
 import { useEffect, useState } from 'react'
 import type { AppStateStatus } from 'react-native'
 import { AppState, Platform } from 'react-native'
-
-// Set up online manager with Expo Network
-onlineManager.setEventListener((setOnline) => {
-  const eventSubscription = Network.addNetworkStateListener((state) => {
-    setOnline(!!state.isConnected)
-  })
-  return eventSubscription.remove
-})
 
 function onAppStateChange(status: AppStateStatus) {
   if (Platform.OS !== 'web') {

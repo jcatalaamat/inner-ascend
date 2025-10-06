@@ -15649,7 +15649,6 @@ __metadata:
     expo-linking: "npm:~7.1.7"
     expo-localization: "npm:~16.1.6"
     expo-location: "npm:~18.1.6"
-    expo-network: "npm:~7.1.5"
     expo-notifications: "npm:~0.31.4"
     expo-router: "npm:~5.1.7"
     expo-secure-store: "npm:~14.2.4"
@@ -15986,16 +15985,6 @@ __metadata:
   dependencies:
     invariant: "npm:^2.2.4"
   checksum: 10/ad34d71571bcfbff166da47fa3847ab03886b691b80079d9a3d111e5061cccbaa785c55eb48451ce7d300ce725d32f844492b0109d069dc89f70864b9de2c1c6
-  languageName: node
-  linkType: hard
-
-"expo-network@npm:~7.1.5":
-  version: 7.1.5
-  resolution: "expo-network@npm:7.1.5"
-  peerDependencies:
-    expo: "*"
-    react: "*"
-  checksum: 10/09aee1e0e3b945bda6e488aac6ba2f470f377549441f0742193143cf7d0e4cfab2b98a06f36944e049fbc6dc2430aa15876999c6aa512c4dcf387d1c390223cb
   languageName: node
   linkType: hard
 

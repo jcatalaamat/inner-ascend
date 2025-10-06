@@ -1,13 +1,15 @@
 #!/bin/bash
 
 # Production Build Script (LOCAL - FREE!)
-# This script builds production versions for app store submission on YOUR Mac
+# This script ONLY builds production versions (does NOT submit)
 # Uses --local flag to avoid EAS cloud build costs
+# Use deploy-production.sh if you want to build + submit in one command
 
 set -e
 
 echo "🚀 Starting LOCAL production build (FREE!)..."
-echo "⚠️  This will build on your Mac using Xcode"
+echo "⚠️  This will build on your Mac using Xcode (~10-15 min)"
+echo "💡 TIP: Use 'yarn deploy:production' to build + submit automatically"
 echo ""
 
 # Navigate to expo app directory
@@ -25,11 +27,15 @@ if ! eas whoami &> /dev/null; then
     exit 1
 fi
 
-# iOS only (local Android builds require more setup)
+# Build locally (FREE!)
 echo "🍎 Building for iOS (locally on your Mac)..."
 eas build --platform ios --profile production --local --non-interactive
 
 echo ""
 echo "✅ Production build completed!"
 echo "💰 Cost: $0 (built locally!)"
-echo "📤 Next step: Submit to App Store with: yarn submit:production"
+echo ""
+echo "📤 Next step: Submit to App Store with:"
+echo "   yarn submit:production"
+echo ""
+echo "💡 Or use 'yarn deploy:production' to build + submit in one command"

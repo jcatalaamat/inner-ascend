@@ -47,6 +47,8 @@
     "build:dev": "./scripts/build-dev.sh",
     "build:staging": "./scripts/build-staging.sh",
     "build:production": "./scripts/build-production.sh",
+    "deploy:staging": "./scripts/deploy-staging.sh",
+    "deploy:production": "./scripts/deploy-production.sh",
     "submit:staging": "./scripts/submit-staging.sh",
     "submit:production": "./scripts/submit-production.sh"
   },

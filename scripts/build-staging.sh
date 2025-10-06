@@ -27,6 +27,23 @@ if ! eas whoami &> /dev/null; then
     exit 1
 fi
 
+# Set environment variables for local builds
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
+# Check for Sentry token
+if [ -z "$SENTRY_AUTH_TOKEN" ]; then
+  echo "⚠️  WARNING: SENTRY_AUTH_TOKEN not found!"
+  echo "📝 Add to ~/.zshrc: export SENTRY_AUTH_TOKEN=\"your-token\""
+  echo "🔗 Get token: https://sentry.io/settings/account/api/auth-tokens/"
+  echo ""
+  read -p "Continue anyway? Build will fail if Sentry upload is required. (y/N) " -n 1 -r
+  echo
+  if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    exit 1
+  fi
+fi
+
 # Build locally (FREE!)
 echo "🍎 Building for iOS (locally on your Mac)..."
 eas build --platform ios --profile staging --local --non-interactive

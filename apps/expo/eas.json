@@ -12,7 +12,10 @@
         "APP_ENV": "development",
         "EXPO_PUBLIC_URL": "https://unistack-next-delta.vercel.app",
         "EXPO_PUBLIC_SUPABASE_URL": "https://ddbuvzotcasyanocqcsh.supabase.co",
-        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRkYnV2em90Y2FzeWFub2NxY3NoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkyMTc2OTUsImV4cCI6MjA3NDc5MzY5NX0.PMT70ZA13edRBikancgh1COnEeT_0OPAR6puegXPFsM"
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRkYnV2em90Y2FzeWFub2NxY3NoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkyMTc2OTUsImV4cCI6MjA3NDc5MzY5NX0.PMT70ZA13edRBikancgh1COnEeT_0OPAR6puegXPFsM",
+        "GOOGLE_IOS_SCHEME": "com.googleusercontent.apps.7491021027-dj901lvn943vgmstd41vraejfpinucra",
+        "GOOGLE_IOS_CLIENT_ID": "7491021027-dj901lvn943vgmstd41vraejfpinucra.apps.googleusercontent.com",
+        "GOOGLE_WEB_CLIENT_ID": "7491021027-vtrrafmgot4ndkpgalt20i6v8hgigasf.apps.googleusercontent.com"
       },
       "ios": {
         "simulator": true,
@@ -27,7 +30,10 @@
         "APP_ENV": "development",
         "EXPO_PUBLIC_URL": "https://unistack-next-delta.vercel.app",
         "EXPO_PUBLIC_SUPABASE_URL": "https://ddbuvzotcasyanocqcsh.supabase.co",
-        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRkYnV2em90Y2FzeWFub2NxY3NoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkyMTc2OTUsImV4cCI6MjA3NDc5MzY5NX0.PMT70ZA13edRBikancgh1COnEeT_0OPAR6puegXPFsM"
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRkYnV2em90Y2FzeWFub2NxY3NoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkyMTc2OTUsImV4cCI6MjA3NDc5MzY5NX0.PMT70ZA13edRBikancgh1COnEeT_0OPAR6puegXPFsM",
+        "GOOGLE_IOS_SCHEME": "com.googleusercontent.apps.7491021027-dj901lvn943vgmstd41vraejfpinucra",
+        "GOOGLE_IOS_CLIENT_ID": "7491021027-dj901lvn943vgmstd41vraejfpinucra.apps.googleusercontent.com",
+        "GOOGLE_WEB_CLIENT_ID": "7491021027-vtrrafmgot4ndkpgalt20i6v8hgigasf.apps.googleusercontent.com"
       },
       "ios": {
         "image": "latest"
@@ -42,7 +48,10 @@
         "NODE_ENV": "development",
         "EXPO_PUBLIC_URL": "https://unistack-next-delta.vercel.app",
         "EXPO_PUBLIC_SUPABASE_URL": "https://ddbuvzotcasyanocqcsh.supabase.co",
-        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRkYnV2em90Y2FzeWFub2NxY3NoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkyMTc2OTUsImV4cCI6MjA3NDc5MzY5NX0.PMT70ZA13edRBikancgh1COnEeT_0OPAR6puegXPFsM"
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRkYnV2em90Y2FzeWFub2NxY3NoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkyMTc2OTUsImV4cCI6MjA3NDc5MzY5NX0.PMT70ZA13edRBikancgh1COnEeT_0OPAR6puegXPFsM",
+        "GOOGLE_IOS_SCHEME": "com.googleusercontent.apps.7491021027-dj901lvn943vgmstd41vraejfpinucra",
+        "GOOGLE_IOS_CLIENT_ID": "7491021027-dj901lvn943vgmstd41vraejfpinucra.apps.googleusercontent.com",
+        "GOOGLE_WEB_CLIENT_ID": "7491021027-vtrrafmgot4ndkpgalt20i6v8hgigasf.apps.googleusercontent.com"
       },
       "android": {
         "buildType": "apk"
@@ -64,7 +73,10 @@
         "EXPO_PUBLIC_SUPABASE_URL": "https://ddbuvzotcasyanocqcsh.supabase.co",
         "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRkYnV2em90Y2FzeWFub2NxY3NoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkyMTc2OTUsImV4cCI6MjA3NDc5MzY5NX0.PMT70ZA13edRBikancgh1COnEeT_0OPAR6puegXPFsM",
         "EXPO_PUBLIC_POSTHOG_API_KEY": "phc_BkmJVuwBbxUTgPNSmFJqComY0An1HnUmWe0VzBZUIu9",
-        "EXPO_PUBLIC_POSTHOG_HOST": "https://eu.i.posthog.com"
+        "EXPO_PUBLIC_POSTHOG_HOST": "https://eu.i.posthog.com",
+        "GOOGLE_IOS_SCHEME": "com.googleusercontent.apps.7491021027-dj901lvn943vgmstd41vraejfpinucra",
+        "GOOGLE_IOS_CLIENT_ID": "7491021027-dj901lvn943vgmstd41vraejfpinucra.apps.googleusercontent.com",
+        "GOOGLE_WEB_CLIENT_ID": "7491021027-vtrrafmgot4ndkpgalt20i6v8hgigasf.apps.googleusercontent.com"
       },
       "ios": {
         "image": "latest"
@@ -84,7 +96,10 @@
         "EXPO_PUBLIC_SUPABASE_URL": "https://ddbuvzotcasyanocqcsh.supabase.co",
         "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRkYnV2em90Y2FzeWFub2NxY3NoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkyMTc2OTUsImV4cCI6MjA3NDc5MzY5NX0.PMT70ZA13edRBikancgh1COnEeT_0OPAR6puegXPFsM",
         "EXPO_PUBLIC_POSTHOG_API_KEY": "phc_BkmJVuwBbxUTgPNSmFJqComY0An1HnUmWe0VzBZUIu9",
-        "EXPO_PUBLIC_POSTHOG_HOST": "https://eu.i.posthog.com"
+        "EXPO_PUBLIC_POSTHOG_HOST": "https://eu.i.posthog.com",
+        "GOOGLE_IOS_SCHEME": "com.googleusercontent.apps.7491021027-dj901lvn943vgmstd41vraejfpinucra",
+        "GOOGLE_IOS_CLIENT_ID": "7491021027-dj901lvn943vgmstd41vraejfpinucra.apps.googleusercontent.com",
+        "GOOGLE_WEB_CLIENT_ID": "7491021027-vtrrafmgot4ndkpgalt20i6v8hgigasf.apps.googleusercontent.com"
       },
       "ios": {
         "image": "latest"
@@ -99,7 +114,10 @@
         "NODE_ENV": "production",
         "EXPO_PUBLIC_URL": "https://unistack-next-delta.vercel.app",
         "EXPO_PUBLIC_SUPABASE_URL": "https://ddbuvzotcasyanocqcsh.supabase.co",
-        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRkYnV2em90Y2FzeWFub2NxY3NoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkyMTc2OTUsImV4cCI6MjA3NDc5MzY5NX0.PMT70ZA13edRBikancgh1COnEeT_0OPAR6puegXPFsM"
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRkYnV2em90Y2FzeWFub2NxY3NoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkyMTc2OTUsImV4cCI6MjA3NDc5MzY5NX0.PMT70ZA13edRBikancgh1COnEeT_0OPAR6puegXPFsM",
+        "GOOGLE_IOS_SCHEME": "com.googleusercontent.apps.7491021027-dj901lvn943vgmstd41vraejfpinucra",
+        "GOOGLE_IOS_CLIENT_ID": "7491021027-dj901lvn943vgmstd41vraejfpinucra.apps.googleusercontent.com",
+        "GOOGLE_WEB_CLIENT_ID": "7491021027-vtrrafmgot4ndkpgalt20i6v8hgigasf.apps.googleusercontent.com"
       },
       "android": {
         "buildType": "app-bundle"

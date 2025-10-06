@@ -100,6 +100,7 @@ export default {
           url: 'https://sentry.io/',
         },
       ],
+      '@react-native-community/netinfo',
     ],
     extra: {
       router: {

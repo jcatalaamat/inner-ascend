@@ -109,9 +109,7 @@ export default {
         projectId: 'f4f14c35-489b-4fc5-bd7e-6e156faf5928',
       },
     },
-    runtimeVersion: {
-      policy: 'appVersion',
-    },
+    runtimeVersion: '1.0.2',
     owner: process.env.EXPO_OWNER || 'inner-ascend-expo',
   },
 }

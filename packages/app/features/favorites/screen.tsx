@@ -9,6 +9,7 @@ import { X } from '@tamagui/lucide-icons'
 import { ScreenWrapper } from 'app/components/ScreenWrapper'
 import { useTranslation } from 'react-i18next'
 import { usePostHog } from 'posthog-react-native'
+import { AdBanner } from 'app/components/AdBanner'
 
 export function FavoritesScreen() {
   const { profile } = useUser()
@@ -188,6 +189,9 @@ export function FavoritesScreen() {
           }
         />
       )}
+
+      {/* Ad Banner - Feature flag controlled */}
+      <AdBanner placement="favorites" />
     </ScreenWrapper>
   )
 }

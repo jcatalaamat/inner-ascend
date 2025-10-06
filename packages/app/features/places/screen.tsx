@@ -9,6 +9,7 @@ import { usePlacesQuery } from 'app/utils/react-query/usePlacesQuery'
 import { ScreenWrapper } from 'app/components/ScreenWrapper'
 import { useTranslation } from 'react-i18next'
 import { usePostHog, useFeatureFlag } from 'posthog-react-native'
+import { AdBanner } from 'app/components/AdBanner'
 
 export function PlacesScreen() {
   const [selectedType, setSelectedType] = useState<PlaceType | null>(null)
@@ -167,6 +168,9 @@ export function PlacesScreen() {
           </YStack>
         }
       />
+
+      {/* Ad Banner - Feature flag controlled */}
+      <AdBanner placement="places_list" />
     </ScreenWrapper>
   )
 }

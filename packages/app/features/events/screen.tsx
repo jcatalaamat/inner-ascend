@@ -10,6 +10,7 @@ import { formatDate, formatTime, getRelativeDay } from 'app/utils/date-helpers'
 import { useTranslation } from 'react-i18next'
 import { usePostHog, useFeatureFlag } from 'posthog-react-native'
 import { ScreenWrapper } from 'app/components/ScreenWrapper'
+import { AdBanner } from 'app/components/AdBanner'
 
 export function EventsScreen() {
   const [selectedCategory, setSelectedCategory] = useState<EventCategory | null>(null)
@@ -186,6 +187,9 @@ export function EventsScreen() {
             </YStack>
           }
         />
+
+        {/* Ad Banner - Feature flag controlled */}
+        <AdBanner placement="events_list" />
       </YStack>
     </ScreenWrapper>
   )

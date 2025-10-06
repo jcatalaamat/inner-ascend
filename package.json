@@ -85,6 +85,7 @@
     "dotenv-cli": "^8.0.0",
     "eslint": "^8.46.0",
     "expo": "~53.0.23",
+    "expo-ads-admob": "13.0.0",
     "expo-localization": "~16.1.6",
     "fs-extra": "^11.2.0",
     "i18next": "^25.5.3",

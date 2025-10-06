@@ -6,7 +6,7 @@ export default {
     slug: 'mazunte-connect',
     jsEngine: 'hermes',
     scheme: 'mazunteconnect',
-    version: '1.0.3',
+    version: '1.1.0',
     orientation: 'portrait',
     icon: './assets/icon.png',
     userInterfaceStyle: 'automatic',
@@ -28,12 +28,16 @@ export default {
         ITSAppUsesNonExemptEncryption: false,
         "NSBluetoothAlwaysUsageDescription": "This app uses Bluetooth for nearby device verification during sign-in.",
         "NSBluetoothPeripheralUsageDescription": "Bluetooth is used to discover and connect to nearby devices for sign-in flow if needed.",
+        "NSUserTrackingUsageDescription": "This identifier will be used to deliver personalized ads to you.",
         CFBundleURLTypes: [
           {
             CFBundleURLName: "GoogleSignIn",
             CFBundleURLSchemes: ['com.googleusercontent.apps.7491021027-dj901lvn943vgmstd41vraejfpinucra']
           }
         ]
+      },
+      config: {
+        googleMobileAdsAppId: process.env.EXPO_PUBLIC_ADMOB_IOS_APP_ID || 'ca-app-pub-3940256099942544~1458002511', // Test ID
       },
     },
     android: {
@@ -53,6 +57,7 @@ export default {
         googleMaps: {
           apiKey: process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
         },
+        googleMobileAdsAppId: process.env.EXPO_PUBLIC_ADMOB_ANDROID_APP_ID || 'ca-app-pub-3940256099942544~3347511713', // Test ID
       },
     },
     web: {
@@ -90,6 +95,12 @@ export default {
         'expo-location',
         {
           locationAlwaysAndWhenInUsePermission: 'Allow Mazunte Connect to use your location to show nearby events and places.',
+        },
+      ],
+      [
+        'expo-ads-admob',
+        {
+          userTrackingPermission: 'This identifier will be used to deliver personalized ads to you.',
         },
       ],
       [

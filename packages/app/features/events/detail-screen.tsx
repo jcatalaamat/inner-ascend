@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react'
 import { Linking, Platform, Share } from 'react-native'
 import { ImageViewer } from 'app/components/ImageViewer'
 import i18n from 'app/i18n'
+import { useAdInterstitial } from 'app/components/AdInterstitial'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 let MapView: any = null
 let Marker: any = null
@@ -27,11 +29,14 @@ interface EventDetailScreenProps {
   id: string
 }
 
+const EVENT_VIEW_COUNT_KEY = '@event_detail_view_count'
+
 export function EventDetailScreen({ id }: EventDetailScreenProps) {
   const { data: event, isLoading } = useEventDetailQuery(id)
   const { t } = useTranslation()
   const posthog = usePostHog()
   const [imageViewerVisible, setImageViewerVisible] = useState(false)
+  const { showInterstitial, isEnabled } = useAdInterstitial()
 
   useEffect(() => {
     if (event) {
@@ -42,8 +47,39 @@ export function EventDetailScreen({ id }: EventDetailScreenProps) {
         is_featured: event.featured,
         is_eco_conscious: event.eco_conscious,
       })
+
+      // Interstitial ad logic: Show after 3rd event view
+      const trackViewAndShowAd = async () => {
+        if (!isEnabled) return
+
+        try {
+          const countStr = await AsyncStorage.getItem(EVENT_VIEW_COUNT_KEY)
+          const count = countStr ? parseInt(countStr, 10) : 0
+          const newCount = count + 1
+
+          await AsyncStorage.setItem(EVENT_VIEW_COUNT_KEY, newCount.toString())
+
+          // Show ad on every 3rd view (3, 6, 9, etc.)
+          if (newCount % 3 === 0) {
+            // Small delay so user sees the event first
+            setTimeout(async () => {
+              const shown = await showInterstitial()
+              if (shown) {
+                posthog?.capture('ad_interstitial_triggered', {
+                  event_id: event.id,
+                  view_count: newCount,
+                })
+              }
+            }, 1500)
+          }
+        } catch (error) {
+          console.warn('Failed to track event view count:', error)
+        }
+      }
+
+      trackViewAndShowAd()
     }
-  }, [event, posthog])
+  }, [event, posthog, showInterstitial, isEnabled])
 
   const handlePhonePress = () => {
     if (event?.contact_phone) Linking.openURL(`tel:${event.contact_phone}`)

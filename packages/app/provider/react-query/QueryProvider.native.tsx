@@ -1,20 +1,12 @@
-import NetInfo from '@react-native-community/netinfo'
 import {
   QueryClient,
   QueryClientProvider as QueryClientProviderOG,
   focusManager,
-  onlineManager,
 } from '@tanstack/react-query'
 import { api, createTrpcClient } from 'app/utils/api.native'
 import { useEffect, useState } from 'react'
 import type { AppStateStatus } from 'react-native'
 import { AppState, Platform } from 'react-native'
-
-onlineManager.setEventListener((setOnline) => {
-  return NetInfo.addEventListener((state) => {
-    setOnline(!!state.isConnected)
-  })
-})
 
 function onAppStateChange(status: AppStateStatus) {
   if (Platform.OS !== 'web') {

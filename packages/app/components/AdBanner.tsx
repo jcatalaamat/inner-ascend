@@ -1,33 +1,32 @@
 import { useFeatureFlag, usePostHog } from 'posthog-react-native'
 import { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
-import { AdMobBanner } from 'expo-ads-admob'
+import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
 import { YStack } from '@my/ui'
 
-// Test ad unit IDs from Google AdMob
-// Replace these with your real Ad Unit IDs after AdMob account approval
+// Ad unit IDs from environment or test IDs
 const AD_UNIT_IDS = {
   ios: {
     events_list: __DEV__
-      ? 'ca-app-pub-3940256099942544/2934735716' // Test banner ID
-      : process.env.EXPO_PUBLIC_ADMOB_IOS_EVENTS_BANNER || 'ca-app-pub-3940256099942544/2934735716',
+      ? TestIds.BANNER // Google's test banner ID
+      : process.env.EXPO_PUBLIC_ADMOB_IOS_EVENTS_BANNER || TestIds.BANNER,
     places_list: __DEV__
-      ? 'ca-app-pub-3940256099942544/2934735716'
-      : process.env.EXPO_PUBLIC_ADMOB_IOS_PLACES_BANNER || 'ca-app-pub-3940256099942544/2934735716',
+      ? TestIds.BANNER
+      : process.env.EXPO_PUBLIC_ADMOB_IOS_PLACES_BANNER || TestIds.BANNER,
     favorites: __DEV__
-      ? 'ca-app-pub-3940256099942544/2934735716'
-      : process.env.EXPO_PUBLIC_ADMOB_IOS_FAVORITES_BANNER || 'ca-app-pub-3940256099942544/2934735716',
+      ? TestIds.BANNER
+      : process.env.EXPO_PUBLIC_ADMOB_IOS_FAVORITES_BANNER || TestIds.BANNER,
   },
   android: {
     events_list: __DEV__
-      ? 'ca-app-pub-3940256099942544/6300978111' // Test banner ID
-      : process.env.EXPO_PUBLIC_ADMOB_ANDROID_EVENTS_BANNER || 'ca-app-pub-3940256099942544/6300978111',
+      ? TestIds.BANNER // Google's test banner ID
+      : process.env.EXPO_PUBLIC_ADMOB_ANDROID_EVENTS_BANNER || TestIds.BANNER,
     places_list: __DEV__
-      ? 'ca-app-pub-3940256099942544/6300978111'
-      : process.env.EXPO_PUBLIC_ADMOB_ANDROID_PLACES_BANNER || 'ca-app-pub-3940256099942544/6300978111',
+      ? TestIds.BANNER
+      : process.env.EXPO_PUBLIC_ADMOB_ANDROID_PLACES_BANNER || TestIds.BANNER,
     favorites: __DEV__
-      ? 'ca-app-pub-3940256099942544/6300978111'
-      : process.env.EXPO_PUBLIC_ADMOB_ANDROID_FAVORITES_BANNER || 'ca-app-pub-3940256099942544/6300978111',
+      ? TestIds.BANNER
+      : process.env.EXPO_PUBLIC_ADMOB_ANDROID_FAVORITES_BANNER || TestIds.BANNER,
   },
 }
 
@@ -51,7 +50,7 @@ export function AdBanner({ placement }: AdBannerProps) {
     }
   }, [showAds, placement, posthog])
 
-  // Don't render if feature flag is disabled
+  // Don't render if feature flag is disabled or if there was an error
   if (!showAds || error) {
     return null
   }
@@ -64,20 +63,22 @@ export function AdBanner({ placement }: AdBannerProps) {
 
   return (
     <YStack py="$2" ai="center" bg="$background">
-      <AdMobBanner
-        bannerSize="smartBannerPortrait"
-        adUnitID={adUnitId}
-        servePersonalizedAds={true}
-        onDidFailToReceiveAdWithError={(error) => {
+      <BannerAd
+        unitId={adUnitId!}
+        size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+        requestOptions={{
+          requestNonPersonalizedAdsOnly: false,
+        }}
+        onAdFailedToLoad={(error) => {
           console.warn('Ad failed to load:', error)
           setError(true)
           posthog?.capture('ad_banner_failed', {
             placement,
-            error: error,
+            error: error.message,
             platform: Platform.OS,
           })
         }}
-        onAdViewDidReceiveAd={() => {
+        onAdLoaded={() => {
           posthog?.capture('ad_banner_loaded', {
             placement,
             platform: Platform.OS,

@@ -1,19 +1,18 @@
 import { useFeatureFlag, usePostHog } from 'posthog-react-native'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Platform } from 'react-native'
-import { AdMobInterstitial } from 'expo-ads-admob'
+import { InterstitialAd, AdEventType, TestIds } from 'react-native-google-mobile-ads'
 import { canShowInterstitial, recordInterstitialShown } from 'app/utils/ad-frequency'
 
-// Test ad unit IDs from Google AdMob
-// Replace these with your real Ad Unit IDs after AdMob account approval
+// Ad unit IDs from environment or test IDs
 const INTERSTITIAL_AD_UNIT_ID = Platform.select({
   ios: __DEV__
-    ? 'ca-app-pub-3940256099942544/4411468910' // Test interstitial ID
-    : process.env.EXPO_PUBLIC_ADMOB_IOS_INTERSTITIAL || 'ca-app-pub-3940256099942544/4411468910',
+    ? TestIds.INTERSTITIAL // Google's test interstitial ID
+    : process.env.EXPO_PUBLIC_ADMOB_IOS_INTERSTITIAL || TestIds.INTERSTITIAL,
   android: __DEV__
-    ? 'ca-app-pub-3940256099942544/1033173712' // Test interstitial ID
-    : process.env.EXPO_PUBLIC_ADMOB_ANDROID_INTERSTITIAL || 'ca-app-pub-3940256099942544/1033173712',
-  default: 'ca-app-pub-3940256099942544/4411468910',
+    ? TestIds.INTERSTITIAL // Google's test interstitial ID
+    : process.env.EXPO_PUBLIC_ADMOB_ANDROID_INTERSTITIAL || TestIds.INTERSTITIAL,
+  default: TestIds.INTERSTITIAL,
 })
 
 /**
@@ -25,38 +24,43 @@ export function useAdInterstitial() {
   const showAds = useFeatureFlag('enable-ads')
   const posthog = usePostHog()
   const [isReady, setIsReady] = useState(false)
+  const interstitialRef = useRef<InterstitialAd | null>(null)
 
   useEffect(() => {
     if (!showAds) {
       return
     }
 
-    // Set up interstitial ad listeners
-    const setupInterstitial = async () => {
-      try {
-        await AdMobInterstitial.setAdUnitID(INTERSTITIAL_AD_UNIT_ID!)
+    // Create and load interstitial ad
+    const interstitial = InterstitialAd.createForAdRequest(INTERSTITIAL_AD_UNIT_ID!, {
+      requestNonPersonalizedAdsOnly: false,
+    })
 
-        // Request ad
-        await AdMobInterstitial.requestAdAsync({ servePersonalizedAds: true })
-        setIsReady(true)
+    // Set up event listeners
+    const unsubscribeLoaded = interstitial.addAdEventListener(AdEventType.LOADED, () => {
+      setIsReady(true)
+      posthog?.capture('ad_interstitial_loaded', {
+        platform: Platform.OS,
+      })
+    })
 
-        posthog?.capture('ad_interstitial_loaded', {
-          platform: Platform.OS,
-        })
-      } catch (error) {
-        console.warn('Failed to load interstitial ad:', error)
-        posthog?.capture('ad_interstitial_load_failed', {
-          error: String(error),
-          platform: Platform.OS,
-        })
-      }
-    }
+    const unsubscribeError = interstitial.addAdEventListener(AdEventType.ERROR, (error) => {
+      console.warn('Interstitial ad error:', error)
+      setIsReady(false)
+      posthog?.capture('ad_interstitial_load_failed', {
+        error: String(error),
+        platform: Platform.OS,
+      })
+    })
 
-    setupInterstitial()
+    // Load the ad
+    interstitial.load()
+    interstitialRef.current = interstitial
 
     // Clean up
     return () => {
-      // Note: expo-ads-admob doesn't provide a way to unload ads
+      unsubscribeLoaded()
+      unsubscribeError()
     }
   }, [showAds, posthog])
 
@@ -72,7 +76,7 @@ export function useAdInterstitial() {
       return false
     }
 
-    if (!isReady) {
+    if (!isReady || !interstitialRef.current) {
       console.log('Ad not ready yet')
       return false
     }
@@ -87,7 +91,8 @@ export function useAdInterstitial() {
     }
 
     try {
-      await AdMobInterstitial.showAdAsync()
+      // Show the ad
+      await interstitialRef.current.show()
       await recordInterstitialShown()
 
       posthog?.capture('ad_interstitial_shown', {
@@ -96,8 +101,21 @@ export function useAdInterstitial() {
 
       // Load next ad for next time
       setIsReady(false)
-      await AdMobInterstitial.requestAdAsync({ servePersonalizedAds: true })
-      setIsReady(true)
+      const nextInterstitial = InterstitialAd.createForAdRequest(INTERSTITIAL_AD_UNIT_ID!, {
+        requestNonPersonalizedAdsOnly: false,
+      })
+
+      nextInterstitial.addAdEventListener(AdEventType.LOADED, () => {
+        setIsReady(true)
+      })
+
+      nextInterstitial.addAdEventListener(AdEventType.ERROR, (error) => {
+        console.warn('Failed to load next interstitial ad:', error)
+        setIsReady(false)
+      })
+
+      nextInterstitial.load()
+      interstitialRef.current = nextInterstitial
 
       return true
     } catch (error) {
@@ -110,8 +128,16 @@ export function useAdInterstitial() {
       // Try to load a new ad
       setIsReady(false)
       try {
-        await AdMobInterstitial.requestAdAsync({ servePersonalizedAds: true })
-        setIsReady(true)
+        const retryInterstitial = InterstitialAd.createForAdRequest(INTERSTITIAL_AD_UNIT_ID!, {
+          requestNonPersonalizedAdsOnly: false,
+        })
+
+        retryInterstitial.addAdEventListener(AdEventType.LOADED, () => {
+          setIsReady(true)
+        })
+
+        retryInterstitial.load()
+        interstitialRef.current = retryInterstitial
       } catch (loadError) {
         console.warn('Failed to reload interstitial ad:', loadError)
       }

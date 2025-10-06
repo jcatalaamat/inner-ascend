@@ -4,6 +4,7 @@ Complete guide for submitting Mazunte Connect to the App Store for the first tim
 
 ## Table of Contents
 - [Understanding Builds: Staging vs Production](#understanding-builds-staging-vs-production)
+- [Understanding Build Numbers](#understanding-build-numbers)
 - [First-Time Submission Checklist](#first-time-submission-checklist)
 - [Step-by-Step Setup](#step-by-step-setup)
 - [Generating Screenshots](#generating-screenshots)
@@ -46,6 +47,82 @@ When you run `yarn deploy:staging`, it:
 - Run: `yarn deploy:production`
 
 **My recommendation:** Use your staging build for now, then use production profile for future releases.
+
+---
+
+## Understanding Build Numbers
+
+### How Build Numbers Work with Local Builds
+
+**Important:** Your `app.config.js` might say `buildNumber: '7'`, but EAS uses a different (higher) number when building. **This is normal and expected!**
+
+#### How `autoIncrement` Works:
+
+Your [eas.json](../apps/expo/eas.json) has `autoIncrement: true` for staging and production profiles:
+
+```json
+"staging": {
+  "autoIncrement": true  // ← EAS automatically increments buildNumber
+}
+```
+
+**What EAS does when you build:**
+1. Checks App Store Connect for the **highest build number ever used**
+2. Uses `max(App Store Connect builds) + 1`
+3. Your local `buildNumber` in `app.config.js` becomes a **reference point only**
+
+**Example:**
+- Your `app.config.js`: `buildNumber: '7'`
+- App Store Connect has builds: 30, 31, 32, 33
+- EAS builds with: **`buildNumber: 34`** ✅
+
+**Key takeaway:** You **never need to manually update buildNumber**! EAS handles it automatically.
+
+### "Already Submitted This Build" Error
+
+If you see this error:
+```
+✖ You've already submitted this build of the app.
+```
+
+**This means:**
+- You tried to submit a build number that's already in App Store Connect
+- This is a **one-time issue** - won't happen again
+- Just run `yarn deploy:staging` again - EAS will use the next build number
+
+**Why it happened:**
+- Build was submitted twice (maybe a retry or previous attempt)
+- EAS increments on **build**, but if build fails and you retry, it might reuse the same number
+
+**Solution:**
+- Simply build again: `yarn deploy:staging`
+- EAS will automatically use build number `34` (or next available)
+- No manual changes needed!
+
+### Checking Current Build Number
+
+**In App Store Connect:**
+1. Go to **TestFlight** → **iOS Builds**
+2. See all builds with their numbers: `1.0.2 (33)`, `1.0.2 (34)`, etc.
+3. The number in parentheses is the build number
+
+**In your local builds:**
+- Build logs show: `Build number: 34`
+- IPA filename: `build-1759730148941.ipa` (timestamp, not build number)
+
+### Do I Need to Update app.config.js?
+
+**No!** Your `buildNumber` in `app.config.js` can stay at `'7'` forever.
+
+**Why?**
+- With `autoIncrement: true`, EAS ignores your local buildNumber
+- EAS tracks the real build numbers via App Store Connect
+- Your local value is just a reference/starting point
+
+**When you might want to update it:**
+- For version control clarity (optional)
+- To keep config in sync with reality (optional)
+- **But it's not required!**
 
 ---
 

@@ -10,7 +10,6 @@
 
 # expo
 **/.expo/*
-/ios
 
 # next.js
 **/.next/*

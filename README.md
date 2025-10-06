@@ -163,6 +163,22 @@ supabase db reset
 
 ## 🚀 Deployment
 
+### Local iOS Builds:
+When building locally with `yarn ios --device`, you need to regenerate the native iOS directory after pulling changes:
+
+```bash
+# From apps/expo directory
+yarn expo:prebuild:clean
+```
+
+This command:
+- Cleans and regenerates the `ios/` directory
+- Applies the `newArchEnabled: false` configuration from app.config.js
+- Runs `pod install` with proper UTF-8 encoding
+- Ensures react-native-google-mobile-ads builds correctly
+
+**Note**: The `ios/` directory is gitignored and must be regenerated locally. The expo-build-properties configuration in app.config.js ensures New Architecture is disabled.
+
 ### EAS Build Profiles:
 - **development**: For testing with development client
 - **staging**: For internal testing and TestFlight

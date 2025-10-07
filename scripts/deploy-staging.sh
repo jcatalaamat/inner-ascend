@@ -53,15 +53,16 @@ fi
 
 # Step 1: Build locally (FREE!)
 echo "🍎 Step 1/3: Building for iOS (locally on your Mac)..."
-eas build --platform ios --profile staging --local --non-interactive
+IPA_PATH="./build-$(date +%s).ipa"
+eas build --platform ios --profile staging --local --non-interactive --output "$IPA_PATH"
 
 echo ""
-echo "✅ Build completed!"
+echo "✅ Build completed: $IPA_PATH"
 echo ""
 
 # Step 2: Submit to TestFlight
 echo "📤 Step 2/3: Submitting to TestFlight..."
-eas submit --platform ios --profile staging --latest --non-interactive
+eas submit --platform ios --profile staging --path "$IPA_PATH" --non-interactive
 
 echo ""
 echo "✅ Submitted to TestFlight!"

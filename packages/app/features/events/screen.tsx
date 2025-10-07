@@ -45,10 +45,7 @@ export function EventsScreen() {
     setRefreshing(false)
   }
 
-  // Debug logging (development only)
-  if (__DEV__) {
-    console.log('Events data:', { allEvents, isLoading, error })
-  }
+  // Removed debug logging to improve performance
 
   // Filter locally for better performance
   const filteredEvents = useMemo(() => {
@@ -81,17 +78,10 @@ export function EventsScreen() {
 
   // Inject native ads into filtered events
   useEffect(() => {
-    console.log('🎯 Native Ads - Events:', {
-      showNativeAds,
-      eventsCount: filteredEvents.length,
-      adUnitId: process.env.EXPO_PUBLIC_ADMOB_NATIVE_EVENTS_IOS
-    })
-
     // ALWAYS show events immediately (no empty screen)
     setEventsWithAds(filteredEvents)
 
     if (!showNativeAds) {
-      console.log('❌ Native ads disabled by feature flag')
       return
     }
 
@@ -105,14 +95,8 @@ export function EventsScreen() {
     const prodAdUnitId = process.env.EXPO_PUBLIC_ADMOB_NATIVE_EVENTS_IOS
     const adUnitId = getAdUnitId(prodAdUnitId)
 
-    console.log('📱 Loading native ads:', {
-      prodAdUnitId,
-      finalAdUnitId: adUnitId,
-      type: typeof adUnitId
-    })
-
     if (!adUnitId || typeof adUnitId !== 'string') {
-      console.error('❌ Invalid ad unit ID:', adUnitId)
+      if (__DEV__) console.error('❌ Invalid ad unit ID:', adUnitId)
       setIsLoadingAds(false)
       return
     }
@@ -121,14 +105,13 @@ export function EventsScreen() {
     injectNativeAds(filteredEvents, adUnitId, 5)
       .then((result) => {
         if (!cancelled) {
-          console.log('✅ Native ads loaded, result length:', result.length)
           setEventsWithAds(result)
           setIsLoadingAds(false)
         }
       })
       .catch((error) => {
         if (!cancelled) {
-          console.warn('❌ Failed to inject native ads:', error)
+          if (__DEV__) console.warn('❌ Failed to inject native ads:', error)
           // Keep showing events without ads
           setIsLoadingAds(false)
         }

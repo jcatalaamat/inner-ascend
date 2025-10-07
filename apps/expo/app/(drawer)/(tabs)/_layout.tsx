@@ -23,15 +23,6 @@ export default function Layout() {
   // Show features when flag is undefined (loading) or false (disabled)
   const showDrawerMenu = !disableDrawerMenu
 
-  if (__DEV__) {
-    console.log('pathname', pathname)
-    console.log('🚩 Feature Flags:', {
-      disableEventCreation,
-      disablePlaceCreation,
-      disableDrawerMenu,
-      showDrawerMenu
-    })
-  }
   return (
     <>
       <Stack.Screen

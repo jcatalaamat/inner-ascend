@@ -74,17 +74,10 @@ export function PlacesScreen() {
 
   // Inject native ads into filtered places
   useEffect(() => {
-    console.log('🎯 Native Ads - Places:', {
-      showNativeAds,
-      placesCount: filteredPlaces.length,
-      adUnitId: process.env.EXPO_PUBLIC_ADMOB_NATIVE_PLACES_IOS
-    })
-
     // ALWAYS show places immediately (no empty screen)
     setPlacesWithAds(filteredPlaces)
 
     if (!showNativeAds) {
-      console.log('❌ Native ads disabled by feature flag')
       return
     }
 
@@ -98,14 +91,8 @@ export function PlacesScreen() {
     const prodAdUnitId = process.env.EXPO_PUBLIC_ADMOB_NATIVE_PLACES_IOS
     const adUnitId = getAdUnitId(prodAdUnitId)
 
-    console.log('📱 Loading native ads:', {
-      prodAdUnitId,
-      finalAdUnitId: adUnitId,
-      type: typeof adUnitId
-    })
-
     if (!adUnitId || typeof adUnitId !== 'string') {
-      console.error('❌ Invalid ad unit ID:', adUnitId)
+      if (__DEV__) console.error('❌ Invalid ad unit ID:', adUnitId)
       setIsLoadingAds(false)
       return
     }
@@ -114,14 +101,13 @@ export function PlacesScreen() {
     injectNativeAds(filteredPlaces, adUnitId, 5)
       .then((result) => {
         if (!cancelled) {
-          console.log('✅ Native ads loaded, result length:', result.length)
           setPlacesWithAds(result)
           setIsLoadingAds(false)
         }
       })
       .catch((error) => {
         if (!cancelled) {
-          console.warn('❌ Failed to inject native ads:', error)
+          if (__DEV__) console.warn('❌ Failed to inject native ads:', error)
           // Keep showing places without ads
           setIsLoadingAds(false)
         }
@@ -146,10 +132,6 @@ export function PlacesScreen() {
       type: type || 'all',
       places_count: type ? allPlaces.filter(p => p.type === type).length : allPlaces.length,
     })
-  }
-
-  if (isLoading) {
-    return <FullscreenSpinner />
   }
 
   return (
@@ -241,16 +223,22 @@ export function PlacesScreen() {
           paddingBottom: 80,
         }}
         ListEmptyComponent={
-          <YStack ai="center" jc="center" py="$10">
-            <Text fontSize="$5" color="$color10">
-              {t('places.no_places_found')}
-            </Text>
-            {(selectedType || searchQuery) && (
-              <Text fontSize="$3" color="$color9" mt="$2">
-                {t('places.try_adjusting_filters')}
+          isLoading ? (
+            <YStack ai="center" jc="center" py="$10">
+              <FullscreenSpinner />
+            </YStack>
+          ) : (
+            <YStack ai="center" jc="center" py="$10">
+              <Text fontSize="$5" color="$color10">
+                {t('places.no_places_found')}
               </Text>
-            )}
-          </YStack>
+              {(selectedType || searchQuery) && (
+                <Text fontSize="$3" color="$color9" mt="$2">
+                  {t('places.try_adjusting_filters')}
+                </Text>
+              )}
+            </YStack>
+          )
         }
       />
     </ScreenWrapper>

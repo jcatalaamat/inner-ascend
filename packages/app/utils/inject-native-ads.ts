@@ -60,7 +60,7 @@ export async function injectNativeAds<T>(
 
     return result
   } catch (error) {
-    console.warn('Failed to load native ads:', error)
+    if (__DEV__) console.warn('Failed to load native ads:', error)
     // Return original data without ads if loading fails
     return data
   }
@@ -86,14 +86,6 @@ export function getAdUnitId(prodId?: string): string {
   const forceTestAds = true
 
   const adUnitId = forceTestAds ? TEST_NATIVE_AD_UNIT_ID : (prodId || TEST_NATIVE_AD_UNIT_ID)
-
-  console.log('🆔 Ad Unit ID Selection:', {
-    isDev,
-    prodId,
-    testId: TEST_NATIVE_AD_UNIT_ID,
-    selected: adUnitId,
-    forceTestAds
-  })
 
   return adUnitId
 }

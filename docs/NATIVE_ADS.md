@@ -6,6 +6,18 @@ This document explains how native ads work in Mazunte Connect and how to enable 
 
 Native ads are integrated into the Events and Places lists, appearing every 5 items styled to match the existing event/place cards. They blend seamlessly with your content while being clearly marked with an "Ad" badge.
 
+### Ad Placement by Screen
+
+| Screen | Banner Ad (Bottom) | Native Ads (In-Feed) | Notes |
+|--------|-------------------|---------------------|-------|
+| **Events List** | ❌ No | ✅ Every 5 items | Native ads replaced banner for better UX |
+| **Places List** | ❌ No | ✅ Every 5 items | Native ads replaced banner for better UX |
+| **Favorites** | ✅ Yes | ❌ No | Banner only (no native implementation) |
+| **Event Detail** | ❌ No | ❌ No | Clean experience for reading details |
+| **Place Detail** | ❌ No | ❌ No | Clean experience for reading details |
+
+**Design Decision:** Events and Places lists show native ads only (no bottom banner) to prevent ad fatigue and provide a cleaner user experience. This approach prioritizes engagement over maximum ad impressions.
+
 ## Current Status
 
 ✅ **Implementation Complete**

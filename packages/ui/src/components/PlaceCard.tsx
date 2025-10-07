@@ -37,7 +37,7 @@ const PlaceCardComponent = ({ place, onPress, showFavorite = false, onToggleFavo
       chromeless={!hover}
       onHoverIn={() => setHover(true)}
       onHoverOut={() => setHover(false)}
-      onPress={onPress}
+      onPress={() => onPress?.(place)}
       {...props}
     >
       {/* Image */}

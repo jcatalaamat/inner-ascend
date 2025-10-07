@@ -6,6 +6,22 @@ This document explains how native ads work in Mazunte Connect and how to enable 
 
 Native ads are integrated into the Events and Places lists, appearing every 5 items styled to match the existing event/place cards. They blend seamlessly with your content while being clearly marked with an "Ad" badge.
 
+### Ad Feature Flags
+
+Mazunte Connect uses **three independent PostHog feature flags** to control different ad types:
+
+| Feature Flag | Ad Type | Placement | Purpose |
+|--------------|---------|-----------|---------|
+| `show-native-ads` | Native in-feed ads | Events & Places lists | Seamlessly integrated ads every 5 items |
+| `enable-banner-ads` | Banner ads | Favorites screen (bottom) | Persistent bottom banner |
+| `enable-interstitial-ads` | Interstitial ads | Event/Place detail screens | Full-screen ads after every 3rd view |
+
+**Benefits of separate flags:**
+- Independent A/B testing for each ad type
+- Gradual rollout per ad format (e.g., native ads to 100%, interstitials to 20%)
+- Quick disable of problematic ad types without affecting others
+- Better analytics on which ad formats perform best
+
 ### Ad Placement by Screen
 
 | Screen | Banner Ad (Bottom) | Native Ads (In-Feed) | Notes |
@@ -68,15 +84,31 @@ yarn deploy:staging  # Test on staging first
 yarn deploy:production  # Deploy to production when ready
 ```
 
-### Step 3: Enable Feature Flag
+### Step 3: Enable Feature Flags
 
-In your PostHog dashboard:
-1. Go to Feature Flags
-2. Find `show-native-ads`
-3. Enable it for your desired rollout percentage
-   - Start with 10-20% to test
+In your PostHog dashboard, create and configure these feature flags:
+
+**1. Native Ads (`show-native-ads`)**
+   - Controls in-feed native ads on Events/Places lists
+   - Start with 10-20% rollout to test
    - Monitor performance and revenue
    - Gradually increase to 100%
+
+**2. Banner Ads (`enable-banner-ads`)**
+   - Controls banner ads on Favorites screen
+   - Less intrusive than interstitials
+   - Can start with 50% rollout
+
+**3. Interstitial Ads (`enable-interstitial-ads`)**
+   - Controls full-screen ads on detail screens
+   - More disruptive - start with 10-20% rollout
+   - Monitor user retention carefully
+   - Has built-in 3-minute frequency cap
+
+**Recommended rollout strategy:**
+1. Start with native ads (least intrusive)
+2. Add banner ads once native ads are stable
+3. Add interstitials last, with careful monitoring
 
 ## How It Works
 

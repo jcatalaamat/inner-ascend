@@ -21,7 +21,7 @@ const INTERSTITIAL_AD_UNIT_ID = Platform.select({
  * Automatically handles frequency limits and feature flags
  */
 export function useAdInterstitial() {
-  const showAds = useFeatureFlag('enable-ads')
+  const showAds = useFeatureFlag('enable-interstitial-ads')
   const posthog = usePostHog()
   const [isReady, setIsReady] = useState(false)
   const interstitialRef = useRef<InterstitialAd | null>(null)

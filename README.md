@@ -250,15 +250,20 @@ This command:
 
 ### Implementation:
 - **react-native-google-mobile-ads** v15.8.0 for banner and interstitial ads
-- **PostHog feature flag** `enable-ads` for A/B testing and gradual rollout
-- **Banner ads** on Events, Places, and Favorites list screens
+- **PostHog feature flags** for independent A/B testing and gradual rollout:
+  - `enable-banner-ads` - Controls banner ads on Favorites screen
+  - `enable-interstitial-ads` - Controls interstitial ads on Event/Place detail screens
+  - `show-native-ads` - Controls in-feed native ads on Events/Places lists
+- **Banner ads** on Favorites screen (bottom)
 - **Interstitial ads** after every 3rd event view (3-minute frequency cap)
+- **Native ads** in Events and Places lists (every 5 items)
 
 ### Ad Placements:
-- Events list screen (bottom banner)
-- Places list screen (bottom banner)
+- Events list screen (native ads in-feed)
+- Places list screen (native ads in-feed)
 - Favorites screen (bottom banner)
 - Event detail screen (interstitial after 3 views)
+- Place detail screen (interstitial after 3 views)
 
 ### Configuration:
 Ad unit IDs are stored in `.env` file:

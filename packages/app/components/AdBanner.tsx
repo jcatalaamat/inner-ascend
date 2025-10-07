@@ -37,7 +37,7 @@ interface AdBannerProps {
 }
 
 export function AdBanner({ placement }: AdBannerProps) {
-  const showAds = useFeatureFlag('enable-ads')
+  const showAds = useFeatureFlag('enable-banner-ads')
   const posthog = usePostHog()
   const [error, setError] = useState(false)
 

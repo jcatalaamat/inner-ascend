@@ -80,14 +80,15 @@ export function PlacesScreen() {
       adUnitId: process.env.EXPO_PUBLIC_ADMOB_NATIVE_PLACES_IOS
     })
 
+    // ALWAYS show places immediately (no empty screen)
+    setPlacesWithAds(filteredPlaces)
+
     if (!showNativeAds) {
       console.log('❌ Native ads disabled by feature flag')
-      setPlacesWithAds(filteredPlaces)
       return
     }
 
     if (filteredPlaces.length === 0) {
-      setPlacesWithAds([])
       return
     }
 
@@ -105,11 +106,11 @@ export function PlacesScreen() {
 
     if (!adUnitId || typeof adUnitId !== 'string') {
       console.error('❌ Invalid ad unit ID:', adUnitId)
-      setPlacesWithAds(filteredPlaces)
       setIsLoadingAds(false)
       return
     }
 
+    // Load ads in background, update when ready
     injectNativeAds(filteredPlaces, adUnitId, 5)
       .then((result) => {
         if (!cancelled) {
@@ -121,7 +122,7 @@ export function PlacesScreen() {
       .catch((error) => {
         if (!cancelled) {
           console.warn('❌ Failed to inject native ads:', error)
-          setPlacesWithAds(filteredPlaces)
+          // Keep showing places without ads
           setIsLoadingAds(false)
         }
       })

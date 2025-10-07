@@ -87,14 +87,15 @@ export function EventsScreen() {
       adUnitId: process.env.EXPO_PUBLIC_ADMOB_NATIVE_EVENTS_IOS
     })
 
+    // ALWAYS show events immediately (no empty screen)
+    setEventsWithAds(filteredEvents)
+
     if (!showNativeAds) {
       console.log('❌ Native ads disabled by feature flag')
-      setEventsWithAds(filteredEvents)
       return
     }
 
     if (filteredEvents.length === 0) {
-      setEventsWithAds([])
       return
     }
 
@@ -112,11 +113,11 @@ export function EventsScreen() {
 
     if (!adUnitId || typeof adUnitId !== 'string') {
       console.error('❌ Invalid ad unit ID:', adUnitId)
-      setEventsWithAds(filteredEvents)
       setIsLoadingAds(false)
       return
     }
 
+    // Load ads in background, update when ready
     injectNativeAds(filteredEvents, adUnitId, 5)
       .then((result) => {
         if (!cancelled) {
@@ -128,7 +129,7 @@ export function EventsScreen() {
       .catch((error) => {
         if (!cancelled) {
           console.warn('❌ Failed to inject native ads:', error)
-          setEventsWithAds(filteredEvents)
+          // Keep showing events without ads
           setIsLoadingAds(false)
         }
       })

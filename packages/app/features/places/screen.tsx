@@ -2,25 +2,32 @@ import { PlaceCard, SearchBar, CategoryFilter, FullscreenSpinner, Text, YStack, 
 import { router } from 'expo-router'
 import { FlatList, RefreshControl, ScrollView } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import { X } from '@tamagui/lucide-icons'
 import { PLACE_TYPE_COLORS, PLACE_TYPE_LABELS, PLACE_TYPES, type PlaceType } from 'app/utils/constants'
 import { usePlacesQuery } from 'app/utils/react-query/usePlacesQuery'
 import { ScreenWrapper } from 'app/components/ScreenWrapper'
 import { useTranslation } from 'react-i18next'
 import { usePostHog, useFeatureFlag } from 'posthog-react-native'
-import { AdBanner } from 'app/components/AdBanner'
+import { NativeAdPlaceCard } from 'app/components/NativeAdPlaceCard'
+import { injectNativeAds, isAdItem, getAdUnitId, type DataWithAds } from 'app/utils/inject-native-ads'
+import { TestIds } from 'react-native-google-mobile-ads'
+import type { Tables } from '@my/supabase/types'
 
 export function PlacesScreen() {
   const [selectedType, setSelectedType] = useState<PlaceType | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [headerDismissed, setHeaderDismissed] = useState(false)
+  const [placesWithAds, setPlacesWithAds] = useState<DataWithAds<Tables<'places'>>>([])
+  const [isLoadingAds, setIsLoadingAds] = useState(false)
+  const lastFilteredPlacesRef = useRef<Tables<'places'>[]>([])
   const insets = useSafeAreaInsets()
   const { t } = useTranslation()
   const posthog = usePostHog()
 
-  // Feature flag for place creation
+  // Feature flags
   const disablePlaceCreation = useFeatureFlag('disable-place-creation')
+  const showNativeAds = useFeatureFlag('show-native-ads')
   const showCreateButton = !disablePlaceCreation
 
   useEffect(() => {
@@ -58,6 +65,71 @@ export function PlacesScreen() {
 
     return filtered
   }, [allPlaces, selectedType, searchQuery])
+
+  // Create stable string key for dependency tracking
+  const filteredPlacesKey = useMemo(
+    () => filteredPlaces.map(p => p.id).join(','),
+    [filteredPlaces]
+  )
+
+  // Inject native ads into filtered places
+  useEffect(() => {
+    console.log('🎯 Native Ads - Places:', {
+      showNativeAds,
+      placesCount: filteredPlaces.length,
+      adUnitId: process.env.EXPO_PUBLIC_ADMOB_NATIVE_PLACES_IOS
+    })
+
+    if (!showNativeAds) {
+      console.log('❌ Native ads disabled by feature flag')
+      setPlacesWithAds(filteredPlaces)
+      return
+    }
+
+    if (filteredPlaces.length === 0) {
+      setPlacesWithAds([])
+      return
+    }
+
+    let cancelled = false
+    setIsLoadingAds(true)
+
+    const prodAdUnitId = process.env.EXPO_PUBLIC_ADMOB_NATIVE_PLACES_IOS
+    const adUnitId = getAdUnitId(prodAdUnitId)
+
+    console.log('📱 Loading native ads:', {
+      prodAdUnitId,
+      finalAdUnitId: adUnitId,
+      type: typeof adUnitId
+    })
+
+    if (!adUnitId || typeof adUnitId !== 'string') {
+      console.error('❌ Invalid ad unit ID:', adUnitId)
+      setPlacesWithAds(filteredPlaces)
+      setIsLoadingAds(false)
+      return
+    }
+
+    injectNativeAds(filteredPlaces, adUnitId, 5)
+      .then((result) => {
+        if (!cancelled) {
+          console.log('✅ Native ads loaded, result length:', result.length)
+          setPlacesWithAds(result)
+          setIsLoadingAds(false)
+        }
+      })
+      .catch((error) => {
+        if (!cancelled) {
+          console.warn('❌ Failed to inject native ads:', error)
+          setPlacesWithAds(filteredPlaces)
+          setIsLoadingAds(false)
+        }
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [filteredPlacesKey, showNativeAds])
 
   const handleSearch = (query: string) => {
     setSearchQuery(query)
@@ -131,23 +203,35 @@ export function PlacesScreen() {
 
       {/* Places List */}
       <FlatList
-        data={filteredPlaces}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <PlaceCard
-            place={item}
-            onPress={() => {
-              posthog?.capture('place_card_tapped', {
-                place_id: item.id,
-                place_name: item.name,
-                place_type: item.type,
-              })
-              router.push(`/place/${item.id}`)
-            }}
-            mx="$4"
-            mb="$3"
-          />
-        )}
+        data={placesWithAds}
+        keyExtractor={(item, index) =>
+          isAdItem(item) ? `ad-${index}` : item.id
+        }
+        renderItem={({ item }) => {
+          if (isAdItem(item)) {
+            return (
+              <YStack mx="$4" mb="$3">
+                <NativeAdPlaceCard nativeAd={item.nativeAd} />
+              </YStack>
+            )
+          }
+
+          return (
+            <PlaceCard
+              place={item}
+              onPress={() => {
+                posthog?.capture('place_card_tapped', {
+                  place_id: item.id,
+                  place_name: item.name,
+                  place_type: item.type,
+                })
+                router.push(`/place/${item.id}`)
+              }}
+              mx="$4"
+              mb="$3"
+            />
+          )
+        }}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
@@ -168,9 +252,6 @@ export function PlacesScreen() {
           </YStack>
         }
       />
-
-      {/* Ad Banner - Feature flag controlled */}
-      <AdBanner placement="places_list" />
     </ScreenWrapper>
   )
 }

@@ -2,7 +2,7 @@ import { EventCard, FullscreenSpinner, SearchBar, Text, YStack, Button, XStack, 
 import { router } from 'expo-router'
 import { FlatList, RefreshControl, ScrollView } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import { X } from '@tamagui/lucide-icons'
 import { CATEGORY_LABELS, EVENT_CATEGORIES, type EventCategory } from 'app/utils/constants'
 import { useEventsQuery } from 'app/utils/react-query/useEventsQuery'
@@ -10,18 +10,25 @@ import { formatDate, formatTime, getRelativeDay } from 'app/utils/date-helpers'
 import { useTranslation } from 'react-i18next'
 import { usePostHog, useFeatureFlag } from 'posthog-react-native'
 import { ScreenWrapper } from 'app/components/ScreenWrapper'
-import { AdBanner } from 'app/components/AdBanner'
+import { NativeAdEventCard } from 'app/components/NativeAdEventCard'
+import { injectNativeAds, isAdItem, getAdUnitId, type DataWithAds } from 'app/utils/inject-native-ads'
+import { TestIds } from 'react-native-google-mobile-ads'
+import type { Tables } from '@my/supabase/types'
 
 export function EventsScreen() {
   const [selectedCategory, setSelectedCategory] = useState<EventCategory | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [headerDismissed, setHeaderDismissed] = useState(false)
+  const [eventsWithAds, setEventsWithAds] = useState<DataWithAds<Tables<'events'>>>([])
+  const [isLoadingAds, setIsLoadingAds] = useState(false)
+  const lastFilteredEventsRef = useRef<Tables<'events'>[]>([])
   const insets = useSafeAreaInsets()
   const { t } = useTranslation()
   const posthog = usePostHog()
 
-  // Feature flag for event creation
+  // Feature flags
   const disableEventCreation = useFeatureFlag('disable-event-creation')
+  const showNativeAds = useFeatureFlag('show-native-ads')
   const showCreateButton = !disableEventCreation
 
   useEffect(() => {
@@ -55,7 +62,7 @@ export function EventsScreen() {
     // Filter by search query
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase()
-      filtered = filtered.filter(event => 
+      filtered = filtered.filter(event =>
         event.title.toLowerCase().includes(query) ||
         event.description?.toLowerCase().includes(query) ||
         event.location_name?.toLowerCase().includes(query)
@@ -65,6 +72,71 @@ export function EventsScreen() {
     // Sort by date (upcoming first)
     return filtered.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
   }, [allEvents, selectedCategory, searchQuery])
+
+  // Create stable string key for dependency tracking
+  const filteredEventsKey = useMemo(
+    () => filteredEvents.map(e => e.id).join(','),
+    [filteredEvents]
+  )
+
+  // Inject native ads into filtered events
+  useEffect(() => {
+    console.log('🎯 Native Ads - Events:', {
+      showNativeAds,
+      eventsCount: filteredEvents.length,
+      adUnitId: process.env.EXPO_PUBLIC_ADMOB_NATIVE_EVENTS_IOS
+    })
+
+    if (!showNativeAds) {
+      console.log('❌ Native ads disabled by feature flag')
+      setEventsWithAds(filteredEvents)
+      return
+    }
+
+    if (filteredEvents.length === 0) {
+      setEventsWithAds([])
+      return
+    }
+
+    let cancelled = false
+    setIsLoadingAds(true)
+
+    const prodAdUnitId = process.env.EXPO_PUBLIC_ADMOB_NATIVE_EVENTS_IOS
+    const adUnitId = getAdUnitId(prodAdUnitId)
+
+    console.log('📱 Loading native ads:', {
+      prodAdUnitId,
+      finalAdUnitId: adUnitId,
+      type: typeof adUnitId
+    })
+
+    if (!adUnitId || typeof adUnitId !== 'string') {
+      console.error('❌ Invalid ad unit ID:', adUnitId)
+      setEventsWithAds(filteredEvents)
+      setIsLoadingAds(false)
+      return
+    }
+
+    injectNativeAds(filteredEvents, adUnitId, 5)
+      .then((result) => {
+        if (!cancelled) {
+          console.log('✅ Native ads loaded, result length:', result.length)
+          setEventsWithAds(result)
+          setIsLoadingAds(false)
+        }
+      })
+      .catch((error) => {
+        if (!cancelled) {
+          console.warn('❌ Failed to inject native ads:', error)
+          setEventsWithAds(filteredEvents)
+          setIsLoadingAds(false)
+        }
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [filteredEventsKey, showNativeAds])
 
   const handleSearch = (query: string) => {
     setSearchQuery(query)
@@ -140,23 +212,35 @@ export function EventsScreen() {
 
         {/* Events List */}
         <FlatList
-          data={filteredEvents}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <EventCard
-              event={item}
-              onPress={() => {
-                posthog?.capture('event_card_tapped', {
-                  event_id: item.id,
-                  event_title: item.title,
-                  event_category: item.category,
-                })
-                router.push(`/event/${item.id}`)
-              }}
-              mx="$4"
-              mb="$3"
-            />
-          )}
+          data={eventsWithAds}
+          keyExtractor={(item, index) =>
+            isAdItem(item) ? `ad-${index}` : item.id
+          }
+          renderItem={({ item }) => {
+            if (isAdItem(item)) {
+              return (
+                <YStack mx="$4" mb="$3">
+                  <NativeAdEventCard nativeAd={item.nativeAd} />
+                </YStack>
+              )
+            }
+
+            return (
+              <EventCard
+                event={item}
+                onPress={() => {
+                  posthog?.capture('event_card_tapped', {
+                    event_id: item.id,
+                    event_title: item.title,
+                    event_category: item.category,
+                  })
+                  router.push(`/event/${item.id}`)
+                }}
+                mx="$4"
+                mb="$3"
+              />
+            )
+          }}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
@@ -187,9 +271,6 @@ export function EventsScreen() {
             </YStack>
           }
         />
-
-        {/* Ad Banner - Feature flag controlled */}
-        <AdBanner placement="events_list" />
       </YStack>
     </ScreenWrapper>
   )

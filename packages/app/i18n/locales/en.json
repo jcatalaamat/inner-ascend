@@ -15,7 +15,9 @@
     "previous": "Previous",
     "close": "Close",
     "done": "Done",
-    "language": "Language"
+    "language": "Language",
+    "ad": "Ad",
+    "learn_more": "Learn More"
   },
   "date": {
     "today": "Today",

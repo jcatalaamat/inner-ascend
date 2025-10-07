@@ -116,7 +116,7 @@ const EditProfileForm = ({
       <FormWrapper.Body>
         <YStack gap="$4">
           {/* Settings Button - Top Right */}
-          <XStack pos='absolute' right="0" zIndex={10} jc="flex-end">
+          <XStack pos='absolute' right={"$1"} zIndex={10} jc="flex-end">
             <Button circular onPress={handleSettings}>
               <Cog size={28} />
             </Button>

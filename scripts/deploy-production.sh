@@ -8,9 +8,14 @@ set -e
 
 echo "🚀 Starting LOCAL production deploy (FREE!)..."
 echo "⚠️  This will:"
+echo "   0. Bump app version (patch)"
 echo "   1. Build on your Mac using Xcode (~10-15 min)"
 echo "   2. Submit to App Store automatically (~2-5 min)"
 echo ""
+
+# Step 0: Bump version
+echo "📦 Step 0/3: Bumping version..."
+./scripts/bump-version.sh patch
 
 # Navigate to expo app directory
 cd apps/expo
@@ -47,16 +52,27 @@ if [ -z "$SENTRY_AUTH_TOKEN" ]; then
 fi
 
 # Step 1: Build locally (FREE!)
-echo "🍎 Step 1/2: Building for iOS (locally on your Mac)..."
-eas build --platform ios --profile production --local --non-interactive
+echo "🍎 Step 1/3: Building for iOS (locally on your Mac)..."
+IPA_PATH="./build-$(date +%s).ipa"
+eas build --platform ios --profile production --local --non-interactive --output "$IPA_PATH"
 
 echo ""
-echo "✅ Build completed!"
+echo "✅ Build completed: $IPA_PATH"
 echo ""
 
 # Step 2: Submit to App Store
-echo "📤 Step 2/2: Submitting to App Store..."
-eas submit --platform ios --profile production --latest --non-interactive
+echo "📤 Step 2/3: Submitting to App Store..."
+eas submit --platform ios --profile production --path "$IPA_PATH" --non-interactive
+
+echo ""
+echo "✅ Submitted to App Store!"
+echo ""
+
+# Step 3: Commit version bump
+echo "📝 Step 3/3: Committing version bump..."
+cd ../..
+git add apps/expo/app.config.js
+git commit -m "chore: bump version for production release" || echo "⚠️  No version changes to commit"
 
 echo ""
 echo "🎉 Production deploy completed!"

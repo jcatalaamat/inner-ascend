@@ -46,13 +46,15 @@ fi
 
 # Build locally (FREE!)
 echo "🍎 Building for iOS (locally on your Mac)..."
-eas build --platform ios --profile production --local --non-interactive
+IPA_PATH="./build-$(date +%s).ipa"
+eas build --platform ios --profile production --local --non-interactive --output "$IPA_PATH"
 
 echo ""
 echo "✅ Production build completed!"
+echo "📦 Build saved to: $IPA_PATH"
 echo "💰 Cost: $0 (built locally!)"
 echo ""
 echo "📤 Next step: Submit to App Store with:"
-echo "   yarn submit:production"
+echo "   cd apps/expo && eas submit --platform ios --profile production --path $IPA_PATH"
 echo ""
 echo "💡 Or use 'yarn deploy:production' to build + submit in one command"

@@ -14,8 +14,9 @@ import { NativeAdEventCard } from 'app/components/NativeAdEventCard'
 import { injectNativeAds, isAdItem, getAdUnitId, type DataWithAds } from 'app/utils/inject-native-ads'
 import { TestIds } from 'react-native-google-mobile-ads'
 import type { Tables } from '@my/supabase/types'
+import { FavoritesProvider } from 'app/contexts/FavoritesContext'
 
-export function EventsScreen() {
+function EventsScreenContent() {
   const [selectedCategory, setSelectedCategory] = useState<EventCategory | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [headerDismissed, setHeaderDismissed] = useState(false)
@@ -138,6 +139,16 @@ export function EventsScreen() {
     })
   }
 
+  // Memoize press handler - extract event from item
+  const handleEventPress = useCallback((event: any) => {
+    posthog?.capture('event_card_tapped', {
+      event_id: event.id,
+      event_title: event.title,
+      event_category: event.category,
+    })
+    router.push(`/event/${event.id}`)
+  }, [posthog])
+
   // Memoize renderItem to prevent recreating on every render
   const renderItem = useCallback(({ item }: { item: any }) => {
     if (isAdItem(item)) {
@@ -151,19 +162,12 @@ export function EventsScreen() {
     return (
       <EventCard
         event={item}
-        onPress={() => {
-          posthog?.capture('event_card_tapped', {
-            event_id: item.id,
-            event_title: item.title,
-            event_category: item.category,
-          })
-          router.push(`/event/${item.id}`)
-        }}
+        onPress={handleEventPress}
         mx="$4"
         mb="$3"
       />
     )
-  }, [posthog])
+  }, [handleEventPress])
 
   const keyExtractor = useCallback((item: any, index: number) =>
     isAdItem(item) ? `ad-${index}` : item.id,
@@ -262,5 +266,13 @@ export function EventsScreen() {
         />
       </YStack>
     </ScreenWrapper>
+  )
+}
+
+export function EventsScreen() {
+  return (
+    <FavoritesProvider>
+      <EventsScreenContent />
+    </FavoritesProvider>
   )
 }

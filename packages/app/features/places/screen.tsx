@@ -13,8 +13,9 @@ import { NativeAdPlaceCard } from 'app/components/NativeAdPlaceCard'
 import { injectNativeAds, isAdItem, getAdUnitId, type DataWithAds } from 'app/utils/inject-native-ads'
 import { TestIds } from 'react-native-google-mobile-ads'
 import type { Tables } from '@my/supabase/types'
+import { FavoritesProvider } from 'app/contexts/FavoritesContext'
 
-export function PlacesScreen() {
+function PlacesScreenContent() {
   const [selectedType, setSelectedType] = useState<PlaceType | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [headerDismissed, setHeaderDismissed] = useState(false)
@@ -134,6 +135,16 @@ export function PlacesScreen() {
     })
   }
 
+  // Memoize press handler - extract place from item
+  const handlePlacePress = useCallback((place: any) => {
+    posthog?.capture('place_card_tapped', {
+      place_id: place.id,
+      place_name: place.name,
+      place_type: place.type,
+    })
+    router.push(`/place/${place.id}`)
+  }, [posthog])
+
   // Memoize renderItem to prevent recreating on every render
   const renderItem = useCallback(({ item }: { item: any }) => {
     if (isAdItem(item)) {
@@ -147,19 +158,12 @@ export function PlacesScreen() {
     return (
       <PlaceCard
         place={item}
-        onPress={() => {
-          posthog?.capture('place_card_tapped', {
-            place_id: item.id,
-            place_name: item.name,
-            place_type: item.type,
-          })
-          router.push(`/place/${item.id}`)
-        }}
+        onPress={handlePlacePress}
         mx="$4"
         mb="$3"
       />
     )
-  }, [posthog])
+  }, [handlePlacePress])
 
   const keyExtractor = useCallback((item: any, index: number) =>
     isAdItem(item) ? `ad-${index}` : item.id,
@@ -247,5 +251,13 @@ export function PlacesScreen() {
         }
       />
     </ScreenWrapper>
+  )
+}
+
+export function PlacesScreen() {
+  return (
+    <FavoritesProvider>
+      <PlacesScreenContent />
+    </FavoritesProvider>
   )
 }

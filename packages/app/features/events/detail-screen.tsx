@@ -11,6 +11,7 @@ import { ImageViewer } from 'app/components/ImageViewer'
 import i18n from 'app/i18n'
 import { useAdInterstitial } from 'app/components/AdInterstitial'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { FavoritesProvider } from 'app/contexts/FavoritesContext'
 
 let MapView: any = null
 let Marker: any = null
@@ -31,7 +32,7 @@ interface EventDetailScreenProps {
 
 const EVENT_VIEW_COUNT_KEY = '@event_detail_view_count'
 
-export function EventDetailScreen({ id }: EventDetailScreenProps) {
+function EventDetailScreenContent({ id }: EventDetailScreenProps) {
   const { data: event, isLoading } = useEventDetailQuery(id)
   const { t } = useTranslation()
   const posthog = usePostHog()
@@ -388,5 +389,13 @@ export function EventDetailScreen({ id }: EventDetailScreenProps) {
           </YStack>
         </YStack>
       </ScrollView>
+  )
+}
+
+export function EventDetailScreen({ id }: EventDetailScreenProps) {
+  return (
+    <FavoritesProvider>
+      <EventDetailScreenContent id={id} />
+    </FavoritesProvider>
   )
 }

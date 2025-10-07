@@ -10,8 +10,9 @@ import { ScreenWrapper } from 'app/components/ScreenWrapper'
 import { useTranslation } from 'react-i18next'
 import { usePostHog } from 'posthog-react-native'
 import { AdBanner } from 'app/components/AdBanner'
+import { FavoritesProvider } from 'app/contexts/FavoritesContext'
 
-export function FavoritesScreen() {
+function FavoritesScreenContent() {
   const { profile } = useUser()
   const insets = useSafeAreaInsets()
   const [activeTab, setActiveTab] = useState<'events' | 'places'>('events')
@@ -43,36 +44,41 @@ export function FavoritesScreen() {
     })
   }, [posthog, favorites.length, favoriteEvents.length, favoritePlaces.length])
 
-  // Memoize renderItem functions
+  // Memoize press handlers - extract event from item
+  const handleEventPress = useCallback((event: any) => {
+    posthog?.capture('favorite_event_tapped', {
+      event_id: event.id,
+      event_title: event.title,
+    })
+    router.push(`/event/${event.id}`)
+  }, [posthog])
+
+  const handlePlacePress = useCallback((place: any) => {
+    posthog?.capture('favorite_place_tapped', {
+      place_id: place.id,
+      place_name: place.name,
+    })
+    router.push(`/place/${place.id}`)
+  }, [posthog])
+
+  // Memoize renderItem functions - pass onPress directly without arrow function
   const renderEventItem = useCallback(({ item }: { item: any }) => (
     <EventCard
       event={item}
-      onPress={() => {
-        posthog?.capture('favorite_event_tapped', {
-          event_id: item.id,
-          event_title: item.title,
-        })
-        router.push(`/event/${item.id}`)
-      }}
+      onPress={handleEventPress}
       mx="$4"
       mb="$3"
     />
-  ), [posthog])
+  ), [handleEventPress])
 
   const renderPlaceItem = useCallback(({ item }: { item: any }) => (
     <PlaceCard
       place={item}
-      onPress={() => {
-        posthog?.capture('favorite_place_tapped', {
-          place_id: item.id,
-          place_name: item.name,
-        })
-        router.push(`/place/${item.id}`)
-      }}
+      onPress={handlePlacePress}
       mx="$4"
       mb="$3"
     />
-  ), [posthog])
+  ), [handlePlacePress])
 
   const keyExtractor = useCallback((item: any) => item.id, [])
 
@@ -200,5 +206,13 @@ export function FavoritesScreen() {
       {/* Ad Banner - Feature flag controlled */}
       <AdBanner placement="favorites" />
     </ScreenWrapper>
+  )
+}
+
+export function FavoritesScreen() {
+  return (
+    <FavoritesProvider>
+      <FavoritesScreenContent />
+    </FavoritesProvider>
   )
 }

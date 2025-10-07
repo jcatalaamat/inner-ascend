@@ -26,8 +26,9 @@ import { NextWeekEventsSection } from './components/next-week-events-section'
 import { ThisWeekEventsSection } from './components/this-week-events-section'
 import { ThisWeekendEventsSection } from './components/this-weekend-events-section'
 import { ScreenWrapper } from 'app/components/ScreenWrapper'
+import { FavoritesProvider } from 'app/contexts/FavoritesContext'
 
-export function HomeScreen() {
+function HomeScreenContent() {
   const { user, isPending } = useUser()
   const posthog = usePostHog()
 
@@ -180,3 +181,10 @@ const EventCards = () => {
   )
 }
 
+export function HomeScreen() {
+  return (
+    <FavoritesProvider>
+      <HomeScreenContent />
+    </FavoritesProvider>
+  )
+}

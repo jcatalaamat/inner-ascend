@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { useState, useEffect } from 'react'
 import { ImageViewer } from 'app/components/ImageViewer'
 import { usePostHog } from 'posthog-react-native'
+import { FavoritesProvider } from 'app/contexts/FavoritesContext'
 
 let MapView: any = null
 let Marker: any = null
@@ -25,7 +26,7 @@ interface PlaceDetailScreenProps {
   id: string
 }
 
-export function PlaceDetailScreen({ id }: PlaceDetailScreenProps) {
+function PlaceDetailScreenContent({ id }: PlaceDetailScreenProps) {
   const { data: place, isLoading } = usePlaceDetailQuery(id)
   const { t } = useTranslation()
   const [imageViewerVisible, setImageViewerVisible] = useState(false)
@@ -334,5 +335,13 @@ export function PlaceDetailScreen({ id }: PlaceDetailScreenProps) {
           </YStack>
         </YStack>
       </ScrollView>
+  )
+}
+
+export function PlaceDetailScreen({ id }: PlaceDetailScreenProps) {
+  return (
+    <FavoritesProvider>
+      <PlaceDetailScreenContent id={id} />
+    </FavoritesProvider>
   )
 }

@@ -1,6 +1,6 @@
 import type { Database } from '@my/supabase/types'
 import { Calendar, Leaf, MapPin, Phone } from '@tamagui/lucide-icons'
-import { useState } from 'react'
+import { useState, memo } from 'react'
 import { Button, Card, type CardProps, H6, Image, Paragraph, Text, Theme, XStack, YStack } from 'tamagui'
 import { FavoriteButtonWrapper } from './FavoriteButtonWrapper'
 import { useTranslation } from 'react-i18next'
@@ -26,7 +26,7 @@ const categoryColors: Record<string, string> = {
   other: 'gray',
 }
 
-export const EventCard = ({ event, onPress, showFavorite = false, onToggleFavorite, ...props }: EventCardProps) => {
+const EventCardComponent = ({ event, onPress, showFavorite = false, onToggleFavorite, ...props }: EventCardProps) => {
   const [hover, setHover] = useState(false)
   const { t } = useTranslation()
   const locale = i18n.language === 'es' ? 'es-ES' : 'en-US'
@@ -133,3 +133,5 @@ export const EventCard = ({ event, onPress, showFavorite = false, onToggleFavori
     </Card>
   )
 }
+
+export const EventCard = memo(EventCardComponent)

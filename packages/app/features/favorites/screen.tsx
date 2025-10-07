@@ -4,7 +4,7 @@ import { FlatList, RefreshControl } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useFavoritesQuery } from 'app/utils/react-query/useFavoritesQuery'
 import { useUser } from 'app/utils/useUser'
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useCallback } from 'react'
 import { X } from '@tamagui/lucide-icons'
 import { ScreenWrapper } from 'app/components/ScreenWrapper'
 import { useTranslation } from 'react-i18next'
@@ -42,6 +42,39 @@ export function FavoritesScreen() {
       place_favorites: favoritePlaces.length,
     })
   }, [posthog, favorites.length, favoriteEvents.length, favoritePlaces.length])
+
+  // Memoize renderItem functions
+  const renderEventItem = useCallback(({ item }: { item: any }) => (
+    <EventCard
+      event={item}
+      onPress={() => {
+        posthog?.capture('favorite_event_tapped', {
+          event_id: item.id,
+          event_title: item.title,
+        })
+        router.push(`/event/${item.id}`)
+      }}
+      mx="$4"
+      mb="$3"
+    />
+  ), [posthog])
+
+  const renderPlaceItem = useCallback(({ item }: { item: any }) => (
+    <PlaceCard
+      place={item}
+      onPress={() => {
+        posthog?.capture('favorite_place_tapped', {
+          place_id: item.id,
+          place_name: item.name,
+        })
+        router.push(`/place/${item.id}`)
+      }}
+      mx="$4"
+      mb="$3"
+    />
+  ), [posthog])
+
+  const keyExtractor = useCallback((item: any) => item.id, [])
 
   if (isLoading) {
     return <FullscreenSpinner />
@@ -117,21 +150,8 @@ export function FavoritesScreen() {
       {activeTab === 'events' && (
         <FlatList
           data={favoriteEvents}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <EventCard
-              event={item}
-              onPress={() => {
-                posthog?.capture('favorite_event_tapped', {
-                  event_id: item.id,
-                  event_title: item.title,
-                })
-                router.push(`/event/${item.id}`)
-              }}
-              mx="$4"
-              mb="$3"
-            />
-          )}
+          keyExtractor={keyExtractor}
+          renderItem={renderEventItem}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
@@ -155,21 +175,8 @@ export function FavoritesScreen() {
       {activeTab === 'places' && (
         <FlatList
           data={favoritePlaces}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <PlaceCard
-              place={item}
-              onPress={() => {
-                posthog?.capture('favorite_place_tapped', {
-                  place_id: item.id,
-                  place_name: item.name,
-                })
-                router.push(`/place/${item.id}`)
-              }}
-              mx="$4"
-              mb="$3"
-            />
-          )}
+          keyExtractor={keyExtractor}
+          renderItem={renderPlaceItem}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }

@@ -2,7 +2,7 @@ import { EventCard, FullscreenSpinner, SearchBar, Text, YStack, Button, XStack, 
 import { router } from 'expo-router'
 import { FlatList, RefreshControl, ScrollView } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { useState, useMemo, useEffect, useRef } from 'react'
+import { useState, useMemo, useEffect, useRef, useCallback } from 'react'
 import { X } from '@tamagui/lucide-icons'
 import { CATEGORY_LABELS, EVENT_CATEGORIES, type EventCategory } from 'app/utils/constants'
 import { useEventsQuery } from 'app/utils/react-query/useEventsQuery'
@@ -138,6 +138,37 @@ export function EventsScreen() {
     })
   }
 
+  // Memoize renderItem to prevent recreating on every render
+  const renderItem = useCallback(({ item }: { item: any }) => {
+    if (isAdItem(item)) {
+      return (
+        <YStack mx="$4" mb="$3">
+          <NativeAdEventCard nativeAd={item.nativeAd} />
+        </YStack>
+      )
+    }
+
+    return (
+      <EventCard
+        event={item}
+        onPress={() => {
+          posthog?.capture('event_card_tapped', {
+            event_id: item.id,
+            event_title: item.title,
+            event_category: item.category,
+          })
+          router.push(`/event/${item.id}`)
+        }}
+        mx="$4"
+        mb="$3"
+      />
+    )
+  }, [posthog])
+
+  const keyExtractor = useCallback((item: any, index: number) =>
+    isAdItem(item) ? `ad-${index}` : item.id,
+  [])
+
   if (isLoading) {
     return <FullscreenSpinner />
   }
@@ -197,34 +228,8 @@ export function EventsScreen() {
         {/* Events List */}
         <FlatList
           data={eventsWithAds}
-          keyExtractor={(item, index) =>
-            isAdItem(item) ? `ad-${index}` : item.id
-          }
-          renderItem={({ item }) => {
-            if (isAdItem(item)) {
-              return (
-                <YStack mx="$4" mb="$3">
-                  <NativeAdEventCard nativeAd={item.nativeAd} />
-                </YStack>
-              )
-            }
-
-            return (
-              <EventCard
-                event={item}
-                onPress={() => {
-                  posthog?.capture('event_card_tapped', {
-                    event_id: item.id,
-                    event_title: item.title,
-                    event_category: item.category,
-                  })
-                  router.push(`/event/${item.id}`)
-                }}
-                mx="$4"
-                mb="$3"
-              />
-            )
-          }}
+          keyExtractor={keyExtractor}
+          renderItem={renderItem}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }

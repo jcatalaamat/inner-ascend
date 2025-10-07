@@ -2,7 +2,7 @@ import { PlaceCard, SearchBar, CategoryFilter, FullscreenSpinner, Text, YStack, 
 import { router } from 'expo-router'
 import { FlatList, RefreshControl, ScrollView } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { useState, useMemo, useEffect, useRef } from 'react'
+import { useState, useMemo, useEffect, useRef, useCallback } from 'react'
 import { X } from '@tamagui/lucide-icons'
 import { PLACE_TYPE_COLORS, PLACE_TYPE_LABELS, PLACE_TYPES, type PlaceType } from 'app/utils/constants'
 import { usePlacesQuery } from 'app/utils/react-query/usePlacesQuery'
@@ -134,6 +134,37 @@ export function PlacesScreen() {
     })
   }
 
+  // Memoize renderItem to prevent recreating on every render
+  const renderItem = useCallback(({ item }: { item: any }) => {
+    if (isAdItem(item)) {
+      return (
+        <YStack mx="$4" mb="$3">
+          <NativeAdPlaceCard nativeAd={item.nativeAd} />
+        </YStack>
+      )
+    }
+
+    return (
+      <PlaceCard
+        place={item}
+        onPress={() => {
+          posthog?.capture('place_card_tapped', {
+            place_id: item.id,
+            place_name: item.name,
+            place_type: item.type,
+          })
+          router.push(`/place/${item.id}`)
+        }}
+        mx="$4"
+        mb="$3"
+      />
+    )
+  }, [posthog])
+
+  const keyExtractor = useCallback((item: any, index: number) =>
+    isAdItem(item) ? `ad-${index}` : item.id,
+  [])
+
   return (
     <ScreenWrapper>
       {/* Search with Map and Create Buttons */}
@@ -187,34 +218,8 @@ export function PlacesScreen() {
       {/* Places List */}
       <FlatList
         data={placesWithAds}
-        keyExtractor={(item, index) =>
-          isAdItem(item) ? `ad-${index}` : item.id
-        }
-        renderItem={({ item }) => {
-          if (isAdItem(item)) {
-            return (
-              <YStack mx="$4" mb="$3">
-                <NativeAdPlaceCard nativeAd={item.nativeAd} />
-              </YStack>
-            )
-          }
-
-          return (
-            <PlaceCard
-              place={item}
-              onPress={() => {
-                posthog?.capture('place_card_tapped', {
-                  place_id: item.id,
-                  place_name: item.name,
-                  place_type: item.type,
-                })
-                router.push(`/place/${item.id}`)
-              }}
-              mx="$4"
-              mb="$3"
-            />
-          )
-        }}
+        keyExtractor={keyExtractor}
+        renderItem={renderItem}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }

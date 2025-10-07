@@ -2,13 +2,13 @@ import { Card, H6, Image, Text, XStack, YStack, Button, Theme, Paragraph } from 
 import { MapPin, Star } from '@tamagui/lucide-icons'
 import { NativeAd, NativeAdView, NativeAsset, NativeAssetType, NativeMediaView } from 'react-native-google-mobile-ads'
 import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
+import { useState, memo } from 'react'
 
 export type NativeAdPlaceCardProps = {
   nativeAd: NativeAd
 }
 
-export const NativeAdPlaceCard = ({ nativeAd }: NativeAdPlaceCardProps) => {
+const NativeAdPlaceCardComponent = ({ nativeAd }: NativeAdPlaceCardProps) => {
   const [hover, setHover] = useState(false)
   const { t } = useTranslation()
 
@@ -123,3 +123,5 @@ export const NativeAdPlaceCard = ({ nativeAd }: NativeAdPlaceCardProps) => {
     </NativeAdView>
   )
 }
+
+export const NativeAdPlaceCard = memo(NativeAdPlaceCardComponent)

@@ -1,6 +1,6 @@
 import type { Database } from '@my/supabase/types'
 import { Leaf, MapPin, Phone, Star } from '@tamagui/lucide-icons'
-import { useState } from 'react'
+import { useState, memo } from 'react'
 import { Button, Card, type CardProps, H6, Image, Paragraph, Text, Theme, XStack, YStack } from 'tamagui'
 import { FavoriteButtonWrapper } from './FavoriteButtonWrapper'
 import { useTranslation } from 'react-i18next'
@@ -23,7 +23,7 @@ const placeTypeColors: Record<string, string> = {
   community: 'purple',
 }
 
-export const PlaceCard = ({ place, onPress, showFavorite = false, onToggleFavorite, ...props }: PlaceCardProps) => {
+const PlaceCardComponent = ({ place, onPress, showFavorite = false, onToggleFavorite, ...props }: PlaceCardProps) => {
   const [hover, setHover] = useState(false)
   const { t } = useTranslation()
   const mainImage = place.images && place.images.length > 0 ? place.images[0] : null
@@ -141,3 +141,5 @@ export const PlaceCard = ({ place, onPress, showFavorite = false, onToggleFavori
     </Card>
   )
 }
+
+export const PlaceCard = memo(PlaceCardComponent)

@@ -41,7 +41,7 @@ const DatePickerImpl = (props: DatePickerProps) => {
 
   return (
     <DatePickerProvider config={config}>
-      <Popover keepChildrenMounted size="$5" allowFlip {...rest}>
+      <Popover keepChildrenMounted size="$5" allowFlip animation="quick" {...rest}>
         {children}
       </Popover>
     </DatePickerProvider>
@@ -51,22 +51,12 @@ const DatePickerImpl = (props: DatePickerProps) => {
 const Trigger = Popover.Trigger
 
 const DatePickerContent = styled(Popover.Content, {
-  animation: [
-    '100ms',
-    {
-      opacity: {
-        overshootClamping: true,
-      },
-    },
-  ],
   variants: {
     unstyled: {
       false: {
         padding: 12,
         borderWidth: 1,
         borderColor: '$borderColor',
-        enterStyle: { y: -10, opacity: 0 },
-        exitStyle: { y: -10, opacity: 0 },
         elevate: true,
       },
     },

@@ -38,8 +38,8 @@ function EventsScreenContent() {
     posthog?.capture('events_screen_viewed')
   }, [posthog])
 
-  // Fetch all events once (including past events for now)
-  const { data: allEvents = [], isLoading, error, refetch } = useEventsQuery({ includePast: true })
+  // Fetch upcoming events only (filter out past events)
+  const { data: allEvents = [], isLoading, error, refetch } = useEventsQuery({ includePast: false })
   const [refreshing, setRefreshing] = useState(false)
 
   const onRefresh = async () => {

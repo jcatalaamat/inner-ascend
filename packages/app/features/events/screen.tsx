@@ -29,8 +29,10 @@ function EventsScreenContent() {
 
   // Feature flags
   const disableEventCreation = useFeatureFlag('disable-event-creation')
+  const disableMapButton = useFeatureFlag('disable-map-button')
   const showNativeAds = useFeatureFlag('show-native-ads')
   const showCreateButton = !disableEventCreation
+  const showMapButton = !disableMapButton
 
   useEffect(() => {
     posthog?.capture('events_screen_viewed')
@@ -185,7 +187,7 @@ function EventsScreenContent() {
           placeholder={t('events.search_placeholder')}
           onSearch={handleSearch}
           defaultValue={searchQuery}
-          showMapButton={true}
+          showMapButton={showMapButton}
           mapViewType="events"
           onMapPress={() => {
             posthog?.capture('map_button_tapped', { from: 'events' })

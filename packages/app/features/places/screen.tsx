@@ -28,8 +28,10 @@ function PlacesScreenContent() {
 
   // Feature flags
   const disablePlaceCreation = useFeatureFlag('disable-place-creation')
+  const disableMapButton = useFeatureFlag('disable-map-button')
   const showNativeAds = useFeatureFlag('show-native-ads')
   const showCreateButton = !disablePlaceCreation
+  const showMapButton = !disableMapButton
 
   useEffect(() => {
     posthog?.capture('places_screen_viewed')
@@ -176,7 +178,7 @@ function PlacesScreenContent() {
         placeholder={t('places.search_placeholder')}
         onSearch={handleSearch}
         defaultValue={searchQuery}
-        showMapButton={true}
+        showMapButton={showMapButton}
         mapViewType="places"
         onMapPress={() => {
           posthog?.capture('map_button_tapped', { from: 'places' })

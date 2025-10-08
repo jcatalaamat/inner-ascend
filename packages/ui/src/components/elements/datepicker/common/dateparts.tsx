@@ -40,8 +40,8 @@ const DatePickerImpl = (props: DatePickerProps) => {
   const { children, config, ...rest } = props
 
   return (
-    <Popover keepChildrenMounted size="$5" allowFlip {...rest}>
-      <DatePickerProvider config={config}>
+    <DatePickerProvider config={config}>
+      <Popover size="$5" allowFlip {...rest}>
         {/* for mobile view */}
         <Adapt when="sm" platform="touch">
           <Popover.Sheet modal dismissOnSnapToBottom snapPointsMode="fit">
@@ -56,10 +56,10 @@ const DatePickerImpl = (props: DatePickerProps) => {
           </Popover.Sheet>
         </Adapt>
 
-        {/* for desktop view */}
+        {/* for desktop view - children is Popover.Content */}
         {children}
-      </DatePickerProvider>
-    </Popover>
+      </Popover>
+    </DatePickerProvider>
   )
 }
 

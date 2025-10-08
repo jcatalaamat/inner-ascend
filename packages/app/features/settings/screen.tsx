@@ -27,6 +27,13 @@ export const SettingsScreen = () => {
       <ScrollView>
         <Settings>
           <Settings.Items>
+            {/* App Preferences */}
+            <Settings.Group>
+              <SettingsThemeAction />
+              <LanguageSwitcher />
+            </Settings.Group>
+            {isWeb && <Separator boc="$color3" mx="$-4" bw="$0.25" />}
+            {/* Account Settings */}
             <Settings.Group $gtSm={{ space: '$1' }}>
               <Settings.Item
                 icon={Cog}
@@ -54,6 +61,12 @@ export const SettingsScreen = () => {
               </Settings.Item>
             </Settings.Group>
             {isWeb && <Separator boc="$color3" mx="$-4" bw="$0.25" />}
+            {/* Help & Support */}
+            <Settings.Group>
+              <SettingsHelpSupportItems />
+            </Settings.Group>
+            {isWeb && <Separator boc="$color3" mx="$-4" bw="$0.25" />}
+            {/* About & Legal */}
             <Settings.Group>
               <Settings.Item
                 icon={Book}
@@ -84,17 +97,9 @@ export const SettingsScreen = () => {
               </Settings.Item>
             </Settings.Group>
             {isWeb && <Separator boc="$color3" mx="$-4" bw="$0.25" />}
-            <Settings.Group>
-              <SettingsHelpSupportItems />
-            </Settings.Group>
-            {isWeb && <Separator boc="$color3" mx="$-4" bw="$0.25" />}
+            {/* Account Actions */}
             <Settings.Group>
               <SettingsDeleteAccountAction />
-            </Settings.Group>
-            {isWeb && <Separator boc="$color3" mx="$-4" bw="$0.25" />}
-            <Settings.Group>
-              <SettingsThemeAction />
-              <LanguageSwitcher />
               <SettingsItemLogoutAction />
             </Settings.Group>
           </Settings.Items>
@@ -108,8 +113,13 @@ const SettingsThemeAction = () => {
   const { toggle, current } = useThemeSetting()
   const { t } = useTranslation()
 
+  const getThemeLabel = (theme: string | undefined) => {
+    if (!theme) return t('settings.theme_system')
+    return t(`settings.theme_${theme}`)
+  }
+
   return (
-    <Settings.Item icon={Moon} accentTheme="blue" onPress={toggle} rightLabel={current}>
+    <Settings.Item icon={Moon} accentTheme="blue" onPress={toggle} rightLabel={getThemeLabel(current)}>
       {t('settings.theme')}
     </Settings.Item>
   )

@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { ScrollAdapt } from './scroll-adapt'
 
 export const ThisWeekEventsSection = () => {
-  const { data: allEvents = [], isLoading } = useEventsQuery({ includePast: true })
+  const { data: allEvents = [], isLoading } = useEventsQuery({ includePast: false })
   const router = useRouter()
   const { t } = useTranslation()
 

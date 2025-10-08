@@ -149,14 +149,14 @@ const SettingsHelpSupportItems = () => {
 
   const handleEmailPress = () => {
     handleContactPress(
-      'mailto:support@mazunteconnect.com?subject=Mazunte%20Connect%20-%20Feedback',
+      'mailto:hello@mazunteconnect.com?subject=Mazunte%20Connect%20-%20Feedback',
       t('settings.contact_unavailable_email')
     )
   }
 
   const handleSupportPress = () => {
     handleContactPress(
-      'mailto:support@mazunteconnect.com?subject=Mazunte%20Connect%20-%20Support%20Request',
+      'mailto:hello@mazunteconnect.com?subject=Mazunte%20Connect%20-%20Support%20Request',
       t('settings.contact_unavailable_email')
     )
   }
@@ -191,7 +191,7 @@ const SettingsDeleteAccountAction = () => {
       const userId = user?.id || 'unknown'
 
       const emailBody = `I would like to request deletion of my account.%0D%0A%0D%0AUser Email: ${userEmail}%0D%0AUser ID: ${userId}`
-      const url = `mailto:support@mazunteconnect.com?subject=Account%20Deletion%20Request&body=${emailBody}`
+      const url = `mailto:hello@mazunteconnect.com?subject=Account%20Deletion%20Request&body=${emailBody}`
 
       const canOpen = await Linking.canOpenURL(url)
       if (canOpen) {

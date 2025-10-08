@@ -253,7 +253,7 @@
     "delete_account": "Delete Account",
     "contact_unavailable_whatsapp": "WhatsApp not available. Contact us at +34 611 144 170",
     "contact_unavailable_instagram": "Instagram not available. Find us @astralintegration",
-    "contact_unavailable_email": "Email not configured. Contact us at support@mazunteconnect.com"
+    "contact_unavailable_email": "Email not configured. Contact us at hello@mazunteconnect.com"
   },
   "device_info": {
     "title": "Device Information",
@@ -335,11 +335,11 @@
             "data_security": "Data Security:",
             "data_security_text": "We implement appropriate security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. Your data is stored securely and encrypted in transit.",
             "your_rights": "Your Rights:",
-            "your_rights_text": "You have the right to access, update, or delete your personal information at any time. You can also opt out of certain communications from us. Contact us at privacy@mazunteconnect.com if you have any questions about your data.",
+            "your_rights_text": "You have the right to access, update, or delete your personal information at any time. You can also opt out of certain communications from us. Contact us at hello@mazunteconnect.com if you have any questions about your data.",
             "changes_to_policy": "Changes to This Policy:",
             "changes_to_policy_text": "We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the \"Last Updated\" date.",
             "contact_us": "Contact Us:",
-            "contact_us_text": "If you have any questions about this Privacy Policy, please contact us at privacy@mazunteconnect.com or through our app support channels."
+            "contact_us_text": "If you have any questions about this Privacy Policy, please contact us at hello@mazunteconnect.com or through our app support channels."
           },
           "terms_of_service": {
             "title": "Terms of Service",
@@ -357,7 +357,7 @@
             "termination": "Termination:",
             "termination_text": "We may suspend or terminate your account if you violate these Terms. You may also delete your account at any time. Upon termination, your content may be removed from our platform.",
             "contact_information": "Contact Information:",
-            "contact_information_text": "If you have questions about these Terms, please contact us at legal@mazunteconnect.com. These Terms are governed by Mexican law and any disputes will be resolved in Mexican courts."
+            "contact_information_text": "If you have questions about these Terms, please contact us at hello@mazunteconnect.com. These Terms are governed by Mexican law and any disputes will be resolved in Mexican courts."
           },
           "tags": {
             "vegan": "Vegan",

@@ -1,5 +1,5 @@
 import { Paragraph, ScrollView, Separator, Settings, YStack, isWeb, useMedia, useToastController } from '@my/ui'
-import { Book, Cog, Info, Lock, LogOut, Mail, Moon, Smartphone, Twitter, MessageCircle, Instagram } from '@tamagui/lucide-icons'
+import { Book, Cog, Info, Lock, LogOut, Mail, Moon, Smartphone, Twitter, MessageCircle, Instagram, HelpCircle, Trash2 } from '@tamagui/lucide-icons'
 import { useThemeSetting } from 'app/provider/theme'
 import { redirect } from 'app/utils/redirect'
 import { useSupabase } from 'app/utils/supabase/useSupabase'
@@ -89,6 +89,10 @@ export const SettingsScreen = () => {
             </Settings.Group>
             {isWeb && <Separator boc="$color3" mx="$-4" bw="$0.25" />}
             <Settings.Group>
+              <SettingsDeleteAccountAction />
+            </Settings.Group>
+            {isWeb && <Separator boc="$color3" mx="$-4" bw="$0.25" />}
+            <Settings.Group>
               <SettingsThemeAction />
               <LanguageSwitcher />
               <SettingsItemLogoutAction />
@@ -150,6 +154,13 @@ const SettingsHelpSupportItems = () => {
     )
   }
 
+  const handleSupportPress = () => {
+    handleContactPress(
+      'mailto:support@mazunteconnect.com?subject=Mazunte%20Connect%20-%20Support%20Request',
+      t('settings.contact_unavailable_email')
+    )
+  }
+
   return (
     <>
       <Settings.Item icon={MessageCircle} onPress={handleWhatsAppPress} accentTheme="green">
@@ -161,7 +172,42 @@ const SettingsHelpSupportItems = () => {
       <Settings.Item icon={Mail} onPress={handleEmailPress} accentTheme="blue">
         {t('settings.contact_email')}
       </Settings.Item>
+      <Settings.Item icon={HelpCircle} onPress={handleSupportPress} accentTheme="blue">
+        {t('settings.contact_support')}
+      </Settings.Item>
     </>
+  )
+}
+
+const SettingsDeleteAccountAction = () => {
+  const { t } = useTranslation()
+  const toast = useToastController()
+  const supabase = useSupabase()
+
+  const handleDeleteAccountPress = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      const userEmail = user?.email || 'unknown'
+      const userId = user?.id || 'unknown'
+
+      const emailBody = `I would like to request deletion of my account.%0D%0A%0D%0AUser Email: ${userEmail}%0D%0AUser ID: ${userId}`
+      const url = `mailto:support@mazunteconnect.com?subject=Account%20Deletion%20Request&body=${emailBody}`
+
+      const canOpen = await Linking.canOpenURL(url)
+      if (canOpen) {
+        await Linking.openURL(url)
+      } else {
+        toast.show(t('settings.contact_unavailable_email'), { duration: 5000 })
+      }
+    } catch (error) {
+      toast.show(t('settings.contact_unavailable_email'), { duration: 5000 })
+    }
+  }
+
+  return (
+    <Settings.Item icon={Trash2} accentTheme="red" onPress={handleDeleteAccountPress}>
+      {t('settings.delete_account')}
+    </Settings.Item>
   )
 }
 

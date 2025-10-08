@@ -25,9 +25,14 @@ const getEvents = async (
 
   // Filter by date (only upcoming events by default)
   if (!filters.includePast) {
-    const today = new Date().toISOString().split('T')[0]
-    console.log('Filtering events from date:', today)
-    query = query.gte('date', today)
+    // Get today's date in local timezone (YYYY-MM-DD format)
+    const today = new Date()
+    const year = today.getFullYear()
+    const month = String(today.getMonth() + 1).padStart(2, '0')
+    const day = String(today.getDate()).padStart(2, '0')
+    const todayString = `${year}-${month}-${day}`
+    console.log('Filtering events from date:', todayString)
+    query = query.gte('date', todayString)
   }
 
   // Filter by category

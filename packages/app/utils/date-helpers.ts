@@ -3,6 +3,15 @@
  */
 
 /**
+ * Parse a date string (YYYY-MM-DD) as LOCAL midnight, not UTC
+ * This prevents timezone issues where "2025-10-08" becomes Oct 7 in local time
+ */
+function parseLocalDate(dateString: string): Date {
+  const [year, month, day] = dateString.split('-').map(Number)
+  return new Date(year, month - 1, day, 0, 0, 0, 0)
+}
+
+/**
  * Format a date string to a readable format
  * @param dateString - ISO date string (e.g., "2025-01-15")
  * @param locale - Locale string (e.g., 'en-US', 'es-ES')
@@ -10,8 +19,9 @@
  * @returns Formatted date (e.g., "Jan 15, 2025" or "Today"/"Hoy")
  */
 export function formatDate(dateString: string, locale: string = 'en-US', t?: (key: string) => string): string {
-  const date = new Date(dateString)
+  const date = parseLocalDate(dateString)
   const today = new Date()
+  today.setHours(0, 0, 0, 0)
   const tomorrow = new Date(today)
   tomorrow.setDate(tomorrow.getDate() + 1)
 
@@ -81,7 +91,7 @@ export function formatDateTime(dateString: string, timeString: string | null | u
  * @returns True if the date is in the past
  */
 export function isPast(dateString: string): boolean {
-  const date = new Date(dateString)
+  const date = parseLocalDate(dateString)
   const today = new Date()
   today.setHours(0, 0, 0, 0)
 
@@ -105,10 +115,9 @@ export function isUpcoming(dateString: string): boolean {
  * @returns "Today"/"Hoy", "Tomorrow"/"Mañana", or number of days
  */
 export function getRelativeDay(dateString: string, locale: string = 'en-US', t?: (key: string) => string): string {
-  const date = new Date(dateString)
+  const date = parseLocalDate(dateString)
   const today = new Date()
   today.setHours(0, 0, 0, 0)
-  date.setHours(0, 0, 0, 0)
 
   const diffTime = date.getTime() - today.getTime()
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))

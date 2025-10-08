@@ -77,7 +77,7 @@ export default function Layout() {
             headerShown: false,
             title: t('navigation.home'),
             tabBarIcon: ({ size, color, focused }) => (
-              <Home color={focused ? '$color12' : '$color10'} size={22} strokeWidth={focused ? 2.5 : 2} />
+              <Home color={focused ? '$color11' : '$color10'} size={22} strokeWidth={focused ? 2.5 : 2} />
             ),
           }}
         />
@@ -88,7 +88,7 @@ export default function Layout() {
             headerShown: false,
             title: t('navigation.events'),
             tabBarIcon: ({ size, color, focused }) => (
-              <Calendar color={focused ? '$color12' : '$color10'} size={22} strokeWidth={focused ? 2.5 : 2} />
+              <Calendar color={focused ? '$color11' : '$color10'} size={22} strokeWidth={focused ? 2.5 : 2} />
             ),
           }}
         />
@@ -99,7 +99,7 @@ export default function Layout() {
             headerShown: false,
             title: t('navigation.places'),
             tabBarIcon: ({ size, color, focused }) => (
-              <MapPin color={focused ? '$color12' : '$color10'} size={22} strokeWidth={focused ? 2.5 : 2} />
+              <MapPin color={focused ? '$color11' : '$color10'} size={22} strokeWidth={focused ? 2.5 : 2} />
             ),
           }}
         />
@@ -110,7 +110,7 @@ export default function Layout() {
             headerShown: false,
             title: t('navigation.favorites'),
             tabBarIcon: ({ size, color, focused }) => (
-              <Heart color={focused ? '$color12' : '$color10'} size={22} strokeWidth={focused ? 2.5 : 2} fill={focused ? '$color12' : 'transparent'} />
+              <Heart color={focused ? '$color11' : '$color10'} size={22} strokeWidth={focused ? 2.5 : 2} fill={focused ? '$color11' : 'transparent'} />
             ),
           }}
         />
@@ -121,7 +121,7 @@ export default function Layout() {
             headerShown: false,
             title: t('navigation.profile'),
             tabBarIcon: ({ size, color, focused }) => (
-              <User color={focused ? '$color12' : '$color10'} size={22} strokeWidth={focused ? 2.5 : 2} />
+              <User color={focused ? '$color11' : '$color10'} size={22} strokeWidth={focused ? 2.5 : 2} />
             ),
           }}
         />

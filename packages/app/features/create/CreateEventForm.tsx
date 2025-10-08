@@ -25,7 +25,7 @@ export const CreateEventForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const CreateEventFormSchema = z.object({
     title: formFields.text.min(3).describe(`${t('create.event_form.title')} // Event name`),
     category: formFields.select.describe(`${t('create.event_form.category')} // Type of event`),
-    date: formFields.date.describe(`${t('create.event_form.date')} // When?`),
+    date: formFields.text.describe(`${t('create.event_form.date')} // YYYY-MM-DD format`),
     time: formFields.text.describe(`${t('create.event_form.time')} // e.g. 18:00`).nullable().optional(),
     description: formFields.textarea.describe(`${t('create.event_form.description')} // Tell us more`).nullable().optional(),
     // Optional fields
@@ -54,7 +54,7 @@ export const CreateEventForm = ({ onSuccess }: { onSuccess: () => void }) => {
         title: data.title.trim(),
         description: data.description?.trim() || null,
         category: data.category,
-        date: data.date.dateValue.toISOString().split('T')[0],
+        date: data.date.trim(),
         time: data.time?.trim() || null,
         location_name: location.name.trim(),
         lat: location.lat,
@@ -90,7 +90,7 @@ export const CreateEventForm = ({ onSuccess }: { onSuccess: () => void }) => {
       defaultValues={{
           title: '',
           category: 'yoga',
-          date: { dateValue: new Date() },
+          date: new Date().toISOString().split('T')[0],
           time: '',
           location_name: 'Mazunte',
           description: '',

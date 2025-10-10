@@ -160,13 +160,20 @@ export function usePushNotifications() {
         return
       }
 
-      // Request permissions
-      const hasPermission = await requestPermissions()
-      if (!hasPermission) {
+      // Check existing permissions first
+      const { status, canAskAgain } = await Notifications.getPermissionsAsync()
+      setPermission({
+        status: status as 'granted' | 'denied' | 'undetermined',
+        canAskAgain,
+      })
+
+      // If not granted, don't auto-request (let user click the button)
+      if (status !== 'granted') {
+        console.log('Push notification permission not granted yet')
         return
       }
 
-      // Get Expo push token
+      // Permission already granted, proceed with token registration
       const token = await getExpoPushToken()
       if (!token) {
         return

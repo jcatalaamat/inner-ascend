@@ -35,11 +35,18 @@ show_main_menu() {
 
     CURRENT_VERSION=$(get_current_version)
 
+    echo ""
     gum style \
         --foreground 86 --bold \
+        --border rounded \
+        --border-foreground 86 \
         --align center \
+        --width 30 \
+        --margin "0 15" \
+        --padding "0 2" \
         "📱 v${CURRENT_VERSION}"
 
+    echo ""
     gum style --foreground 51 --italic --align center "✨ Choose your adventure ✨"
     echo ""
 

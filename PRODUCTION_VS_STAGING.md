@@ -14,18 +14,37 @@ This document clarifies the distinction between **staging** (TestFlight beta tes
 
 ## Quick Reference
 
+### 🎯 Interactive Wizard (Recommended)
+**The easiest way to deploy!**
+
+```bash
+yarn release
+```
+
+This launches an interactive CLI guide that:
+- ✅ Shows current version prominently
+- ✅ Helps you choose staging vs production
+- ✅ Guides through version bumping (patch/minor/major)
+- ✅ Deploys to TestFlight or App Store
+- ✅ Uploads screenshots and metadata
+- ✅ Shows pre-flight checklist
+
+**Perfect for:** First-time deployments, ensuring you don't miss steps
+
+---
+
 ### Staging (TestFlight)
 **Purpose:** Beta testing before App Store release
 **Profile:** `staging` in [eas.json](./apps/expo/eas.json)
 **Version:** Same as current version (auto-increment build number only)
-**Command:** `yarn deploy:staging`
+**Command:** `yarn deploy:staging` or `yarn release` → Deploy → Staging
 **Distribution:** Internal beta testers via TestFlight
 
 ### Production (App Store)
 **Purpose:** Public release to the App Store
 **Profile:** `production` in [eas.json](./apps/expo/eas.json)
 **Version:** Must bump version number manually before release
-**Command:** `yarn deploy:production`
+**Command:** `yarn deploy:production` or `yarn release` → Deploy → Production
 **Distribution:** Public users via App Store (after Apple review)
 
 ---

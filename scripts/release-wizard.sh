@@ -147,11 +147,18 @@ deploy_flow() {
             ;;
 
         *"Both"*)
+            CURRENT_VERSION=$(get_current_version)
+
             gum style --foreground 86 "This will build and deploy to both staging and production"
-            gum style --foreground 86 "Staging first, then production (sequential, ~20-30 min total)"
+            gum style --foreground 86 "Staging first (v${CURRENT_VERSION}), then production (sequential, ~20-30 min total)"
             echo ""
 
-            if ! gum confirm "Start both deployments?"; then
+            gum style --foreground 202 "⚠️  IMPORTANT: Have you bumped the version for production?"
+            gum style --foreground 240 "Current version: ${CURRENT_VERSION}"
+            gum style --foreground 240 "If this is a new release, run 'Bump Version' first!"
+            echo ""
+
+            if ! gum confirm "Version is correct and ready to deploy both?"; then
                 show_main_menu
                 return
             fi

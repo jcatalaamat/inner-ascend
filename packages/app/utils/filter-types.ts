@@ -1,6 +1,6 @@
 import type { EventCategory } from './constants'
 
-export type DateRangeType = 'this_weekend' | 'next_week' | 'custom' | 'all'
+export type DateRangeType = 'today' | 'this_weekend' | 'next_week' | 'custom' | 'all'
 export type TimeOfDay = 'morning' | 'afternoon' | 'evening'
 export type PriceRange = 'free' | '$' | '$$' | '$$$'
 
@@ -38,6 +38,15 @@ export const getDateRangePreset = (type: DateRangeType): { start: Date; end: Dat
   today.setHours(0, 0, 0, 0)
 
   switch (type) {
+    case 'today': {
+      // Today only
+      const start = new Date(today)
+      start.setHours(0, 0, 0, 0)
+      const end = new Date(today)
+      end.setHours(23, 59, 59, 999)
+      return { start, end }
+    }
+
     case 'this_weekend': {
       // Get next Saturday and Sunday
       const dayOfWeek = today.getDay()

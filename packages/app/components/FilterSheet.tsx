@@ -165,7 +165,7 @@ export function FilterSheet({ open, onOpenChange, filters, onApplyFilters, type 
                       {t('filters.date_range.title')}
                     </Label>
                     <XStack gap="$2" flexWrap="wrap">
-                      {(['all', 'this_weekend', 'next_week'] as DateRangeType[]).map((dateType) => {
+                      {(['all', 'today', 'this_weekend', 'next_week'] as DateRangeType[]).map((dateType) => {
                         const isSelected = localFilters.dateRange?.type === dateType
                         return (
                           <Button

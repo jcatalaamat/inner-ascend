@@ -673,6 +673,7 @@
     "date_range": {
       "title": "Rango de Fechas",
       "all": "Todas las Fechas",
+      "today": "Hoy",
       "this_weekend": "Este Fin de Semana",
       "next_week": "Próximos 7 Días",
       "custom": "Rango Personalizado"

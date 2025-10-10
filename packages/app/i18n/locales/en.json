@@ -671,6 +671,7 @@
     "date_range": {
       "title": "Date Range",
       "all": "All Dates",
+      "today": "Today",
       "this_weekend": "This Weekend",
       "next_week": "Next 7 Days",
       "custom": "Custom Range"

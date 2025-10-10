@@ -1,8 +1,7 @@
-import { FullscreenSpinner, Text, YStack, XStack, Image, Button, ScrollView, Card, H4, Paragraph, EcoBadge, FavoriteButtonWrapper, Theme } from '@my/ui'
+import { FullscreenSpinner, Text, YStack, XStack, Image, Button, ScrollView, H3, Paragraph, FavoriteButtonWrapper } from '@my/ui'
 import { useEventDetailQuery } from 'app/utils/react-query/useEventsQuery'
-import { Calendar, Clock, MapPin, DollarSign, User, Mail, Phone, Globe, Instagram, Navigation } from '@tamagui/lucide-icons'
+import { Calendar, Clock, MapPin, DollarSign, User, Mail, Phone, Globe, Instagram, Navigation, Share2 } from '@tamagui/lucide-icons'
 import { formatDate, formatTime } from 'app/utils/date-helpers'
-import { CATEGORY_COLORS } from 'app/utils/constants'
 import { useTranslation } from 'react-i18next'
 import { usePostHog } from 'posthog-react-native'
 import { useEffect, useState } from 'react'
@@ -12,6 +11,7 @@ import i18n from 'app/i18n'
 import { useAdInterstitial } from 'app/components/AdInterstitial'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { FavoritesProvider } from 'app/contexts/FavoritesContext'
+import { LinearGradient } from '@tamagui/linear-gradient'
 
 let MapView: any = null
 let Marker: any = null
@@ -121,40 +121,28 @@ function EventDetailScreenContent({ id }: EventDetailScreenProps) {
     if (!event) return
 
     try {
-      // Debug: Log the event data
-      console.log('Event data for sharing:', {
-        title: event.title,
-        date: event.date,
-        time: event.time,
-        description: event.description,
-        location_name: event.location_name
-      })
-
-      // Format date and time safely using the correct fields
       let eventDate = 'Date TBD'
       let eventTime = 'Time TBD'
-      
+
       if (event.date) {
         try {
           eventDate = formatDate(event.date, i18n.language === 'es' ? 'es-ES' : 'en-US', t) || 'Date TBD'
         } catch (error) {
-          console.log('Date formatting error:', error)
           eventDate = new Date(event.date).toLocaleDateString(i18n.language)
         }
       }
-      
+
       if (event.time) {
         try {
           eventTime = formatTime(event.time, i18n.language === 'es' ? 'es-ES' : 'en-US') || 'Time TBD'
         } catch (error) {
-          console.log('Time formatting error:', error)
-          eventTime = new Date(`2000-01-01T${event.time}`).toLocaleTimeString(i18n.language, { 
-            hour: '2-digit', 
-            minute: '2-digit' 
+          eventTime = new Date(`2000-01-01T${event.time}`).toLocaleTimeString(i18n.language, {
+            hour: '2-digit',
+            minute: '2-digit'
           })
         }
       }
-      
+
       const shareContent = {
         title: event.title || 'Event',
         message: `${event.title || 'Event'}\n\n${event.description || 'Join us for this event!'}\n\n${eventDate} at ${eventTime}\n${event.location_name || 'Location TBD'}`,
@@ -185,76 +173,124 @@ function EventDetailScreenContent({ id }: EventDetailScreenProps) {
     )
   }
 
-  const categoryColor = CATEGORY_COLORS[event.category]
   const categoryLabel = t(`events.categories.${event.category}`)
 
   return (
     <ScrollView bg="$background">
-        <YStack pb="$4">
-          {/* Image */}
-          {event.image_url && (
-            <YStack onPress={handleImagePress} cursor="pointer">
-              <Image
-                source={{ uri: event.image_url }}
-                height={280}
-                width="100%"
-              />
-            </YStack>
-          )}
-
-          {/* Image Viewer */}
-          {event.image_url && (
-            <ImageViewer
-              imageUrl={event.image_url}
-              isVisible={imageViewerVisible}
-              onClose={() => setImageViewerVisible(false)}
+      <YStack pb="$4">
+        {/* Hero Image with Gradient Overlay */}
+        {event.image_url && (
+          <YStack position="relative" onPress={handleImagePress} cursor="pointer">
+            <Image
+              source={{ uri: event.image_url }}
+              height={400}
+              width="100%"
             />
-          )}
 
-          <YStack p="$4" gap="$4">
-          {/* Header */}
-          <XStack jc="space-between" ai="flex-start">
-            <YStack f={1} gap="$2">
-              <H4>{event.title}</H4>
-              <XStack gap="$2" ai="center">
-                <Theme name={categoryColor}>
-                  <Button size="$2" disabled>
+            {/* Gradient Overlay */}
+            <LinearGradient
+              position="absolute"
+              bottom={0}
+              left={0}
+              right={0}
+              height="60%"
+              colors={['transparent', 'rgba(0,0,0,0.3)', 'rgba(0,0,0,0.7)']}
+              start={[0, 0]}
+              end={[0, 1]}
+            />
+
+            {/* Content Overlay */}
+            <YStack position="absolute" bottom="$4" left="$4" right="$4" gap="$2">
+              {/* Badges */}
+              <XStack gap="$2" ai="center" flexWrap="wrap">
+                <XStack
+                  bg="rgba(255,255,255,0.25)"
+                  px="$2.5"
+                  py="$1.5"
+                  borderRadius="$10"
+                  backdropFilter="blur(10px)"
+                >
+                  <Text fontSize="$2" color="white" fontWeight="700">
                     {categoryLabel}
-                  </Button>
-                </Theme>
-                {event.eco_conscious && <EcoBadge size="small" />}
+                  </Text>
+                </XStack>
+                {event.eco_conscious && (
+                  <XStack
+                    bg="rgba(67, 233, 123, 0.3)"
+                    px="$2.5"
+                    py="$1.5"
+                    borderRadius="$10"
+                    backdropFilter="blur(10px)"
+                  >
+                    <Text fontSize="$2" color="white" fontWeight="700">
+                      🌿 Eco
+                    </Text>
+                  </XStack>
+                )}
                 {event.featured && (
-                  <Button size="$2" disabled theme="yellow">
-                    {t('events.detail.featured')}
-                  </Button>
+                  <XStack
+                    bg="rgba(255, 200, 0, 0.3)"
+                    px="$2.5"
+                    py="$1.5"
+                    borderRadius="$10"
+                    backdropFilter="blur(10px)"
+                  >
+                    <Text fontSize="$2" color="white" fontWeight="700">
+                      ⭐ Featured
+                    </Text>
+                  </XStack>
                 )}
               </XStack>
-            </YStack>
-            <FavoriteButtonWrapper itemId={event.id} itemType="event" size={28} />
-          </XStack>
 
-          {/* Details Card */}
-          <Card p="$3" gap="$3">
+              {/* Title */}
+              <H3 color="white" textShadowColor="rgba(0,0,0,0.5)" textShadowRadius={10}>
+                {event.title}
+              </H3>
+            </YStack>
+
+            {/* Favorite Button */}
+            <YStack position="absolute" top="$4" right="$4">
+              <FavoriteButtonWrapper itemId={event.id} itemType="event" size={32} />
+            </YStack>
+          </YStack>
+        )}
+
+        {/* Image Viewer */}
+        {event.image_url && (
+          <ImageViewer
+            imageUrl={event.image_url}
+            isVisible={imageViewerVisible}
+            onClose={() => setImageViewerVisible(false)}
+          />
+        )}
+
+        <YStack p="$4" gap="$5">
+          {/* Quick Info */}
+          <YStack gap="$3">
             <XStack gap="$3" ai="center">
-              <Calendar size={20} color="$color10" />
-              <Text fontSize="$4">{formatDate(event.date, i18n.language === 'es' ? 'es-ES' : 'en-US', t)}</Text>
+              <Calendar size={20} color="$color11" />
+              <Text fontSize="$4" color="$color12">
+                {formatDate(event.date, i18n.language === 'es' ? 'es-ES' : 'en-US', t)}
+              </Text>
             </XStack>
             {event.time && (
               <XStack gap="$3" ai="center">
-                <Clock size={20} color="$color10" />
-                <Text fontSize="$4">{formatTime(event.time, i18n.language === 'es' ? 'es-ES' : 'en-US')}</Text>
+                <Clock size={20} color="$color11" />
+                <Text fontSize="$4" color="$color12">
+                  {formatTime(event.time, i18n.language === 'es' ? 'es-ES' : 'en-US')}
+                </Text>
               </XStack>
             )}
             {event.location_name && (
               <YStack gap="$1">
                 <XStack gap="$3" ai="center">
-                  <MapPin size={20} color="$color10" />
-                  <Text fontSize="$4" f={1}>
+                  <MapPin size={20} color="$color11" />
+                  <Text fontSize="$4" color="$color12" f={1}>
                     {event.location_name}
                   </Text>
                 </XStack>
                 {event.location_directions && (
-                  <Text fontSize="$3" color="$color11" paddingLeft="$7">
+                  <Text fontSize="$3" color="$color10" pl="$7">
                     {event.location_directions}
                   </Text>
                 )}
@@ -262,133 +298,160 @@ function EventDetailScreenContent({ id }: EventDetailScreenProps) {
             )}
             {event.price && (
               <XStack gap="$3" ai="center">
-                <DollarSign size={20} color="$color10" />
-                <Text fontSize="$4">{event.price}</Text>
+                <DollarSign size={20} color="$color11" />
+                <Text fontSize="$4" color="$color12">
+                  {event.price}
+                </Text>
               </XStack>
             )}
-          </Card>
+          </YStack>
+
+          {/* Divider */}
+          <YStack h={1} bg="$borderColor" />
 
           {/* Description */}
           {event.description && (
             <YStack gap="$2">
-              <Text fontSize="$5" fontWeight="600">
+              <Text fontSize="$6" fontWeight="700" color="$color12">
                 {t('events.detail.about')}
               </Text>
-              <Paragraph fontSize="$4" color="$color11">
+              <Paragraph fontSize="$4" color="$color11" lineHeight="$5">
                 {event.description}
               </Paragraph>
             </YStack>
           )}
 
-          {/* Organizer & Contact Info */}
+          {/* Organizer & Contact */}
           {(event.organizer_name || event.contact_phone || event.contact_whatsapp || event.contact_email || event.contact_instagram) && (
-            <Card p="$3" gap="$3">
-              <Text fontSize="$5" fontWeight="600">
-                {t('events.detail.organizer')}
-              </Text>
-              {event.organizer_name && (
-                <XStack gap="$3" ai="center">
-                  <User size={20} color="$color10" />
-                  <Text fontSize="$4">{event.organizer_name}</Text>
-                </XStack>
-              )}
-              {event.contact_phone && (
-                <Button
-                  onPress={handlePhonePress}
-                  icon={Phone}
-                  theme="blue"
-                  chromeless
-                  jc="flex-start"
-                >
-                  {event.contact_phone}
-                </Button>
-              )}
-              {event.contact_whatsapp && (
-                <Button
-                  onPress={handleWhatsAppPress}
-                  icon={Phone}
-                  theme="green"
-                  chromeless
-                  jc="flex-start"
-                >
-                  WhatsApp: {event.contact_whatsapp}
-                </Button>
-              )}
-              {event.contact_email && (
-                <Button
-                  onPress={handleEmailPress}
-                  icon={Mail}
-                  theme="blue"
-                  chromeless
-                  jc="flex-start"
-                >
-                  {event.contact_email}
-                </Button>
-              )}
-              {event.contact_instagram && (
-                <Button
-                  onPress={handleInstagramPress}
-                  icon={Instagram}
-                  theme="purple"
-                  chromeless
-                  jc="flex-start"
-                >
-                  {event.contact_instagram}
-                </Button>
-              )}
-            </Card>
+            <>
+              <YStack h={1} bg="$borderColor" />
+              <YStack gap="$3">
+                <Text fontSize="$6" fontWeight="700" color="$color12">
+                  {t('events.detail.organizer')}
+                </Text>
+                {event.organizer_name && (
+                  <XStack gap="$3" ai="center">
+                    <User size={20} color="$color11" />
+                    <Text fontSize="$4" color="$color12">
+                      {event.organizer_name}
+                    </Text>
+                  </XStack>
+                )}
+                {event.contact_phone && (
+                  <Button
+                    onPress={handlePhonePress}
+                    icon={Phone}
+                    size="$3"
+                    chromeless
+                    jc="flex-start"
+                    color="$blue10"
+                  >
+                    {event.contact_phone}
+                  </Button>
+                )}
+                {event.contact_whatsapp && (
+                  <Button
+                    onPress={handleWhatsAppPress}
+                    icon={Phone}
+                    size="$3"
+                    chromeless
+                    jc="flex-start"
+                    color="$green10"
+                  >
+                    WhatsApp: {event.contact_whatsapp}
+                  </Button>
+                )}
+                {event.contact_email && (
+                  <Button
+                    onPress={handleEmailPress}
+                    icon={Mail}
+                    size="$3"
+                    chromeless
+                    jc="flex-start"
+                    color="$blue10"
+                  >
+                    {event.contact_email}
+                  </Button>
+                )}
+                {event.contact_instagram && (
+                  <Button
+                    onPress={handleInstagramPress}
+                    icon={Instagram}
+                    size="$3"
+                    chromeless
+                    jc="flex-start"
+                    color="$purple10"
+                  >
+                    {event.contact_instagram}
+                  </Button>
+                )}
+              </YStack>
+            </>
           )}
 
-          {/* Map Preview */}
+          {/* Map */}
           {event.lat && event.lng && MapView && (
-            <YStack gap="$2">
-              <Text fontSize="$5" fontWeight="600">
-                {t('events.detail.location')}
-              </Text>
-              <YStack height={200} borderRadius="$4" overflow="hidden" borderWidth={1} borderColor="$borderColor">
-                <MapView
-                  style={{ flex: 1 }}
-                  initialRegion={{
-                    latitude: event.lat,
-                    longitude: event.lng,
-                    latitudeDelta: 0.01,
-                    longitudeDelta: 0.01,
-                  }}
-                  scrollEnabled={false}
-                  zoomEnabled={false}
+            <>
+              <YStack h={1} bg="$borderColor" />
+              <YStack gap="$3">
+                <Text fontSize="$6" fontWeight="700" color="$color12">
+                  {t('events.detail.location')}
+                </Text>
+                <YStack
+                  height={300}
+                  borderRadius="$4"
+                  overflow="hidden"
+                  borderWidth={1}
+                  borderColor="$borderColor"
                 >
-                  <Marker
-                    coordinate={{
+                  <MapView
+                    style={{ flex: 1 }}
+                    initialRegion={{
                       latitude: event.lat,
                       longitude: event.lng,
+                      latitudeDelta: 0.01,
+                      longitudeDelta: 0.01,
                     }}
-                    title={event.location_name}
-                  />
-                </MapView>
+                  >
+                    <Marker
+                      coordinate={{
+                        latitude: event.lat,
+                        longitude: event.lng,
+                      }}
+                      title={event.location_name}
+                    />
+                  </MapView>
+                </YStack>
               </YStack>
+            </>
+          )}
+
+          {/* Action Buttons */}
+          <YStack gap="$3" mt="$3">
+            {event.lat && event.lng && (
               <Button
                 onPress={handleGetDirections}
                 icon={Navigation}
-                theme="blue"
-                size="$4"
+                size="$5"
+                bg="$blue9"
+                color="white"
+                pressStyle={{ bg: '$blue10' }}
               >
                 {t('events.detail.get_directions')}
               </Button>
-            </YStack>
-          )}
-
-          {/* Share Button */}
-          <Button
-            onPress={handleShare}
-            icon={Globe}
-            theme="blue"
-            size="$4"
-          >
-            {t('events.detail.share_event')}
-          </Button>
+            )}
+            <Button
+              onPress={handleShare}
+              icon={Share2}
+              size="$5"
+              variant="outlined"
+            >
+              {t('events.detail.share_event')}
+            </Button>
           </YStack>
         </YStack>
-      </ScrollView>
+      </YStack>
+    </ScrollView>
   )
 }
 

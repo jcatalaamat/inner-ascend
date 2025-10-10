@@ -1,13 +1,13 @@
-import { FullscreenSpinner, Text, YStack, XStack, Image, Button, ScrollView, Card, H4, Paragraph, EcoBadge, FavoriteButtonWrapper, Theme } from '@my/ui'
+import { FullscreenSpinner, Text, YStack, XStack, Image, Button, ScrollView, H3, Paragraph, FavoriteButtonWrapper } from '@my/ui'
 import { usePlaceDetailQuery } from 'app/utils/react-query/usePlacesQuery'
-import { MapPin, DollarSign, Phone, Mail, Globe, Instagram, Navigation } from '@tamagui/lucide-icons'
-import { PLACE_TYPE_COLORS } from 'app/utils/constants'
+import { MapPin, DollarSign, Phone, Mail, Globe, Instagram, Navigation, Share2 } from '@tamagui/lucide-icons'
 import { Linking, Platform, Share } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { useState, useEffect } from 'react'
 import { ImageViewer } from 'app/components/ImageViewer'
 import { usePostHog } from 'posthog-react-native'
 import { FavoritesProvider } from 'app/contexts/FavoritesContext'
+import { LinearGradient } from '@tamagui/linear-gradient'
 
 let MapView: any = null
 let Marker: any = null
@@ -61,7 +61,6 @@ function PlaceDetailScreenContent({ id }: PlaceDetailScreenProps) {
     )
   }
 
-  const typeColor = PLACE_TYPE_COLORS[place.type]
   const typeLabel = t(`places.types.${place.type}`)
 
   const handlePhonePress = () => {
@@ -125,66 +124,119 @@ function PlaceDetailScreenContent({ id }: PlaceDetailScreenProps) {
 
   return (
     <ScrollView bg="$background">
-        <YStack pb="$4">
-          {/* Image */}
-          {place.images && place.images.length > 0 && (
-            <YStack onPress={handleImagePress} cursor="pointer">
-              <Image
-                source={{ uri: place.images[0] }}
-                height={280}
-                width="100%"
-              />
-            </YStack>
-          )}
-
-          {/* Image Viewer */}
-          {place.images && place.images.length > 0 && (
-            <ImageViewer
-              imageUrl={place.images[0]}
-              isVisible={imageViewerVisible}
-              onClose={() => setImageViewerVisible(false)}
+      <YStack pb="$4">
+        {/* Hero Image with Gradient Overlay */}
+        {place.images && place.images.length > 0 && (
+          <YStack position="relative" onPress={handleImagePress} cursor="pointer">
+            <Image
+              source={{ uri: place.images[0] }}
+              height={400}
+              width="100%"
             />
-          )}
 
-          <YStack p="$4" gap="$4">
-          {/* Header */}
-          <XStack jc="space-between" ai="flex-start">
-            <YStack f={1} gap="$2">
-              <H4>{place.name}</H4>
+            {/* Gradient Overlay */}
+            <LinearGradient
+              position="absolute"
+              bottom={0}
+              left={0}
+              right={0}
+              height="60%"
+              colors={['transparent', 'rgba(0,0,0,0.3)', 'rgba(0,0,0,0.7)']}
+              start={[0, 0]}
+              end={[0, 1]}
+            />
+
+            {/* Content Overlay */}
+            <YStack position="absolute" bottom="$4" left="$4" right="$4" gap="$2">
+              {/* Badges */}
               <XStack gap="$2" ai="center" flexWrap="wrap">
-                <Theme name={typeColor}>
-                  <Button size="$2" disabled>
+                <XStack
+                  bg="rgba(255,255,255,0.25)"
+                  px="$2.5"
+                  py="$1.5"
+                  borderRadius="$10"
+                  backdropFilter="blur(10px)"
+                >
+                  <Text fontSize="$2" color="white" fontWeight="700">
                     {typeLabel}
-                  </Button>
-                </Theme>
-                {place.eco_conscious && <EcoBadge size="small" />}
+                  </Text>
+                </XStack>
+                {place.eco_conscious && (
+                  <XStack
+                    bg="rgba(67, 233, 123, 0.3)"
+                    px="$2.5"
+                    py="$1.5"
+                    borderRadius="$10"
+                    backdropFilter="blur(10px)"
+                  >
+                    <Text fontSize="$2" color="white" fontWeight="700">
+                      🌿 Eco
+                    </Text>
+                  </XStack>
+                )}
                 {place.verified && (
-                  <Button size="$2" disabled theme="blue">
-                    Verified
-                  </Button>
+                  <XStack
+                    bg="rgba(59, 130, 246, 0.3)"
+                    px="$2.5"
+                    py="$1.5"
+                    borderRadius="$10"
+                    backdropFilter="blur(10px)"
+                  >
+                    <Text fontSize="$2" color="white" fontWeight="700">
+                      ✓ Verified
+                    </Text>
+                  </XStack>
                 )}
                 {place.featured && (
-                  <Button size="$2" disabled theme="yellow">
-                    Featured
-                  </Button>
+                  <XStack
+                    bg="rgba(255, 200, 0, 0.3)"
+                    px="$2.5"
+                    py="$1.5"
+                    borderRadius="$10"
+                    backdropFilter="blur(10px)"
+                  >
+                    <Text fontSize="$2" color="white" fontWeight="700">
+                      ⭐ Featured
+                    </Text>
+                  </XStack>
                 )}
               </XStack>
-            </YStack>
-            <FavoriteButtonWrapper itemId={place.id} itemType="place" size={28} />
-          </XStack>
 
+              {/* Title */}
+              <H3 color="white" textShadowColor="rgba(0,0,0,0.5)" textShadowRadius={10}>
+                {place.name}
+              </H3>
+            </YStack>
+
+            {/* Favorite Button */}
+            <YStack position="absolute" top="$4" right="$4">
+              <FavoriteButtonWrapper itemId={place.id} itemType="place" size={32} />
+            </YStack>
+          </YStack>
+        )}
+
+        {/* Image Viewer */}
+        {place.images && place.images.length > 0 && (
+          <ImageViewer
+            imageUrl={place.images[0]}
+            isVisible={imageViewerVisible}
+            onClose={() => setImageViewerVisible(false)}
+          />
+        )}
+
+        <YStack p="$4" gap="$5">
           {/* Quick Info */}
-          <Card p="$3" gap="$3">
+          <YStack gap="$3">
             {place.location_name && (
               <YStack gap="$1">
                 <XStack gap="$3" ai="center">
-                  <MapPin size={20} color="$color10" />
-                  <Text fontSize="$4" f={1}>
+                  <MapPin size={20} color="$color11" />
+                  <Text fontSize="$4" color="$color12" f={1}>
                     {place.location_name}
                   </Text>
                 </XStack>
                 {place.location_directions && (
-                  <Text fontSize="$3" color="$color11" paddingLeft="$7">
+                  <Text fontSize="$3" color="$color10" pl="$7">
                     {place.location_directions}
                   </Text>
                 )}
@@ -192,19 +244,24 @@ function PlaceDetailScreenContent({ id }: PlaceDetailScreenProps) {
             )}
             {place.price_range && (
               <XStack gap="$3" ai="center">
-                <DollarSign size={20} color="$color10" />
-                <Text fontSize="$4">{place.price_range}</Text>
+                <DollarSign size={20} color="$color11" />
+                <Text fontSize="$4" color="$color12">
+                  {place.price_range}
+                </Text>
               </XStack>
             )}
-          </Card>
+          </YStack>
+
+          {/* Divider */}
+          <YStack h={1} bg="$borderColor" />
 
           {/* Description */}
           {place.description && (
             <YStack gap="$2">
-              <Text fontSize="$5" fontWeight="600">
+              <Text fontSize="$6" fontWeight="700" color="$color12">
                 {t('places.detail.about')}
               </Text>
-              <Paragraph fontSize="$4" color="$color11">
+              <Paragraph fontSize="$4" color="$color11" lineHeight="$5">
                 {place.description}
               </Paragraph>
             </YStack>
@@ -214,127 +271,156 @@ function PlaceDetailScreenContent({ id }: PlaceDetailScreenProps) {
           {place.tags && place.tags.length > 0 && (
             <XStack gap="$2" flexWrap="wrap">
               {place.tags.map((tag) => (
-                <Button key={tag} size="$2" disabled theme="gray">
-                  {t(`tags.${tag}`)}
-                </Button>
+                <XStack
+                  key={tag}
+                  bg="$gray3"
+                  px="$2.5"
+                  py="$1.5"
+                  borderRadius="$10"
+                >
+                  <Text fontSize="$2" color="$color11" fontWeight="600">
+                    {t(`tags.${tag}`)}
+                  </Text>
+                </XStack>
               ))}
             </XStack>
           )}
 
           {/* Contact Info */}
-          <Card p="$3" gap="$3">
-            <Text fontSize="$5" fontWeight="600">
-              {t('places.detail.contact')}
-            </Text>
-            {place.contact_phone && (
-              <Button
-                onPress={handlePhonePress}
-                icon={Phone}
-                theme="blue"
-                chromeless
-                jc="flex-start"
-              >
-                {place.contact_phone}
-              </Button>
-            )}
-            {place.contact_whatsapp && (
-              <Button
-                onPress={handleWhatsAppPress}
-                icon={Phone}
-                theme="green"
-                chromeless
-                jc="flex-start"
-              >
-                WhatsApp: {place.contact_whatsapp}
-              </Button>
-            )}
-            {place.contact_email && (
-              <Button
-                onPress={handleEmailPress}
-                icon={Mail}
-                theme="blue"
-                chromeless
-                jc="flex-start"
-              >
-                {place.contact_email}
-              </Button>
-            )}
-            {place.contact_instagram && (
-              <Button
-                onPress={handleInstagramPress}
-                icon={Instagram}
-                theme="purple"
-                chromeless
-                jc="flex-start"
-              >
-                {place.contact_instagram}
-              </Button>
-            )}
-            {place.website_url && (
-              <Button
-                onPress={handleWebsitePress}
-                icon={Globe}
-                theme="blue"
-                chromeless
-                jc="flex-start"
-              >
-{t('places.detail.visit_website')}
-              </Button>
-            )}
-          </Card>
+          {(place.contact_phone || place.contact_whatsapp || place.contact_email || place.contact_instagram || place.website_url) && (
+            <>
+              <YStack h={1} bg="$borderColor" />
+              <YStack gap="$3">
+                <Text fontSize="$6" fontWeight="700" color="$color12">
+                  {t('places.detail.contact')}
+                </Text>
+                {place.contact_phone && (
+                  <Button
+                    onPress={handlePhonePress}
+                    icon={Phone}
+                    size="$3"
+                    chromeless
+                    jc="flex-start"
+                    color="$blue10"
+                  >
+                    {place.contact_phone}
+                  </Button>
+                )}
+                {place.contact_whatsapp && (
+                  <Button
+                    onPress={handleWhatsAppPress}
+                    icon={Phone}
+                    size="$3"
+                    chromeless
+                    jc="flex-start"
+                    color="$green10"
+                  >
+                    WhatsApp: {place.contact_whatsapp}
+                  </Button>
+                )}
+                {place.contact_email && (
+                  <Button
+                    onPress={handleEmailPress}
+                    icon={Mail}
+                    size="$3"
+                    chromeless
+                    jc="flex-start"
+                    color="$blue10"
+                  >
+                    {place.contact_email}
+                  </Button>
+                )}
+                {place.contact_instagram && (
+                  <Button
+                    onPress={handleInstagramPress}
+                    icon={Instagram}
+                    size="$3"
+                    chromeless
+                    jc="flex-start"
+                    color="$purple10"
+                  >
+                    {place.contact_instagram}
+                  </Button>
+                )}
+                {place.website_url && (
+                  <Button
+                    onPress={handleWebsitePress}
+                    icon={Globe}
+                    size="$3"
+                    chromeless
+                    jc="flex-start"
+                    color="$blue10"
+                  >
+                    {t('places.detail.visit_website')}
+                  </Button>
+                )}
+              </YStack>
+            </>
+          )}
 
-          {/* Map Preview */}
+          {/* Map */}
           {place.lat && place.lng && MapView && (
-            <YStack gap="$2">
-              <Text fontSize="$5" fontWeight="600">
-                {t('places.detail.location')}
-              </Text>
-              <YStack height={200} borderRadius="$4" overflow="hidden" borderWidth={1} borderColor="$borderColor">
-                <MapView
-                  style={{ flex: 1 }}
-                  initialRegion={{
-                    latitude: place.lat,
-                    longitude: place.lng,
-                    latitudeDelta: 0.01,
-                    longitudeDelta: 0.01,
-                  }}
-                  scrollEnabled={false}
-                  zoomEnabled={false}
+            <>
+              <YStack h={1} bg="$borderColor" />
+              <YStack gap="$3">
+                <Text fontSize="$6" fontWeight="700" color="$color12">
+                  {t('places.detail.location')}
+                </Text>
+                <YStack
+                  height={300}
+                  borderRadius="$4"
+                  overflow="hidden"
+                  borderWidth={1}
+                  borderColor="$borderColor"
                 >
-                  <Marker
-                    coordinate={{
+                  <MapView
+                    style={{ flex: 1 }}
+                    initialRegion={{
                       latitude: place.lat,
                       longitude: place.lng,
+                      latitudeDelta: 0.01,
+                      longitudeDelta: 0.01,
                     }}
-                    title={place.location_name}
-                  />
-                </MapView>
+                  >
+                    <Marker
+                      coordinate={{
+                        latitude: place.lat,
+                        longitude: place.lng,
+                      }}
+                      title={place.location_name}
+                    />
+                  </MapView>
+                </YStack>
               </YStack>
+            </>
+          )}
+
+          {/* Action Buttons */}
+          <YStack gap="$3" mt="$3">
+            {place.lat && place.lng && (
               <Button
                 onPress={handleGetDirections}
                 icon={Navigation}
-                theme="blue"
-                size="$4"
+                size="$5"
+                bg="$blue9"
+                color="white"
+                pressStyle={{ bg: '$blue10' }}
               >
                 {t('places.detail.get_directions')}
               </Button>
-            </YStack>
-          )}
-
-          {/* TODO: Add image gallery if multiple images */}
-          
-          {/* Share Button */}
-          <Button
-            onPress={handleShare}
-            icon={Globe}
-            theme="blue"
-            size="$4"
-          >
-            {t('places.detail.share_place')}
-          </Button>
+            )}
+            <Button
+              onPress={handleShare}
+              icon={Share2}
+              size="$5"
+              variant="outlined"
+            >
+              {t('places.detail.share_place')}
+            </Button>
           </YStack>
         </YStack>
-      </ScrollView>
+      </YStack>
+    </ScrollView>
   )
 }
 

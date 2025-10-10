@@ -210,6 +210,10 @@ bump_version_flow() {
     gum style --foreground 51 --italic --align center "What kind of release is this?"
     echo ""
 
+    NEXT_PATCH=$(echo $CURRENT_VERSION | awk -F. '{print $1"."$2"."$3+1}')
+    NEXT_MINOR=$(echo $CURRENT_VERSION | awk -F. '{print $1"."$2+1".0"}')
+    NEXT_MAJOR=$(echo $CURRENT_VERSION | awk -F. '{print $1+1".0.0"}')
+
     BUMP_TYPE=$(gum choose \
         --height 8 \
         --cursor "⬆️  " \
@@ -218,9 +222,9 @@ bump_version_flow() {
         --selected.bold \
         --header.foreground 240 \
         --header "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" \
-        "🐛 Patch               ${CURRENT_VERSION} → $(echo $CURRENT_VERSION | awk -F. '{print $1"."$2"."$3+1}') (bug fixes)" \
-        "✨ Minor               ${CURRENT_VERSION} → $(echo $CURRENT_VERSION | awk -F. '{print $1"."$2+1".0}') (new features)" \
-        "💥 Major               ${CURRENT_VERSION} → $(echo $CURRENT_VERSION | awk -F. '{print $1+1".0.0}') (breaking changes)" \
+        "🐛 Patch               ${CURRENT_VERSION} → ${NEXT_PATCH} (bug fixes)" \
+        "✨ Minor               ${CURRENT_VERSION} → ${NEXT_MINOR} (new features)" \
+        "💥 Major               ${CURRENT_VERSION} → ${NEXT_MAJOR} (breaking changes)" \
         "⬅️  Cancel             Never mind")
 
     case "$BUMP_TYPE" in

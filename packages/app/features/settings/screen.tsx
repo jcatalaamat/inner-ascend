@@ -1,5 +1,5 @@
 import { Paragraph, ScrollView, Separator, Settings, YStack, isWeb, useMedia, useToastController } from '@my/ui'
-import { Book, Cog, Info, Lock, LogOut, Mail, Moon, Smartphone, Twitter, MessageCircle, Instagram, HelpCircle, Trash2, MessageSquarePlus, Bell } from '@tamagui/lucide-icons'
+import { Book, Cog, Info, Lock, LogOut, Mail, Moon, Smartphone, Twitter, MessageCircle, Instagram, HelpCircle, Trash2, MessageSquarePlus, Bell, Shield } from '@tamagui/lucide-icons'
 import { useThemeSetting } from 'app/provider/theme'
 import { redirect } from 'app/utils/redirect'
 import { useSupabase } from 'app/utils/supabase/useSupabase'
@@ -73,6 +73,22 @@ export const SettingsScreen = () => {
               </Settings.Item>
             </Settings.Group>
             {isWeb && <Separator boc="$color3" mx="$-4" bw="$0.25" />}
+            {/* Admin Section (only visible to admins) */}
+            {profile?.is_admin && (
+              <>
+                <Settings.Group>
+                  <Settings.Item
+                    icon={Shield}
+                    isActive={pathname === '/admin/reports'}
+                    {...useLink({ href: '/admin/reports' })}
+                    accentTheme="red"
+                  >
+                    Admin: Content Reports
+                  </Settings.Item>
+                </Settings.Group>
+                {isWeb && <Separator boc="$color3" mx="$-4" bw="$0.25" />}
+              </>
+            )}
             {/* Help & Support */}
             <Settings.Group>
               <SettingsHelpSupportItems onOpenFeedback={() => setFeedbackOpen(true)} />

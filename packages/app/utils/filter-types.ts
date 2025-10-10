@@ -138,10 +138,25 @@ export const hasActiveFilters = (filters: EventFilters): boolean => {
 
 export const getActiveFilterCount = (filters: EventFilters): number => {
   let count = 0
-  if (filters.categories && filters.categories.length > 0) count++
-  if (filters.dateRange && filters.dateRange.type !== 'all') count++
-  if (filters.timeOfDay && filters.timeOfDay.length > 0) count++
-  if (filters.priceRanges && filters.priceRanges.length > 0) count++
-  if (filters.tags && filters.tags.length > 0) count++
+  // Count individual category selections
+  if (filters.categories && filters.categories.length > 0) {
+    count += filters.categories.length
+  }
+  // Count date range as 1 if not 'all'
+  if (filters.dateRange && filters.dateRange.type !== 'all') {
+    count += 1
+  }
+  // Count individual time slot selections
+  if (filters.timeOfDay && filters.timeOfDay.length > 0) {
+    count += filters.timeOfDay.length
+  }
+  // Count individual price range selections
+  if (filters.priceRanges && filters.priceRanges.length > 0) {
+    count += filters.priceRanges.length
+  }
+  // Count individual tag selections
+  if (filters.tags && filters.tags.length > 0) {
+    count += filters.tags.length
+  }
   return count
 }

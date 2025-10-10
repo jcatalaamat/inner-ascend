@@ -9,8 +9,8 @@ import { LanguageSwitcher } from 'app/components/LanguageSwitcher'
 import { useTranslation } from 'react-i18next'
 import { Linking } from 'react-native'
 import { usePostHog } from 'posthog-react-native'
-import { useEffect } from 'react'
-import * as Sentry from '@sentry/react-native'
+import { useEffect, useState } from 'react'
+import { FeedbackSheet } from './feedback-sheet'
 
 
 export const SettingsScreen = () => {
@@ -18,6 +18,7 @@ export const SettingsScreen = () => {
   const pathname = usePathname()
   const { t } = useTranslation()
   const posthog = usePostHog()
+  const [feedbackOpen, setFeedbackOpen] = useState(false)
 
   useEffect(() => {
     posthog?.capture('settings_screen_viewed')
@@ -25,6 +26,8 @@ export const SettingsScreen = () => {
 
   return (
     <YStack f={1}>
+      <FeedbackSheet open={feedbackOpen} onOpenChange={setFeedbackOpen} />
+
       <ScrollView>
         <Settings>
           <Settings.Items>
@@ -64,7 +67,7 @@ export const SettingsScreen = () => {
             {isWeb && <Separator boc="$color3" mx="$-4" bw="$0.25" />}
             {/* Help & Support */}
             <Settings.Group>
-              <SettingsHelpSupportItems />
+              <SettingsHelpSupportItems onOpenFeedback={() => setFeedbackOpen(true)} />
             </Settings.Group>
             {isWeb && <Separator boc="$color3" mx="$-4" bw="$0.25" />}
             {/* About & Legal */}
@@ -127,7 +130,7 @@ const SettingsThemeAction = () => {
 }
 
 
-const SettingsHelpSupportItems = () => {
+const SettingsHelpSupportItems = ({ onOpenFeedback }: { onOpenFeedback: () => void }) => {
   const { t } = useTranslation()
   const toast = useToastController()
 
@@ -172,21 +175,9 @@ const SettingsHelpSupportItems = () => {
     )
   }
 
-  const handleFeedbackPress = async () => {
-    // For now, use email as it's the most reliable method
-    // Future: could add a custom in-app form with Supabase storage
-    const subject = 'Mazunte%20Connect%20-%20Feedback%20/%20Feature%20Request'
-    const body = 'Please%20share%20your%20feedback%20or%20feature%20requests%20below:%0D%0A%0D%0A'
-
-    handleContactPress(
-      `mailto:hello@mazunteconnect.com?subject=${subject}&body=${body}`,
-      t('settings.contact_unavailable_email')
-    )
-  }
-
   return (
     <>
-      <Settings.Item icon={MessageSquarePlus} onPress={handleFeedbackPress} accentTheme="orange">
+      <Settings.Item icon={MessageSquarePlus} onPress={onOpenFeedback} accentTheme="orange">
         {t('settings.send_feedback')}
       </Settings.Item>
       <Settings.Item icon={MessageCircle} onPress={handleWhatsAppPress} accentTheme="green">

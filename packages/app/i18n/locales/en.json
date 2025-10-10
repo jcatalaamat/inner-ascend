@@ -265,6 +265,22 @@
     "contact_unavailable_instagram": "Instagram not available. Find us @astralintegration",
     "contact_unavailable_email": "Email not configured. Contact us at hello@mazunteconnect.com"
   },
+  "feedback": {
+    "title": "Send Feedback",
+    "description": "Share your feedback or request a new feature",
+    "type_placeholder": "Select type",
+    "title_placeholder": "Brief title...",
+    "description_placeholder": "Describe your feedback or feature request...",
+    "submit": "Submit Feedback",
+    "validation_error": "Please fill in all fields",
+    "success": "Thank you for your feedback!",
+    "error": "Failed to submit feedback. Please try again.",
+    "types": {
+      "feedback": "General Feedback",
+      "feature_request": "Feature Request",
+      "bug_report": "Bug Report"
+    }
+  },
   "device_info": {
     "title": "Device Information",
     "copy_all": "Copy All",

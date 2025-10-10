@@ -152,7 +152,9 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
         `${t('admin.resolve_success')} - Item removed`
 
       toast.show(successMessage, { duration: 3000 })
-      router.back()
+
+      // Reload the report to show updated status
+      await loadReport()
     } catch (error) {
       console.error('Error resolving report:', error)
       toast.show(t('admin.resolve_error'), { duration: 3000 })

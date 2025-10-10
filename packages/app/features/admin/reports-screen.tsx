@@ -26,8 +26,11 @@ export function AdminReportsScreen() {
   const posthog = usePostHog()
 
   const [reports, setReports] = useState<Report[]>([])
+  const [allReports, setAllReports] = useState<Report[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const [filter, setFilter] = useState<'pending' | 'all'>('pending')
+  const [filter, setFilter] = useState<'pending' | 'hidden' | 'deleted' | 'dismissed' | 'all'>(
+    'pending'
+  )
 
   useEffect(() => {
     posthog?.capture('admin_reports_viewed')
@@ -35,29 +38,48 @@ export function AdminReportsScreen() {
 
   useEffect(() => {
     loadReports()
-  }, [filter])
+  }, [])
+
+  useEffect(() => {
+    filterReports()
+  }, [filter, allReports])
 
   const loadReports = async () => {
     setIsLoading(true)
     try {
-      let query = supabase
+      const { data, error } = await supabase
         .from('reports')
         .select('*')
         .order('created_at', { ascending: false })
 
-      if (filter === 'pending') {
-        query = query.eq('status', 'pending')
-      }
-
-      const { data, error } = await query
-
       if (error) throw error
-      setReports(data || [])
+      setAllReports(data || [])
     } catch (error) {
       console.error('Error loading reports:', error)
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const filterReports = () => {
+    let filtered = allReports
+
+    if (filter === 'pending') {
+      filtered = allReports.filter((r) => r.status === 'pending')
+    } else if (filter === 'hidden') {
+      filtered = allReports.filter(
+        (r) => r.status === 'resolved' && r.resolution_action === 'hide_item'
+      )
+    } else if (filter === 'deleted') {
+      filtered = allReports.filter(
+        (r) => r.status === 'resolved' && r.resolution_action === 'remove_item'
+      )
+    } else if (filter === 'dismissed') {
+      filtered = allReports.filter((r) => r.status === 'dismissed')
+    }
+    // 'all' shows everything - no filtering
+
+    setReports(filtered)
   }
 
   // Check if user is admin
@@ -74,7 +96,14 @@ export function AdminReportsScreen() {
     )
   }
 
-  const pendingCount = reports.filter((r) => r.status === 'pending').length
+  const pendingCount = allReports.filter((r) => r.status === 'pending').length
+  const hiddenCount = allReports.filter(
+    (r) => r.status === 'resolved' && r.resolution_action === 'hide_item'
+  ).length
+  const deletedCount = allReports.filter(
+    (r) => r.status === 'resolved' && r.resolution_action === 'remove_item'
+  ).length
+  const dismissedCount = allReports.filter((r) => r.status === 'dismissed').length
 
   return (
     <ScrollView bg="$background">
@@ -123,24 +152,50 @@ export function AdminReportsScreen() {
         </XStack>
 
         {/* Filter */}
-        <XStack gap="$2">
-          <Button
-            size="$3"
-            onPress={() => setFilter('pending')}
-            theme={filter === 'pending' ? 'blue' : undefined}
-            variant={filter === 'pending' ? undefined : 'outlined'}
-          >
-            {`${t('admin.pending')} (${pendingCount})`}
-          </Button>
-          <Button
-            size="$3"
-            onPress={() => setFilter('all')}
-            theme={filter === 'all' ? 'blue' : undefined}
-            variant={filter === 'all' ? undefined : 'outlined'}
-          >
-            {`${t('admin.all_reports')} (${reports.length})`}
-          </Button>
-        </XStack>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <XStack gap="$2" pb="$2">
+            <Button
+              size="$3"
+              onPress={() => setFilter('pending')}
+              theme={filter === 'pending' ? 'blue' : undefined}
+              variant={filter === 'pending' ? undefined : 'outlined'}
+            >
+              {`${t('admin.pending')} (${pendingCount})`}
+            </Button>
+            <Button
+              size="$3"
+              onPress={() => setFilter('dismissed')}
+              theme={filter === 'dismissed' ? 'blue' : undefined}
+              variant={filter === 'dismissed' ? undefined : 'outlined'}
+            >
+              {`${t('admin.dismissed')} (${dismissedCount})`}
+            </Button>
+            <Button
+              size="$3"
+              onPress={() => setFilter('hidden')}
+              theme={filter === 'hidden' ? 'blue' : undefined}
+              variant={filter === 'hidden' ? undefined : 'outlined'}
+            >
+              {`${t('admin.hidden')} (${hiddenCount})`}
+            </Button>
+            <Button
+              size="$3"
+              onPress={() => setFilter('deleted')}
+              theme={filter === 'deleted' ? 'blue' : undefined}
+              variant={filter === 'deleted' ? undefined : 'outlined'}
+            >
+              {`${t('admin.deleted')} (${deletedCount})`}
+            </Button>
+            <Button
+              size="$3"
+              onPress={() => setFilter('all')}
+              theme={filter === 'all' ? 'blue' : undefined}
+              variant={filter === 'all' ? undefined : 'outlined'}
+            >
+              {`${t('admin.all_reports')} (${allReports.length})`}
+            </Button>
+          </XStack>
+        </ScrollView>
 
         <Separator />
 
@@ -156,6 +211,12 @@ export function AdminReportsScreen() {
             <Paragraph theme="alt2" ta="center">
               {filter === 'pending'
                 ? t('admin.no_pending_reports')
+                : filter === 'hidden'
+                ? t('admin.no_hidden_reports')
+                : filter === 'deleted'
+                ? t('admin.no_deleted_reports')
+                : filter === 'dismissed'
+                ? t('admin.no_dismissed_reports')
                 : t('admin.no_reports_yet')}
             </Paragraph>
           </YStack>

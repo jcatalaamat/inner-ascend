@@ -12,6 +12,7 @@ import { useAdInterstitial } from 'app/components/AdInterstitial'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { FavoritesProvider } from 'app/contexts/FavoritesContext'
 import { LinearGradient } from '@tamagui/linear-gradient'
+import { ReportButton } from 'app/components/ReportButton'
 
 let MapView: any = null
 let Marker: any = null
@@ -504,6 +505,7 @@ function EventDetailScreenContent({ id }: EventDetailScreenProps) {
             >
               {t('events.detail.share_event')}
             </Button>
+            <ReportButton itemId={event.id} itemType="event" variant="outlined" size="$5" />
           </YStack>
         </YStack>
       </YStack>

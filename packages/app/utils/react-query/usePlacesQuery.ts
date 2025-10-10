@@ -24,6 +24,9 @@ const getPlaces = async (
 ) => {
   let query = supabase.from('places').select('*')
 
+  // Filter out items hidden by reports
+  query = query.eq('hidden_by_reports', false)
+
   // Filter by type
   if (filters.type) {
     query = query.eq('type', filters.type)

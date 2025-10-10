@@ -185,8 +185,8 @@ export function AdminReportsScreen() {
                       {report.item_type}
                     </Text>
                     <Text theme="alt2">•</Text>
-                    <Text theme="alt2" textTransform="capitalize">
-                      {report.reason.replace('_', ' ')}
+                    <Text theme="alt2">
+                      {t(`reports.reasons.${report.reason}`)}
                     </Text>
                   </XStack>
                   <XStack

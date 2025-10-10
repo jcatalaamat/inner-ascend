@@ -4,6 +4,7 @@ import {
   Label,
   Paragraph,
   RadioGroup,
+  ScrollView,
   Sheet,
   TextArea,
   YStack,
@@ -102,10 +103,10 @@ export function ReportSheet({ open, onOpenChange, itemId, itemType }: ReportShee
       zIndex={100000}
     >
       <Sheet.Overlay />
-      <Sheet.Frame padding="$4" gap="$4">
+      <Sheet.Frame padding="$0">
         <Sheet.Handle />
-
-        <YStack gap="$4">
+        <ScrollView>
+          <YStack padding="$4" gap="$4">
           {/* Header */}
           <YStack gap="$2">
             <XStack ai="center" gap="$2">
@@ -172,10 +173,12 @@ export function ReportSheet({ open, onOpenChange, itemId, itemType }: ReportShee
             theme="red"
             size="$4"
             icon={<Flag />}
+            mb="$4"
           >
             {isSubmitting ? t('common.loading') : t('reports.submit')}
           </Button>
         </YStack>
+        </ScrollView>
       </Sheet.Frame>
     </Sheet>
   )

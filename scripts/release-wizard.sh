@@ -92,29 +92,29 @@ deploy_flow() {
             ;;
 
         "🔄 Both"*)
-            gum style --foreground 212 "Deploying to staging first..."
+            gum style --foreground 86 "This will build and deploy to both staging and production"
+            gum style --foreground 86 "Staging first, then production (sequential, ~20-30 min total)"
+            echo ""
+
+            if ! gum confirm "Start both deployments?"; then
+                show_main_menu
+                return
+            fi
+
+            gum style --foreground 212 "Step 1/2: Deploying to staging..."
             echo ""
             ./scripts/deploy-staging.sh
 
             gum style --foreground 212 "✓ Staging deployment complete!"
             echo ""
-            gum style --foreground 86 "Test on TestFlight before continuing to production"
-            echo ""
 
-            if ! gum confirm "Staging tests passed? Continue to production?"; then
-                gum style --foreground 202 "Deployment stopped. Fix issues and try again."
-                echo ""
-                gum input --placeholder "Press Enter to return to main menu..."
-                show_main_menu
-                return
-            fi
-
-            gum style --foreground 212 "Deploying to production..."
+            gum style --foreground 212 "Step 2/2: Deploying to production..."
             echo ""
             ./scripts/deploy-production.sh
 
-            gum style --foreground 212 "✓ Production deployment complete!"
-            gum style --foreground 86 "Your app is now in Apple's review queue"
+            gum style --foreground 212 "✓ Both deployments complete!"
+            gum style --foreground 86 "Staging: TestFlight (test before approving production)"
+            gum style --foreground 86 "Production: App Store review queue"
             echo ""
 
             if gum confirm "Upload metadata/screenshots to App Store?"; then

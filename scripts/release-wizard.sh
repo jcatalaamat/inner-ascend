@@ -348,8 +348,19 @@ upload_screenshots() {
     echo ""
 
     if gum confirm "Continue?"; then
-        gum spin --spinner dot --title "Uploading screenshots..." -- sh -c "cd apps/expo && yarn fastlane:upload:screenshots"
-        gum style --foreground 212 "✓ Screenshots uploaded!"
+        echo ""
+        gum style --foreground 212 "📸 Uploading screenshots..."
+        echo ""
+
+        # Run command and capture output
+        if cd apps/expo && yarn fastlane:upload:screenshots; then
+            echo ""
+            gum style --foreground 86 --bold "✅ Screenshots uploaded successfully!"
+        else
+            echo ""
+            gum style --foreground 196 --bold "❌ Failed to upload screenshots"
+            gum style --foreground 240 "Check the output above for errors"
+        fi
         echo ""
     fi
 
@@ -373,8 +384,20 @@ upload_metadata() {
         return
     fi
 
-    gum spin --spinner dot --title "Uploading metadata..." -- sh -c "cd apps/expo && yarn fastlane:upload:metadata"
-    gum style --foreground 212 "✓ Metadata uploaded!"
+    echo ""
+    gum style --foreground 212 "📝 Uploading metadata..."
+    echo ""
+
+    # Run command and capture output
+    if cd apps/expo && yarn fastlane:upload:metadata; then
+        echo ""
+        gum style --foreground 86 --bold "✅ Metadata uploaded successfully!"
+    else
+        echo ""
+        gum style --foreground 196 --bold "❌ Failed to upload metadata"
+        gum style --foreground 240 "Check the output above for errors"
+    fi
+
     echo ""
     gum input --placeholder "Press Enter to return..."
     utilities_menu
@@ -393,20 +416,69 @@ metadata_upload_menu() {
 
     case "$UPLOAD_TYPE" in
         "📸 Screenshots only")
-            gum spin --spinner dot --title "Uploading screenshots..." -- sh -c "cd apps/expo && yarn fastlane:upload:screenshots"
-            gum style --foreground 212 "✓ Screenshots uploaded!"
+            echo ""
+            gum style --foreground 212 "📸 Uploading screenshots..."
+            echo ""
+
+            if cd apps/expo && yarn fastlane:upload:screenshots; then
+                echo ""
+                gum style --foreground 86 --bold "✅ Screenshots uploaded successfully!"
+            else
+                echo ""
+                gum style --foreground 196 --bold "❌ Failed to upload screenshots"
+                gum style --foreground 240 "Check the output above for errors"
+            fi
             ;;
         "📝 Metadata only")
             gum style --foreground 86 "Note: Build must be processing or ready"
             echo ""
-            gum spin --spinner dot --title "Uploading metadata..." -- sh -c "cd apps/expo && yarn fastlane:upload:metadata"
-            gum style --foreground 212 "✓ Metadata uploaded!"
+            gum style --foreground 212 "📝 Uploading metadata..."
+            echo ""
+
+            if cd apps/expo && yarn fastlane:upload:metadata; then
+                echo ""
+                gum style --foreground 86 --bold "✅ Metadata uploaded successfully!"
+            else
+                echo ""
+                gum style --foreground 196 --bold "❌ Failed to upload metadata"
+                gum style --foreground 240 "Check the output above for errors"
+            fi
             ;;
         "📦 Both")
-            gum spin --spinner dot --title "Uploading screenshots..." -- sh -c "cd apps/expo && yarn fastlane:upload:screenshots"
             echo ""
-            gum spin --spinner dot --title "Uploading metadata..." -- sh -c "cd apps/expo && yarn fastlane:upload:metadata"
-            gum style --foreground 212 "✓ All uploads complete!"
+            gum style --foreground 212 "📸 Uploading screenshots..."
+            echo ""
+
+            SCREENSHOTS_SUCCESS=false
+            if cd apps/expo && yarn fastlane:upload:screenshots; then
+                SCREENSHOTS_SUCCESS=true
+                echo ""
+                gum style --foreground 86 "✅ Screenshots uploaded successfully!"
+            else
+                echo ""
+                gum style --foreground 196 "❌ Failed to upload screenshots"
+            fi
+
+            echo ""
+            gum style --foreground 212 "📝 Uploading metadata..."
+            echo ""
+
+            METADATA_SUCCESS=false
+            if cd apps/expo && yarn fastlane:upload:metadata; then
+                METADATA_SUCCESS=true
+                echo ""
+                gum style --foreground 86 "✅ Metadata uploaded successfully!"
+            else
+                echo ""
+                gum style --foreground 196 "❌ Failed to upload metadata"
+            fi
+
+            echo ""
+            if [ "$SCREENSHOTS_SUCCESS" = true ] && [ "$METADATA_SUCCESS" = true ]; then
+                gum style --foreground 86 --bold "✅ All uploads complete!"
+            else
+                gum style --foreground 196 --bold "⚠️ Some uploads failed - check output above"
+            fi
             ;;
         *)
             gum style --foreground 86 "Skipped metadata upload"

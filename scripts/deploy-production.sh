@@ -44,8 +44,6 @@ if [ "$AUTO_CONFIRM" = false ]; then
     echo ""
 fi
 
-cd apps/expo
-
 # Check if EAS CLI is installed
 if ! command -v eas &> /dev/null; then
     echo "❌ EAS CLI not found. Please install it with: npm install -g eas-cli"

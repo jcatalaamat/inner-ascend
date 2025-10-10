@@ -266,7 +266,7 @@ CREATE OR REPLACE FUNCTION is_in_quiet_hours(p_user_id UUID)
 RETURNS BOOLEAN AS $$
 DECLARE
   prefs RECORD;
-  current_time TIME;
+  check_time TIME;
 BEGIN
   SELECT quiet_hours_enabled, quiet_hours_start, quiet_hours_end
   INTO prefs
@@ -278,13 +278,13 @@ BEGIN
     RETURN false;
   END IF;
 
-  current_time := LOCALTIME;
+  check_time := LOCALTIME;
 
   -- Handle overnight quiet hours (e.g., 22:00 to 08:00)
   IF prefs.quiet_hours_start > prefs.quiet_hours_end THEN
-    RETURN current_time >= prefs.quiet_hours_start OR current_time < prefs.quiet_hours_end;
+    RETURN check_time >= prefs.quiet_hours_start OR check_time < prefs.quiet_hours_end;
   ELSE
-    RETURN current_time >= prefs.quiet_hours_start AND current_time < prefs.quiet_hours_end;
+    RETURN check_time >= prefs.quiet_hours_start AND check_time < prefs.quiet_hours_end;
   END IF;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;

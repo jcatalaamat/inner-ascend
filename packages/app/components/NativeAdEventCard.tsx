@@ -29,13 +29,15 @@ const NativeAdEventCardComponent = ({ nativeAd }: NativeAdEventCardProps) => {
       >
         {/* Media with Overlay Content */}
         {nativeAd.mediaContent && (
-          <YStack position="relative" borderRadius="$3" overflow="hidden">
+          <YStack position="relative" borderRadius="$3" overflow="hidden" width="100%" als="stretch" ai="center" jc="center">
             <NativeMediaView
               style={{
                 width: '100%',
                 height: 200,
                 borderRadius: 12,
+                alignSelf: 'center',
               }}
+              resizeMode="cover"
             />
 
             {/* Gradient Overlay */}

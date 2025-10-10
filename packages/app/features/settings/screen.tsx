@@ -85,7 +85,7 @@ export const SettingsScreen = () => {
                     {...useLink({ href: '/admin/reports' })}
                     accentTheme="red"
                   >
-                    Admin: Content Reports
+                    {t('admin.title')}
                   </Settings.Item>
                 </Settings.Group>
                 {isWeb && <Separator boc="$color3" mx="$-4" bw="$0.25" />}

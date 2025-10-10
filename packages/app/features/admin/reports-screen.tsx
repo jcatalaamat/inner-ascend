@@ -232,7 +232,7 @@ export function AdminReportsScreen() {
                   </Text>
                   <Text fontSize="$2" theme="alt2">•</Text>
                   <Text fontSize="$2" theme="alt2">
-                    ID: {report.item_id.slice(0, 8)}...
+                    {t('admin.item_id')}: {report.item_id.slice(0, 8)}...
                   </Text>
                 </XStack>
               </YStack>

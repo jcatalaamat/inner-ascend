@@ -65,11 +65,11 @@ export function AdminReportsScreen() {
     return (
       <YStack f={1} ai="center" jc="center" p="$4" gap="$4">
         <AlertCircle size={48} color="$red10" />
-        <H3 ta="center">Access Denied</H3>
+        <H3 ta="center">{t('admin.access_denied')}</H3>
         <Paragraph ta="center" theme="alt2">
-          You don't have permission to access this page.
+          {t('admin.no_permission')}
         </Paragraph>
-        <Button onPress={() => router.back()}>Go Back</Button>
+        <Button onPress={() => router.back()}>{t('admin.go_back')}</Button>
       </YStack>
     )
   }
@@ -83,9 +83,9 @@ export function AdminReportsScreen() {
         <YStack gap="$2">
           <XStack ai="center" gap="$2">
             <Flag size={28} color="$red10" />
-            <H3>Content Reports</H3>
+            <H3>{t('admin.title')}</H3>
           </XStack>
-          <Paragraph theme="alt2">Review and moderate reported content</Paragraph>
+          <Paragraph theme="alt2">{t('admin.subtitle')}</Paragraph>
         </YStack>
 
         {/* Stats */}
@@ -102,7 +102,7 @@ export function AdminReportsScreen() {
               {pendingCount}
             </Text>
             <Text fontSize="$3" color="$yellow11">
-              Pending
+              {t('admin.pending')}
             </Text>
           </YStack>
           <YStack
@@ -117,7 +117,7 @@ export function AdminReportsScreen() {
               {reports.length}
             </Text>
             <Text fontSize="$3" theme="alt2">
-              Total
+              {t('admin.total')}
             </Text>
           </YStack>
         </XStack>
@@ -130,7 +130,7 @@ export function AdminReportsScreen() {
             theme={filter === 'pending' ? 'blue' : undefined}
             variant={filter === 'pending' ? undefined : 'outlined'}
           >
-            Pending ({pendingCount})
+            {t('admin.pending')} ({pendingCount})
           </Button>
           <Button
             size="$3"
@@ -138,7 +138,7 @@ export function AdminReportsScreen() {
             theme={filter === 'all' ? 'blue' : undefined}
             variant={filter === 'all' ? undefined : 'outlined'}
           >
-            All Reports ({reports.length})
+            {t('admin.all_reports')} ({reports.length})
           </Button>
         </XStack>
 
@@ -147,16 +147,16 @@ export function AdminReportsScreen() {
         {/* Reports List */}
         {isLoading ? (
           <YStack ai="center" py="$8">
-            <Text>Loading reports...</Text>
+            <Text>{t('admin.loading')}</Text>
           </YStack>
         ) : reports.length === 0 ? (
           <YStack ai="center" py="$8" gap="$3">
             <CheckCircle size={48} color="$green10" />
-            <H5>No reports to review!</H5>
+            <H5>{t('admin.no_reports_title')}</H5>
             <Paragraph theme="alt2" ta="center">
               {filter === 'pending'
-                ? 'All caught up! No pending reports.'
-                : 'No reports have been submitted yet.'}
+                ? t('admin.no_pending_reports')
+                : t('admin.no_reports_yet')}
             </Paragraph>
           </YStack>
         ) : (

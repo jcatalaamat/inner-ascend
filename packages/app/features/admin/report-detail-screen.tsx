@@ -84,11 +84,11 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
         reason: report.reason,
       })
 
-      toast.show('Report resolved successfully', { duration: 3000 })
+      toast.show(t('admin.resolve_success'), { duration: 3000 })
       router.back()
     } catch (error) {
       console.error('Error resolving report:', error)
-      toast.show('Failed to resolve report', { duration: 3000 })
+      toast.show(t('admin.resolve_error'), { duration: 3000 })
     } finally {
       setIsResolving(false)
     }
@@ -97,7 +97,7 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
   if (!profile?.is_admin) {
     return (
       <YStack f={1} ai="center" jc="center" p="$4">
-        <Text>Access Denied</Text>
+        <Text>{t('admin.access_denied')}</Text>
       </YStack>
     )
   }
@@ -105,7 +105,7 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
   if (isLoading || !report) {
     return (
       <YStack f={1} ai="center" jc="center">
-        <Text>Loading...</Text>
+        <Text>{t('admin.loading')}</Text>
       </YStack>
     )
   }
@@ -117,7 +117,7 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
         <YStack gap="$2">
           <XStack ai="center" gap="$2">
             <Flag size={24} color="$red10" />
-            <H4>Report Details</H4>
+            <H4>{t('admin.report_details')}</H4>
           </XStack>
           <XStack
             px="$3"
@@ -155,7 +155,7 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
         <YStack gap="$3">
           <YStack>
             <Text fontSize="$2" theme="alt2" fontWeight="600">
-              Item Type
+              {t('admin.item_type')}
             </Text>
             <Text fontSize="$4" textTransform="capitalize">
               {report.item_type}
@@ -164,7 +164,7 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
 
           <YStack>
             <Text fontSize="$2" theme="alt2" fontWeight="600">
-              Reason
+              {t('admin.reason')}
             </Text>
             <Text fontSize="$4" textTransform="capitalize">
               {t(`reports.reasons.${report.reason}`)}
@@ -174,7 +174,7 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
           {report.description && (
             <YStack>
               <Text fontSize="$2" theme="alt2" fontWeight="600">
-                Description
+                {t('admin.description')}
               </Text>
               <Paragraph fontSize="$4">{report.description}</Paragraph>
             </YStack>
@@ -182,7 +182,7 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
 
           <YStack>
             <Text fontSize="$2" theme="alt2" fontWeight="600">
-              Item ID
+              {t('admin.item_id')}
             </Text>
             <Text fontSize="$3" fontFamily="$mono">
               {report.item_id}
@@ -191,7 +191,7 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
 
           <YStack>
             <Text fontSize="$2" theme="alt2" fontWeight="600">
-              Reported
+              {t('admin.reported')}
             </Text>
             <Text fontSize="$4">{formatDate(report.created_at, 'en')}</Text>
           </YStack>
@@ -212,7 +212,7 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
             }
           }}
         >
-          View {report.item_type}
+          {t('admin.view_item', { type: report.item_type })}
         </Button>
 
         {/* Resolution Section */}
@@ -221,13 +221,13 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
             <Separator />
 
             <YStack gap="$3">
-              <H5>Resolution</H5>
+              <H5>{t('admin.resolution')}</H5>
               <YStack gap="$2">
                 <Text fontSize="$3" fontWeight="600">
-                  Notes (optional)
+                  {t('admin.notes_optional')}
                 </Text>
                 <TextArea
-                  placeholder="Add notes about your decision..."
+                  placeholder={t('admin.notes_placeholder')}
                   value={resolutionNotes}
                   onChangeText={setResolutionNotes}
                   numberOfLines={3}
@@ -242,7 +242,7 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
                   onPress={() => handleResolve('dismiss')}
                   disabled={isResolving}
                 >
-                  Dismiss Report (No Action)
+                  {t('admin.dismiss_report')}
                 </Button>
 
                 <Button
@@ -252,7 +252,7 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
                   onPress={() => handleResolve('hide')}
                   disabled={isResolving}
                 >
-                  Hide Item (Can be restored)
+                  {t('admin.hide_item')}
                 </Button>
 
                 <Button
@@ -262,7 +262,7 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
                   onPress={() => handleResolve('remove')}
                   disabled={isResolving}
                 >
-                  Remove Item (Permanent)
+                  {t('admin.remove_item')}
                 </Button>
               </YStack>
             </YStack>
@@ -274,18 +274,18 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
           <>
             <Separator />
             <YStack gap="$3">
-              <H5>Resolution</H5>
+              <H5>{t('admin.resolution')}</H5>
               {report.resolution_notes && (
                 <YStack>
                   <Text fontSize="$2" theme="alt2" fontWeight="600">
-                    Notes
+                    {t('admin.notes')}
                   </Text>
                   <Paragraph>{report.resolution_notes}</Paragraph>
                 </YStack>
               )}
               <YStack>
                 <Text fontSize="$2" theme="alt2" fontWeight="600">
-                  Resolved At
+                  {t('admin.resolved_at')}
                 </Text>
                 <Text>{report.resolved_at ? formatDate(report.resolved_at, 'en') : 'N/A'}</Text>
               </YStack>

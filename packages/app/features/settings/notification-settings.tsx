@@ -5,7 +5,6 @@ import { useSupabase } from 'app/utils/supabase/useSupabase'
 import { useUser } from 'app/utils/useUser'
 import { useNotifications } from 'app/utils/notifications'
 import { Bell, BellOff, TestTube } from '@tamagui/lucide-icons'
-import { ScreenWrapper } from 'app/components/ScreenWrapper'
 
 interface NotificationPreferences {
   enabled: boolean
@@ -115,18 +114,15 @@ export function NotificationSettingsScreen() {
 
   if (isLoading) {
     return (
-      <ScreenWrapper>
-        <YStack f={1} ai="center" jc="center">
-          <Text>{t('common.loading')}</Text>
-        </YStack>
-      </ScreenWrapper>
+      <YStack f={1} ai="center" jc="center">
+        <Text>{t('common.loading')}</Text>
+      </YStack>
     )
   }
 
   return (
-    <ScreenWrapper>
-      <ScrollView>
-        <YStack p="$4" gap="$4">
+    <ScrollView>
+      <YStack p="$4" gap="$4">
           <YStack gap="$2">
             <H4>{t('notifications.title')}</H4>
             <Paragraph theme="alt2">{t('notifications.description')}</Paragraph>
@@ -179,7 +175,11 @@ export function NotificationSettingsScreen() {
             <Switch
               checked={preferences.enabled}
               onCheckedChange={(checked) => updatePreference('enabled', checked)}
-            />
+              size="$4"
+              backgroundColor={preferences.enabled ? '$green8' : '$gray6'}
+            >
+              <Switch.Thumb animation="quick" backgroundColor="$white1" />
+            </Switch>
           </XStack>
 
           {preferences.enabled && (
@@ -199,7 +199,11 @@ export function NotificationSettingsScreen() {
                   <Switch
                     checked={preferences.reminder_1h_before}
                     onCheckedChange={(checked) => updatePreference('reminder_1h_before', checked)}
-                  />
+                    size="$4"
+                    backgroundColor={preferences.reminder_1h_before ? '$green8' : '$gray6'}
+                  >
+                    <Switch.Thumb animation="quick" backgroundColor="$white1" />
+                  </Switch>
                 </XStack>
 
                 <XStack ai="center" jc="space-between">
@@ -209,7 +213,11 @@ export function NotificationSettingsScreen() {
                   <Switch
                     checked={preferences.reminder_1d_before}
                     onCheckedChange={(checked) => updatePreference('reminder_1d_before', checked)}
-                  />
+                    size="$4"
+                    backgroundColor={preferences.reminder_1d_before ? '$green8' : '$gray6'}
+                  >
+                    <Switch.Thumb animation="quick" backgroundColor="$white1" />
+                  </Switch>
                 </XStack>
               </YStack>
 
@@ -231,7 +239,11 @@ export function NotificationSettingsScreen() {
                   <Switch
                     checked={preferences.new_events}
                     onCheckedChange={(checked) => updatePreference('new_events', checked)}
-                  />
+                    size="$4"
+                    backgroundColor={preferences.new_events ? '$green8' : '$gray6'}
+                  >
+                    <Switch.Thumb animation="quick" backgroundColor="$white1" />
+                  </Switch>
                 </XStack>
 
                 <XStack ai="center" jc="space-between">
@@ -244,7 +256,11 @@ export function NotificationSettingsScreen() {
                   <Switch
                     checked={preferences.weekly_digest}
                     onCheckedChange={(checked) => updatePreference('weekly_digest', checked)}
-                  />
+                    size="$4"
+                    backgroundColor={preferences.weekly_digest ? '$green8' : '$gray6'}
+                  >
+                    <Switch.Thumb animation="quick" backgroundColor="$white1" />
+                  </Switch>
                 </XStack>
               </YStack>
 
@@ -261,7 +277,11 @@ export function NotificationSettingsScreen() {
                 <Switch
                   checked={preferences.event_updates}
                   onCheckedChange={(checked) => updatePreference('event_updates', checked)}
-                />
+                  size="$4"
+                  backgroundColor={preferences.event_updates ? '$green8' : '$gray6'}
+                >
+                  <Switch.Thumb animation="quick" backgroundColor="$white1" />
+                </Switch>
               </XStack>
 
               <Separator />
@@ -277,7 +297,11 @@ export function NotificationSettingsScreen() {
                 <Switch
                   checked={preferences.quiet_hours_enabled}
                   onCheckedChange={(checked) => updatePreference('quiet_hours_enabled', checked)}
-                />
+                  size="$4"
+                  backgroundColor={preferences.quiet_hours_enabled ? '$green8' : '$gray6'}
+                >
+                  <Switch.Thumb animation="quick" backgroundColor="$white1" />
+                </Switch>
               </XStack>
             </>
           )}
@@ -308,6 +332,5 @@ export function NotificationSettingsScreen() {
           )}
         </YStack>
       </ScrollView>
-    </ScreenWrapper>
   )
 }

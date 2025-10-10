@@ -5,11 +5,13 @@ import { filterEventsByDateRange, getThisWeekendRange } from 'app/utils/date-hel
 import { useMemo } from 'react'
 import { useRouter } from 'solito/router'
 import { useTranslation } from 'react-i18next'
+import { useCity } from 'app/contexts/CityContext'
 
 import { ScrollAdapt } from './scroll-adapt'
 
 export const ThisWeekendEventsSection = () => {
-  const { data: allEvents = [], isLoading } = useEventsQuery()
+  const { selectedCity } = useCity()
+  const { data: allEvents = [], isLoading } = useEventsQuery({ city_id: selectedCity })
   const router = useRouter()
   const { t } = useTranslation()
 

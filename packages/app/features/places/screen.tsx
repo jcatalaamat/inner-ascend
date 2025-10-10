@@ -14,6 +14,7 @@ import { injectNativeAds, isAdItem, getAdUnitId, type DataWithAds } from 'app/ut
 import { TestIds } from 'react-native-google-mobile-ads'
 import type { Tables } from '@my/supabase/types'
 import { FavoritesProvider } from 'app/contexts/FavoritesContext'
+import { useCity } from 'app/contexts/CityContext'
 
 function PlacesScreenContent() {
   const [selectedType, setSelectedType] = useState<PlaceType | null>(null)
@@ -25,6 +26,7 @@ function PlacesScreenContent() {
   const insets = useSafeAreaInsets()
   const { t } = useTranslation()
   const posthog = usePostHog()
+  const { selectedCity } = useCity()
 
   // Feature flags
   const disablePlaceCreation = useFeatureFlag('disable-place-creation')
@@ -37,8 +39,8 @@ function PlacesScreenContent() {
     posthog?.capture('places_screen_viewed')
   }, [posthog])
 
-  // Fetch all places once
-  const { data: allPlaces = [], isLoading, refetch } = usePlacesQuery({})
+  // Fetch all places filtered by selected city
+  const { data: allPlaces = [], isLoading, refetch } = usePlacesQuery({ city_id: selectedCity })
   const [refreshing, setRefreshing] = useState(false)
 
   const onRefresh = async () => {

@@ -17,7 +17,9 @@
     "done": "Done",
     "language": "Language",
     "ad": "Ad",
-    "learn_more": "Learn More"
+    "learn_more": "Learn More",
+    "active": "Active",
+    "coming_soon": "Coming Soon"
   },
   "date": {
     "today": "Today",

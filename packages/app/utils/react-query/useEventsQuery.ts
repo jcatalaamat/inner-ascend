@@ -12,6 +12,7 @@ export interface EventFilters {
   ecoConscious?: boolean
   search?: string
   includePast?: boolean
+  city_id?: string
 }
 
 /**
@@ -43,6 +44,11 @@ const getEvents = async (
   // Filter by eco-conscious
   if (filters.ecoConscious) {
     query = query.eq('eco_conscious', true)
+  }
+
+  // Filter by city
+  if (filters.city_id) {
+    query = query.eq('city_id', filters.city_id)
   }
 
   // Search in title and description

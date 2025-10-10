@@ -15,6 +15,7 @@ import { injectNativeAds, isAdItem, getAdUnitId, type DataWithAds } from 'app/ut
 import { TestIds } from 'react-native-google-mobile-ads'
 import type { Tables } from '@my/supabase/types'
 import { FavoritesProvider } from 'app/contexts/FavoritesContext'
+import { useCity } from 'app/contexts/CityContext'
 
 function EventsScreenContent() {
   const [selectedCategory, setSelectedCategory] = useState<EventCategory | null>(null)
@@ -26,6 +27,7 @@ function EventsScreenContent() {
   const insets = useSafeAreaInsets()
   const { t } = useTranslation()
   const posthog = usePostHog()
+  const { selectedCity } = useCity()
 
   // Feature flags
   const disableEventCreation = useFeatureFlag('disable-event-creation')
@@ -38,8 +40,8 @@ function EventsScreenContent() {
     posthog?.capture('events_screen_viewed')
   }, [posthog])
 
-  // Fetch upcoming events only (filter out past events)
-  const { data: allEvents = [], isLoading, error, refetch } = useEventsQuery({ includePast: false })
+  // Fetch upcoming events only (filter out past events) filtered by selected city
+  const { data: allEvents = [], isLoading, error, refetch } = useEventsQuery({ includePast: false, city_id: selectedCity })
   const [refreshing, setRefreshing] = useState(false)
 
   const onRefresh = async () => {

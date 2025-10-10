@@ -25,6 +25,7 @@ import { Greetings } from './components/greetings'
 import { NextWeekEventsSection } from './components/next-week-events-section'
 import { ThisWeekEventsSection } from './components/this-week-events-section'
 import { ThisWeekendEventsSection } from './components/this-weekend-events-section'
+import { CityHubSwitcher } from './components/CityHubSwitcher'
 import { ScreenWrapper } from 'app/components/ScreenWrapper'
 import { FavoritesProvider } from 'app/contexts/FavoritesContext'
 
@@ -50,6 +51,7 @@ function HomeScreenContent() {
       <XStack maw={1480} als="center" f={1}>
         <ScrollView f={4} fb={0}>
           <ScrollToTopTabBarContainer>
+            <CityHubSwitcher />
             <XStack ai="center" jc="space-between">
               <Greetings />
               {isWeb && <EventDrawer />}

@@ -12,6 +12,7 @@ export interface PlaceFilters {
   verified?: boolean
   search?: string
   tags?: string[]
+  city_id?: string
 }
 
 /**
@@ -41,6 +42,11 @@ const getPlaces = async (
   // Filter by tags (contains any of the specified tags)
   if (filters.tags && filters.tags.length > 0) {
     query = query.contains('tags', filters.tags)
+  }
+
+  // Filter by city
+  if (filters.city_id) {
+    query = query.eq('city_id', filters.city_id)
   }
 
   // Search in name and description

@@ -17,7 +17,9 @@
     "done": "Listo",
     "language": "Idioma",
     "ad": "Anuncio",
-    "learn_more": "Más Información"
+    "learn_more": "Más Información",
+    "active": "Activo",
+    "coming_soon": "Próximamente"
   },
   "date": {
     "today": "Hoy",

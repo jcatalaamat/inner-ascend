@@ -10,6 +10,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import * as Sentry from '@sentry/react-native'
 import 'app/i18n' // Initialize i18n
 import { LanguageProvider } from 'app/contexts/LanguageContext'
+import { CityProvider } from 'app/contexts/CityContext'
 import { PostHogProvider } from 'posthog-react-native'
 import { EXPO_PUBLIC_POSTHOG_API_KEY, EXPO_PUBLIC_POSTHOG_HOST } from '@env'
 import { setupGlobalErrorHandling } from 'app/utils/error-tracking'
@@ -128,7 +129,8 @@ function HomeLayout() {
         <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
           <Provider initialSession={initialSession}>
             <LanguageProvider>
-              <Stack screenOptions={{ headerShown: false, headerBackButtonDisplayMode: 'minimal' }}>
+              <CityProvider>
+                <Stack screenOptions={{ headerShown: false, headerBackButtonDisplayMode: 'minimal' }}>
               <Stack.Screen
                 name="(drawer)/(tabs)/index"
                 options={{
@@ -179,6 +181,7 @@ function HomeLayout() {
                 }}
               />
               </Stack>
+              </CityProvider>
             </LanguageProvider>
           </Provider>
         </View>

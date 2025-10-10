@@ -43,7 +43,13 @@ platform :ios do
       skip_binary_upload: true,
       skip_screenshots: false,
       skip_metadata: false,
-      precheck_include_in_app_purchases: false
+      precheck_include_in_app_purchases: false,
+      app_review_information: {
+        first_name: "Jordi",
+        last_name: "Catala Amat",
+        phone_number: "+34611144170",
+        email_address: "jordicatalaamat@gmail.com"
+      }
     )
   end
 

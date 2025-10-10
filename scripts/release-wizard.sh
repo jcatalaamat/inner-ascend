@@ -353,7 +353,7 @@ upload_screenshots() {
         echo ""
 
         # Run command and capture output
-        if cd apps/expo && yarn fastlane:upload:screenshots; then
+        if (cd apps/expo && yarn fastlane:upload:screenshots); then
             echo ""
             gum style --foreground 86 --bold "✅ Screenshots uploaded successfully!"
         else
@@ -389,7 +389,7 @@ upload_metadata() {
     echo ""
 
     # Run command and capture output
-    if cd apps/expo && yarn fastlane:upload:metadata; then
+    if (cd apps/expo && yarn fastlane:upload:metadata); then
         echo ""
         gum style --foreground 86 --bold "✅ Metadata uploaded successfully!"
     else
@@ -420,7 +420,7 @@ metadata_upload_menu() {
             gum style --foreground 212 "📸 Uploading screenshots..."
             echo ""
 
-            if cd apps/expo && yarn fastlane:upload:screenshots; then
+            if (cd apps/expo && yarn fastlane:upload:screenshots); then
                 echo ""
                 gum style --foreground 86 --bold "✅ Screenshots uploaded successfully!"
             else
@@ -435,7 +435,7 @@ metadata_upload_menu() {
             gum style --foreground 212 "📝 Uploading metadata..."
             echo ""
 
-            if cd apps/expo && yarn fastlane:upload:metadata; then
+            if (cd apps/expo && yarn fastlane:upload:metadata); then
                 echo ""
                 gum style --foreground 86 --bold "✅ Metadata uploaded successfully!"
             else
@@ -450,7 +450,7 @@ metadata_upload_menu() {
             echo ""
 
             SCREENSHOTS_SUCCESS=false
-            if cd apps/expo && yarn fastlane:upload:screenshots; then
+            if (cd apps/expo && yarn fastlane:upload:screenshots); then
                 SCREENSHOTS_SUCCESS=true
                 echo ""
                 gum style --foreground 86 "✅ Screenshots uploaded successfully!"
@@ -464,7 +464,7 @@ metadata_upload_menu() {
             echo ""
 
             METADATA_SUCCESS=false
-            if cd apps/expo && yarn fastlane:upload:metadata; then
+            if (cd apps/expo && yarn fastlane:upload:metadata); then
                 METADATA_SUCCESS=true
                 echo ""
                 gum style --foreground 86 "✅ Metadata uploaded successfully!"

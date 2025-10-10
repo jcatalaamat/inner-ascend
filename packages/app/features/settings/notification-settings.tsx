@@ -331,13 +331,6 @@ export function NotificationSettingsScreen() {
         left={0}
         right={0}
         p="$4"
-        bg="$background"
-        borderTopWidth={1}
-        borderTopColor="$borderColor"
-        shadowColor="$shadowColor"
-        shadowOpacity={0.1}
-        shadowRadius={8}
-        elevation={4}
       >
         <Button
           onPress={savePreferences}

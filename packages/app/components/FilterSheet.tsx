@@ -1,0 +1,198 @@
+import {
+  Button,
+  H4,
+  Label,
+  Paragraph,
+  RadioGroup,
+  ScrollView,
+  Separator,
+  Sheet,
+  YStack,
+  XStack,
+  XGroup,
+} from '@my/ui'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Filter, X } from '@tamagui/lucide-icons'
+import type { EventFilters, DateRangeType, TimeOfDay } from 'app/utils/filter-types'
+import { getActiveFilterCount } from 'app/utils/filter-types'
+
+interface FilterSheetProps {
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  filters: EventFilters
+  onApplyFilters: (filters: EventFilters) => void
+}
+
+const TIME_SLOTS: { value: TimeOfDay; labelKey: string }[] = [
+  { value: 'morning', labelKey: 'filters.time_of_day.morning' },
+  { value: 'afternoon', labelKey: 'filters.time_of_day.afternoon' },
+  { value: 'evening', labelKey: 'filters.time_of_day.evening' },
+]
+
+export function FilterSheet({ open, onOpenChange, filters, onApplyFilters }: FilterSheetProps) {
+  const { t } = useTranslation()
+
+  const [localFilters, setLocalFilters] = useState<EventFilters>(filters)
+
+  const handleApply = () => {
+    onApplyFilters(localFilters)
+    onOpenChange(false)
+  }
+
+  const handleClear = () => {
+    const clearedFilters: EventFilters = {
+      dateRange: { type: 'all' },
+      timeOfDay: [],
+    }
+    setLocalFilters(clearedFilters)
+    onApplyFilters(clearedFilters)
+  }
+
+  const toggleTimeOfDay = (time: TimeOfDay) => {
+    const current = localFilters.timeOfDay || []
+    const updated = current.includes(time)
+      ? current.filter((t) => t !== time)
+      : [...current, time]
+    setLocalFilters({ ...localFilters, timeOfDay: updated })
+  }
+
+  const activeCount = getActiveFilterCount(localFilters)
+
+  return (
+    <Sheet
+      modal
+      open={open}
+      onOpenChange={onOpenChange}
+      snapPoints={[75]}
+      dismissOnSnapToBottom
+      zIndex={100000}
+    >
+      <Sheet.Overlay />
+      <Sheet.Frame padding="$0">
+        <Sheet.Handle />
+        <YStack f={1}>
+          {/* Header */}
+          <XStack jc="space-between" ai="center" p="$4" pb="$3">
+            <XStack ai="center" gap="$2">
+              <Filter size={24} />
+              <H4>{t('filters.title')}</H4>
+              {activeCount > 0 && (
+                <XStack
+                  bg="$blue9"
+                  px="$2"
+                  py="$1"
+                  borderRadius="$10"
+                  ml="$2"
+                >
+                  <Paragraph size="$2" color="white" fontWeight="600">
+                    {activeCount}
+                  </Paragraph>
+                </XStack>
+              )}
+            </XStack>
+            <Button
+              size="$3"
+              chromeless
+              onPress={handleClear}
+              icon={<X size={16} />}
+              disabled={activeCount === 0}
+            >
+              {t('filters.clear')}
+            </Button>
+          </XStack>
+
+          <Separator />
+
+          <ScrollView>
+            <YStack p="$4" gap="$5">
+              {/* Date Range */}
+              <YStack gap="$3">
+                <Label fontSize="$5" fontWeight="600">
+                  {t('filters.date_range.title')}
+                </Label>
+                <RadioGroup
+                  value={localFilters.dateRange?.type || 'all'}
+                  onValueChange={(val) =>
+                    setLocalFilters({
+                      ...localFilters,
+                      dateRange: { type: val as DateRangeType },
+                    })
+                  }
+                >
+                  <XStack gap="$2" flexWrap="wrap">
+                    {(['all', 'this_weekend', 'next_week'] as DateRangeType[]).map((type) => (
+                      <RadioGroup.Item
+                        key={type}
+                        value={type}
+                        id={type}
+                        size="$4"
+                        borderRadius="$10"
+                        bg={localFilters.dateRange?.type === type ? '$blue9' : '$background'}
+                        borderColor={localFilters.dateRange?.type === type ? '$blue9' : '$borderColor'}
+                        px="$4"
+                        py="$2"
+                        pressStyle={{
+                          bg: '$blue8',
+                        }}
+                      >
+                        <Paragraph
+                          color={localFilters.dateRange?.type === type ? 'white' : '$color'}
+                          fontWeight={localFilters.dateRange?.type === type ? '600' : '400'}
+                        >
+                          {t(`filters.date_range.${type}`)}
+                        </Paragraph>
+                      </RadioGroup.Item>
+                    ))}
+                  </XStack>
+                </RadioGroup>
+              </YStack>
+
+              <Separator />
+
+              {/* Time of Day */}
+              <YStack gap="$3">
+                <Label fontSize="$5" fontWeight="600">
+                  {t('filters.time_of_day.title')}
+                </Label>
+                <Paragraph size="$2" theme="alt2">
+                  Select one or more time slots
+                </Paragraph>
+                <XGroup>
+                  {TIME_SLOTS.map((slot) => {
+                    const isSelected = localFilters.timeOfDay?.includes(slot.value)
+                    return (
+                      <XGroup.Item key={slot.value}>
+                        <Button
+                          onPress={() => toggleTimeOfDay(slot.value)}
+                          size="$3"
+                          bg={isSelected ? '$blue9' : '$background'}
+                          borderColor={isSelected ? '$blue9' : '$borderColor'}
+                          color={isSelected ? 'white' : '$color'}
+                          pressStyle={{
+                            bg: isSelected ? '$blue8' : '$gray3',
+                          }}
+                          f={1}
+                        >
+                          {t(slot.labelKey).split(' ')[0]}
+                        </Button>
+                      </XGroup.Item>
+                    )
+                  })}
+                </XGroup>
+              </YStack>
+            </YStack>
+          </ScrollView>
+
+          {/* Footer */}
+          <YStack p="$4" pt="$3" borderTopWidth={1} borderTopColor="$borderColor">
+            <Button size="$5" theme="blue" onPress={handleApply} icon={<Filter />}>
+              {t('filters.apply')}
+              {activeCount > 0 && ` (${activeCount})`}
+            </Button>
+          </YStack>
+        </YStack>
+      </Sheet.Frame>
+    </Sheet>
+  )
+}

@@ -23,7 +23,7 @@ interface WebhookPayload {
   old_record: Report | null
 }
 
-const ADMIN_EMAIL = 'jordicatalaamat@gmail.com'
+const ADMIN_EMAIL = 'alerts@mazunteconnect.com'
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
 
 /**

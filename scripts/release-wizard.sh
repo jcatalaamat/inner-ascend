@@ -21,31 +21,47 @@ get_current_version() {
 show_main_menu() {
     clear
 
-    # Fancy header with gradient colors
+    # Super cool ASCII art header
     gum style \
         --foreground 212 --bold \
-        --border double \
+        --border thick \
         --border-foreground 212 \
+        --align center \
+        --width 60 \
         --margin "1" --padding "1 2" \
-        "🌴 MAZUNTE CONNECT RELEASE WIZARD 🌴"
+        "🌴🌊 MAZUNTE CONNECT 🌊🌴" \
+        "R E L E A S E   W I Z A R D" \
+        "════════════════════════════"
 
     CURRENT_VERSION=$(get_current_version)
 
     echo ""
-    gum style --foreground 86 --bold "📱 Current version: ${CURRENT_VERSION}"
+    gum style \
+        --foreground 86 --bold \
+        --border rounded \
+        --border-foreground 86 \
+        --align center \
+        --width 40 \
+        --margin "0 10" \
+        --padding "0 2" \
+        "📱 v${CURRENT_VERSION}"
+
     echo ""
-    gum style --foreground 240 --italic "Choose your adventure below ⬇️"
+    gum style --foreground 51 --italic --align center "✨ Choose your adventure ✨"
     echo ""
 
     CHOICE=$(gum choose \
-        --height 6 \
+        --height 8 \
+        --cursor "→ " \
         --cursor.foreground 212 \
         --selected.foreground 212 \
         --selected.bold \
-        "🚀 Deploy Release" \
-        "🔢 Bump Version" \
-        "🛠️  Utilities" \
-        "❌ Exit")
+        --header.foreground 240 \
+        --header "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" \
+        "🚀 Deploy Release        Ship it to TestFlight/App Store" \
+        "🔢 Bump Version          Increment version number" \
+        "🛠️  Utilities             Screenshots, metadata & tools" \
+        "❌ Exit                  Peace out! ✌️")
 
     case "$CHOICE" in
         "🚀 Deploy Release") deploy_flow ;;
@@ -59,29 +75,42 @@ show_main_menu() {
 deploy_flow() {
     clear
     gum style \
-        --border double \
+        --border thick \
         --margin "1" --padding "1 2" \
         --border-foreground 86 \
         --foreground 86 --bold \
-        "🚀 DEPLOY RELEASE"
+        --align center \
+        --width 50 \
+        "🚀  D E P L O Y   R E L E A S E  🚀"
 
     CURRENT_VERSION=$(get_current_version)
     echo ""
-    gum style --foreground 212 --bold "Deploying version: ${CURRENT_VERSION}"
+    gum style \
+        --foreground 212 --bold \
+        --border rounded \
+        --border-foreground 212 \
+        --align center \
+        --width 40 \
+        --margin "0 5" \
+        --padding "0 2" \
+        "Version: ${CURRENT_VERSION}"
     echo ""
-    gum style --foreground 240 "Pick your deployment target:"
+    gum style --foreground 51 --italic --align center "Where do you want to deploy?"
     echo ""
 
     # Choose deployment target
     DEPLOY_TARGET=$(gum choose \
-        --height 5 \
+        --height 8 \
+        --cursor "🎯 " \
         --cursor.foreground 86 \
         --selected.foreground 86 \
         --selected.bold \
-        "🧪 Staging only (TestFlight)" \
-        "🚀 Production only (App Store)" \
-        "🔄 Both (Staging → Production)" \
-        "← Cancel")
+        --header.foreground 240 \
+        --header "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" \
+        "🧪 Staging only          Test on TestFlight first" \
+        "🚀 Production only       Straight to App Store" \
+        "🔄 Both                  Staging → Production (auto)" \
+        "⬅️  Cancel               Never mind, go back")
 
     case "$DEPLOY_TARGET" in
         "🧪 Staging only"*)
@@ -165,44 +194,90 @@ deploy_flow() {
 bump_version_flow() {
     clear
     gum style \
-        --border rounded \
+        --border thick \
         --margin "1" --padding "1 2" \
         --border-foreground 212 \
         --foreground 212 --bold \
-        "🔢 BUMP VERSION"
+        --align center \
+        --width 50 \
+        "🔢  B U M P   V E R S I O N  🔢"
 
     CURRENT_VERSION=$(get_current_version)
     echo ""
-    gum style --foreground 86 --bold "Current version: ${CURRENT_VERSION}"
+    gum style \
+        --foreground 86 --bold \
+        --border rounded \
+        --border-foreground 86 \
+        --align center \
+        --width 40 \
+        --margin "0 5" \
+        --padding "0 2" \
+        "Current: v${CURRENT_VERSION}"
     echo ""
-    gum style --foreground 240 "What kind of bump?"
+    gum style --foreground 51 --italic --align center "What kind of release is this?"
     echo ""
 
     BUMP_TYPE=$(gum choose \
-        --height 5 \
+        --height 8 \
+        --cursor "⬆️  " \
         --cursor.foreground 212 \
         --selected.foreground 212 \
         --selected.bold \
-        "Patch (bug fixes) ${CURRENT_VERSION} → $(echo $CURRENT_VERSION | awk -F. '{print $1"."$2"."$3+1}')" \
-        "Minor (new features) ${CURRENT_VERSION} → $(echo $CURRENT_VERSION | awk -F. '{print $1"."$2+1".0"}')" \
-        "Major (breaking changes) ${CURRENT_VERSION} → $(echo $CURRENT_VERSION | awk -F. '{print $1+1".0.0"}')" \
-        "Cancel")
+        --header.foreground 240 \
+        --header "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" \
+        "🐛 Patch               ${CURRENT_VERSION} → $(echo $CURRENT_VERSION | awk -F. '{print $1"."$2"."$3+1}') (bug fixes)" \
+        "✨ Minor               ${CURRENT_VERSION} → $(echo $CURRENT_VERSION | awk -F. '{print $1"."$2+1".0}') (new features)" \
+        "💥 Major               ${CURRENT_VERSION} → $(echo $CURRENT_VERSION | awk -F. '{print $1+1".0.0}') (breaking changes)" \
+        "⬅️  Cancel             Never mind")
 
     case "$BUMP_TYPE" in
-        "Patch"*)
-            gum spin --spinner dot --title "Bumping patch version..." -- ./scripts/bump-version.sh patch
+        "🐛 Patch"*)
+            gum spin --spinner moon --title "🚀 Bumping patch version..." --title.foreground 212 -- ./scripts/bump-version.sh patch
             NEW_VERSION=$(get_current_version)
-            gum style --foreground 212 "✓ Version bumped to ${NEW_VERSION}"
+            echo ""
+            gum style \
+                --foreground 86 --bold \
+                --border rounded \
+                --border-foreground 86 \
+                --align center \
+                --width 40 \
+                --margin "1 5" \
+                --padding "1 2" \
+                "✨ SUCCESS! ✨" \
+                "New version: v${NEW_VERSION}" \
+                "Committed & pushed to GitHub!"
             ;;
-        "Minor"*)
-            gum spin --spinner dot --title "Bumping minor version..." -- ./scripts/bump-version.sh minor
+        "✨ Minor"*)
+            gum spin --spinner moon --title "🚀 Bumping minor version..." --title.foreground 212 -- ./scripts/bump-version.sh minor
             NEW_VERSION=$(get_current_version)
-            gum style --foreground 212 "✓ Version bumped to ${NEW_VERSION}"
+            echo ""
+            gum style \
+                --foreground 86 --bold \
+                --border rounded \
+                --border-foreground 86 \
+                --align center \
+                --width 40 \
+                --margin "1 5" \
+                --padding "1 2" \
+                "✨ SUCCESS! ✨" \
+                "New version: v${NEW_VERSION}" \
+                "Committed & pushed to GitHub!"
             ;;
-        "Major"*)
-            gum spin --spinner dot --title "Bumping major version..." -- ./scripts/bump-version.sh major
+        "💥 Major"*)
+            gum spin --spinner moon --title "🚀 Bumping major version..." --title.foreground 212 -- ./scripts/bump-version.sh major
             NEW_VERSION=$(get_current_version)
-            gum style --foreground 212 "✓ Version bumped to ${NEW_VERSION}"
+            echo ""
+            gum style \
+                --foreground 86 --bold \
+                --border rounded \
+                --border-foreground 86 \
+                --align center \
+                --width 40 \
+                --margin "1 5" \
+                --padding "1 2" \
+                "✨ SUCCESS! ✨" \
+                "New version: v${NEW_VERSION}" \
+                "Committed & pushed to GitHub!"
             ;;
         *)
             show_main_menu
@@ -211,7 +286,8 @@ bump_version_flow() {
     esac
 
     echo ""
-    gum input --placeholder "Press Enter to return to main menu..."
+    gum style --foreground 51 --italic --align center "Press Enter to continue..."
+    gum input --placeholder ""
     show_main_menu
 }
 
@@ -219,25 +295,30 @@ bump_version_flow() {
 utilities_menu() {
     clear
     gum style \
-        --border normal \
+        --border thick \
         --margin "1" --padding "1 2" \
-        --border-foreground 240 \
+        --border-foreground 86 \
         --foreground 86 --bold \
-        "🛠️  UTILITIES"
+        --align center \
+        --width 50 \
+        "🛠️   U T I L I T I E S   🛠️"
 
     echo ""
-    gum style --foreground 240 "Helper tools and resources:"
+    gum style --foreground 51 --italic --align center "Helper tools and resources"
     echo ""
 
     CHOICE=$(gum choose \
-        --height 5 \
+        --height 8 \
+        --cursor "🔧 " \
         --cursor.foreground 86 \
         --selected.foreground 86 \
         --selected.bold \
-        "📸 Upload Screenshots" \
-        "📝 Upload Metadata" \
-        "📋 View Release Checklist" \
-        "← Back to Main Menu")
+        --header.foreground 240 \
+        --header "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" \
+        "📸 Upload Screenshots    Add to App Store" \
+        "📝 Upload Metadata       Descriptions & keywords" \
+        "📋 Release Checklist     Pre-flight checks" \
+        "⬅️  Back                 Return to main menu")
 
     case "$CHOICE" in
         "📸 Upload Screenshots") upload_screenshots ;;

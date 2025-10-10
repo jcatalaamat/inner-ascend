@@ -3,7 +3,6 @@ import {
   H4,
   Label,
   Paragraph,
-  RadioGroup,
   ScrollView,
   Separator,
   Sheet,
@@ -51,8 +50,10 @@ export function FilterSheet({ open, onOpenChange, filters, onApplyFilters, type 
   const handleClear = () => {
     const clearedFilters: EventFilters = {
       categories: [],
-      dateRange: { type: 'all' },
-      timeOfDay: [],
+      ...(type === 'event' && {
+        dateRange: { type: 'all' },
+        timeOfDay: [],
+      }),
     }
     setLocalFilters(clearedFilters)
     onApplyFilters(clearedFilters)
@@ -154,83 +155,78 @@ export function FilterSheet({ open, onOpenChange, filters, onApplyFilters, type 
                 </XStack>
               </YStack>
 
-              <Separator />
+              {/* Date Range - Events Only */}
+              {type === 'event' && (
+                <>
+                  <Separator />
 
-              {/* Date Range */}
-              <YStack gap="$3">
-                <Label fontSize="$5" fontWeight="600">
-                  {t('filters.date_range.title')}
-                </Label>
-                <RadioGroup
-                  value={localFilters.dateRange?.type || 'all'}
-                  onValueChange={(val) =>
-                    setLocalFilters({
-                      ...localFilters,
-                      dateRange: { type: val as DateRangeType },
-                    })
-                  }
-                >
-                  <XStack gap="$2" flexWrap="wrap">
-                    {(['all', 'this_weekend', 'next_week'] as DateRangeType[]).map((type) => (
-                      <RadioGroup.Item
-                        key={type}
-                        value={type}
-                        id={type}
-                        size="$4"
-                        borderRadius="$10"
-                        bg={localFilters.dateRange?.type === type ? '$blue9' : '$background'}
-                        borderColor={localFilters.dateRange?.type === type ? '$blue9' : '$borderColor'}
-                        px="$4"
-                        py="$2"
-                        pressStyle={{
-                          bg: '$blue8',
-                        }}
-                      >
-                        <Paragraph
-                          color={localFilters.dateRange?.type === type ? 'white' : '$color'}
-                          fontWeight={localFilters.dateRange?.type === type ? '600' : '400'}
-                        >
-                          {t(`filters.date_range.${type}`)}
-                        </Paragraph>
-                      </RadioGroup.Item>
-                    ))}
-                  </XStack>
-                </RadioGroup>
-              </YStack>
+                  <YStack gap="$3">
+                    <Label fontSize="$5" fontWeight="600">
+                      {t('filters.date_range.title')}
+                    </Label>
+                    <XStack gap="$2" flexWrap="wrap">
+                      {(['all', 'this_weekend', 'next_week'] as DateRangeType[]).map((dateType) => {
+                        const isSelected = localFilters.dateRange?.type === dateType
+                        return (
+                          <Button
+                            key={dateType}
+                            size="$3"
+                            onPress={() =>
+                              setLocalFilters({
+                                ...localFilters,
+                                dateRange: { type: dateType },
+                              })
+                            }
+                            bg={isSelected ? '$blue9' : '$background'}
+                            borderColor={isSelected ? '$blue9' : '$borderColor'}
+                            color={isSelected ? 'white' : '$color'}
+                            borderRadius="$10"
+                            pressStyle={{
+                              bg: isSelected ? '$blue8' : '$gray3',
+                            }}
+                          >
+                            {t(`filters.date_range.${dateType}`)}
+                          </Button>
+                        )
+                      })}
+                    </XStack>
+                  </YStack>
 
-              <Separator />
+                  <Separator />
 
-              {/* Time of Day */}
-              <YStack gap="$3">
-                <Label fontSize="$5" fontWeight="600">
-                  {t('filters.time_of_day.title')}
-                </Label>
-                <Paragraph size="$2" theme="alt2">
-                  Select one or more time slots
-                </Paragraph>
-                <XGroup>
-                  {TIME_SLOTS.map((slot) => {
-                    const isSelected = localFilters.timeOfDay?.includes(slot.value)
-                    return (
-                      <XGroup.Item key={slot.value}>
-                        <Button
-                          onPress={() => toggleTimeOfDay(slot.value)}
-                          size="$3"
-                          bg={isSelected ? '$blue9' : '$background'}
-                          borderColor={isSelected ? '$blue9' : '$borderColor'}
-                          color={isSelected ? 'white' : '$color'}
-                          pressStyle={{
-                            bg: isSelected ? '$blue8' : '$gray3',
-                          }}
-                          f={1}
-                        >
-                          {t(slot.labelKey).split(' ')[0]}
-                        </Button>
-                      </XGroup.Item>
-                    )
-                  })}
-                </XGroup>
-              </YStack>
+                  {/* Time of Day */}
+                  <YStack gap="$3">
+                    <Label fontSize="$5" fontWeight="600">
+                      {t('filters.time_of_day.title')}
+                    </Label>
+                    <Paragraph size="$2" theme="alt2">
+                      Select one or more time slots
+                    </Paragraph>
+                    <XGroup>
+                      {TIME_SLOTS.map((slot) => {
+                        const isSelected = localFilters.timeOfDay?.includes(slot.value)
+                        return (
+                          <XGroup.Item key={slot.value}>
+                            <Button
+                              onPress={() => toggleTimeOfDay(slot.value)}
+                              size="$3"
+                              bg={isSelected ? '$blue9' : '$background'}
+                              borderColor={isSelected ? '$blue9' : '$borderColor'}
+                              color={isSelected ? 'white' : '$color'}
+                              pressStyle={{
+                                bg: isSelected ? '$blue8' : '$gray3',
+                              }}
+                              f={1}
+                            >
+                              {t(slot.labelKey).split(' ')[0]}
+                            </Button>
+                          </XGroup.Item>
+                        )
+                      })}
+                    </XGroup>
+                  </YStack>
+                </>
+              )}
             </YStack>
           </ScrollView>
 

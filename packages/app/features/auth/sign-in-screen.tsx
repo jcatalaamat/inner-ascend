@@ -18,6 +18,7 @@ import { createParam } from 'solito'
 import { Link } from 'solito/link'
 import { useRouter } from 'solito/router'
 import { z } from 'zod'
+import { usePostHog } from 'posthog-react-native'
 
 import { SocialLogin } from './components/SocialLogin'
 
@@ -35,6 +36,8 @@ export const SignInScreen = () => {
   const updateParams = useUpdateParams()
   useRedirectAfterSignIn()
   const { isLoadingSession } = useUser()
+  const posthog = usePostHog()
+
   useEffect(() => {
     // remove the persisted email from the url, mostly to not leak user's email in case they share it
     if (params?.email) {
@@ -51,6 +54,10 @@ export const SignInScreen = () => {
 
     if (error) {
       const errorMessage = error?.message.toLowerCase()
+      posthog?.capture('sign_in_failed', {
+        method: 'email',
+        error: errorMessage
+      })
       if (errorMessage.includes('email')) {
         form.setError('email', { type: 'custom', message: errorMessage })
       } else if (errorMessage.includes('password')) {
@@ -59,6 +66,9 @@ export const SignInScreen = () => {
         form.setError('password', { type: 'custom', message: errorMessage })
       }
     } else {
+      posthog?.capture('sign_in_success', {
+        method: 'email'
+      })
       router.replace('/')
     }
   }

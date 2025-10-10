@@ -7,6 +7,7 @@ import { FormProvider, useForm, useFormContext, useWatch } from 'react-hook-form
 import { createParam } from 'solito'
 import { Link } from 'solito/link'
 import { z } from 'zod'
+import { usePostHog } from 'posthog-react-native'
 
 const { useParams, useUpdateParams } = createParam<{ email?: string }>()
 
@@ -18,6 +19,8 @@ export const ResetPasswordScreen = () => {
   const supabase = useSupabase()
   const { params } = useParams()
   const updateParams = useUpdateParams()
+  const posthog = usePostHog()
+
   useEffect(() => {
     if (params?.email) {
       updateParams({ email: undefined }, { web: { replace: true } })
@@ -31,11 +34,16 @@ export const ResetPasswordScreen = () => {
 
     if (error) {
       const errorMessage = error?.message.toLowerCase()
+      posthog?.capture('password_reset_failed', {
+        error: errorMessage
+      })
       if (errorMessage.includes('email')) {
         form.setError('email', { type: 'custom', message: errorMessage })
       } else {
         form.setError('email', { type: 'custom', message: errorMessage })
       }
+    } else {
+      posthog?.capture('password_reset_requested')
     }
   }
 

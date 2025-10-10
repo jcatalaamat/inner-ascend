@@ -2,6 +2,7 @@ import { Onboarding, OnboardingStepInfo, StepContent } from '@my/ui'
 import { Calendar, Home, Shield } from '@tamagui/lucide-icons'
 import React from 'react'
 import { useRouter } from 'solito/router'
+import { usePostHog } from 'posthog-react-native'
 
 const steps: OnboardingStepInfo[] = [
   {
@@ -41,5 +42,16 @@ const steps: OnboardingStepInfo[] = [
  */
 export const OnboardingScreen = () => {
   const router = useRouter()
-  return <Onboarding autoSwipe onOnboarded={() => router.push('/sign-up')} steps={steps} />
+  const posthog = usePostHog()
+
+  return (
+    <Onboarding
+      autoSwipe
+      onOnboarded={() => {
+        posthog?.capture('onboarding_completed')
+        router.push('/sign-up')
+      }}
+      steps={steps}
+    />
+  )
 }

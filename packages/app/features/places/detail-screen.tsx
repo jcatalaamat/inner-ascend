@@ -64,23 +64,53 @@ function PlaceDetailScreenContent({ id }: PlaceDetailScreenProps) {
   const typeLabel = t(`places.types.${place.type}`)
 
   const handlePhonePress = () => {
-    if (place.contact_phone) Linking.openURL(`tel:${place.contact_phone}`)
+    if (place.contact_phone) {
+      posthog?.capture('contact_phone_clicked', {
+        item_type: 'place',
+        item_id: place.id
+      })
+      Linking.openURL(`tel:${place.contact_phone}`)
+    }
   }
 
   const handleWhatsAppPress = () => {
-    if (place.contact_whatsapp) Linking.openURL(`https://wa.me/${place.contact_whatsapp}`)
+    if (place.contact_whatsapp) {
+      posthog?.capture('contact_whatsapp_clicked', {
+        item_type: 'place',
+        item_id: place.id
+      })
+      Linking.openURL(`https://wa.me/${place.contact_whatsapp}`)
+    }
   }
 
   const handleEmailPress = () => {
-    if (place.contact_email) Linking.openURL(`mailto:${place.contact_email}`)
+    if (place.contact_email) {
+      posthog?.capture('contact_email_clicked', {
+        item_type: 'place',
+        item_id: place.id
+      })
+      Linking.openURL(`mailto:${place.contact_email}`)
+    }
   }
 
   const handleWebsitePress = () => {
-    if (place.website_url) Linking.openURL(place.website_url)
+    if (place.website_url) {
+      posthog?.capture('contact_website_clicked', {
+        item_type: 'place',
+        item_id: place.id
+      })
+      Linking.openURL(place.website_url)
+    }
   }
 
   const handleInstagramPress = () => {
-    if (place.contact_instagram) Linking.openURL(`https://instagram.com/${place.contact_instagram.replace('@', '')}`)
+    if (place.contact_instagram) {
+      posthog?.capture('contact_instagram_clicked', {
+        item_type: 'place',
+        item_id: place.id
+      })
+      Linking.openURL(`https://instagram.com/${place.contact_instagram.replace('@', '')}`)
+    }
   }
 
   const handleImagePress = () => {
@@ -89,6 +119,11 @@ function PlaceDetailScreenContent({ id }: PlaceDetailScreenProps) {
 
   const handleGetDirections = () => {
     if (!place?.lat || !place?.lng) return
+
+    posthog?.capture('get_directions_clicked', {
+      item_type: 'place',
+      item_id: place.id
+    })
 
     const scheme = Platform.select({
       ios: 'maps:',

@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { UploadImage, type UploadImageRef } from 'app/components/UploadImage'
 import { LocationPicker, type LocationPickerRef } from 'app/components/LocationPicker'
 import { useRef } from 'react'
+import { usePostHog } from 'posthog-react-native'
 
 type InsertEvent = Database['public']['Tables']['events']['Insert']
 
@@ -20,6 +21,7 @@ export const CreateEventForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const { t } = useTranslation()
   const imageUploadRef = useRef<UploadImageRef>(null)
   const locationPickerRef = useRef<LocationPickerRef>(null)
+  const posthog = usePostHog()
 
   // Simplified schema - only essential fields
   const CreateEventFormSchema = z.object({
@@ -40,6 +42,9 @@ export const CreateEventForm = ({ onSuccess }: { onSuccess: () => void }) => {
 
   const mutation = useMutation({
     async onError(error) {
+      posthog?.capture('event_creation_failed', {
+        error: error instanceof Error ? error.message : 'Unknown error'
+      })
       toast.show(t('common.error'))
       console.log('error', error)
     },
@@ -78,6 +83,11 @@ export const CreateEventForm = ({ onSuccess }: { onSuccess: () => void }) => {
     },
 
     async onSuccess() {
+      posthog?.capture('event_created', {
+        has_image: !!imageUploadRef.current?.getImageUrl(),
+        has_location: !!locationPickerRef.current?.getLocation(),
+        is_eco_conscious: mutation.variables?.eco_conscious
+      })
       onSuccess()
       await queryClient.invalidateQueries({ queryKey: ['events'] })
     },

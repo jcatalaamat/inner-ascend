@@ -83,19 +83,43 @@ function EventDetailScreenContent({ id }: EventDetailScreenProps) {
   }, [event, posthog, showInterstitial, isEnabled])
 
   const handlePhonePress = () => {
-    if (event?.contact_phone) Linking.openURL(`tel:${event.contact_phone}`)
+    if (event?.contact_phone) {
+      posthog?.capture('contact_phone_clicked', {
+        item_type: 'event',
+        item_id: event.id
+      })
+      Linking.openURL(`tel:${event.contact_phone}`)
+    }
   }
 
   const handleWhatsAppPress = () => {
-    if (event?.contact_whatsapp) Linking.openURL(`https://wa.me/${event.contact_whatsapp}`)
+    if (event?.contact_whatsapp) {
+      posthog?.capture('contact_whatsapp_clicked', {
+        item_type: 'event',
+        item_id: event.id
+      })
+      Linking.openURL(`https://wa.me/${event.contact_whatsapp}`)
+    }
   }
 
   const handleEmailPress = () => {
-    if (event?.contact_email) Linking.openURL(`mailto:${event.contact_email}`)
+    if (event?.contact_email) {
+      posthog?.capture('contact_email_clicked', {
+        item_type: 'event',
+        item_id: event.id
+      })
+      Linking.openURL(`mailto:${event.contact_email}`)
+    }
   }
 
   const handleInstagramPress = () => {
-    if (event?.contact_instagram) Linking.openURL(`https://instagram.com/${event.contact_instagram.replace('@', '')}`)
+    if (event?.contact_instagram) {
+      posthog?.capture('contact_instagram_clicked', {
+        item_type: 'event',
+        item_id: event.id
+      })
+      Linking.openURL(`https://instagram.com/${event.contact_instagram.replace('@', '')}`)
+    }
   }
 
   const handleImagePress = () => {
@@ -104,6 +128,11 @@ function EventDetailScreenContent({ id }: EventDetailScreenProps) {
 
   const handleGetDirections = () => {
     if (!event?.lat || !event?.lng) return
+
+    posthog?.capture('get_directions_clicked', {
+      item_type: 'event',
+      item_id: event.id
+    })
 
     const scheme = Platform.select({
       ios: 'maps:',

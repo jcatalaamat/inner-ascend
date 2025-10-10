@@ -1,6 +1,6 @@
 import { Text, XStack, YStack } from '@my/ui'
 import { useTranslation } from 'react-i18next'
-import { useFeatureFlag } from 'posthog-react-native'
+import { useFeatureFlag, usePostHog } from 'posthog-react-native'
 import { LinearGradient } from '@tamagui/linear-gradient'
 import { useCity } from 'app/contexts/CityContext'
 
@@ -24,6 +24,7 @@ export const CityHubSwitcher = () => {
   const { i18n } = useTranslation()
   const { selectedCity, setSelectedCity } = useCity()
   const isEnabled = useFeatureFlag('enable-city-hub-switcher')
+  const posthog = usePostHog()
 
   if (!isEnabled) return null
 
@@ -56,6 +57,12 @@ export const CityHubSwitcher = () => {
             pressStyle={{ scale: 0.97 }}
             cursor="pointer"
             onPress={() => {
+              if (city.isActive) {
+                posthog?.capture('city_switched', {
+                  from_city: selectedCity,
+                  to_city: city.id
+                })
+              }
               setSelectedCity(city.id)
             }}
             opacity={!city.isActive ? 0.5 : isSelected ? 1 : 0.85}

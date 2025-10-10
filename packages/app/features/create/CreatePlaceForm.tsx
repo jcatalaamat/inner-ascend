@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { UploadImage, type UploadImageRef } from 'app/components/UploadImage'
 import { LocationPicker, type LocationPickerRef } from 'app/components/LocationPicker'
 import { useRef } from 'react'
+import { usePostHog } from 'posthog-react-native'
 
 type InsertPlace = Database['public']['Tables']['places']['Insert']
 
@@ -20,6 +21,7 @@ export const CreatePlaceForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const { t } = useTranslation()
   const imageUploadRef = useRef<UploadImageRef>(null)
   const locationPickerRef = useRef<LocationPickerRef>(null)
+  const posthog = usePostHog()
 
   const CreatePlaceFormSchema = z.object({
     name: formFields.text.min(3).describe(`${t('create.place_form.name')} // Place name`),
@@ -33,6 +35,9 @@ export const CreatePlaceForm = ({ onSuccess }: { onSuccess: () => void }) => {
   })
   const mutation = useMutation({
     async onError(error) {
+      posthog?.capture('place_creation_failed', {
+        error: error instanceof Error ? error.message : 'Unknown error'
+      })
       toast.show(t('common.error'))
       console.log('error', error)
     },
@@ -67,6 +72,12 @@ export const CreatePlaceForm = ({ onSuccess }: { onSuccess: () => void }) => {
     },
 
     async onSuccess() {
+      posthog?.capture('place_created', {
+        place_type: mutation.variables?.type,
+        has_image: !!imageUploadRef.current?.getImageUrl(),
+        has_location: !!locationPickerRef.current?.getLocation(),
+        is_eco_conscious: mutation.variables?.eco_conscious
+      })
       onSuccess()
       await queryClient.invalidateQueries({ queryKey: ['places'] })
     },

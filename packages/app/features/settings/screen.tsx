@@ -11,6 +11,7 @@ import { Linking } from 'react-native'
 import { usePostHog } from 'posthog-react-native'
 import { useEffect, useState } from 'react'
 import { FeedbackSheet } from './feedback-sheet'
+import { useUser } from 'app/utils/useUser'
 
 
 export const SettingsScreen = () => {
@@ -18,6 +19,7 @@ export const SettingsScreen = () => {
   const pathname = usePathname()
   const { t } = useTranslation()
   const posthog = usePostHog()
+  const { profile } = useUser()
   const [feedbackOpen, setFeedbackOpen] = useState(false)
 
   useEffect(() => {

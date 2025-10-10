@@ -6,14 +6,14 @@ export default {
     slug: 'mazunte-connect',
     jsEngine: 'hermes',
     scheme: 'mazunteconnect',
-    version: '1.2.3',
+    version: '1.2.4',
     orientation: 'portrait',
     icon: './assets/icon.png',
     userInterfaceStyle: 'automatic',
     splash: {
       image: './assets/splash.png',
       contentFit: 'contain',
-      backgroundColor: '#ffffff',
+      backgroundColor: '#F5D5A0',
     },
     updates: {
       fallbackToCacheTimeout: 0,

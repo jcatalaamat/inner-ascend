@@ -24,6 +24,7 @@ export default {
       supportsTablet: true,
       bundleIdentifier: 'com.mazunte.connect',
       buildNumber: '7',
+      icon: './assets/icon.png',
       infoPlist: {
         ITSAppUsesNonExemptEncryption: false,
         "NSBluetoothAlwaysUsageDescription": "This app uses Bluetooth for nearby device verification during sign-in.",

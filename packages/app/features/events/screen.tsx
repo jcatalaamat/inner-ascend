@@ -28,6 +28,9 @@ function EventsScreenContent() {
     categories: [],
     dateRange: { type: 'all' },
     timeOfDay: [],
+    ecoConscious: false,
+    verified: false,
+    priceRanges: [],
   })
   const lastFilteredEventsRef = useRef<Tables<'events'>[]>([])
   const insets = useSafeAreaInsets()
@@ -94,6 +97,11 @@ function EventsScreenContent() {
         if (!event.time) return true // Include events without time
         return filters.timeOfDay!.some(timeSlot => isTimeInRange(event.time, timeSlot))
       })
+    }
+
+    // Filter by eco-conscious
+    if (filters.ecoConscious) {
+      filtered = filtered.filter(event => event.eco_conscious === true)
     }
 
     // Sort by date (upcoming first)

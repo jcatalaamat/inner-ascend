@@ -694,7 +694,10 @@
     "tags": {
       "title": "Etiquetas",
       "search_placeholder": "Buscar etiquetas..."
-    }
+    },
+    "eco_conscious": "Consciente del Medio Ambiente",
+    "verified": "Solo Verificados",
+    "price_range": "Rango de Precios"
   },
   "saved_searches": {
     "title": "Búsquedas Guardadas",

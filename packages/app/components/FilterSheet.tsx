@@ -10,11 +10,12 @@ import {
   XStack,
   XGroup,
   Text,
+  Switch,
 } from '@my/ui'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Filter, X } from '@tamagui/lucide-icons'
-import type { EventFilters, DateRangeType, TimeOfDay } from 'app/utils/filter-types'
+import type { EventFilters, DateRangeType, TimeOfDay, PriceRange } from 'app/utils/filter-types'
 import { getActiveFilterCount } from 'app/utils/filter-types'
 import { EVENT_CATEGORIES, PLACE_TYPES, type EventCategory, type PlaceType } from 'app/utils/constants'
 
@@ -50,6 +51,9 @@ export function FilterSheet({ open, onOpenChange, filters, onApplyFilters, type 
   const handleClear = () => {
     const clearedFilters: EventFilters = {
       categories: [],
+      ecoConscious: false,
+      verified: false,
+      priceRanges: [],
       ...(type === 'event' && {
         dateRange: { type: 'all' },
         timeOfDay: [],
@@ -74,6 +78,7 @@ export function FilterSheet({ open, onOpenChange, filters, onApplyFilters, type 
       : [...current, time]
     setLocalFilters({ ...localFilters, timeOfDay: updated })
   }
+
 
   const activeCount = getActiveFilterCount(localFilters)
 
@@ -154,6 +159,48 @@ export function FilterSheet({ open, onOpenChange, filters, onApplyFilters, type 
                   })}
                 </XStack>
               </YStack>
+
+              <Separator />
+
+              {/* Eco-Conscious - Both */}
+              <XStack ai="center" jc="space-between">
+                <Label fontSize="$4" fontWeight="500">
+                  {t('filters.eco_conscious')}
+                </Label>
+                <Switch
+                  size="$3"
+                  checked={localFilters.ecoConscious || false}
+                  onCheckedChange={(checked) =>
+                    setLocalFilters({ ...localFilters, ecoConscious: checked })
+                  }
+                  backgroundColor={localFilters.ecoConscious ? '$blue9' : '$gray5'}
+                >
+                  <Switch.Thumb animation="quick" backgroundColor="white" />
+                </Switch>
+              </XStack>
+
+              {/* Verified - Places Only */}
+              {type === 'place' && (
+                <>
+                  <Separator />
+                  <XStack ai="center" jc="space-between">
+                    <Label fontSize="$4" fontWeight="500">
+                      {t('filters.verified')}
+                    </Label>
+                    <Switch
+                      size="$3"
+                      checked={localFilters.verified || false}
+                      onCheckedChange={(checked) =>
+                        setLocalFilters({ ...localFilters, verified: checked })
+                      }
+                      backgroundColor={localFilters.verified ? '$blue9' : '$gray5'}
+                    >
+                      <Switch.Thumb animation="quick" backgroundColor="white" />
+                    </Switch>
+                  </XStack>
+                </>
+              )}
+
 
               {/* Date Range - Events Only */}
               {type === 'event' && (

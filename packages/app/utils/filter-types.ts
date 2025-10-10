@@ -17,6 +17,8 @@ export interface EventFilters {
   priceRanges?: PriceRange[]
   tags?: string[]
   searchQuery?: string
+  ecoConscious?: boolean
+  verified?: boolean
 }
 
 export interface SavedSearch {
@@ -132,7 +134,9 @@ export const hasActiveFilters = (filters: EventFilters): boolean => {
     (filters.dateRange && filters.dateRange.type !== 'all') ||
     (filters.timeOfDay && filters.timeOfDay.length > 0) ||
     (filters.priceRanges && filters.priceRanges.length > 0) ||
-    (filters.tags && filters.tags.length > 0)
+    (filters.tags && filters.tags.length > 0) ||
+    filters.ecoConscious ||
+    filters.verified
   )
 }
 
@@ -157,6 +161,13 @@ export const getActiveFilterCount = (filters: EventFilters): number => {
   // Count individual tag selections
   if (filters.tags && filters.tags.length > 0) {
     count += filters.tags.length
+  }
+  // Count boolean filters
+  if (filters.ecoConscious) {
+    count += 1
+  }
+  if (filters.verified) {
+    count += 1
   }
   return count
 }

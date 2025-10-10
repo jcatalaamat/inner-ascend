@@ -26,8 +26,9 @@ function PlacesScreenContent() {
   const [filterSheetOpen, setFilterSheetOpen] = useState(false)
   const [filters, setFilters] = useState<EventFilters>({
     categories: [],
-    dateRange: { type: 'all' },
-    timeOfDay: [],
+    ecoConscious: false,
+    verified: false,
+    priceRanges: [],
   })
   const lastFilteredPlacesRef = useRef<Tables<'places'>[]>([])
   const insets = useSafeAreaInsets()
@@ -73,6 +74,16 @@ function PlacesScreenContent() {
         place.description?.toLowerCase().includes(query) ||
         place.location_name?.toLowerCase().includes(query)
       )
+    }
+
+    // Filter by eco-conscious
+    if (filters.ecoConscious) {
+      filtered = filtered.filter(place => place.eco_conscious === true)
+    }
+
+    // Filter by verified
+    if (filters.verified) {
+      filtered = filtered.filter(place => place.verified === true)
     }
 
     return filtered

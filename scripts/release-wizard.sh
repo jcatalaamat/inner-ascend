@@ -28,25 +28,18 @@ show_main_menu() {
         --border-foreground 212 \
         --align center \
         --width 60 \
-        --margin "1" --padding "1 2" \
+        --margin "0" --padding "1" \
         "🌴🌊 MAZUNTE CONNECT 🌊🌴" \
-        "R E L E A S E   W I Z A R D" \
-        "════════════════════════════"
+        "RELEASE WIZARD" \
+        "════════════════════════"
 
     CURRENT_VERSION=$(get_current_version)
 
-    echo ""
     gum style \
         --foreground 86 --bold \
-        --border rounded \
-        --border-foreground 86 \
         --align center \
-        --width 40 \
-        --margin "0 10" \
-        --padding "0 2" \
         "📱 v${CURRENT_VERSION}"
 
-    echo ""
     gum style --foreground 51 --italic --align center "✨ Choose your adventure ✨"
     echo ""
 

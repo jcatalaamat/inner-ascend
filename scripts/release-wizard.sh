@@ -113,7 +113,7 @@ deploy_flow() {
         "⬅️  Cancel               Never mind, go back")
 
     case "$DEPLOY_TARGET" in
-        "🧪 Staging only"*)
+        *"Staging only"*)
             gum style --foreground 212 "Deploying to staging..."
             echo ""
             ./scripts/deploy-staging.sh
@@ -123,7 +123,7 @@ deploy_flow() {
             echo ""
             ;;
 
-        "🚀 Production only"*)
+        *"Production only"*)
             if ! gum confirm "Have you tested this version on staging?"; then
                 gum style --foreground 202 "Please test on staging first!"
                 echo ""
@@ -146,7 +146,7 @@ deploy_flow() {
             fi
             ;;
 
-        "🔄 Both"*)
+        *"Both"*)
             gum style --foreground 86 "This will build and deploy to both staging and production"
             gum style --foreground 86 "Staging first, then production (sequential, ~20-30 min total)"
             echo ""
@@ -231,7 +231,7 @@ bump_version_flow() {
         "⬅️  Cancel             Never mind")
 
     case "$BUMP_TYPE" in
-        "🐛 Patch"*)
+        *"Patch"*)
             gum spin --spinner moon --title "🚀 Bumping patch version..." --title.foreground 212 -- ./scripts/bump-version.sh patch
             NEW_VERSION=$(get_current_version)
             echo ""
@@ -247,7 +247,7 @@ bump_version_flow() {
                 "New version: v${NEW_VERSION}" \
                 "Committed & pushed to GitHub!"
             ;;
-        "✨ Minor"*)
+        *"Minor"*)
             gum spin --spinner moon --title "🚀 Bumping minor version..." --title.foreground 212 -- ./scripts/bump-version.sh minor
             NEW_VERSION=$(get_current_version)
             echo ""
@@ -263,7 +263,7 @@ bump_version_flow() {
                 "New version: v${NEW_VERSION}" \
                 "Committed & pushed to GitHub!"
             ;;
-        "💥 Major"*)
+        *"Major"*)
             gum spin --spinner moon --title "🚀 Bumping major version..." --title.foreground 212 -- ./scripts/bump-version.sh major
             NEW_VERSION=$(get_current_version)
             echo ""
@@ -321,9 +321,9 @@ utilities_menu() {
         "⬅️  Back                 Return to main menu")
 
     case "$CHOICE" in
-        "📸 Upload Screenshots") upload_screenshots ;;
-        "📝 Upload Metadata") upload_metadata ;;
-        "📋 View Release Checklist") show_checklist ;;
+        *"Screenshots"*) upload_screenshots ;;
+        *"Metadata"*) upload_metadata ;;
+        *"Checklist"*) show_checklist ;;
         *) show_main_menu ;;
     esac
 }

@@ -64,10 +64,10 @@ show_main_menu() {
         "❌ Exit                  Peace out! ✌️")
 
     case "$CHOICE" in
-        "🚀 Deploy Release") deploy_flow ;;
-        "🔢 Bump Version") bump_version_flow ;;
-        "🛠️  Utilities") utilities_menu ;;
-        "❌ Exit") exit 0 ;;
+        *"Deploy Release"*) deploy_flow ;;
+        *"Bump Version"*) bump_version_flow ;;
+        *"Utilities"*) utilities_menu ;;
+        *"Exit"*) exit 0 ;;
     esac
 }
 

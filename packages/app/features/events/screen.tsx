@@ -3,7 +3,10 @@ import { router } from 'expo-router'
 import { FlatList, RefreshControl, ScrollView } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useState, useMemo, useEffect, useRef, useCallback } from 'react'
-import { X } from '@tamagui/lucide-icons'
+import { X, Filter as FilterIcon } from '@tamagui/lucide-icons'
+import { FilterSheet } from 'app/components/FilterSheet'
+import type { EventFilters } from 'app/utils/filter-types'
+import { getDateRangePreset, isTimeInRange, getActiveFilterCount } from 'app/utils/filter-types'
 import { CATEGORY_LABELS, EVENT_CATEGORIES, type EventCategory } from 'app/utils/constants'
 import { useEventsQuery } from 'app/utils/react-query/useEventsQuery'
 import { formatDate, formatTime, getRelativeDay } from 'app/utils/date-helpers'
@@ -23,6 +26,11 @@ function EventsScreenContent() {
   const [headerDismissed, setHeaderDismissed] = useState(false)
   const [eventsWithAds, setEventsWithAds] = useState<DataWithAds<Tables<'events'>>>([])
   const [isLoadingAds, setIsLoadingAds] = useState(false)
+  const [filterSheetOpen, setFilterSheetOpen] = useState(false)
+  const [filters, setFilters] = useState<EventFilters>({
+    dateRange: { type: 'all' },
+    timeOfDay: [],
+  })
   const lastFilteredEventsRef = useRef<Tables<'events'>[]>([])
   const insets = useSafeAreaInsets()
   const { t } = useTranslation()
@@ -71,9 +79,28 @@ function EventsScreenContent() {
       )
     }
 
+    // Filter by date range
+    if (filters.dateRange && filters.dateRange.type !== 'all') {
+      const dateRange = getDateRangePreset(filters.dateRange.type)
+      if (dateRange) {
+        filtered = filtered.filter(event => {
+          const eventDate = new Date(event.date)
+          return eventDate >= dateRange.start && eventDate <= dateRange.end
+        })
+      }
+    }
+
+    // Filter by time of day
+    if (filters.timeOfDay && filters.timeOfDay.length > 0) {
+      filtered = filtered.filter(event => {
+        if (!event.time) return true // Include events without time
+        return filters.timeOfDay!.some(timeSlot => isTimeInRange(event.time, timeSlot))
+      })
+    }
+
     // Sort by date (upcoming first)
     return filtered.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-  }, [allEvents, selectedCategory, searchQuery])
+  }, [allEvents, selectedCategory, searchQuery, filters])
 
   // Create stable string key for dependency tracking
   const filteredEventsKey = useMemo(
@@ -185,23 +212,39 @@ function EventsScreenContent() {
     <ScreenWrapper>
       <YStack f={1} bg="$background">
         {/* Search with Map and Create Buttons */}
-        <SearchBar
-          placeholder={t('events.search_placeholder')}
-          onSearch={handleSearch}
-          defaultValue={searchQuery}
-          showMapButton={showMapButton}
-          mapViewType="events"
-          onMapPress={() => {
-            posthog?.capture('map_button_tapped', { from: 'events' })
-            router.push('/map?view=events')
-          }}
-          showCreateButton={showCreateButton}
-          createType="event"
-          onCreatePress={() => {
-            posthog?.capture('create_button_tapped', { from: 'events', type: 'event' })
-            router.push('/create?type=event')
-          }}
-        />
+        <XStack gap="$2" px="$4" pt="$4">
+          <YStack f={1}>
+            <SearchBar
+              placeholder={t('events.search_placeholder')}
+              onSearch={handleSearch}
+              defaultValue={searchQuery}
+              showMapButton={showMapButton}
+              mapViewType="events"
+              onMapPress={() => {
+                posthog?.capture('map_button_tapped', { from: 'events' })
+                router.push('/map?view=events')
+              }}
+              showCreateButton={showCreateButton}
+              createType="event"
+              onCreatePress={() => {
+                posthog?.capture('create_button_tapped', { from: 'events', type: 'event' })
+                router.push('/create?type=event')
+              }}
+            />
+          </YStack>
+          <Button
+            size="$4"
+            icon={<FilterIcon size={20} />}
+            onPress={() => {
+              posthog?.capture('filter_button_tapped')
+              setFilterSheetOpen(true)
+            }}
+            circular
+            bg={getActiveFilterCount(filters) > 0 ? '$blue9' : '$background'}
+            borderColor={getActiveFilterCount(filters) > 0 ? '$blue9' : '$borderColor'}
+            color={getActiveFilterCount(filters) > 0 ? 'white' : '$color'}
+          />
+        </XStack>
 
         {/* Category Filter - Horizontal Scrollable */}
         <YStack bg="$background" borderBottomWidth={1} borderBottomColor="$borderColor">
@@ -267,6 +310,20 @@ function EventsScreenContent() {
               )}
             </YStack>
           }
+        />
+
+        {/* Filter Sheet */}
+        <FilterSheet
+          open={filterSheetOpen}
+          onOpenChange={setFilterSheetOpen}
+          filters={filters}
+          onApplyFilters={(newFilters) => {
+            setFilters(newFilters)
+            posthog?.capture('filters_applied', {
+              date_range: newFilters.dateRange?.type,
+              time_of_day_count: newFilters.timeOfDay?.length || 0,
+            })
+          }}
         />
       </YStack>
     </ScreenWrapper>

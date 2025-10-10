@@ -1,5 +1,5 @@
 import { Paragraph, ScrollView, Separator, Settings, YStack, isWeb, useMedia, useToastController } from '@my/ui'
-import { Book, Cog, Info, Lock, LogOut, Mail, Moon, Smartphone, Twitter, MessageCircle, Instagram, HelpCircle, Trash2 } from '@tamagui/lucide-icons'
+import { Book, Cog, Info, Lock, LogOut, Mail, Moon, Smartphone, Twitter, MessageCircle, Instagram, HelpCircle, Trash2, MessageSquarePlus } from '@tamagui/lucide-icons'
 import { useThemeSetting } from 'app/provider/theme'
 import { redirect } from 'app/utils/redirect'
 import { useSupabase } from 'app/utils/supabase/useSupabase'
@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next'
 import { Linking } from 'react-native'
 import { usePostHog } from 'posthog-react-native'
 import { useEffect } from 'react'
+import * as Sentry from '@sentry/react-native'
 
 
 export const SettingsScreen = () => {
@@ -171,8 +172,23 @@ const SettingsHelpSupportItems = () => {
     )
   }
 
+  const handleFeedbackPress = async () => {
+    // For now, use email as it's the most reliable method
+    // Future: could add a custom in-app form with Supabase storage
+    const subject = 'Mazunte%20Connect%20-%20Feedback%20/%20Feature%20Request'
+    const body = 'Please%20share%20your%20feedback%20or%20feature%20requests%20below:%0D%0A%0D%0A'
+
+    handleContactPress(
+      `mailto:hello@mazunteconnect.com?subject=${subject}&body=${body}`,
+      t('settings.contact_unavailable_email')
+    )
+  }
+
   return (
     <>
+      <Settings.Item icon={MessageSquarePlus} onPress={handleFeedbackPress} accentTheme="orange">
+        {t('settings.send_feedback')}
+      </Settings.Item>
       <Settings.Item icon={MessageCircle} onPress={handleWhatsAppPress} accentTheme="green">
         {t('settings.contact_whatsapp')}
       </Settings.Item>

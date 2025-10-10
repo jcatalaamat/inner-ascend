@@ -254,6 +254,8 @@
     "log_out": "Log Out",
     "device_information": "Device Information",
     "help_support": "Help & Support",
+    "send_feedback": "Send Feedback / Feature Request",
+    "feedback_form_opened": "Feedback submitted! Thank you for helping us improve.",
     "contact_whatsapp": "Message us on WhatsApp",
     "contact_instagram": "DM us on Instagram",
     "contact_email": "Send us an Email",

@@ -52,3 +52,10 @@ sed -i.bak "s/version: '[0-9.]*'/version: '$NEW_VERSION'/" app.config.js
 rm app.config.js.bak
 
 echo "✅ Version bumped to $NEW_VERSION"
+
+# Commit the version bump
+cd ../..
+git add apps/expo/app.config.js
+git commit -m "chore: bump version to $NEW_VERSION" || echo "⚠️  No changes to commit"
+
+echo "📝 Version bump committed"

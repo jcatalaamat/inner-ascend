@@ -49,60 +49,90 @@ deploy_flow() {
     CURRENT_VERSION=$(get_current_version)
     gum style --foreground 212 "Deploying version: ${CURRENT_VERSION}"
     echo ""
-    gum style --foreground 86 "This will deploy the current version to staging and/or production"
-    echo ""
 
-    # Ask about staging
-    if gum confirm "Deploy to staging first for testing?"; then
-        # Deploy to staging
-        gum style --foreground 212 "Deploying to staging..."
-        echo ""
-        ./scripts/deploy-staging.sh
+    # Choose deployment target
+    DEPLOY_TARGET=$(gum choose --height 5 \
+        "🧪 Staging only (TestFlight)" \
+        "🚀 Production only (App Store)" \
+        "🔄 Both (Staging → Production)" \
+        "← Cancel")
 
-        gum style --foreground 212 "✓ Staging deployment complete!"
-        echo ""
-        gum style --foreground 86 "Test the app on TestFlight before continuing"
-        echo ""
-
-        # Ask if tests passed
-        if ! gum confirm "Have you tested on staging and everything works?"; then
-            gum style --foreground 202 "Deployment stopped. Fix issues and try again."
+    case "$DEPLOY_TARGET" in
+        "🧪 Staging only"*)
+            gum style --foreground 212 "Deploying to staging..."
             echo ""
-            gum input --placeholder "Press Enter to return to main menu..."
+            ./scripts/deploy-staging.sh
+
+            gum style --foreground 212 "✓ Staging deployment complete!"
+            gum style --foreground 86 "Test on TestFlight, then run Deploy Release → Production when ready"
+            echo ""
+            ;;
+
+        "🚀 Production only"*)
+            if ! gum confirm "Have you tested this version on staging?"; then
+                gum style --foreground 202 "Please test on staging first!"
+                echo ""
+                gum input --placeholder "Press Enter to return to main menu..."
+                show_main_menu
+                return
+            fi
+
+            gum style --foreground 212 "Deploying to production..."
+            echo ""
+            ./scripts/deploy-production.sh
+
+            gum style --foreground 212 "✓ Production deployment complete!"
+            gum style --foreground 86 "Your app is now in Apple's review queue"
+            echo ""
+
+            if gum confirm "Upload metadata/screenshots to App Store?"; then
+                metadata_upload_menu
+                return
+            fi
+            ;;
+
+        "🔄 Both"*)
+            gum style --foreground 212 "Deploying to staging first..."
+            echo ""
+            ./scripts/deploy-staging.sh
+
+            gum style --foreground 212 "✓ Staging deployment complete!"
+            echo ""
+            gum style --foreground 86 "Test on TestFlight before continuing to production"
+            echo ""
+
+            if ! gum confirm "Staging tests passed? Continue to production?"; then
+                gum style --foreground 202 "Deployment stopped. Fix issues and try again."
+                echo ""
+                gum input --placeholder "Press Enter to return to main menu..."
+                show_main_menu
+                return
+            fi
+
+            gum style --foreground 212 "Deploying to production..."
+            echo ""
+            ./scripts/deploy-production.sh
+
+            gum style --foreground 212 "✓ Production deployment complete!"
+            gum style --foreground 86 "Your app is now in Apple's review queue"
+            echo ""
+
+            if gum confirm "Upload metadata/screenshots to App Store?"; then
+                metadata_upload_menu
+                return
+            fi
+            ;;
+
+        *)
             show_main_menu
             return
-        fi
+            ;;
+    esac
 
-        echo ""
-        gum style --foreground 212 "Proceeding to production..."
-        echo ""
-    fi
-
-    # Deploy to production
-    if gum confirm "Deploy to production?"; then
-        gum style --foreground 212 "Deploying to production..."
-        echo ""
-        ./scripts/deploy-production.sh
-
-        gum style --foreground 212 "✓ Production deployment complete!"
-        gum style --foreground 86 "Your app is now in Apple's review queue"
-        echo ""
-
-        # Ask about metadata
-        if gum confirm "Upload metadata/screenshots to App Store?"; then
-            metadata_upload_menu
-        else
-            gum style --foreground 86 "Done! Monitor at: https://appstoreconnect.apple.com"
-            echo ""
-            gum input --placeholder "Press Enter to return to main menu..."
-            show_main_menu
-        fi
-    else
-        gum style --foreground 86 "Deployment cancelled"
-        echo ""
-        gum input --placeholder "Press Enter to return to main menu..."
-        show_main_menu
-    fi
+    gum style --foreground 86 "Done! Monitor at: https://appstoreconnect.apple.com"
+    echo ""
+    gum input --placeholder "Press Enter to return to main menu..."
+    show_main_menu
 }
 
 # Bump version flow

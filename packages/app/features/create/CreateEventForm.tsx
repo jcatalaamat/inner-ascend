@@ -23,19 +23,19 @@ export const CreateEventForm = ({ onSuccess }: { onSuccess: () => void }) => {
 
   // Simplified schema - only essential fields
   const CreateEventFormSchema = z.object({
-    title: formFields.text.min(3).describe(`${t('create.event_form.title')} // Event name`),
-    category: formFields.select.describe(`${t('create.event_form.category')} // Type of event`),
-    date: formFields.date.describe(`${t('create.event_form.date')} // When?`),
-    time: formFields.text.describe(`${t('create.event_form.time')} // e.g. 18:00`).nullable().optional(),
-    description: formFields.textarea.describe(`${t('create.event_form.description')} // Tell us more`).nullable().optional(),
+    title: formFields.text.min(3).describe(`${t('create.event_form.title')} // ${t('create.event_form.title_hint')}`),
+    category: formFields.select.describe(`${t('create.event_form.category')} // ${t('create.event_form.category_hint')}`),
+    date: formFields.date.describe(`${t('create.event_form.date')} // ${t('create.event_form.date_hint')}`),
+    time: formFields.text.describe(`${t('create.event_form.time')} // ${t('create.event_form.time_hint')}`).nullable().optional(),
+    description: formFields.textarea.describe(`${t('create.event_form.description')} // ${t('create.event_form.description_hint')}`).nullable().optional(),
     // Optional fields
-    price: formFields.text.describe(`${t('create.event_form.price')} // e.g. Free, $500 MXN`).nullable().optional(),
-    organizer_name: formFields.text.describe(`Organizer // Your name or organization`).nullable().optional(),
-    contact_whatsapp: formFields.text.describe('WhatsApp // 💬 Recommended - e.g. +52...').nullable().optional(),
-    contact_phone: formFields.text.describe('Phone // 📱 Include country code').nullable().optional(),
-    contact_email: formFields.text.describe('Email // ✉️ Your email address').nullable().optional(),
-    contact_instagram: formFields.text.describe('Instagram // 📸 Your @handle').nullable().optional(),
-    eco_conscious: formFields.boolean_switch.describe(`Eco-Friendly?`).default(false),
+    price: formFields.text.describe(`${t('create.event_form.price')} // ${t('create.event_form.price_hint')}`).nullable().optional(),
+    organizer_name: formFields.text.describe(`${t('create.event_form.organizer_name')} // ${t('create.event_form.organizer_hint')}`).nullable().optional(),
+    contact_whatsapp: formFields.text.describe(`${t('create.event_form.contact_whatsapp')} // ${t('create.event_form.whatsapp_hint')}`).nullable().optional(),
+    contact_phone: formFields.text.describe(`${t('create.event_form.contact_phone')} // ${t('create.event_form.phone_hint')}`).nullable().optional(),
+    contact_email: formFields.text.describe(`${t('create.event_form.contact_email')} // ${t('create.event_form.email_hint')}`).nullable().optional(),
+    contact_instagram: formFields.text.describe(`${t('create.event_form.contact_instagram')} // ${t('create.event_form.instagram_hint')}`).nullable().optional(),
+    eco_conscious: formFields.boolean_switch.describe(t('create.event_form.eco_conscious_label')).default(false),
   })
 
   const mutation = useMutation({
@@ -146,7 +146,7 @@ export const CreateEventForm = ({ onSuccess }: { onSuccess: () => void }) => {
             {fields.description}
 
             <Separator marginVertical="$2" />
-            <Text fontSize="$3" color="$color11" fontWeight="600">Contact Info (Optional)</Text>
+            <Text fontSize="$3" color="$color11" fontWeight="600">{t('create.event_form.contact_info_section')}</Text>
 
             {/* Contact Fields */}
             {fields.organizer_name}
@@ -156,7 +156,7 @@ export const CreateEventForm = ({ onSuccess }: { onSuccess: () => void }) => {
             {fields.contact_instagram}
 
             <Separator marginVertical="$2" />
-            <Text fontSize="$3" color="$color11" fontWeight="600">Additional Details</Text>
+            <Text fontSize="$3" color="$color11" fontWeight="600">{t('create.event_form.additional_details_section')}</Text>
 
             {/* Optional Fields */}
             {fields.price}

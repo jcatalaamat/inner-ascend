@@ -2,6 +2,7 @@ import { YStack, XStack, Input, Text, Button, Sheet, Label, ScrollView } from '@
 import { useState, forwardRef, useImperativeHandle } from 'react'
 import { Platform, Pressable, Dimensions } from 'react-native'
 import { MapPin } from '@tamagui/lucide-icons'
+import { useTranslation } from 'react-i18next'
 
 // Import MapView only on native platforms
 let MapView: any = null
@@ -42,8 +43,9 @@ const MAZUNTE_CENTER = {
 
 export const LocationPicker = forwardRef<LocationPickerRef, LocationPickerProps>(({
   initialLocation,
-  label = 'Location'
+  label
 }, ref) => {
+  const { t } = useTranslation()
   const [open, setOpen] = useState(false)
   const [locationName, setLocationName] = useState(initialLocation?.name || 'Mazunte')
   const [coordinates, setCoordinates] = useState({
@@ -51,6 +53,8 @@ export const LocationPicker = forwardRef<LocationPickerRef, LocationPickerProps>
     lng: initialLocation?.lng || -96.5347,
   })
   const [directions, setDirections] = useState(initialLocation?.directions || '')
+
+  const displayLabel = label || t('create.location_picker.label')
 
   useImperativeHandle(ref, () => ({
     getLocation: () => ({
@@ -76,14 +80,14 @@ export const LocationPicker = forwardRef<LocationPickerRef, LocationPickerProps>
   if (!MapView || Platform.OS === 'web') {
     return (
       <YStack gap="$2">
-        {label && <Label>{label}</Label>}
+        <Label>{displayLabel}</Label>
         <Input
-          placeholder="Location name"
+          placeholder={t('create.location_picker.location_name_placeholder')}
           value={locationName}
           onChangeText={setLocationName}
         />
         <Text fontSize="$2" color="$color11">
-          Maps not available on web. Default coordinates will be used.
+          {t('create.location_picker.web_not_available')}
         </Text>
       </YStack>
     )

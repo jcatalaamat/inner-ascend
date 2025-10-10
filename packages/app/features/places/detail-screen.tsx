@@ -8,6 +8,7 @@ import { ImageViewer } from 'app/components/ImageViewer'
 import { usePostHog } from 'posthog-react-native'
 import { FavoritesProvider } from 'app/contexts/FavoritesContext'
 import { LinearGradient } from '@tamagui/linear-gradient'
+import { ReportButton } from 'app/components/ReportButton'
 
 let MapView: any = null
 let Marker: any = null
@@ -452,6 +453,7 @@ function PlaceDetailScreenContent({ id }: PlaceDetailScreenProps) {
             >
               {t('places.detail.share_place')}
             </Button>
+            <ReportButton itemId={place.id} itemType="place" variant="outlined" size="$5" />
           </YStack>
         </YStack>
       </YStack>

@@ -24,6 +24,9 @@ const getEvents = async (
 ) => {
   let query = supabase.from('events').select('*')
 
+  // Filter out items hidden by reports
+  query = query.eq('hidden_by_reports', false)
+
   // Filter by date (only upcoming events by default)
   if (!filters.includePast) {
     // Get today's date in local timezone (YYYY-MM-DD format)

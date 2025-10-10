@@ -603,5 +603,74 @@
     "saved": "Preferencias de notificaciones guardadas",
     "load_error": "Error al cargar preferencias de notificaciones",
     "save_error": "Error al guardar preferencias de notificaciones"
+  },
+  "reports": {
+    "title": "Reportar Contenido",
+    "description": "Ayúdanos a mantener una comunidad segura y respetuosa reportando contenido inapropiado.",
+    "warning": "Los reportes falsos pueden resultar en restricciones de cuenta. Por favor, solo reporta violaciones genuinas.",
+    "select_reason": "¿Por qué estás reportando esto?",
+    "reasons": {
+      "spam": "Spam o Estafa",
+      "inappropriate": "Contenido Inapropiado",
+      "misleading": "Información Engañosa",
+      "harassment": "Acoso u Odio",
+      "duplicate": "Listado Duplicado",
+      "other": "Otro"
+    },
+    "description_label": "Detalles adicionales (opcional)",
+    "description_placeholder": "Por favor, proporciona más contexto sobre por qué estás reportando esto...",
+    "submit": "Enviar Reporte",
+    "success": "Reporte enviado exitosamente. Gracias por ayudar a mantener nuestra comunidad segura.",
+    "error": "Error al enviar reporte. Por favor, intenta de nuevo.",
+    "already_reported": "Ya has reportado este contenido.",
+    "error_not_logged_in": "Debes iniciar sesión para reportar contenido."
+  },
+  "filters": {
+    "title": "Filtros",
+    "apply": "Aplicar Filtros",
+    "clear": "Limpiar Todo",
+    "active_count": "{{count}} filtros activos",
+    "date_range": {
+      "title": "Rango de Fechas",
+      "all": "Todas las Fechas",
+      "this_weekend": "Este Fin de Semana",
+      "next_week": "Próximos 7 Días",
+      "custom": "Rango Personalizado"
+    },
+    "time_of_day": {
+      "title": "Hora del Día",
+      "morning": "Mañana (6am-12pm)",
+      "afternoon": "Tarde (12pm-6pm)",
+      "evening": "Noche (6pm-12am)"
+    },
+    "price": {
+      "title": "Precio",
+      "free": "Gratis",
+      "$": "$ (Menos de 200 pesos)",
+      "$$": "$$ (200-500 pesos)",
+      "$$$": "$$$ (500+ pesos)"
+    },
+    "tags": {
+      "title": "Etiquetas",
+      "search_placeholder": "Buscar etiquetas..."
+    }
+  },
+  "saved_searches": {
+    "title": "Búsquedas Guardadas",
+    "empty": "No hay búsquedas guardadas aún",
+    "empty_description": "Guarda tus filtros de búsqueda para encontrar eventos que te interesan rápidamente.",
+    "create": "Guardar Esta Búsqueda",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "name_label": "Nombre de Búsqueda",
+    "name_placeholder": "ej., 'Clases de Yoga de Fin de Semana'",
+    "notify_toggle": "Notificarme cuando aparezcan nuevas coincidencias",
+    "save_button": "Guardar Búsqueda",
+    "update_button": "Actualizar Búsqueda",
+    "delete_confirm": "¿Estás seguro de que quieres eliminar esta búsqueda guardada?",
+    "created": "Búsqueda guardada exitosamente",
+    "updated": "Búsqueda actualizada exitosamente",
+    "deleted": "Búsqueda eliminada exitosamente",
+    "error": "Error al guardar búsqueda. Por favor, intenta de nuevo."
   }
 }

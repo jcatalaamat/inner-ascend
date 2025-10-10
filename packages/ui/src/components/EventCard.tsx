@@ -41,95 +41,121 @@ const EventCardComponent = ({ event, onPress, showFavorite = false, onToggleFavo
       onHoverIn={() => setHover(true)}
       onHoverOut={() => setHover(false)}
       onPress={() => onPress?.(event)}
+      elevation="$2"
+      shadowColor="$shadowColor"
+      shadowRadius={8}
+      shadowOffset={{ width: 0, height: 2 }}
       {...props}
     >
-      {/* Image */}
+      {/* Image with Overlay Content */}
       {event.image_url && (
-        <YStack position="relative">
+        <YStack position="relative" borderRadius="$3" overflow="hidden">
           <Image
             source={{ uri: event.image_url }}
             width="100%"
-            height={140}
+            height={200}
             borderRadius="$3"
             resizeMode="cover"
           />
 
-          {/* Favorite Button on Image */}
+          {/* Gradient Overlay */}
+          <YStack
+            position="absolute"
+            bottom={0}
+            left={0}
+            right={0}
+            height="60%"
+            style={{
+              background: 'linear-gradient(180deg, transparent 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0.7) 100%)',
+            }}
+            pointerEvents="none"
+          />
+
+          {/* Eco Badge - Top Left */}
+          {event.eco_conscious && (
+            <XStack
+              position="absolute"
+              top="$2"
+              left="$2"
+              ai="center"
+              gap="$1"
+              bg="$green9"
+              px="$2.5"
+              py="$1.5"
+              borderRadius="$3"
+              zIndex={10}
+            >
+              <Leaf size={12} color="white" />
+              <Text fontSize="$2" color="white" fontWeight="700">
+                Eco
+              </Text>
+            </XStack>
+          )}
+
+          {/* Favorite Button - Top Right */}
           <YStack position="absolute" top="$2" right="$2" zIndex={10}>
             <FavoriteButtonWrapper itemId={event.id} itemType="event" size={20} />
+          </YStack>
+
+          {/* Content Overlay at Bottom */}
+          <YStack position="absolute" bottom="$3" left="$3" right="$3" gap="$1.5" zIndex={5}>
+            {/* Title */}
+            <H6
+              size="$6"
+              numberOfLines={2}
+              fontWeight="800"
+              color="white"
+              style={{ textShadow: '0 2px 8px rgba(0,0,0,0.3)' }}
+            >
+              {event.title}
+            </H6>
+
+            {/* Category Badge */}
+            <Theme name={categoryColors[event.category] || 'gray'}>
+              <Button size="$2" px="$3" py="$1.5" borderRadius="$10" disabled als="flex-start" opacity={0.95}>
+                <Text fontSize="$2" tt="capitalize" fontWeight="700">
+                  {t(`events.categories.${event.category}`)}
+                </Text>
+              </Button>
+            </Theme>
+
+            {/* Date, Time & Location - Single Line */}
+            <XStack ai="center" gap="$2" flexWrap="wrap">
+              <XStack ai="center" gap="$1.5">
+                <Calendar size={14} color="white" />
+                <Text fontSize="$3" color="white" fontWeight="600" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.3)' }}>
+                  {formatDate(event.date, locale, t)}
+                  {event.time && ` • ${formatTime(event.time, locale)}`}
+                </Text>
+              </XStack>
+            </XStack>
+
+            {/* Location & Price - Single Line */}
+            <XStack ai="center" gap="$3" flexWrap="wrap">
+              <XStack ai="center" gap="$1.5" f={1}>
+                <MapPin size={14} color="white" />
+                <Text fontSize="$3" color="white" numberOfLines={1} fontWeight="500" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.3)' }}>
+                  {event.location_name}
+                </Text>
+              </XStack>
+              {event.price && (
+                <Text fontSize="$4" fontWeight="800" color="white" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.3)' }}>
+                  {event.price}
+                </Text>
+              )}
+            </XStack>
           </YStack>
         </YStack>
       )}
 
-      <YStack gap="$2">
-        {/* Title, Eco Badge, and Favorite Button */}
-        <XStack jc="space-between" ai="flex-start" gap="$2">
-          <H6 size="$5" f={1} numberOfLines={2} fontWeight="700">
-            {event.title}
-          </H6>
-          <XStack ai="center" gap="$1">
-            {event.eco_conscious && (
-              <XStack ai="center" gap="$1" bg="$green3" px="$2" py="$1" borderRadius="$2">
-                <Leaf size={12} color="$green10" />
-                <Text fontSize="$1" color="$green11" fontWeight="600">
-                  Eco
-                </Text>
-              </XStack>
-            )}
-            {!event.image_url && <FavoriteButtonWrapper itemId={event.id} itemType="event" size={20} />}
-          </XStack>
-        </XStack>
-
-        {/* Category Badge */}
-        <Theme name={categoryColors[event.category] || 'gray'}>
-          <Button size="$2" px="$3" py="$1" borderRadius="$10" disabled als="flex-start">
-            <Text fontSize="$2" tt="capitalize" fontWeight="600">
-              {t(`events.categories.${event.category}`)}
-            </Text>
-          </Button>
-        </Theme>
-
-        {/* Date & Time */}
-        <XStack ai="center" gap="$2">
-          <Calendar size={14} color="$color10" />
-          <Text fontSize="$3" color="$color11">
-            {formatDate(event.date, locale, t)}
-            {event.time && ` • ${formatTime(event.time, locale)}`}
-          </Text>
-        </XStack>
-
-        {/* Location */}
-        <XStack ai="center" gap="$2">
-          <MapPin size={14} color="$color10" />
-          <Text fontSize="$3" color="$color11" numberOfLines={1}>
-            {event.location_name}
-          </Text>
-        </XStack>
-
-        {/* Price */}
-        {event.price && (
-          <Text fontSize="$3" fontWeight="600" color="$color12">
-            {event.price}
-          </Text>
-        )}
-
-        {/* Contact Info */}
-        {(event.contact_phone || event.contact_whatsapp || event.contact_email || event.contact_instagram) && (
-          <XStack ai="center" gap="$2">
-            <Phone size={14} color="$color10" />
-            <Text fontSize="$3" color="$color11" numberOfLines={1}>
-              {t('event_card.contact_available')}
-            </Text>
-          </XStack>
-        )}
-
-        {/* Description Preview */}
-        {event.description && (
-          <Paragraph fontSize="$3" color="$color10" numberOfLines={3} opacity={0.8}>
+      {/* Description Below Image (only if exists) */}
+      {event.description && (
+        <YStack pt="$1">
+          <Paragraph fontSize="$3" color="$color10" numberOfLines={2} opacity={0.8} lineHeight="$2">
             {event.description}
           </Paragraph>
-        )}
-      </YStack>
+        </YStack>
+      )}
     </Card>
   )
 }

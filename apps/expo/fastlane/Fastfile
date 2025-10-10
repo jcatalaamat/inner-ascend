@@ -33,6 +33,8 @@ platform :ios do
   # ===========================
 
   desc "Upload metadata and screenshots to App Store Connect"
+  desc "Note: This can be run independently of builds - you don't need a build to update metadata"
+  desc "However, to attach metadata to a specific version, that version should exist in App Store Connect"
   lane :upload_metadata do
     deliver(
       submit_for_review: false,
@@ -46,6 +48,7 @@ platform :ios do
   end
 
   desc "Upload only screenshots to App Store Connect"
+  desc "This can be run at any time - builds are not required"
   lane :upload_screenshots do
     deliver(
       submit_for_review: false,

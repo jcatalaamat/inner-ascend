@@ -11,10 +11,27 @@ echo "⚠️  This will:"
 echo "   1. Build on your Mac using Xcode (~10-15 min)"
 echo "   2. Submit to App Store automatically (~2-5 min)"
 echo ""
-echo "ℹ️  Note: This uses the current version but auto-increments the build number"
-echo ""
 
 # Navigate to expo app directory
+cd apps/expo
+
+# Get current version from app.config.js
+CURRENT_VERSION=$(node -e "const config = require('./app.config.js'); console.log(config.default.expo.version)" 2>/dev/null | tail -1)
+echo "📱 Current version: $CURRENT_VERSION"
+echo ""
+echo "ℹ️  Note: Build number will be auto-incremented by EAS"
+echo "⚠️  Make sure you've bumped the version if this is a new release!"
+echo ""
+
+# Ask for confirmation
+read -p "Deploy version $CURRENT_VERSION to production? (y/N) " -n 1 -r
+echo
+if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    echo "❌ Production deploy cancelled"
+    exit 1
+fi
+echo ""
+
 cd apps/expo
 
 # Check if EAS CLI is installed
@@ -48,8 +65,8 @@ if [ -z "$SENTRY_AUTH_TOKEN" ]; then
   fi
 fi
 
-# Step 1: Build locally (FREE!)
-echo "🍎 Step 1/2: Building for iOS (locally on your Mac)..."
+# Step 1: Build locally (FREE!) using PRODUCTION profile
+echo "🍎 Step 1/2: Building for iOS production (locally on your Mac)..."
 IPA_PATH="./build-$(date +%s).ipa"
 eas build --platform ios --profile production --local --non-interactive --output "$IPA_PATH"
 
@@ -57,8 +74,8 @@ echo ""
 echo "✅ Build completed: $IPA_PATH"
 echo ""
 
-# Step 2: Submit to App Store
-echo "📤 Step 2/2: Submitting to App Store..."
+# Step 2: Submit to App Store using PRODUCTION profile
+echo "📤 Step 2/2: Submitting to App Store for review..."
 eas submit --platform ios --profile production --path "$IPA_PATH" --non-interactive
 
 echo ""

@@ -15,6 +15,25 @@ echo ""
 # Navigate to expo app directory
 cd apps/expo
 
+# Get current version from app.config.js
+CURRENT_VERSION=$(node -e "const config = require('./app.config.js'); console.log(config.default.expo.version)" 2>/dev/null | tail -1)
+echo "📱 Current version: $CURRENT_VERSION"
+echo ""
+echo "ℹ️  Note: Build number will be auto-incremented by EAS"
+echo "⚠️  Make sure you've bumped the version if this is a new release!"
+echo ""
+
+# Ask for confirmation
+read -p "Build version $CURRENT_VERSION for production? (y/N) " -n 1 -r
+echo
+if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    echo "❌ Production build cancelled"
+    exit 1
+fi
+echo ""
+
+cd apps/expo
+
 # Check if EAS CLI is installed
 if ! command -v eas &> /dev/null; then
     echo "❌ EAS CLI not found. Please install it with: npm install -g eas-cli"
@@ -44,8 +63,8 @@ if [ -z "$SENTRY_AUTH_TOKEN" ]; then
   fi
 fi
 
-# Build locally (FREE!)
-echo "🍎 Building for iOS (locally on your Mac)..."
+# Build locally (FREE!) using PRODUCTION profile
+echo "🍎 Building for iOS production (locally on your Mac)..."
 IPA_PATH="./build-$(date +%s).ipa"
 eas build --platform ios --profile production --local --non-interactive --output "$IPA_PATH"
 

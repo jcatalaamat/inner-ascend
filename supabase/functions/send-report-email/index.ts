@@ -232,7 +232,7 @@ ${itemUrl ? `View Reported Item: ${itemUrl}` : ''}
         Authorization: `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: 'Mazunte Connect Alerts <alerts@mazunteconnect.com>',
+        from: 'Mazunte Connect <onboarding@resend.dev>',
         to: [ADMIN_EMAIL],
         subject: `🚨 New Report: ${reasonLabel} - ${itemTitle}`,
         html: emailHtml,

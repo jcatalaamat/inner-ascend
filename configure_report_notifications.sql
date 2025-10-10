@@ -7,12 +7,8 @@ ALTER DATABASE postgres SET app.settings.project_ref = 'ddbuvzotcasyanocqcsh';
 -- Set the Edge Function URL (full path to send-report-email function)
 ALTER DATABASE postgres SET app.settings.functions_url = 'https://ddbuvzotcasyanocqcsh.supabase.co/functions/v1/send-report-email';
 
--- Set service role key (replace with your actual service role key from Supabase Dashboard)
--- To find your service role key:
--- 1. Go to https://supabase.com/dashboard/project/ddbuvzotcasyanocqcsh/settings/api
--- 2. Copy the "service_role" key (keep this secret!)
--- 3. Replace 'YOUR_SERVICE_ROLE_KEY_HERE' below with the actual key
-ALTER DATABASE postgres SET app.settings.service_role_key = 'YOUR_SERVICE_ROLE_KEY_HERE';
+-- Set service role key
+ALTER DATABASE postgres SET app.settings.service_role_key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRkYnV2em90Y2FzeWFub2NxY3NoIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1OTIxNzY5NSwiZXhwIjoyMDc0NzkzNjk1fQ.TaZpy6zPrgytwLd-k93qii7JJkUBAA-doEbftsp_c7E';
 
 -- Verify settings were applied
 SELECT name, setting

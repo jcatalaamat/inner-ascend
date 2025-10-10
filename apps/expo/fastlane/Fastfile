@@ -51,7 +51,8 @@ platform :ios do
       submit_for_review: false,
       skip_binary_upload: true,
       skip_screenshots: false,
-      skip_metadata: true
+      skip_metadata: true,
+      force: true  # Skip HTML preview confirmation
     )
   end
 

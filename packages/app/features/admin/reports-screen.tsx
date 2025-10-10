@@ -17,7 +17,7 @@ import { usePostHog } from 'posthog-react-native'
 import { router } from 'expo-router'
 import { Flag, AlertCircle, CheckCircle, XCircle } from '@tamagui/lucide-icons'
 import type { Report } from 'app/utils/report-types'
-import { formatDate } from 'app/utils/date-helpers'
+import { formatTimestamp } from 'app/utils/date-helpers'
 
 export function AdminReportsScreen() {
   const { t } = useTranslation()
@@ -228,7 +228,7 @@ export function AdminReportsScreen() {
                 {/* Meta */}
                 <XStack gap="$2" ai="center">
                   <Text fontSize="$2" theme="alt2">
-                    {formatDate(report.created_at, 'en')}
+                    {formatTimestamp(report.created_at, 'en')}
                   </Text>
                   <Text fontSize="$2" theme="alt2">•</Text>
                   <Text fontSize="$2" theme="alt2">

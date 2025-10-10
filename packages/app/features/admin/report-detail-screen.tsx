@@ -19,7 +19,7 @@ import { usePostHog } from 'posthog-react-native'
 import { router } from 'expo-router'
 import { Flag, Eye, Trash2, Ban, X } from '@tamagui/lucide-icons'
 import type { Report } from 'app/utils/report-types'
-import { formatDate } from 'app/utils/date-helpers'
+import { formatTimestamp } from 'app/utils/date-helpers'
 
 interface ReportDetailScreenProps {
   id: string
@@ -193,7 +193,7 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
             <Text fontSize="$2" theme="alt2" fontWeight="600">
               {t('admin.reported')}
             </Text>
-            <Text fontSize="$4">{formatDate(report.created_at, 'en')}</Text>
+            <Text fontSize="$4">{formatTimestamp(report.created_at, 'en')}</Text>
           </YStack>
         </YStack>
 
@@ -206,9 +206,9 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
           icon={<Eye />}
           onPress={() => {
             if (report.item_type === 'event') {
-              router.push(`/events/${report.item_id}`)
+              router.push(`/event/${report.item_id}`)
             } else if (report.item_type === 'place') {
-              router.push(`/places/${report.item_id}`)
+              router.push(`/place/${report.item_id}`)
             }
           }}
         >
@@ -287,7 +287,7 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
                 <Text fontSize="$2" theme="alt2" fontWeight="600">
                   {t('admin.resolved_at')}
                 </Text>
-                <Text>{report.resolved_at ? formatDate(report.resolved_at, 'en') : 'N/A'}</Text>
+                <Text>{report.resolved_at ? formatTimestamp(report.resolved_at, 'en') : 'N/A'}</Text>
               </YStack>
             </YStack>
           </>

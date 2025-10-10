@@ -233,3 +233,22 @@ export function filterEventsByDateRange<T extends { date: string }>(
     return eventDate >= start && eventDate <= end
   })
 }
+
+/**
+ * Format a full ISO timestamp to a readable format
+ * @param timestamp - ISO timestamp string (e.g., "2025-10-10T21:34:00Z")
+ * @param locale - Locale string (e.g., 'en-US', 'es-ES')
+ * @returns Formatted timestamp (e.g., "Oct 10, 2025 at 9:34 PM")
+ */
+export function formatTimestamp(timestamp: string, locale: string = 'en-US'): string {
+  const date = new Date(timestamp)
+
+  return date.toLocaleDateString(locale, {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: locale.startsWith('en'),
+  })
+}

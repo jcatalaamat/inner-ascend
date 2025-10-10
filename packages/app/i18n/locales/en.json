@@ -106,7 +106,10 @@
       "featured": "Featured",
       "about": "About",
       "location": "Location",
-      "get_directions": "Get Directions"
+      "get_directions": "Get Directions",
+      "contact_whatsapp": "Contact via WhatsApp",
+      "call": "Call",
+      "no_contact_info": "No contact info provided. Share this event to help spread the word!"
     }
   },
   "places": {

@@ -1,6 +1,6 @@
 import { FullscreenSpinner, Text, YStack, XStack, Image, Button, ScrollView, H3, Paragraph, FavoriteButtonWrapper } from '@my/ui'
 import { useEventDetailQuery } from 'app/utils/react-query/useEventsQuery'
-import { Calendar, Clock, MapPin, DollarSign, User, Mail, Phone, Globe, Instagram, Navigation, Share2 } from '@tamagui/lucide-icons'
+import { Calendar, Clock, MapPin, DollarSign, User, Mail, Phone, Globe, Instagram, Navigation, Share2, MessageCircle } from '@tamagui/lucide-icons'
 import { formatDate, formatTime } from 'app/utils/date-helpers'
 import { useTranslation } from 'react-i18next'
 import { usePostHog } from 'posthog-react-native'
@@ -306,6 +306,45 @@ function EventDetailScreenContent({ id }: EventDetailScreenProps) {
             )}
           </YStack>
 
+          {/* Primary Contact CTA */}
+          {(event.contact_whatsapp || event.contact_phone) && (
+            <YStack gap="$2">
+              {event.contact_whatsapp && (
+                <Button
+                  size="$5"
+                  bg="$green9"
+                  color="white"
+                  icon={MessageCircle}
+                  onPress={handleWhatsAppPress}
+                  pressStyle={{ bg: '$green10' }}
+                >
+                  {t('events.detail.contact_whatsapp')}
+                </Button>
+              )}
+              {event.contact_phone && !event.contact_whatsapp && (
+                <Button
+                  size="$5"
+                  bg="$blue9"
+                  color="white"
+                  icon={Phone}
+                  onPress={handlePhonePress}
+                  pressStyle={{ bg: '$blue10' }}
+                >
+                  {t('events.detail.call')} {event.contact_phone}
+                </Button>
+              )}
+            </YStack>
+          )}
+
+          {/* No Contact Info Warning */}
+          {!event.contact_whatsapp && !event.contact_phone && !event.contact_email && !event.contact_instagram && (
+            <YStack bg="$yellow2" p="$3" borderRadius="$4" borderWidth={1} borderColor="$yellow6">
+              <Text fontSize="$3" color="$yellow11" textAlign="center">
+                ⚠️ {t('events.detail.no_contact_info')}
+              </Text>
+            </YStack>
+          )}
+
           {/* Divider */}
           <YStack h={1} bg="$borderColor" />
 
@@ -321,8 +360,8 @@ function EventDetailScreenContent({ id }: EventDetailScreenProps) {
             </YStack>
           )}
 
-          {/* Organizer & Contact */}
-          {(event.organizer_name || event.contact_phone || event.contact_whatsapp || event.contact_email || event.contact_instagram) && (
+          {/* Organizer & Other Contact */}
+          {(event.organizer_name || event.contact_email || event.contact_instagram || (event.contact_phone && event.contact_whatsapp)) && (
             <>
               <YStack h={1} bg="$borderColor" />
               <YStack gap="$3">
@@ -337,7 +376,7 @@ function EventDetailScreenContent({ id }: EventDetailScreenProps) {
                     </Text>
                   </XStack>
                 )}
-                {event.contact_phone && (
+                {event.contact_phone && event.contact_whatsapp && (
                   <Button
                     onPress={handlePhonePress}
                     icon={Phone}
@@ -347,18 +386,6 @@ function EventDetailScreenContent({ id }: EventDetailScreenProps) {
                     color="$blue10"
                   >
                     {event.contact_phone}
-                  </Button>
-                )}
-                {event.contact_whatsapp && (
-                  <Button
-                    onPress={handleWhatsAppPress}
-                    icon={Phone}
-                    size="$3"
-                    chromeless
-                    jc="flex-start"
-                    color="$green10"
-                  >
-                    WhatsApp: {event.contact_whatsapp}
                   </Button>
                 )}
                 {event.contact_email && (

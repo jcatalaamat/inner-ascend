@@ -14,9 +14,47 @@ export type Database = {
   }
   public: {
     Tables: {
+      cities: {
+        Row: {
+          created_at: string | null
+          emoji: string
+          id: string
+          is_active: boolean
+          lat: number | null
+          lng: number | null
+          name_en: string
+          name_es: string
+        }
+        Insert: {
+          created_at?: string | null
+          emoji: string
+          id: string
+          is_active?: boolean
+          lat?: number | null
+          lng?: number | null
+          name_en: string
+          name_es: string
+        }
+        Update: {
+          created_at?: string | null
+          emoji?: string
+          id?: string
+          is_active?: boolean
+          lat?: number | null
+          lng?: number | null
+          name_en?: string
+          name_es?: string
+        }
+        Relationships: []
+      }
       events: {
         Row: {
           category: string
+          city_id: string
+          contact_email: string | null
+          contact_instagram: string | null
+          contact_phone: string | null
+          contact_whatsapp: string | null
           created_at: string
           date: string
           description: string | null
@@ -26,6 +64,7 @@ export type Database = {
           image_url: string | null
           lat: number
           lng: number
+          location_directions: string | null
           location_name: string
           organizer_contact: string | null
           organizer_name: string | null
@@ -37,6 +76,11 @@ export type Database = {
         }
         Insert: {
           category: string
+          city_id?: string
+          contact_email?: string | null
+          contact_instagram?: string | null
+          contact_phone?: string | null
+          contact_whatsapp?: string | null
           created_at?: string
           date: string
           description?: string | null
@@ -46,6 +90,7 @@ export type Database = {
           image_url?: string | null
           lat: number
           lng: number
+          location_directions?: string | null
           location_name: string
           organizer_contact?: string | null
           organizer_name?: string | null
@@ -57,6 +102,11 @@ export type Database = {
         }
         Update: {
           category?: string
+          city_id?: string
+          contact_email?: string | null
+          contact_instagram?: string | null
+          contact_phone?: string | null
+          contact_whatsapp?: string | null
           created_at?: string
           date?: string
           description?: string | null
@@ -66,6 +116,7 @@ export type Database = {
           image_url?: string | null
           lat?: number
           lng?: number
+          location_directions?: string | null
           location_name?: string
           organizer_contact?: string | null
           organizer_name?: string | null
@@ -76,6 +127,13 @@ export type Database = {
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "events_city_id_fkey"
+            columns: ["city_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "events_profile_id_fkey"
             columns: ["profile_id"]
@@ -120,6 +178,7 @@ export type Database = {
       places: {
         Row: {
           category: string
+          city_id: string
           contact_email: string | null
           contact_instagram: string | null
           contact_phone: string | null
@@ -145,6 +204,7 @@ export type Database = {
         }
         Insert: {
           category: string
+          city_id?: string
           contact_email?: string | null
           contact_instagram?: string | null
           contact_phone?: string | null
@@ -170,6 +230,7 @@ export type Database = {
         }
         Update: {
           category?: string
+          city_id?: string
           contact_email?: string | null
           contact_instagram?: string | null
           contact_phone?: string | null
@@ -194,6 +255,13 @@ export type Database = {
           website_url?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "places_city_id_fkey"
+            columns: ["city_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "places_created_by_fkey"
             columns: ["created_by"]

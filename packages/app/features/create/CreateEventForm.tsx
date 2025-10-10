@@ -31,8 +31,10 @@ export const CreateEventForm = ({ onSuccess }: { onSuccess: () => void }) => {
     // Optional fields
     price: formFields.text.describe(`${t('create.event_form.price')} // e.g. Free, $500 MXN`).nullable().optional(),
     organizer_name: formFields.text.describe(`Organizer // Your name or organization`).nullable().optional(),
-    contact_whatsapp: formFields.text.describe('WhatsApp // Contact number').nullable().optional(),
-    contact_instagram: formFields.text.describe('Instagram // @handle').nullable().optional(),
+    contact_whatsapp: formFields.text.describe('WhatsApp // 💬 Recommended - e.g. +52...').nullable().optional(),
+    contact_phone: formFields.text.describe('Phone // 📱 Include country code').nullable().optional(),
+    contact_email: formFields.text.describe('Email // ✉️ Your email address').nullable().optional(),
+    contact_instagram: formFields.text.describe('Instagram // 📸 Your @handle').nullable().optional(),
     eco_conscious: formFields.boolean_switch.describe(`Eco-Friendly?`).default(false),
   })
 
@@ -64,6 +66,8 @@ export const CreateEventForm = ({ onSuccess }: { onSuccess: () => void }) => {
         eco_conscious: data.eco_conscious || false,
         organizer_name: data.organizer_name?.trim() || null,
         contact_whatsapp: data.contact_whatsapp?.trim() || null,
+        contact_phone: data.contact_phone?.trim() || null,
+        contact_email: data.contact_email?.trim() || null,
         contact_instagram: data.contact_instagram?.trim() || null,
         image_url: imageUploadRef.current?.getImageUrl() || null,
         profile_id: user?.id,
@@ -97,6 +101,8 @@ export const CreateEventForm = ({ onSuccess }: { onSuccess: () => void }) => {
           price: '',
           organizer_name: '',
           contact_whatsapp: '',
+          contact_phone: '',
+          contact_email: '',
           contact_instagram: '',
           eco_conscious: false,
         }}
@@ -140,13 +146,20 @@ export const CreateEventForm = ({ onSuccess }: { onSuccess: () => void }) => {
             {fields.description}
 
             <Separator marginVertical="$2" />
-            <Text fontSize="$3" color="$color11" fontWeight="600">Optional Details</Text>
+            <Text fontSize="$3" color="$color11" fontWeight="600">Contact Info (Optional)</Text>
+
+            {/* Contact Fields */}
+            {fields.organizer_name}
+            {fields.contact_whatsapp}
+            {fields.contact_phone}
+            {fields.contact_email}
+            {fields.contact_instagram}
+
+            <Separator marginVertical="$2" />
+            <Text fontSize="$3" color="$color11" fontWeight="600">Additional Details</Text>
 
             {/* Optional Fields */}
             {fields.price}
-            {fields.organizer_name}
-            {fields.contact_whatsapp}
-            {fields.contact_instagram}
             {fields.eco_conscious}
           </YStack>
         )}

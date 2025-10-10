@@ -106,7 +106,10 @@
       "featured": "Destacado",
       "about": "Acerca de",
       "location": "Ubicación",
-      "get_directions": "Obtener Direcciones"
+      "get_directions": "Obtener Direcciones",
+      "contact_whatsapp": "Contactar por WhatsApp",
+      "call": "Llamar",
+      "no_contact_info": "No hay información de contacto. ¡Comparte este evento para ayudar a difundirlo!"
     }
   },
   "places": {

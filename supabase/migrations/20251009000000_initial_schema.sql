@@ -374,26 +374,26 @@ CREATE TRIGGER update_places_modtime
 -- ============================================================================
 -- All dates are set relative to CURRENT_DATE to ensure they're always in the future
 
-INSERT INTO events (title, description, date, time, location_name, lat, lng, category, price, eco_conscious, organizer_name, organizer_contact, image_url) VALUES
+INSERT INTO events (title, description, date, time, location_name, lat, lng, category, price, eco_conscious, organizer_name, contact_whatsapp, contact_instagram, image_url) VALUES
 
 ('Morning Vinyasa Flow', 'Start your day with energizing vinyasa flow overlooking the Pacific Ocean. All levels welcome.',
-  CURRENT_DATE + INTERVAL '7 days', '07:00', 'Hola Ola Beach', 15.6658, -96.7347, 'yoga', 'Free', true, 'Maria', '@holaolamzt',
+  CURRENT_DATE + INTERVAL '7 days', '07:00', 'Hola Ola Beach', 15.6658, -96.7347, 'yoga', 'Free', true, 'Maria', '+5219581234567', '@holaolamzt',
   'https://images.unsplash.com/photo-1506905925346-21bda4d32df4'),
 
 ('Full Moon Ceremony', 'Gather under the full moon for meditation, chanting, and intention setting.',
-  CURRENT_DATE + INTERVAL '10 days', '20:00', 'Punta Cometa', 15.6632, -96.7312, 'ceremony', 'Donation', true, 'Moon Circle', '@moonmzt',
+  CURRENT_DATE + INTERVAL '10 days', '20:00', 'Punta Cometa', 15.6632, -96.7312, 'ceremony', 'Donation', true, 'Moon Circle', '+5219587654321', '@moonmzt',
   'https://images.unsplash.com/photo-1506905925346-21bda4d32df4'),
 
 ('Plant-Based Cooking Class', 'Cook traditional Mexican dishes with a vegan twist. Eat what you make!',
-  CURRENT_DATE + INTERVAL '5 days', '11:00', 'Estrella Fugaz', 15.6665, -96.7342, 'workshop', '350 MXN', true, 'Chef Rosa', '@estrellamzt',
+  CURRENT_DATE + INTERVAL '5 days', '11:00', 'Estrella Fugaz', 15.6665, -96.7342, 'workshop', '350 MXN', true, 'Chef Rosa', '+5219581357924', '@estrellamzt',
   'https://images.unsplash.com/photo-1506905925346-21bda4d32df4'),
 
 ('Sunset Beach Party', 'Dance barefoot under the stars with local DJs. Bring reusable cups!',
-  CURRENT_DATE + INTERVAL '14 days', '21:00', 'Rinconcito Beach', 15.6645, -96.7335, 'party', 'Donation', true, 'Mazunte Collective', '@mazuntevibes',
+  CURRENT_DATE + INTERVAL '14 days', '21:00', 'Rinconcito Beach', 15.6645, -96.7335, 'party', 'Donation', true, 'Mazunte Collective', '+5219582468135', '@mazuntevibes',
   'https://images.unsplash.com/photo-1506905925346-21bda4d32df4'),
 
 ('Artisan Market', 'Local crafts, jewelry, art, and handmade goods. Support local artists!',
-  CURRENT_DATE + INTERVAL '3 days', '10:00', 'Main Beach Road', 15.6658, -96.7347, 'market', 'Free entry', true, 'Artisan Collective', '@artisansmzt',
+  CURRENT_DATE + INTERVAL '3 days', '10:00', 'Main Beach Road', 15.6658, -96.7347, 'market', 'Free entry', true, 'Artisan Collective', '+5219589876543', '@artisansmzt',
   'https://images.unsplash.com/photo-1506905925346-21bda4d32df4');
 
 -- ============================================================================

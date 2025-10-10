@@ -226,13 +226,11 @@ export function AdminReportsScreen() {
                 )}
 
                 {/* Meta */}
-                <XStack gap="$3">
+                <XStack gap="$2" ai="center">
                   <Text fontSize="$2" theme="alt2">
                     {formatDate(report.created_at, 'en')}
                   </Text>
-                  <Text fontSize="$2" theme="alt2">
-                    •
-                  </Text>
+                  <Text fontSize="$2" theme="alt2">•</Text>
                   <Text fontSize="$2" theme="alt2">
                     ID: {report.item_id.slice(0, 8)}...
                   </Text>

@@ -1,4 +1,4 @@
-# Mazunte Connect
+# Mazunte Connect 
 
 A React Native app for discovering events and places in Mazunte, Mexico, with full Spanish/English internationalization support.
 

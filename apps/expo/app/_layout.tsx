@@ -150,6 +150,12 @@ function HomeLayout() {
                 }}
               />
               <Stack.Screen
+                name="settings/notifications"
+                options={{
+                  headerShown: true,
+                }}
+              />
+              <Stack.Screen
                 name="settings/device-info"
                 options={{
                   headerShown: true,

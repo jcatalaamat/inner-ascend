@@ -121,8 +121,9 @@ export function NotificationSettingsScreen() {
   }
 
   return (
-    <ScrollView>
-      <YStack p="$4" gap="$4">
+    <YStack f={1}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
+        <YStack p="$4" gap="$4">
           <YStack gap="$2">
             <H4>{t('notifications.title')}</H4>
             <Paragraph theme="alt2">{t('notifications.description')}</Paragraph>
@@ -306,31 +307,48 @@ export function NotificationSettingsScreen() {
             </>
           )}
 
-          <Separator />
-
-          {/* Save Button */}
-          <Button
-            onPress={savePreferences}
-            disabled={isSaving}
-            theme="blue"
-            size="$4"
-            icon={<Bell />}
-          >
-            {isSaving ? t('common.saving') : t('common.save')}
-          </Button>
-
-          {/* Test Notification */}
+          {/* Test Notification (in scroll area) */}
           {permission.status === 'granted' && (
-            <Button
-              onPress={handleTestNotification}
-              variant="outlined"
-              size="$4"
-              icon={<TestTube />}
-            >
-              {t('notifications.send_test')}
-            </Button>
+            <>
+              <Separator />
+              <Button
+                onPress={handleTestNotification}
+                variant="outlined"
+                size="$4"
+                icon={<TestTube />}
+              >
+                {t('notifications.send_test')}
+              </Button>
+            </>
           )}
         </YStack>
       </ScrollView>
+
+      {/* Floating Save Button */}
+      <YStack
+        position="absolute"
+        bottom={0}
+        left={0}
+        right={0}
+        p="$4"
+        bg="$background"
+        borderTopWidth={1}
+        borderTopColor="$borderColor"
+        shadowColor="$shadowColor"
+        shadowOpacity={0.1}
+        shadowRadius={8}
+        elevation={4}
+      >
+        <Button
+          onPress={savePreferences}
+          disabled={isSaving}
+          theme="blue"
+          size="$4"
+          icon={<Bell />}
+        >
+          {isSaving ? t('common.saving') : t('common.save')}
+        </Button>
+      </YStack>
+    </YStack>
   )
 }

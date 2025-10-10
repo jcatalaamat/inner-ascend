@@ -574,4 +574,32 @@
             "plant-medicines": "Plant Medicines",
             "beach-wellness": "Beach Wellness"
           }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "description": "Manage your push notification preferences",
+    "permission_required": "Notifications are disabled",
+    "enable_notifications": "Enable Notifications",
+    "permission_granted": "Notifications enabled!",
+    "permission_denied": "Notification permission was denied",
+    "all_notifications": "All Notifications",
+    "all_notifications_desc": "Master toggle for all notifications",
+    "event_reminders": "Event Reminders",
+    "reminder_1h": "1 hour before event",
+    "reminder_1d": "1 day before event",
+    "discovery": "Discovery",
+    "new_events": "New Events",
+    "new_events_desc": "When new events match your interests",
+    "weekly_digest": "Weekly Digest",
+    "weekly_digest_desc": "Friday summary of weekend events",
+    "event_updates": "Event Updates",
+    "event_updates_desc": "Changes or cancellations for favorited events",
+    "quiet_hours": "Quiet Hours (10pm - 8am)",
+    "quiet_hours_desc": "Pause notifications during these hours",
+    "send_test": "Send Test Notification",
+    "test_sent": "Test notification sent!",
+    "saved": "Notification preferences saved",
+    "load_error": "Failed to load notification preferences",
+    "save_error": "Failed to save notification preferences"
+  }
 }

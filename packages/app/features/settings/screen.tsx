@@ -1,5 +1,5 @@
 import { Paragraph, ScrollView, Separator, Settings, YStack, isWeb, useMedia, useToastController } from '@my/ui'
-import { Book, Cog, Info, Lock, LogOut, Mail, Moon, Smartphone, Twitter, MessageCircle, Instagram, HelpCircle, Trash2, MessageSquarePlus } from '@tamagui/lucide-icons'
+import { Book, Cog, Info, Lock, LogOut, Mail, Moon, Smartphone, Twitter, MessageCircle, Instagram, HelpCircle, Trash2, MessageSquarePlus, Bell } from '@tamagui/lucide-icons'
 import { useThemeSetting } from 'app/provider/theme'
 import { redirect } from 'app/utils/redirect'
 import { useSupabase } from 'app/utils/supabase/useSupabase'
@@ -35,6 +35,14 @@ export const SettingsScreen = () => {
             <Settings.Group>
               <SettingsThemeAction />
               <LanguageSwitcher />
+              <Settings.Item
+                icon={Bell}
+                isActive={pathname === '/settings/notifications'}
+                {...useLink({ href: '/settings/notifications' })}
+                accentTheme="blue"
+              >
+                {t('notifications.title')}
+              </Settings.Item>
             </Settings.Group>
             {isWeb && <Separator boc="$color3" mx="$-4" bw="$0.25" />}
             {/* Account Settings */}

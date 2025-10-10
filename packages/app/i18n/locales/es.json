@@ -576,4 +576,32 @@
             "plant-medicines": "Medicinas de Plantas",
             "beach-wellness": "Bienestar en la Playa"
           }
+  },
+  "notifications": {
+    "title": "Notificaciones",
+    "description": "Administra tus preferencias de notificaciones push",
+    "permission_required": "Las notificaciones están desactivadas",
+    "enable_notifications": "Activar Notificaciones",
+    "permission_granted": "¡Notificaciones activadas!",
+    "permission_denied": "Permiso de notificaciones denegado",
+    "all_notifications": "Todas las Notificaciones",
+    "all_notifications_desc": "Control maestro para todas las notificaciones",
+    "event_reminders": "Recordatorios de Eventos",
+    "reminder_1h": "1 hora antes del evento",
+    "reminder_1d": "1 día antes del evento",
+    "discovery": "Descubrimiento",
+    "new_events": "Nuevos Eventos",
+    "new_events_desc": "Cuando nuevos eventos coincidan con tus intereses",
+    "weekly_digest": "Resumen Semanal",
+    "weekly_digest_desc": "Resumen de eventos del fin de semana los viernes",
+    "event_updates": "Actualizaciones de Eventos",
+    "event_updates_desc": "Cambios o cancelaciones de eventos favoritos",
+    "quiet_hours": "Horas Silenciosas (10pm - 8am)",
+    "quiet_hours_desc": "Pausar notificaciones durante estas horas",
+    "send_test": "Enviar Notificación de Prueba",
+    "test_sent": "¡Notificación de prueba enviada!",
+    "saved": "Preferencias de notificaciones guardadas",
+    "load_error": "Error al cargar preferencias de notificaciones",
+    "save_error": "Error al guardar preferencias de notificaciones"
+  }
 }

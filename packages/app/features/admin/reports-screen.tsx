@@ -130,7 +130,7 @@ export function AdminReportsScreen() {
             theme={filter === 'pending' ? 'blue' : undefined}
             variant={filter === 'pending' ? undefined : 'outlined'}
           >
-            {t('admin.pending')} ({pendingCount})
+            {`${t('admin.pending')} (${pendingCount})`}
           </Button>
           <Button
             size="$3"
@@ -138,7 +138,7 @@ export function AdminReportsScreen() {
             theme={filter === 'all' ? 'blue' : undefined}
             variant={filter === 'all' ? undefined : 'outlined'}
           >
-            {t('admin.all_reports')} ({reports.length})
+            {`${t('admin.all_reports')} (${reports.length})`}
           </Button>
         </XStack>
 
@@ -232,7 +232,7 @@ export function AdminReportsScreen() {
                   </Text>
                   <Text fontSize="$2" theme="alt2">•</Text>
                   <Text fontSize="$2" theme="alt2">
-                    {t('admin.item_id')}: {report.item_id.slice(0, 8)}...
+                    {`${t('admin.item_id')}: ${report.item_id.slice(0, 8)}...`}
                   </Text>
                 </XStack>
               </YStack>

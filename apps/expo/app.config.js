@@ -6,7 +6,7 @@ export default {
     slug: 'mazunte-connect',
     jsEngine: 'hermes',
     scheme: 'mazunteconnect',
-    version: '1.1.13',
+    version: '1.2.0',
     orientation: 'portrait',
     icon: './assets/icon.png',
     userInterfaceStyle: 'automatic',

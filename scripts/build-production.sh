@@ -4,8 +4,18 @@
 # This script ONLY builds production versions (does NOT submit)
 # Uses --local flag to avoid EAS cloud build costs
 # Use deploy-production.sh if you want to build + submit in one command
+#
+# Usage:
+#   ./build-production.sh          # Interactive (asks for confirmation)
+#   ./build-production.sh -y       # Non-interactive (auto-confirm)
 
 set -e
+
+# Parse arguments
+AUTO_CONFIRM=false
+if [[ "$1" == "-y" ]] || [[ "$1" == "--yes" ]]; then
+    AUTO_CONFIRM=true
+fi
 
 echo "🚀 Starting LOCAL production build (FREE!)..."
 echo "⚠️  This will build on your Mac using Xcode (~10-15 min)"
@@ -23,14 +33,16 @@ echo "ℹ️  Note: Build number will be auto-incremented by EAS"
 echo "⚠️  Make sure you've bumped the version if this is a new release!"
 echo ""
 
-# Ask for confirmation
-read -p "Build version $CURRENT_VERSION for production? (y/N) " -n 1 -r
-echo
-if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-    echo "❌ Production build cancelled"
-    exit 1
+# Ask for confirmation only if not auto-confirmed
+if [ "$AUTO_CONFIRM" = false ]; then
+    read -p "Build version $CURRENT_VERSION for production? (Y/n) " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Nn]$ ]]; then
+        echo "❌ Production build cancelled"
+        exit 1
+    fi
+    echo ""
 fi
-echo ""
 
 cd apps/expo
 

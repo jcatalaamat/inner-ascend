@@ -134,7 +134,7 @@ deploy_flow() {
 
             gum style --foreground 212 "Deploying to production..."
             echo ""
-            ./scripts/deploy-production.sh
+            ./scripts/deploy-production.sh -y
 
             gum style --foreground 212 "✓ Production deployment complete!"
             gum style --foreground 86 "Your app is now in Apple's review queue"
@@ -172,7 +172,7 @@ deploy_flow() {
 
             gum style --foreground 212 "Step 2/2: Deploying to production..."
             echo ""
-            ./scripts/deploy-production.sh
+            ./scripts/deploy-production.sh -y
 
             gum style --foreground 212 "✓ Both deployments complete!"
             gum style --foreground 86 "Staging: TestFlight (test before approving production)"

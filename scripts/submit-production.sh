@@ -3,8 +3,18 @@
 # Production Submit Script
 # This script submits production builds to App Store for review
 # Submits the LATEST build using the production profile
+#
+# Usage:
+#   ./submit-production.sh          # Interactive (asks for confirmation)
+#   ./submit-production.sh -y       # Non-interactive (auto-confirm)
 
 set -e
+
+# Parse arguments
+AUTO_CONFIRM=false
+if [[ "$1" == "-y" ]] || [[ "$1" == "--yes" ]]; then
+    AUTO_CONFIRM=true
+fi
 
 echo "📤 Starting production submission..."
 echo ""
@@ -33,14 +43,16 @@ echo "⚠️  This will submit the LATEST production build to the App Store for 
 echo "ℹ️  Make sure you have already built version $CURRENT_VERSION"
 echo ""
 
-# Ask for confirmation
-read -p "Submit latest production build to App Store? (y/N) " -n 1 -r
-echo
-if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-    echo "❌ Production submission cancelled"
-    exit 1
+# Ask for confirmation only if not auto-confirmed
+if [ "$AUTO_CONFIRM" = false ]; then
+    read -p "Submit latest production build to App Store? (Y/n) " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Nn]$ ]]; then
+        echo "❌ Production submission cancelled"
+        exit 1
+    fi
+    echo ""
 fi
-echo ""
 
 echo "🍎 Submitting to App Store (iOS) using PRODUCTION profile..."
 eas submit --platform ios --profile production --latest --non-interactive

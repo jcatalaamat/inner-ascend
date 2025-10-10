@@ -20,14 +20,28 @@ get_current_version() {
 # Main menu
 show_main_menu() {
     clear
-    gum style --border normal --margin "1" --padding "1 2" --border-foreground 212 "Mazunte Connect Release Wizard"
+
+    # Fancy header with gradient colors
+    gum style \
+        --foreground 212 --bold \
+        --border double \
+        --border-foreground 212 \
+        --margin "1" --padding "1 2" \
+        "🌴 MAZUNTE CONNECT RELEASE WIZARD 🌴"
 
     CURRENT_VERSION=$(get_current_version)
 
-    gum style --foreground 212 "📱 Current version: ${CURRENT_VERSION}"
+    echo ""
+    gum style --foreground 86 --bold "📱 Current version: ${CURRENT_VERSION}"
+    echo ""
+    gum style --foreground 240 --italic "Choose your adventure below ⬇️"
     echo ""
 
-    CHOICE=$(gum choose --height 6 \
+    CHOICE=$(gum choose \
+        --height 6 \
+        --cursor.foreground 212 \
+        --selected.foreground 212 \
+        --selected.bold \
         "🚀 Deploy Release" \
         "🔢 Bump Version" \
         "🛠️  Utilities" \
@@ -44,14 +58,26 @@ show_main_menu() {
 # Deploy flow
 deploy_flow() {
     clear
-    gum style --border double --margin "1" --padding "1 2" --border-foreground 212 "Deploy Release"
+    gum style \
+        --border double \
+        --margin "1" --padding "1 2" \
+        --border-foreground 86 \
+        --foreground 86 --bold \
+        "🚀 DEPLOY RELEASE"
 
     CURRENT_VERSION=$(get_current_version)
-    gum style --foreground 212 "Deploying version: ${CURRENT_VERSION}"
+    echo ""
+    gum style --foreground 212 --bold "Deploying version: ${CURRENT_VERSION}"
+    echo ""
+    gum style --foreground 240 "Pick your deployment target:"
     echo ""
 
     # Choose deployment target
-    DEPLOY_TARGET=$(gum choose --height 5 \
+    DEPLOY_TARGET=$(gum choose \
+        --height 5 \
+        --cursor.foreground 86 \
+        --selected.foreground 86 \
+        --selected.bold \
         "🧪 Staging only (TestFlight)" \
         "🚀 Production only (App Store)" \
         "🔄 Both (Staging → Production)" \
@@ -138,13 +164,25 @@ deploy_flow() {
 # Bump version flow
 bump_version_flow() {
     clear
-    gum style --border normal --margin "1" --padding "1 2" --border-foreground 212 "Bump Version"
+    gum style \
+        --border rounded \
+        --margin "1" --padding "1 2" \
+        --border-foreground 212 \
+        --foreground 212 --bold \
+        "🔢 BUMP VERSION"
 
     CURRENT_VERSION=$(get_current_version)
-    gum style --foreground 212 "Current version: ${CURRENT_VERSION}"
+    echo ""
+    gum style --foreground 86 --bold "Current version: ${CURRENT_VERSION}"
+    echo ""
+    gum style --foreground 240 "What kind of bump?"
     echo ""
 
-    BUMP_TYPE=$(gum choose --height 5 \
+    BUMP_TYPE=$(gum choose \
+        --height 5 \
+        --cursor.foreground 212 \
+        --selected.foreground 212 \
+        --selected.bold \
         "Patch (bug fixes) ${CURRENT_VERSION} → $(echo $CURRENT_VERSION | awk -F. '{print $1"."$2"."$3+1}')" \
         "Minor (new features) ${CURRENT_VERSION} → $(echo $CURRENT_VERSION | awk -F. '{print $1"."$2+1".0"}')" \
         "Major (breaking changes) ${CURRENT_VERSION} → $(echo $CURRENT_VERSION | awk -F. '{print $1+1".0.0"}')" \
@@ -180,9 +218,22 @@ bump_version_flow() {
 # Utilities menu
 utilities_menu() {
     clear
-    gum style --border normal --margin "1" --padding "1 2" --border-foreground 212 "Utilities"
+    gum style \
+        --border normal \
+        --margin "1" --padding "1 2" \
+        --border-foreground 240 \
+        --foreground 86 --bold \
+        "🛠️  UTILITIES"
 
-    CHOICE=$(gum choose --height 5 \
+    echo ""
+    gum style --foreground 240 "Helper tools and resources:"
+    echo ""
+
+    CHOICE=$(gum choose \
+        --height 5 \
+        --cursor.foreground 86 \
+        --selected.foreground 86 \
+        --selected.bold \
         "📸 Upload Screenshots" \
         "📝 Upload Metadata" \
         "📋 View Release Checklist" \

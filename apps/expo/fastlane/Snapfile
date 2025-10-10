@@ -1,0 +1,37 @@
+# Snapfile for automated screenshot generation
+# Documentation: https://docs.fastlane.tools/actions/snapshot/
+
+# A list of devices you want to generate screenshots on
+devices([
+  "iPhone 14 Pro Max",     # 6.7" display - 1284 × 2778px
+  "iPhone 14 Plus",        # 6.7" display - 1284 × 2778px
+  "iPad Pro (12.9-inch) (6th generation)"  # Optional for iPad screenshots
+])
+
+# A list of supported languages
+languages([
+  "en-US",  # English
+  "es-MX"   # Spanish (Mexico)
+])
+
+# The name of the scheme which contains the UI Tests
+scheme("MazunteConnect")
+
+# Where should the resulting screenshots be stored?
+output_directory("./fastlane/screenshots")
+
+# Clear all previously generated screenshots before creating new ones
+clear_previous_screenshots(true)
+
+# Remove the '#' to clear all previously generated screenshots before creating new ones
+# clear_previous_screenshots(true)
+
+# Remove the '#' to set the status bar to 9:41 AM, and show full battery and reception.
+# See also override_status_bar_arguments for custom settings.
+# override_status_bar(true)
+
+# Arguments to pass to the app on launch. See https://docs.fastlane.tools/actions/snapshot/#launch-arguments
+# launch_arguments(["-favColor red"])
+
+# For more information about all available options run
+# fastlane snapshot --help

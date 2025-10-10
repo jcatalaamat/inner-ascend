@@ -96,7 +96,7 @@ export const LocationPicker = forwardRef<LocationPickerRef, LocationPickerProps>
   return (
     <>
       <YStack gap="$2">
-        {label && <Label>{label}</Label>}
+        <Label>{displayLabel}</Label>
         <Pressable onPress={() => setOpen(true)}>
           <XStack
             padding="$3"
@@ -127,13 +127,13 @@ export const LocationPicker = forwardRef<LocationPickerRef, LocationPickerProps>
           <Sheet.Handle />
           <ScrollView showsVerticalScrollIndicator={false}>
             <YStack gap="$4" paddingBottom="$4">
-              <Text fontSize="$6" fontWeight="600">{label}</Text>
+              <Text fontSize="$6" fontWeight="600">{displayLabel}</Text>
 
               {/* Location Name */}
               <YStack gap="$2">
-                <Label>Location Name</Label>
+                <Label>{t('create.location_picker.location_name')}</Label>
                 <Input
-                  placeholder="e.g., Punta Cometa, Casa Om"
+                  placeholder={t('create.location_picker.location_name_placeholder')}
                   value={locationName}
                   onChangeText={setLocationName}
                 />
@@ -163,7 +163,7 @@ export const LocationPicker = forwardRef<LocationPickerRef, LocationPickerProps>
               </YStack>
 
               <Text fontSize="$2" color="$color11" textAlign="center">
-                👆 Tap on the map to set the exact location
+                {t('create.location_picker.tap_map_hint')}
               </Text>
 
               {/* Coordinates Display */}
@@ -173,9 +173,9 @@ export const LocationPicker = forwardRef<LocationPickerRef, LocationPickerProps>
 
               {/* Directions */}
               <YStack gap="$2">
-                <Label>Directions (Optional)</Label>
+                <Label>{t('create.location_picker.directions')}</Label>
                 <Input
-                  placeholder="Additional directions"
+                  placeholder={t('create.location_picker.directions_placeholder')}
                   value={directions}
                   onChangeText={setDirections}
                   multiline
@@ -186,7 +186,7 @@ export const LocationPicker = forwardRef<LocationPickerRef, LocationPickerProps>
 
               {/* Done Button */}
               <Button onPress={handleDone} size="$4" theme="blue">
-                Done
+                {t('create.location_picker.done')}
               </Button>
             </YStack>
           </ScrollView>

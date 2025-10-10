@@ -1,0 +1,47 @@
+# Fastlane .gitignore
+
+# Fastlane-generated files
+*.ipa
+*.dSYM.zip
+*.mobileprovision
+
+# Test output
+test_output/
+xcov_report/
+
+# Screenshots (optional - comment out if you want to commit screenshots)
+screenshots/**/*.png
+screenshots/**/*.jpg
+
+# Fastlane reports
+report.xml
+fastlane_report.xml
+
+# Delivery/upload receipts
+Preview.html
+*.app.zip
+
+# Temporary files
+.fastlane_report
+.DS_Store
+
+# Credentials (IMPORTANT - never commit)
+*.p12
+*.cer
+*.certSigningRequest
+AuthKey_*.p8
+
+# Derived data
+*/DerivedData
+
+# Provisioning profiles
+*.provisionprofile
+
+# Code signing
+fastlane/.env.default
+.env
+.env.*
+
+# Match (if using fastlane match for code signing)
+certs/
+profiles/

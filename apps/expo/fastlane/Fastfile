@@ -1,0 +1,176 @@
+# Fastlane Configuration for Mazunte Connect
+# Documentation: https://docs.fastlane.tools
+
+default_platform(:ios)
+
+platform :ios do
+  # ===========================
+  # SCREENSHOTS
+  # ===========================
+
+  desc "Generate screenshots for all devices and languages"
+  lane :screenshots do
+    snapshot(
+      scheme: "MazunteConnect",
+      devices: [
+        "iPhone 14 Pro Max",
+        "iPhone 14 Plus",
+        "iPad Pro (12.9-inch) (6th generation)"
+      ],
+      languages: [
+        "en-US",
+        "es-MX"
+      ],
+      output_directory: "./fastlane/screenshots",
+      clear_previous_screenshots: true,
+      reinstall_app: true,
+      erase_simulator: true
+    )
+  end
+
+  # ===========================
+  # METADATA
+  # ===========================
+
+  desc "Upload metadata and screenshots to App Store Connect"
+  lane :upload_metadata do
+    deliver(
+      submit_for_review: false,
+      automatic_release: false,
+      force: true,
+      skip_binary_upload: true,
+      skip_screenshots: false,
+      skip_metadata: false,
+      precheck_include_in_app_purchases: false
+    )
+  end
+
+  desc "Upload only screenshots to App Store Connect"
+  lane :upload_screenshots do
+    deliver(
+      submit_for_review: false,
+      skip_binary_upload: true,
+      skip_screenshots: false,
+      skip_metadata: true
+    )
+  end
+
+  # ===========================
+  # TESTFLIGHT (BETA)
+  # ===========================
+
+  desc "Upload to TestFlight for beta testing"
+  lane :beta do
+    # Build is already done via EAS, just submit
+    # This lane can be extended if needed
+    UI.success("✅ Beta build complete. Submit via EAS: yarn eas:submit:staging:ios")
+  end
+
+  # ===========================
+  # PRODUCTION RELEASE
+  # ===========================
+
+  desc "Prepare for App Store release (screenshots + metadata)"
+  lane :prepare_release do
+    # Generate screenshots
+    screenshots
+
+    # Upload everything to App Store Connect
+    upload_metadata
+
+    UI.success("✅ Screenshots and metadata uploaded to App Store Connect")
+    UI.important("⚠️ Build must be submitted via EAS: yarn eas:submit:production:ios")
+    UI.important("⚠️ Then manually submit for review in App Store Connect")
+  end
+
+  # ===========================
+  # UTILITY LANES
+  # ===========================
+
+  desc "Download existing screenshots from App Store Connect"
+  lane :download_screenshots do
+    deliver(
+      download_screenshots: true,
+      download_metadata: false,
+      skip_binary_upload: true
+    )
+  end
+
+  desc "Download existing metadata from App Store Connect"
+  lane :download_metadata do
+    deliver(
+      download_metadata: true,
+      download_screenshots: false,
+      skip_binary_upload: true
+    )
+  end
+
+  # ===========================
+  # VERSION MANAGEMENT
+  # ===========================
+
+  desc "Show current version and build number"
+  lane :version do
+    # Read from app.config.js
+    config_path = "../app.config.js"
+    config_content = File.read(config_path)
+
+    # Extract version using regex
+    version_match = config_content.match(/version:\s*['"]([^'"]+)['"]/)
+    build_match = config_content.match(/buildNumber:\s*['"]([^'"]+)['"]/)
+
+    if version_match && build_match
+      version = version_match[1]
+      build = build_match[1]
+
+      UI.header("Current Version Info")
+      UI.message("Version: #{version}")
+      UI.message("Build Number: #{build}")
+      UI.message("Full: #{version} (#{build})")
+    else
+      UI.error("Could not read version from app.config.js")
+    end
+  end
+
+  # ===========================
+  # CLEANUP
+  # ===========================
+
+  desc "Clean up simulator screenshots and derived data"
+  lane :clean do
+    clear_derived_data
+
+    # Remove screenshot folders
+    sh("rm -rf ../fastlane/screenshots") if File.directory?("../fastlane/screenshots")
+
+    UI.success("✅ Cleaned up simulator data and screenshots")
+  end
+end
+
+# ===========================
+# ANDROID PLATFORM
+# ===========================
+
+platform :android do
+  desc "Generate screenshots for Android devices"
+  lane :screenshots do
+    UI.message("📱 Android screenshot generation")
+    UI.important("⚠️ Android screenshots not yet configured")
+    UI.important("💡 You can use screengrab or manual screenshots for now")
+  end
+
+  desc "Upload to Google Play Console"
+  lane :upload_metadata do
+    UI.message("📱 Android metadata upload")
+    UI.important("⚠️ Use EAS submit for Android: yarn eas:submit:production:android")
+  end
+end
+
+# ===========================
+# ERROR HANDLING
+# ===========================
+
+error do |lane, exception|
+  UI.error("Error in lane #{lane}:")
+  UI.error(exception.message)
+end

@@ -36,7 +36,19 @@
     "check:type": "tsc --outDir /tmp",
     "check:type:watch": "yarn check:type -w",
     "adb:reverse": "adb reverse tcp:3000 tcp:3000",
-    "remove-xcode-env-local-file": "rm ios/.xcode.env.local"
+    "remove-xcode-env-local-file": "rm ios/.xcode.env.local",
+    "fastlane:screenshots": "cd fastlane && fastlane screenshots",
+    "fastlane:upload:screenshots": "cd fastlane && fastlane upload_screenshots",
+    "fastlane:upload:metadata": "cd fastlane && fastlane upload_metadata",
+    "fastlane:prepare:release": "cd fastlane && fastlane prepare_release",
+    "fastlane:version": "cd fastlane && fastlane version",
+    "fastlane:clean": "cd fastlane && fastlane clean",
+    "deploy:production": "yarn eas:build:staging:ios && yarn eas:submit:staging:ios",
+    "deploy:staging": "yarn eas:build:staging:ios && yarn eas:submit:staging:ios",
+    "build:production": "yarn eas:build:staging:ios",
+    "build:staging": "yarn eas:build:staging:ios",
+    "submit:production": "yarn eas:submit:staging:ios",
+    "submit:staging": "yarn eas:submit:staging:ios"
   },
   "dependencies": {
     "@babel/runtime": "^7.18.9",

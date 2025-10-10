@@ -7,7 +7,7 @@
     "supabase"
   ],
   "scripts": {
-    "commit": "git add . && git commit -m 'chore: auto commit' && git push",
+    "commit": "./scripts/commit-wizard.sh",
     "_with-env": "dotenv -e .env -c -- ",
     "ios": "cd apps/expo && yarn ios",
     "ios:run": "cd apps/expo && yarn ios:run",

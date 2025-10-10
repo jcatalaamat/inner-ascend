@@ -1,10 +1,12 @@
-import { PlaceCard, SearchBar, CategoryFilter, FullscreenSpinner, Text, YStack, Button, XStack } from '@my/ui'
+import { PlaceCard, SearchBar, FullscreenSpinner, Text, YStack } from '@my/ui'
 import { router } from 'expo-router'
-import { FlatList, RefreshControl, ScrollView } from 'react-native'
+import { FlatList, RefreshControl } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useState, useMemo, useEffect, useRef, useCallback } from 'react'
-import { X } from '@tamagui/lucide-icons'
-import { PLACE_TYPE_COLORS, PLACE_TYPE_LABELS, PLACE_TYPES, type PlaceType } from 'app/utils/constants'
+import { FilterSheet } from 'app/components/FilterSheet'
+import type { EventFilters } from 'app/utils/filter-types'
+import { getActiveFilterCount } from 'app/utils/filter-types'
+import { type PlaceType } from 'app/utils/constants'
 import { usePlacesQuery } from 'app/utils/react-query/usePlacesQuery'
 import { ScreenWrapper } from 'app/components/ScreenWrapper'
 import { useTranslation } from 'react-i18next'
@@ -17,11 +19,16 @@ import { FavoritesProvider } from 'app/contexts/FavoritesContext'
 import { useCity } from 'app/contexts/CityContext'
 
 function PlacesScreenContent() {
-  const [selectedType, setSelectedType] = useState<PlaceType | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [headerDismissed, setHeaderDismissed] = useState(false)
   const [placesWithAds, setPlacesWithAds] = useState<DataWithAds<Tables<'places'>>>([])
   const [isLoadingAds, setIsLoadingAds] = useState(false)
+  const [filterSheetOpen, setFilterSheetOpen] = useState(false)
+  const [filters, setFilters] = useState<EventFilters>({
+    categories: [],
+    dateRange: { type: 'all' },
+    timeOfDay: [],
+  })
   const lastFilteredPlacesRef = useRef<Tables<'places'>[]>([])
   const insets = useSafeAreaInsets()
   const { t } = useTranslation()
@@ -53,9 +60,9 @@ function PlacesScreenContent() {
   const filteredPlaces = useMemo(() => {
     let filtered = allPlaces
 
-    // Filter by type
-    if (selectedType) {
-      filtered = filtered.filter(place => place.type === selectedType)
+    // Filter by types (using categories array)
+    if (filters.categories && filters.categories.length > 0) {
+      filtered = filtered.filter(place => filters.categories!.includes(place.type as any))
     }
 
     // Filter by search query
@@ -69,7 +76,7 @@ function PlacesScreenContent() {
     }
 
     return filtered
-  }, [allPlaces, selectedType, searchQuery])
+  }, [allPlaces, searchQuery, filters])
 
   // Create stable string key for dependency tracking
   const filteredPlacesKey = useMemo(
@@ -131,14 +138,6 @@ function PlacesScreenContent() {
     })
   }
 
-  const handleTypeSelect = (type: string | null) => {
-    setSelectedType(type as PlaceType | null)
-    posthog?.capture('places_type_selected', {
-      type: type || 'all',
-      places_count: type ? allPlaces.filter(p => p.type === type).length : allPlaces.length,
-    })
-  }
-
   // Memoize press handler - extract place from item
   const handlePlacePress = useCallback((place: any) => {
     posthog?.capture('place_card_tapped', {
@@ -175,7 +174,7 @@ function PlacesScreenContent() {
 
   return (
     <ScreenWrapper>
-      {/* Search with Map and Create Buttons */}
+      {/* Search with Map, Filter, and Create Buttons */}
       <SearchBar
         placeholder={t('places.search_placeholder')}
         onSearch={handleSearch}
@@ -186,6 +185,12 @@ function PlacesScreenContent() {
           posthog?.capture('map_button_tapped', { from: 'places' })
           router.push('/map?view=places')
         }}
+        showFilterButton={true}
+        onFilterPress={() => {
+          posthog?.capture('filter_button_tapped', { from: 'places' })
+          setFilterSheetOpen(true)
+        }}
+        activeFilterCount={getActiveFilterCount(filters)}
         showCreateButton={showCreateButton}
         createType="place"
         onCreatePress={() => {
@@ -193,35 +198,6 @@ function PlacesScreenContent() {
           router.push('/create?type=place')
         }}
       />
-
-      {/* Type Filter - Horizontal Scrollable */}
-      <YStack bg="$background" borderBottomWidth={1} borderBottomColor="$borderColor">
-        <ScrollView 
-          horizontal 
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 8 }}
-        >
-          <XStack gap="$2">
-            <Button
-              size="$3"
-              variant={selectedType === null ? 'outlined' : undefined}
-              onPress={() => handleTypeSelect(null)}
-            >
-              <Text>{t('places.all')} ({allPlaces.length})</Text>
-            </Button>
-            {PLACE_TYPES.map((type) => (
-              <Button
-                key={type}
-                size="$3"
-                variant={selectedType === type ? 'outlined' : undefined}
-                onPress={() => handleTypeSelect(type)}
-              >
-                <Text>{t(`places.types.${type}`)}</Text>
-              </Button>
-            ))}
-          </XStack>
-        </ScrollView>
-      </YStack>
 
       {/* Places List */}
       <FlatList
@@ -245,7 +221,7 @@ function PlacesScreenContent() {
               <Text fontSize="$5" color="$color10">
                 {t('places.no_places_found')}
               </Text>
-              {(selectedType || searchQuery) && (
+              {(getActiveFilterCount(filters) > 0 || searchQuery) && (
                 <Text fontSize="$3" color="$color9" mt="$2">
                   {t('places.try_adjusting_filters')}
                 </Text>
@@ -253,6 +229,20 @@ function PlacesScreenContent() {
             </YStack>
           )
         }
+      />
+
+      {/* Filter Sheet */}
+      <FilterSheet
+        open={filterSheetOpen}
+        onOpenChange={setFilterSheetOpen}
+        filters={filters}
+        type="place"
+        onApplyFilters={(newFilters) => {
+          setFilters(newFilters)
+          posthog?.capture('filters_applied', {
+            types_count: newFilters.categories?.length || 0,
+          })
+        }}
       />
     </ScreenWrapper>
   )

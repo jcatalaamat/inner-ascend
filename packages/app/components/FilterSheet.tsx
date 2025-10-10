@@ -10,18 +10,21 @@ import {
   YStack,
   XStack,
   XGroup,
+  Text,
 } from '@my/ui'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Filter, X } from '@tamagui/lucide-icons'
 import type { EventFilters, DateRangeType, TimeOfDay } from 'app/utils/filter-types'
 import { getActiveFilterCount } from 'app/utils/filter-types'
+import { EVENT_CATEGORIES, PLACE_TYPES, type EventCategory, type PlaceType } from 'app/utils/constants'
 
 interface FilterSheetProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   filters: EventFilters
   onApplyFilters: (filters: EventFilters) => void
+  type?: 'event' | 'place'
 }
 
 const TIME_SLOTS: { value: TimeOfDay; labelKey: string }[] = [
@@ -30,10 +33,15 @@ const TIME_SLOTS: { value: TimeOfDay; labelKey: string }[] = [
   { value: 'evening', labelKey: 'filters.time_of_day.evening' },
 ]
 
-export function FilterSheet({ open, onOpenChange, filters, onApplyFilters }: FilterSheetProps) {
+export function FilterSheet({ open, onOpenChange, filters, onApplyFilters, type = 'event' }: FilterSheetProps) {
   const { t } = useTranslation()
 
   const [localFilters, setLocalFilters] = useState<EventFilters>(filters)
+
+  // Sync local filters when external filters change
+  useEffect(() => {
+    setLocalFilters(filters)
+  }, [filters])
 
   const handleApply = () => {
     onApplyFilters(localFilters)
@@ -42,11 +50,20 @@ export function FilterSheet({ open, onOpenChange, filters, onApplyFilters }: Fil
 
   const handleClear = () => {
     const clearedFilters: EventFilters = {
+      categories: [],
       dateRange: { type: 'all' },
       timeOfDay: [],
     }
     setLocalFilters(clearedFilters)
     onApplyFilters(clearedFilters)
+  }
+
+  const toggleCategory = (category: EventCategory | PlaceType) => {
+    const current = localFilters.categories || []
+    const updated = current.includes(category as EventCategory)
+      ? current.filter((c) => c !== category)
+      : [...current, category as EventCategory]
+    setLocalFilters({ ...localFilters, categories: updated })
   }
 
   const toggleTimeOfDay = (time: TimeOfDay) => {
@@ -106,6 +123,39 @@ export function FilterSheet({ open, onOpenChange, filters, onApplyFilters }: Fil
 
           <ScrollView>
             <YStack p="$4" gap="$5">
+              {/* Categories / Types */}
+              <YStack gap="$3">
+                <Label fontSize="$5" fontWeight="600">
+                  {type === 'event' ? t('events.categories_title') : t('places.types_title')}
+                </Label>
+                <Paragraph size="$2" theme="alt2">
+                  {type === 'event' ? 'Select one or more categories' : 'Select one or more types'}
+                </Paragraph>
+                <XStack gap="$2" flexWrap="wrap">
+                  {(type === 'event' ? EVENT_CATEGORIES : PLACE_TYPES).map((item) => {
+                    const isSelected = localFilters.categories?.includes(item as EventCategory)
+                    return (
+                      <Button
+                        key={item}
+                        size="$3"
+                        onPress={() => toggleCategory(item)}
+                        bg={isSelected ? '$blue9' : '$background'}
+                        borderColor={isSelected ? '$blue9' : '$borderColor'}
+                        color={isSelected ? 'white' : '$color'}
+                        borderRadius="$10"
+                        pressStyle={{
+                          bg: isSelected ? '$blue8' : '$gray3',
+                        }}
+                      >
+                        {type === 'event' ? t(`events.categories.${item}`) : t(`places.types.${item}`)}
+                      </Button>
+                    )
+                  })}
+                </XStack>
+              </YStack>
+
+              <Separator />
+
               {/* Date Range */}
               <YStack gap="$3">
                 <Label fontSize="$5" fontWeight="600">

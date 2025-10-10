@@ -1,6 +1,6 @@
-import { Search, X, Map, Plus } from '@tamagui/lucide-icons'
+import { Search, X, Map, Plus, Filter } from '@tamagui/lucide-icons'
 import { useState } from 'react'
-import { Button, Input, XStack } from 'tamagui'
+import { Button, Input, XStack, Text } from 'tamagui'
 import { router } from 'expo-router'
 
 export type SearchBarProps = {
@@ -10,6 +10,9 @@ export type SearchBarProps = {
   showMapButton?: boolean
   onMapPress?: () => void
   mapViewType?: 'events' | 'places' | 'both'
+  showFilterButton?: boolean
+  onFilterPress?: () => void
+  activeFilterCount?: number
   showCreateButton?: boolean
   onCreatePress?: () => void
   createType?: 'event' | 'place'
@@ -22,6 +25,9 @@ export const SearchBar = ({
   showMapButton = false,
   onMapPress,
   mapViewType = 'both',
+  showFilterButton = false,
+  onFilterPress,
+  activeFilterCount = 0,
   showCreateButton = false,
   onCreatePress,
   createType = 'event'
@@ -77,6 +83,37 @@ export const SearchBar = ({
             }
           }}
         />
+      )}
+
+      {showFilterButton && onFilterPress && (
+        <Button
+          size="$3"
+          icon={Filter}
+          onPress={onFilterPress}
+          bg={activeFilterCount > 0 ? '$blue9' : undefined}
+          borderColor={activeFilterCount > 0 ? '$blue9' : undefined}
+          color={activeFilterCount > 0 ? 'white' : undefined}
+          position="relative"
+        >
+          {activeFilterCount > 0 && (
+            <XStack
+              position="absolute"
+              top={-6}
+              right={-6}
+              bg="$red9"
+              borderRadius="$10"
+              minWidth={18}
+              height={18}
+              ai="center"
+              jc="center"
+              px="$1"
+            >
+              <Text fontSize={10} color="white" fontWeight="600">
+                {activeFilterCount}
+              </Text>
+            </XStack>
+          )}
+        </Button>
       )}
 
       {showCreateButton && onCreatePress && (

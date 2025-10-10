@@ -33,7 +33,9 @@ export interface SavedSearch {
 // Helper functions
 export const getDateRangePreset = (type: DateRangeType): { start: Date; end: Date } | null => {
   const now = new Date()
+  // Set to midnight for consistent date comparisons
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  today.setHours(0, 0, 0, 0)
 
   switch (type) {
     case 'this_weekend': {
@@ -42,6 +44,7 @@ export const getDateRangePreset = (type: DateRangeType): { start: Date; end: Dat
       const daysUntilSaturday = (6 - dayOfWeek + 7) % 7 || 7
       const saturday = new Date(today)
       saturday.setDate(today.getDate() + daysUntilSaturday)
+      saturday.setHours(0, 0, 0, 0)
       const sunday = new Date(saturday)
       sunday.setDate(saturday.getDate() + 1)
       sunday.setHours(23, 59, 59, 999)
@@ -49,8 +52,9 @@ export const getDateRangePreset = (type: DateRangeType): { start: Date; end: Dat
     }
 
     case 'next_week': {
-      // Next 7 days
+      // Next 7 days from today
       const start = new Date(today)
+      start.setHours(0, 0, 0, 0)
       const end = new Date(today)
       end.setDate(today.getDate() + 7)
       end.setHours(23, 59, 59, 999)

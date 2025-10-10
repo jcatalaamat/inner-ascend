@@ -81,6 +81,7 @@
     "description": "Description",
     "search_placeholder": "Search events...",
     "all_events": "All",
+    "categories_title": "Categories",
     "no_events_found": "No events found",
     "try_adjusting_filters": "Try adjusting your filters",
     "no_events_scheduled": "No events scheduled yet",
@@ -130,6 +131,7 @@
     "featured": "Featured",
     "search_placeholder": "Search places...",
     "all": "All",
+    "types_title": "Types",
     "no_places_found": "No places found",
     "try_adjusting_filters": "Try adjusting your filters",
     "types": {

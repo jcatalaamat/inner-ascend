@@ -31,6 +31,10 @@ Generate screenshots for all devices and languages
 
 Upload metadata and screenshots to App Store Connect
 
+Note: This can be run independently of builds - you don't need a build to update metadata
+
+However, to attach metadata to a specific version, that version should exist in App Store Connect
+
 ### ios upload_screenshots
 
 ```sh
@@ -38,6 +42,8 @@ Upload metadata and screenshots to App Store Connect
 ```
 
 Upload only screenshots to App Store Connect
+
+This can be run at any time - builds are not required
 
 ### ios beta
 

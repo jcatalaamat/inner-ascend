@@ -60,11 +60,73 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
     }
   }
 
+  const handleUnresolve = async () => {
+    if (!report || !user) return
+
+    setIsResolving(true)
+    try {
+      // If item was hidden (not removed), restore it
+      if (report.resolution_action === 'hide_item') {
+        const tableName = report.item_type === 'event' ? 'events' : 'places'
+        const { error: restoreError } = await supabase
+          .from(tableName)
+          .update({ hidden_by_reports: false })
+          .eq('id', report.item_id)
+
+        if (restoreError) throw restoreError
+      }
+
+      // Reset report to pending status
+      const { error } = await supabase
+        .from('reports')
+        .update({
+          status: 'pending',
+          resolved_by: null,
+          resolution_notes: null,
+          resolution_action: null,
+          resolved_at: null,
+        })
+        .eq('id', report.id)
+
+      if (error) throw error
+
+      toast.show('Report reopened successfully', { duration: 3000 })
+      await loadReport() // Reload to show pending state
+    } catch (error) {
+      console.error('Error unresolving report:', error)
+      toast.show('Failed to reopen report', { duration: 3000 })
+    } finally {
+      setIsResolving(false)
+    }
+  }
+
   const handleResolve = async (action: 'dismiss' | 'hide' | 'remove') => {
     if (!report || !user) return
 
     setIsResolving(true)
     try {
+      // Step 1: Perform the item action (hide or remove)
+      if (action === 'hide') {
+        // Manually hide the item
+        const tableName = report.item_type === 'event' ? 'events' : 'places'
+        const { error: hideError } = await supabase
+          .from(tableName)
+          .update({ hidden_by_reports: true })
+          .eq('id', report.item_id)
+
+        if (hideError) throw hideError
+      } else if (action === 'remove') {
+        // Actually delete the item
+        const tableName = report.item_type === 'event' ? 'events' : 'places'
+        const { error: deleteError } = await supabase
+          .from(tableName)
+          .delete()
+          .eq('id', report.item_id)
+
+        if (deleteError) throw deleteError
+      }
+
+      // Step 2: Update the report status
       const { error } = await supabase
         .from('reports')
         .update({
@@ -84,7 +146,12 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
         reason: report.reason,
       })
 
-      toast.show(t('admin.resolve_success'), { duration: 3000 })
+      const successMessage =
+        action === 'dismiss' ? t('admin.resolve_success') :
+        action === 'hide' ? `${t('admin.resolve_success')} - Item hidden` :
+        `${t('admin.resolve_success')} - Item removed`
+
+      toast.show(successMessage, { duration: 3000 })
       router.back()
     } catch (error) {
       console.error('Error resolving report:', error)
@@ -275,6 +342,19 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
             <Separator />
             <YStack gap="$3">
               <H5>{t('admin.resolution')}</H5>
+
+              {/* Resolution Action Taken */}
+              <YStack>
+                <Text fontSize="$2" theme="alt2" fontWeight="600">
+                  Action Taken
+                </Text>
+                <Text fontSize="$4" textTransform="capitalize">
+                  {report.resolution_action === 'no_action' && 'Report Dismissed - No Action'}
+                  {report.resolution_action === 'hide_item' && '⚠️ Item Hidden from Public View'}
+                  {report.resolution_action === 'remove_item' && '🗑️ Item Permanently Removed'}
+                </Text>
+              </YStack>
+
               {report.resolution_notes && (
                 <YStack>
                   <Text fontSize="$2" theme="alt2" fontWeight="600">
@@ -289,6 +369,27 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
                 </Text>
                 <Text>{report.resolved_at ? formatTimestamp(report.resolved_at, 'en') : 'N/A'}</Text>
               </YStack>
+
+              {/* Allow changing decision (except for removed items) */}
+              {report.resolution_action !== 'remove_item' && (
+                <>
+                  <Separator my="$2" />
+                  <YStack gap="$2">
+                    <Text fontSize="$3" fontWeight="600" theme="alt2">
+                      Need to change your decision?
+                    </Text>
+                    <Button
+                      size="$4"
+                      theme="blue"
+                      variant="outlined"
+                      onPress={handleUnresolve}
+                      disabled={isResolving}
+                    >
+                      Reopen Report & Change Decision
+                    </Button>
+                  </YStack>
+                </>
+              )}
             </YStack>
           </>
         )}

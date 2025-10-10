@@ -86,15 +86,15 @@ export const SearchBar = ({
       )}
 
       {showFilterButton && onFilterPress && (
-        <Button
-          size="$3"
-          icon={Filter}
-          onPress={onFilterPress}
-          bg={activeFilterCount > 0 ? '$blue9' : undefined}
-          borderColor={activeFilterCount > 0 ? '$blue9' : undefined}
-          color={activeFilterCount > 0 ? 'white' : undefined}
-          position="relative"
-        >
+        <XStack position="relative">
+          <Button
+            size="$3"
+            icon={Filter}
+            onPress={onFilterPress}
+            bg={activeFilterCount > 0 ? '$blue9' : undefined}
+            borderColor={activeFilterCount > 0 ? '$blue9' : undefined}
+            color={activeFilterCount > 0 ? 'white' : undefined}
+          />
           {activeFilterCount > 0 && (
             <XStack
               position="absolute"
@@ -107,13 +107,14 @@ export const SearchBar = ({
               ai="center"
               jc="center"
               px="$1"
+              pointerEvents="none"
             >
               <Text fontSize={10} color="white" fontWeight="600">
                 {activeFilterCount}
               </Text>
             </XStack>
           )}
-        </Button>
+        </XStack>
       )}
 
       {showCreateButton && onCreatePress && (

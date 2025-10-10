@@ -53,9 +53,10 @@ rm app.config.js.bak
 
 echo "✅ Version bumped to $NEW_VERSION"
 
-# Commit the version bump
+# Commit and push the version bump
 cd ../..
 git add apps/expo/app.config.js
 git commit -m "chore: bump version to $NEW_VERSION" || echo "⚠️  No changes to commit"
+git push
 
-echo "📝 Version bump committed"
+echo "📝 Version bump committed and pushed"

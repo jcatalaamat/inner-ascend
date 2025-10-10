@@ -14,6 +14,7 @@ export const useDataFiltering = () => {
       '@yourcompany.com',
       '@mazunteconnect.com',
       '@astralintegration.com',
+      '@astral-integration.com',
     ]
     
     return internalDomains.some(domain => user.email?.endsWith(domain))

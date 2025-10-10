@@ -80,7 +80,7 @@ You may optionally configure these email aliases to forward to `hello@`:
 |--------|-------------|-------|
 | Email | All types of inquiries | hello@mazunteconnect.com |
 | WhatsApp | Quick feedback, community | +34 611 144 170 |
-| Instagram | Social engagement | @astralintegration |
+| Instagram | Social engagement | @mazunteconnect |
 
 ## Maintenance
 

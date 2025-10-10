@@ -156,7 +156,7 @@ const SettingsHelpSupportItems = ({ onOpenFeedback }: { onOpenFeedback: () => vo
 
   const handleInstagramPress = () => {
     handleContactPress(
-      'https://instagram.com/astralintegration',
+      'https://instagram.com/mazunteconnect',
       t('settings.contact_unavailable_instagram')
     )
   }

@@ -238,7 +238,7 @@ export function ProfileHeroSection({
               onPress={handleWhatsAppPress}
               f={1}
             >
-              WhatsApp
+              <Text>WhatsApp</Text>
             </Button>
           )}
           {profile.social_instagram && (
@@ -249,7 +249,7 @@ export function ProfileHeroSection({
               onPress={handleInstagramPress}
               f={1}
             >
-              Instagram
+              <Text>Instagram</Text>
             </Button>
           )}
           {profile.social_website && (
@@ -260,7 +260,7 @@ export function ProfileHeroSection({
               onPress={handleWebsitePress}
               f={1}
             >
-              {t('profile.public.website')}
+              <Text>{t('profile.public.website')}</Text>
             </Button>
           )}
         </XStack>

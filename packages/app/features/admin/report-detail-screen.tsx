@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next'
 import { useSupabase } from 'app/utils/supabase/useSupabase'
 import { useUser } from 'app/utils/useUser'
 import { usePostHog } from 'posthog-react-native'
+import { useQueryClient } from '@tanstack/react-query'
 import { router } from 'expo-router'
 import { Flag, Eye, Trash2, Ban, X } from '@tamagui/lucide-icons'
 import type { Report } from 'app/utils/report-types'
@@ -31,6 +32,7 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
   const { user, profile } = useUser()
   const toast = useToastController()
   const posthog = usePostHog()
+  const queryClient = useQueryClient()
 
   const [report, setReport] = useState<Report | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -90,6 +92,10 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
 
       if (error) throw error
 
+      // Invalidate caches to refresh UI
+      queryClient.invalidateQueries({ queryKey: ['events'] })
+      queryClient.invalidateQueries({ queryKey: ['places'] })
+
       toast.show('Report reopened successfully', { duration: 3000 })
       await loadReport() // Reload to show pending state
     } catch (error) {
@@ -139,6 +145,10 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
         .eq('id', report.id)
 
       if (error) throw error
+
+      // Invalidate caches to immediately reflect changes in the UI
+      queryClient.invalidateQueries({ queryKey: ['events'] })
+      queryClient.invalidateQueries({ queryKey: ['places'] })
 
       posthog?.capture('report_resolved', {
         action,

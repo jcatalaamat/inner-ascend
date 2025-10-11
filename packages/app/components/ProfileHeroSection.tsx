@@ -201,9 +201,12 @@ export function ProfileHeroSection({
             <Text fontSize="$7" fontWeight="700" color="$color12">
               {stats.total_views}
             </Text>
-            <Text fontSize="$2" color="$color10" tt="uppercase">
-              <Eye size={12} /> {t('profile.public.total_views', { count: stats.total_views })}
-            </Text>
+            <XStack ai="center" gap="$1">
+              <Eye size={12} color="$color10" />
+              <Text fontSize="$2" color="$color10" tt="uppercase">
+                {t('profile.public.total_views', { count: stats.total_views })}
+              </Text>
+            </XStack>
           </YStack>
         )}
       </XStack>

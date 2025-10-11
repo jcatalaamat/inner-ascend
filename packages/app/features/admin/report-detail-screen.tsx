@@ -99,6 +99,11 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
 
       toast.show('Report reopened successfully', { duration: 3000 })
       await loadReport() // Reload to show pending state
+
+      // Navigate back to reports list so it refreshes
+      setTimeout(() => {
+        router.back()
+      }, 500)
     } catch (error) {
       console.error('Error unresolving report:', error)
       toast.show('Failed to reopen report', { duration: 3000 })
@@ -249,6 +254,11 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
 
       // Reload the report to show updated status
       await loadReport()
+
+      // Navigate back to reports list so it refreshes
+      setTimeout(() => {
+        router.back()
+      }, 500)
     } catch (error) {
       console.error('🔧 ERROR in admin action:', error)
       posthog?.capture('admin_action_error', {

@@ -14,10 +14,11 @@ import { useTranslation } from 'react-i18next'
 import { useSupabase } from 'app/utils/supabase/useSupabase'
 import { useUser } from 'app/utils/useUser'
 import { usePostHog } from 'posthog-react-native'
-import { router } from 'expo-router'
+import { router, useFocusEffect } from 'expo-router'
 import { Flag, AlertCircle, CheckCircle, XCircle } from '@tamagui/lucide-icons'
 import type { Report } from 'app/utils/report-types'
 import { formatTimestamp } from 'app/utils/date-helpers'
+import { useCallback } from 'react'
 
 export function AdminReportsScreen() {
   const { t } = useTranslation()
@@ -39,6 +40,14 @@ export function AdminReportsScreen() {
   useEffect(() => {
     loadReports()
   }, [])
+
+  // Reload reports when screen comes into focus (e.g., coming back from detail screen)
+  useFocusEffect(
+    useCallback(() => {
+      console.log('📋 Reports screen focused - reloading reports')
+      loadReports()
+    }, [])
+  )
 
   useEffect(() => {
     filterReports()

@@ -25,6 +25,7 @@ const getEvents = async (
   let query = supabase.from('events').select('*')
 
   // Filter out items hidden by reports
+  console.log('🔍 Applying hidden_by_reports filter: eq(false)')
   query = query.eq('hidden_by_reports', false)
 
   // Filter by date (only upcoming events by default)
@@ -84,13 +85,23 @@ export function useEventsQuery(filters: EventFilters = {}) {
         }
 
         console.log('Events fetched successfully:', result.data?.length || 0, 'events')
+
+        // DEBUG: Check hidden_by_reports values
+        const hiddenCount = result.data?.filter(e => e.hidden_by_reports === true).length || 0
+        if (hiddenCount > 0) {
+          console.error('🚨 BUG: Query returned', hiddenCount, 'HIDDEN events (should be 0!)')
+          console.error('🚨 Hidden event IDs:', result.data?.filter(e => e.hidden_by_reports).map(e => e.id))
+        } else {
+          console.log('✅ No hidden events in results')
+        }
+
         return result.data as Event[]
       } catch (error) {
         console.error('Events query failed:', error)
         throw error
       }
     },
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 0, // Always refetch (temporary for debugging)
   })
 }
 

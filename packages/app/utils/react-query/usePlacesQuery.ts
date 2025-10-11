@@ -80,7 +80,7 @@ export function usePlacesQuery(filters: PlaceFilters = {}) {
 
       return result.data as Place[]
     },
-    staleTime: 1000 * 60 * 10, // 10 minutes (places don't change as often)
+    staleTime: 0, // Always refetch (temporary for debugging)
   })
 }
 

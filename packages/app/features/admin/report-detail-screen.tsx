@@ -92,9 +92,10 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
 
       if (error) throw error
 
-      // Invalidate caches to refresh UI
-      queryClient.invalidateQueries({ queryKey: ['events'] })
-      queryClient.invalidateQueries({ queryKey: ['places'] })
+      // Force refetch to refresh UI
+      console.log('🔧 Force refetching after unresolve')
+      await queryClient.refetchQueries({ queryKey: ['events'] })
+      await queryClient.refetchQueries({ queryKey: ['places'] })
 
       toast.show('Report reopened successfully', { duration: 3000 })
       await loadReport() // Reload to show pending state
@@ -226,10 +227,11 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
 
       if (error) throw error
 
-      // Invalidate caches to immediately reflect changes in the UI
-      console.log('🔧 Invalidating React Query caches')
-      queryClient.invalidateQueries({ queryKey: ['events'] })
-      queryClient.invalidateQueries({ queryKey: ['places'] })
+      // Force refetch queries to immediately reflect changes in the UI
+      console.log('🔧 Force refetching event and place queries')
+      await queryClient.refetchQueries({ queryKey: ['events'] })
+      await queryClient.refetchQueries({ queryKey: ['places'] })
+      console.log('🔧 Refetch completed')
 
       posthog?.capture('admin_action_success', {
         action,

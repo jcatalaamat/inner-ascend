@@ -1,6 +1,6 @@
 import { useTheme, Button } from '@my/ui'
 import { DrawerActions } from '@react-navigation/native'
-import { Calendar, Heart, Home, MapPin, Menu, Plus, User } from '@tamagui/lucide-icons'
+import { Briefcase, Calendar, Heart, Home, MapPin, Menu, Plus, User } from '@tamagui/lucide-icons'
 import { router, Stack, Tabs, useNavigation, usePathname } from 'expo-router'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useTranslation } from 'react-i18next'
@@ -100,6 +100,17 @@ export default function Layout() {
             title: t('navigation.places'),
             tabBarIcon: ({ size, color, focused }) => (
               <MapPin color={focused ? '$color11' : '$color10'} size={22} strokeWidth={focused ? 2.5 : 2} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="services"
+          key="services"
+          options={{
+            headerShown: false,
+            title: t('navigation.services'),
+            tabBarIcon: ({ size, color, focused }) => (
+              <Briefcase color={focused ? '$color11' : '$color10'} size={22} strokeWidth={focused ? 2.5 : 2} />
             ),
           }}
         />

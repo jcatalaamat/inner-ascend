@@ -76,6 +76,7 @@ export const CreateEventForm = ({ onSuccess }: { onSuccess: () => void }) => {
         contact_instagram: data.contact_instagram?.trim() || null,
         image_url: imageUploadRef.current?.getImageUrl() || null,
         profile_id: user?.id,
+        collaborator_ids: user?.id ? [user.id] : [],
       }
 
       const { error } = await supabase.from('events').insert(insertData)

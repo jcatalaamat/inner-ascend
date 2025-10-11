@@ -178,6 +178,22 @@ function HomeLayout() {
                 }}
               />
               <Stack.Screen
+                name="service/[id]"
+                options={{
+                  headerShown: true,
+                  headerTitle: '',
+                  presentation: 'card',
+                }}
+              />
+              <Stack.Screen
+                name="public-profile/[id]"
+                options={{
+                  headerShown: true,
+                  headerTitle: '',
+                  presentation: 'card',
+                }}
+              />
+              <Stack.Screen
                 name="map"
                 options={{
                   headerShown: true,

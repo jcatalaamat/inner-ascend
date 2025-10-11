@@ -1,11 +1,12 @@
 import { FullscreenSpinner, Text, YStack, XStack, Image, Button, ScrollView, H3, Paragraph, FavoriteButtonWrapper } from '@my/ui'
 import { useEventDetailQuery } from 'app/utils/react-query/useEventsQuery'
+import { useProfileQuery } from 'app/utils/react-query/useProfileQuery'
 import { Calendar, Clock, MapPin, DollarSign, User, Mail, Phone, Globe, Instagram, Navigation, Share2, MessageCircle } from '@tamagui/lucide-icons'
 import { formatDate, formatTime } from 'app/utils/date-helpers'
 import { useTranslation } from 'react-i18next'
 import { usePostHog } from 'posthog-react-native'
 import { useEffect, useState } from 'react'
-import { Linking, Platform, Share } from 'react-native'
+import { Linking, Platform, Share, TouchableOpacity } from 'react-native'
 import { ImageViewer } from 'app/components/ImageViewer'
 import i18n from 'app/i18n'
 import { useAdInterstitial } from 'app/components/AdInterstitial'
@@ -13,6 +14,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { FavoritesProvider } from 'app/contexts/FavoritesContext'
 import { LinearGradient } from '@tamagui/linear-gradient'
 import { ReportButton } from 'app/components/ReportButton'
+import { useRouter } from 'solito/router'
 
 let MapView: any = null
 let Marker: any = null
@@ -35,8 +37,10 @@ const EVENT_VIEW_COUNT_KEY = '@event_detail_view_count'
 
 function EventDetailScreenContent({ id }: EventDetailScreenProps) {
   const { data: event, isLoading, error } = useEventDetailQuery(id)
+  const { data: creator } = useProfileQuery(event?.profile_id)
   const { t } = useTranslation()
   const posthog = usePostHog()
+  const router = useRouter()
   const [imageViewerVisible, setImageViewerVisible] = useState(false)
   const { showInterstitial, isEnabled } = useAdInterstitial()
 
@@ -402,6 +406,54 @@ function EventDetailScreenContent({ id }: EventDetailScreenProps) {
                 {event.description}
               </Paragraph>
             </YStack>
+          )}
+
+          {/* Creator Section */}
+          {creator && (
+            <>
+              <YStack h={1} bg="$borderColor" />
+              <YStack gap="$3">
+                <Text fontSize="$6" fontWeight="700" color="$color12">
+                  {t('events.detail.created_by')}
+                </Text>
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={() => router.push(`/public-profile/${creator.id}`)}
+                >
+                  <XStack
+                    ai="center"
+                    gap="$3"
+                    p="$3"
+                    bg="$background"
+                    borderRadius="$3"
+                    borderWidth={1}
+                    borderColor="$borderColor"
+                  >
+                    <YStack f={1} gap="$1">
+                      <XStack ai="center" gap="$2">
+                        <User size={16} color="$color11" />
+                        <Text fontSize="$5" fontWeight="600" color="$color12">
+                          {creator.name || 'Anonymous'}
+                        </Text>
+                        {creator.creator_verified && (
+                          <Text fontSize="$2" color="$blue10">
+                            ✓
+                          </Text>
+                        )}
+                      </XStack>
+                      {creator.location && (
+                        <Text fontSize="$3" color="$color10">
+                          {creator.location}
+                        </Text>
+                      )}
+                    </YStack>
+                    <Button size="$3" theme="blue" chromeless pointerEvents="none">
+                      {t('profile.public.view_profile')}
+                    </Button>
+                  </XStack>
+                </TouchableOpacity>
+              </YStack>
+            </>
           )}
 
           {/* Organizer & Other Contact */}

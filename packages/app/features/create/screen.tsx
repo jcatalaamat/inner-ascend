@@ -8,9 +8,10 @@ import { useEffect } from 'react'
 
 import { CreateEventForm } from './CreateEventForm'
 import { CreatePlaceForm } from './CreatePlaceForm'
+import { CreateServiceForm } from './CreateServiceForm'
 
 type CreateScreenProps = {
-  type?: 'event' | 'place'
+  type?: 'event' | 'place' | 'service'
 }
 
 export const CreateScreen = ({ type = 'event' }: CreateScreenProps) => {
@@ -50,8 +51,10 @@ export const CreateScreen = ({ type = 'event' }: CreateScreenProps) => {
     >
       {type === 'event' ? (
         <CreateEventForm onSuccess={onSuccess} />
-      ) : (
+      ) : type === 'place' ? (
         <CreatePlaceForm onSuccess={onSuccess} />
+      ) : (
+        <CreateServiceForm onSuccess={onSuccess} />
       )}
     </YStack>
   )

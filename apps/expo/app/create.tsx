@@ -6,10 +6,16 @@ export default function Screen() {
   const { t } = useTranslation()
   const { type } = useLocalSearchParams<{ type?: string }>()
 
+  const getTitle = () => {
+    if (type === 'service') return t('create.service_form.title')
+    if (type === 'place') return t('create.place_form.title')
+    return t('create.event_form.title')
+  }
+
   return (
     <>
-      <Stack.Screen options={{ headerShown: true, title: t('create.title') }} />
-      <CreateScreen type={(type as 'event' | 'place') || 'event'} />
+      <Stack.Screen options={{ headerShown: true, title: getTitle() }} />
+      <CreateScreen type={(type as 'event' | 'place' | 'service') || 'event'} />
     </>
   )
 }

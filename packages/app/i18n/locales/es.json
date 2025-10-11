@@ -20,7 +20,10 @@
     "ad": "Anuncio",
     "learn_more": "Más Información",
     "active": "Activo",
-    "coming_soon": "Próximamente"
+    "coming_soon": "Próximamente",
+    "hour": "hora",
+    "day": "día",
+    "phone": "Teléfono"
   },
   "date": {
     "today": "Hoy",
@@ -47,6 +50,7 @@
     "home": "Inicio",
     "events": "Eventos",
     "places": "Lugares",
+    "services": "Servicios",
     "map": "Mapa",
     "favorites": "Favoritos",
     "profile": "Perfil",
@@ -166,6 +170,50 @@
       "get_directions": "Obtener Direcciones"
     }
   },
+  "services": {
+    "title": "Servicios",
+    "search_placeholder": "Buscar servicios...",
+    "no_results": "No se encontraron servicios",
+    "create": "Ofrecer un Servicio",
+    "categories": {
+      "all": "Todos los Servicios",
+      "wellness": "Bienestar y Sanación",
+      "food": "Comida y Catering",
+      "education": "Clases y Educación",
+      "art": "Arte y Artesanías",
+      "transportation": "Transporte",
+      "accommodation": "Alojamiento",
+      "other": "Otros Servicios"
+    },
+    "price_types": {
+      "free": "Gratis",
+      "fixed": "Precio fijo",
+      "hourly": "Por hora",
+      "daily": "Por día",
+      "negotiable": "Negociable",
+      "donation": "Donación"
+    },
+    "delivery_options": {
+      "in_person": "En persona",
+      "can_travel": "Puedo ir a tu ubicación",
+      "online": "En línea/Virtual",
+      "delivery": "Entrega disponible"
+    },
+    "detail": {
+      "title": "Detalles del Servicio",
+      "not_found": "Servicio no encontrado",
+      "pricing": "Precio",
+      "availability": "Disponibilidad",
+      "delivery": "Cómo funciona",
+      "location": "Ubicación",
+      "contact": "Contacto",
+      "offered_by": "Ofrecido por",
+      "view_all_services": "Ver todos los servicios de {{name}}",
+      "available_now": "Disponible ahora",
+      "response_time": "Responde generalmente {{time}}",
+      "share": "Compartir Servicio"
+    }
+  },
   "map": {
     "title": "Mapa",
     "events": "Eventos",
@@ -207,7 +255,47 @@
     "logout": "Cerrar Sesión",
     "logout_confirm": "¿Estás seguro de que quieres cerrar sesión?",
     "no_name": "Sin Nombre",
-    "avatar_alt": "tu avatar"
+    "avatar_alt": "tu avatar",
+    "public": {
+      "title": "Perfil",
+      "services": "Servicios",
+      "about": "Acerca de",
+      "member_since": "Miembro desde {{date}}",
+      "services_count": "{{count}} servicio",
+      "services_count_plural": "{{count}} servicios",
+      "response_time": "Responde {{time}}",
+      "verified_creator": "Creador Verificado",
+      "view_profile": "Ver Perfil",
+      "no_services": "Sin servicios aún",
+      "not_found": "Perfil no encontrado",
+      "services_offered": "Servicios Ofrecidos",
+      "website": "Sitio Web"
+    },
+    "my_services": "Mis Servicios",
+    "create_service": "Ofrecer un Servicio",
+    "edit_profile_marketplace": "Info del Mercado",
+    "location": "Ubicación",
+    "location_placeholder": "ej., Mazunte",
+    "languages": "Idiomas",
+    "languages_placeholder": "Selecciona idiomas que hablas",
+    "instagram": "Instagram",
+    "instagram_placeholder": "@usuario",
+    "whatsapp": "WhatsApp",
+    "whatsapp_placeholder": "+52 ...",
+    "website": "Sitio Web",
+    "website_placeholder": "https://...",
+    "show_contact": "Mostrar contacto en perfil"
+  },
+  "languages": {
+    "english": "Inglés",
+    "spanish": "Español",
+    "french": "Francés",
+    "german": "Alemán",
+    "portuguese": "Portugués",
+    "italian": "Italiano",
+    "russian": "Ruso",
+    "japanese": "Japonés",
+    "chinese": "Chino"
   },
   "auth": {
     "sign_in": "Iniciar Sesión",
@@ -367,6 +455,29 @@
       "verified": "Verificado",
       "submit": "Crear Lugar",
       "cancel": "Cancelar"
+    },
+    "service_form": {
+      "title": "Ofrecer un Servicio",
+      "subtitle": "Comparte tus habilidades con la comunidad",
+      "service_title": "Título del Servicio",
+      "service_title_placeholder": "ej., Masaje Ayurvédico",
+      "description": "Descripción",
+      "description_placeholder": "Describe tu servicio, qué incluye, tu experiencia...",
+      "category": "Categoría",
+      "price_type": "Tipo de Precio",
+      "price_amount": "Precio",
+      "price_notes": "Notas de Precio",
+      "price_notes_placeholder": "Paquetes, escala móvil, etc.",
+      "delivery_options": "¿Cómo entregas este servicio?",
+      "service_location": "Ubicación del Servicio",
+      "service_location_placeholder": "ej., Mazunte Centro, Tu ubicación",
+      "availability": "Horario de Disponibilidad",
+      "contact_methods": "Métodos de Contacto",
+      "service_options": "Opciones del Servicio",
+      "images": "Fotos",
+      "eco_conscious": "Servicio eco-consciente",
+      "submit": "Publicar Servicio",
+      "success": "¡Servicio publicado exitosamente!"
     }
   },
   "about": {

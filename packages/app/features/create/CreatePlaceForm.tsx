@@ -67,6 +67,7 @@ export const CreatePlaceForm = ({ onSuccess }: { onSuccess: () => void }) => {
         eco_conscious: data.eco_conscious || false,
         images: uploadedImageUrl ? [uploadedImageUrl] : null,
         created_by: user?.id,
+        collaborator_ids: user?.id ? [user.id] : [],
       }
       await supabase.from('places').insert(insertData)
     },

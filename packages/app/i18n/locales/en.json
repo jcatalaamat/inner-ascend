@@ -20,7 +20,10 @@
     "ad": "Ad",
     "learn_more": "Learn More",
     "active": "Active",
-    "coming_soon": "Coming Soon"
+    "coming_soon": "Coming Soon",
+    "hour": "hour",
+    "day": "day",
+    "phone": "Phone"
   },
   "date": {
     "today": "Today",
@@ -47,6 +50,7 @@
     "home": "Home",
     "events": "Events",
     "places": "Places",
+    "services": "Services",
     "map": "Map",
     "favorites": "Favorites",
     "profile": "Profile",
@@ -166,6 +170,50 @@
       "get_directions": "Get Directions"
     }
   },
+  "services": {
+    "title": "Services",
+    "search_placeholder": "Search services...",
+    "no_results": "No services found",
+    "create": "Offer a Service",
+    "categories": {
+      "all": "All Services",
+      "wellness": "Wellness & Healing",
+      "food": "Food & Catering",
+      "education": "Classes & Education",
+      "art": "Art & Crafts",
+      "transportation": "Transportation",
+      "accommodation": "Accommodation",
+      "other": "Other Services"
+    },
+    "price_types": {
+      "free": "Free",
+      "fixed": "Fixed price",
+      "hourly": "Per hour",
+      "daily": "Per day",
+      "negotiable": "Negotiable",
+      "donation": "Donation-based"
+    },
+    "delivery_options": {
+      "in_person": "In person",
+      "can_travel": "Can travel to you",
+      "online": "Online/Virtual",
+      "delivery": "Delivery available"
+    },
+    "detail": {
+      "title": "Service Details",
+      "not_found": "Service not found",
+      "pricing": "Pricing",
+      "availability": "Availability",
+      "delivery": "How it works",
+      "location": "Location",
+      "contact": "Contact",
+      "offered_by": "Offered by",
+      "view_all_services": "View all services by {{name}}",
+      "available_now": "Available now",
+      "response_time": "Usually responds {{time}}",
+      "share": "Share Service"
+    }
+  },
   "map": {
     "title": "Map",
     "events": "Events",
@@ -207,7 +255,47 @@
     "logout": "Logout",
     "logout_confirm": "Are you sure you want to logout?",
     "no_name": "No Name",
-    "avatar_alt": "your avatar"
+    "avatar_alt": "your avatar",
+    "public": {
+      "title": "Profile",
+      "services": "Services",
+      "about": "About",
+      "member_since": "Member since {{date}}",
+      "services_count": "{{count}} service",
+      "services_count_plural": "{{count}} services",
+      "response_time": "Responds {{time}}",
+      "verified_creator": "Verified Creator",
+      "view_profile": "View Profile",
+      "no_services": "No services yet",
+      "not_found": "Profile not found",
+      "services_offered": "Services Offered",
+      "website": "Website"
+    },
+    "my_services": "My Services",
+    "create_service": "Offer a Service",
+    "edit_profile_marketplace": "Marketplace Info",
+    "location": "Location",
+    "location_placeholder": "e.g., Mazunte",
+    "languages": "Languages",
+    "languages_placeholder": "Select languages you speak",
+    "instagram": "Instagram",
+    "instagram_placeholder": "@username",
+    "whatsapp": "WhatsApp",
+    "whatsapp_placeholder": "+52 ...",
+    "website": "Website",
+    "website_placeholder": "https://...",
+    "show_contact": "Show contact info on profile"
+  },
+  "languages": {
+    "english": "English",
+    "spanish": "Spanish",
+    "french": "French",
+    "german": "German",
+    "portuguese": "Portuguese",
+    "italian": "Italian",
+    "russian": "Russian",
+    "japanese": "Japanese",
+    "chinese": "Chinese"
   },
   "auth": {
     "sign_in": "Sign In",
@@ -367,6 +455,29 @@
       "verified": "Verified",
       "submit": "Create Place",
       "cancel": "Cancel"
+    },
+    "service_form": {
+      "title": "Offer a Service",
+      "subtitle": "Share your skills with the community",
+      "service_title": "Service Title",
+      "service_title_placeholder": "e.g., Ayurvedic Massage",
+      "description": "Description",
+      "description_placeholder": "Describe your service, what's included, your experience...",
+      "category": "Category",
+      "price_type": "Pricing Type",
+      "price_amount": "Price",
+      "price_notes": "Pricing Notes",
+      "price_notes_placeholder": "Package deals, sliding scale, etc.",
+      "delivery_options": "How do you deliver this service?",
+      "service_location": "Service Location",
+      "service_location_placeholder": "e.g., Mazunte Centro, Your location",
+      "availability": "Availability Schedule",
+      "contact_methods": "Contact Methods",
+      "service_options": "Service Options",
+      "images": "Photos",
+      "eco_conscious": "Eco-conscious service",
+      "submit": "Publish Service",
+      "success": "Service published successfully!"
     }
   },
   "about": {

@@ -130,14 +130,14 @@ function PublicProfileScreenContent({ profileId }: PublicProfileScreenProps) {
             onPress={handleShareProfile}
             f={1}
           >
-            {t('profile.public.share_profile')}
+            <Text>{t('profile.public.share_profile')}</Text>
           </Button>
           <Button
             size="$3"
             variant="outlined"
             onPress={handleCopyLink}
           >
-            {t('profile.public.copy_link')}
+            <Text>{t('profile.public.copy_link')}</Text>
           </Button>
         </XStack>
 
@@ -296,7 +296,7 @@ function PublicProfileScreenContent({ profileId }: PublicProfileScreenProps) {
                       chromeless
                       onPress={() => setShowPastEvents(!showPastEvents)}
                     >
-                      {showPastEvents ? '−' : '+'} {pastEvents.length}
+                      <Text>{showPastEvents ? '−' : '+'} {pastEvents.length}</Text>
                     </Button>
                   </XStack>
                   {showPastEvents && (

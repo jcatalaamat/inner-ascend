@@ -118,8 +118,8 @@ export function ProfileHeroSection({
                 py="$1"
                 borderRadius="$2"
               >
-                <Text fontSize="$2" fontWeight="700" color="white">
-                  👑 {t('profile.public.admin_badge')}
+                <Text fontSize="$2" fontWeight="700" color="$color12">
+                  {`👑 ${t('profile.public.admin_badge')}`}
                 </Text>
               </YStack>
             )}
@@ -222,7 +222,7 @@ export function ProfileHeroSection({
       {stats?.avg_response_time && (
         <XStack ai="center" gap="$2" bg="$green3" px="$3" py="$2" borderRadius="$3">
           <Text fontSize="$3" color="$green11">
-            ⚡ {t('profile.public.usually_responds', { time: stats.avg_response_time })}
+            {`⚡ ${t('profile.public.usually_responds', { time: stats.avg_response_time })}`}
           </Text>
         </XStack>
       )}

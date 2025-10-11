@@ -133,23 +133,20 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
     try {
       // Step 1: Perform the item action (hide or remove)
       if (action === 'hide') {
-        // Manually hide the item
-        const tableName = report.item_type === 'event' ? 'events' : 'places'
-        console.log(`🔧 Attempting to hide ${tableName}:`, report.item_id)
+        // Use admin function to hide item (bypasses RLS)
+        const functionName = report.item_type === 'event' ? 'admin_hide_event' : 'admin_hide_place'
+        const paramName = report.item_type === 'event' ? 'event_id' : 'place_id'
+        console.log(`🔧 Calling ${functionName}:`, report.item_id)
 
-        const { data, error: hideError, status, statusText } = await supabase
-          .from(tableName)
-          .update({ hidden_by_reports: true })
-          .eq('id', report.item_id)
-          .select()
+        const { data, error: hideError } = await supabase.rpc(functionName, {
+          [paramName]: report.item_id,
+          admin_user_id: user.id,
+        })
 
         console.log('🔧 Hide result:', {
           success: !hideError,
           data,
           error: hideError,
-          status,
-          statusText,
-          rowsAffected: data?.length || 0
         })
 
         if (hideError) {
@@ -162,36 +159,21 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
           throw hideError
         }
 
-        if (!data || data.length === 0) {
-          const noRowsError = new Error('No rows updated - RLS policy may be blocking this action')
-          console.error('🔧 RLS POLICY ISSUE:', noRowsError.message)
-          posthog?.capture('admin_action_failed', {
-            action: 'hide',
-            item_type: report.item_type,
-            error: 'no_rows_updated',
-            possible_cause: 'rls_policy_blocking',
-          })
-          throw noRowsError
-        }
-
       } else if (action === 'remove') {
-        // Actually delete the item
-        const tableName = report.item_type === 'event' ? 'events' : 'places'
-        console.log(`🔧 Attempting to delete ${tableName}:`, report.item_id)
+        // Use admin function to delete item (bypasses RLS)
+        const functionName = report.item_type === 'event' ? 'admin_delete_event' : 'admin_delete_place'
+        const paramName = report.item_type === 'event' ? 'event_id' : 'place_id'
+        console.log(`🔧 Calling ${functionName}:`, report.item_id)
 
-        const { data, error: deleteError, status, statusText } = await supabase
-          .from(tableName)
-          .delete()
-          .eq('id', report.item_id)
-          .select()
+        const { data, error: deleteError } = await supabase.rpc(functionName, {
+          [paramName]: report.item_id,
+          admin_user_id: user.id,
+        })
 
         console.log('🔧 Delete result:', {
           success: !deleteError,
           data,
           error: deleteError,
-          status,
-          statusText,
-          rowsAffected: data?.length || 0
         })
 
         if (deleteError) {
@@ -202,18 +184,6 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
             code: deleteError.code,
           })
           throw deleteError
-        }
-
-        if (!data || data.length === 0) {
-          const noRowsError = new Error('No rows deleted - RLS policy may be blocking this action')
-          console.error('🔧 RLS POLICY ISSUE:', noRowsError.message)
-          posthog?.capture('admin_action_failed', {
-            action: 'remove',
-            item_type: report.item_type,
-            error: 'no_rows_deleted',
-            possible_cause: 'rls_policy_blocking',
-          })
-          throw noRowsError
         }
       }
 

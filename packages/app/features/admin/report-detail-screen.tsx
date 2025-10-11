@@ -67,13 +67,15 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
 
     setIsResolving(true)
     try {
-      // If item was hidden (not removed), restore it
+      // If item was hidden (not removed), restore it using admin function
       if (report.resolution_action === 'hide_item') {
-        const tableName = report.item_type === 'event' ? 'events' : 'places'
-        const { error: restoreError } = await supabase
-          .from(tableName)
-          .update({ hidden_by_reports: false })
-          .eq('id', report.item_id)
+        const functionName = report.item_type === 'event' ? 'admin_restore_event' : 'admin_restore_place'
+        const paramName = report.item_type === 'event' ? 'event_id' : 'place_id'
+
+        const { error: restoreError } = await supabase.rpc(functionName, {
+          [paramName]: report.item_id,
+          admin_user_id: user.id,
+        })
 
         if (restoreError) throw restoreError
       }
@@ -98,12 +100,7 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
       await queryClient.refetchQueries({ queryKey: ['places'] })
 
       toast.show('Report reopened successfully', { duration: 3000 })
-      await loadReport() // Reload to show pending state
-
-      // Navigate back to reports list so it refreshes
-      setTimeout(() => {
-        router.back()
-      }, 500)
+      await loadReport() // Reload to show pending state - stay on screen to take action
     } catch (error) {
       console.error('Error unresolving report:', error)
       toast.show('Failed to reopen report', { duration: 3000 })

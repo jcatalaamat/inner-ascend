@@ -34,7 +34,7 @@ interface EventDetailScreenProps {
 const EVENT_VIEW_COUNT_KEY = '@event_detail_view_count'
 
 function EventDetailScreenContent({ id }: EventDetailScreenProps) {
-  const { data: event, isLoading } = useEventDetailQuery(id)
+  const { data: event, isLoading, error } = useEventDetailQuery(id)
   const { t } = useTranslation()
   const posthog = usePostHog()
   const [imageViewerVisible, setImageViewerVisible] = useState(false)
@@ -191,6 +191,20 @@ function EventDetailScreenContent({ id }: EventDetailScreenProps) {
 
   if (isLoading) {
     return <FullscreenSpinner />
+  }
+
+  if (error) {
+    console.error('Event detail error:', error)
+    return (
+      <YStack f={1} ai="center" jc="center" bg="$background" gap="$2">
+        <Text fontSize="$5" color="$red10">
+          {t('events.detail.not_found')}
+        </Text>
+        <Text fontSize="$3" color="$color10">
+          {error.message}
+        </Text>
+      </YStack>
+    )
   }
 
   if (!event) {

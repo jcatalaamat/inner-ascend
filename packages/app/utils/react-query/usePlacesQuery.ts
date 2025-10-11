@@ -24,8 +24,8 @@ const getPlaces = async (
 ) => {
   let query = supabase.from('places').select('*')
 
-  // Filter out items hidden by reports
-  query = query.eq('hidden_by_reports', false)
+  // Filter out items hidden by reports (client-side filtering for places screen)
+  // Note: Detail screens will show all places regardless of hidden status
 
   // Filter by type
   if (filters.type) {
@@ -78,7 +78,10 @@ export function usePlacesQuery(filters: PlaceFilters = {}) {
         throw new Error(result.error.message)
       }
 
-      return result.data as Place[]
+      // Filter out hidden places on client side
+      const visiblePlaces = result.data?.filter(p => !p.hidden_by_reports) || []
+
+      return visiblePlaces as Place[]
     },
     staleTime: 0, // Always refetch (temporary for debugging)
   })

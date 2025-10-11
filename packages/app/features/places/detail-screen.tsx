@@ -28,7 +28,7 @@ interface PlaceDetailScreenProps {
 }
 
 function PlaceDetailScreenContent({ id }: PlaceDetailScreenProps) {
-  const { data: place, isLoading } = usePlaceDetailQuery(id)
+  const { data: place, isLoading, error } = usePlaceDetailQuery(id)
   const { t } = useTranslation()
   const [imageViewerVisible, setImageViewerVisible] = useState(false)
   const posthog = usePostHog()
@@ -50,6 +50,20 @@ function PlaceDetailScreenContent({ id }: PlaceDetailScreenProps) {
 
   if (isLoading) {
     return <FullscreenSpinner />
+  }
+
+  if (error) {
+    console.error('Place detail error:', error)
+    return (
+      <YStack f={1} ai="center" jc="center" bg="$background" gap="$2">
+        <Text fontSize="$5" color="$red10">
+          {t('places.detail.not_found')}
+        </Text>
+        <Text fontSize="$3" color="$color10">
+          {error.message}
+        </Text>
+      </YStack>
+    )
   }
 
   if (!place) {

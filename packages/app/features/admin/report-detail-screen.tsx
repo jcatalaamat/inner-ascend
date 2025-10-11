@@ -109,30 +109,110 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
   const handleResolve = async (action: 'dismiss' | 'hide' | 'remove') => {
     if (!report || !user) return
 
+    console.log('🔧 Admin action started:', {
+      action,
+      item_type: report.item_type,
+      item_id: report.item_id,
+      admin_id: user.id,
+      is_admin: profile?.is_admin,
+    })
+
+    posthog?.capture('admin_action_started', {
+      action,
+      item_type: report.item_type,
+      item_id: report.item_id,
+    })
+
     setIsResolving(true)
     try {
       // Step 1: Perform the item action (hide or remove)
       if (action === 'hide') {
         // Manually hide the item
         const tableName = report.item_type === 'event' ? 'events' : 'places'
-        const { error: hideError } = await supabase
+        console.log(`🔧 Attempting to hide ${tableName}:`, report.item_id)
+
+        const { data, error: hideError, status, statusText } = await supabase
           .from(tableName)
           .update({ hidden_by_reports: true })
           .eq('id', report.item_id)
+          .select()
 
-        if (hideError) throw hideError
+        console.log('🔧 Hide result:', {
+          success: !hideError,
+          data,
+          error: hideError,
+          status,
+          statusText,
+          rowsAffected: data?.length || 0
+        })
+
+        if (hideError) {
+          posthog?.capture('admin_action_failed', {
+            action: 'hide',
+            item_type: report.item_type,
+            error: hideError.message,
+            code: hideError.code,
+          })
+          throw hideError
+        }
+
+        if (!data || data.length === 0) {
+          const noRowsError = new Error('No rows updated - RLS policy may be blocking this action')
+          console.error('🔧 RLS POLICY ISSUE:', noRowsError.message)
+          posthog?.capture('admin_action_failed', {
+            action: 'hide',
+            item_type: report.item_type,
+            error: 'no_rows_updated',
+            possible_cause: 'rls_policy_blocking',
+          })
+          throw noRowsError
+        }
+
       } else if (action === 'remove') {
         // Actually delete the item
         const tableName = report.item_type === 'event' ? 'events' : 'places'
-        const { error: deleteError } = await supabase
+        console.log(`🔧 Attempting to delete ${tableName}:`, report.item_id)
+
+        const { data, error: deleteError, status, statusText } = await supabase
           .from(tableName)
           .delete()
           .eq('id', report.item_id)
+          .select()
 
-        if (deleteError) throw deleteError
+        console.log('🔧 Delete result:', {
+          success: !deleteError,
+          data,
+          error: deleteError,
+          status,
+          statusText,
+          rowsAffected: data?.length || 0
+        })
+
+        if (deleteError) {
+          posthog?.capture('admin_action_failed', {
+            action: 'remove',
+            item_type: report.item_type,
+            error: deleteError.message,
+            code: deleteError.code,
+          })
+          throw deleteError
+        }
+
+        if (!data || data.length === 0) {
+          const noRowsError = new Error('No rows deleted - RLS policy may be blocking this action')
+          console.error('🔧 RLS POLICY ISSUE:', noRowsError.message)
+          posthog?.capture('admin_action_failed', {
+            action: 'remove',
+            item_type: report.item_type,
+            error: 'no_rows_deleted',
+            possible_cause: 'rls_policy_blocking',
+          })
+          throw noRowsError
+        }
       }
 
       // Step 2: Update the report status
+      console.log('🔧 Updating report status')
       const { error } = await supabase
         .from('reports')
         .update({
@@ -147,10 +227,11 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
       if (error) throw error
 
       // Invalidate caches to immediately reflect changes in the UI
+      console.log('🔧 Invalidating React Query caches')
       queryClient.invalidateQueries({ queryKey: ['events'] })
       queryClient.invalidateQueries({ queryKey: ['places'] })
 
-      posthog?.capture('report_resolved', {
+      posthog?.capture('admin_action_success', {
         action,
         item_type: report.item_type,
         reason: report.reason,
@@ -161,12 +242,18 @@ export function ReportDetailScreen({ id }: ReportDetailScreenProps) {
         action === 'hide' ? `${t('admin.resolve_success')} - Item hidden` :
         `${t('admin.resolve_success')} - Item removed`
 
+      console.log('🔧 Admin action completed successfully:', action)
       toast.show(successMessage, { duration: 3000 })
 
       // Reload the report to show updated status
       await loadReport()
     } catch (error) {
-      console.error('Error resolving report:', error)
+      console.error('🔧 ERROR in admin action:', error)
+      posthog?.capture('admin_action_error', {
+        action,
+        item_type: report.item_type,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      })
       toast.show(t('admin.resolve_error'), { duration: 3000 })
     } finally {
       setIsResolving(false)

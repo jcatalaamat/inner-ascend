@@ -1,4 +1,4 @@
-import { YStack, XStack, H2, Text, Button } from '@my/ui'
+import { YStack, XStack, Text, Button } from '@my/ui'
 import { User, MapPin, Globe, Instagram, MessageCircle, Calendar, Eye } from '@tamagui/lucide-icons'
 import { useTranslation } from 'react-i18next'
 import { Linking } from 'react-native'
@@ -110,7 +110,9 @@ export function ProfileHeroSection({
         {/* Name and Info */}
         <YStack f={1} gap="$2">
           <XStack ai="center" gap="$2" flexWrap="wrap">
-            <H2>{profile.name || 'Anonymous'}</H2>
+            <Text fontSize="$8" fontWeight="700" color="$color12">
+              {profile.name || 'Anonymous'}
+            </Text>
             {profile.is_admin && (
               <YStack
                 bg="$purple10"
@@ -196,7 +198,7 @@ export function ProfileHeroSection({
             </Text>
           </YStack>
         )}
-        {stats?.total_views && stats.total_views > 50 && (
+        {stats?.total_views !== undefined && stats.total_views !== null && stats.total_views > 50 && (
           <YStack ai="center" gap="$1">
             <Text fontSize="$7" fontWeight="700" color="$color12">
               {stats.total_views}
@@ -238,7 +240,7 @@ export function ProfileHeroSection({
               onPress={handleWhatsAppPress}
               f={1}
             >
-              <Text>WhatsApp</Text>
+              <Button.Text>WhatsApp</Button.Text>
             </Button>
           )}
           {profile.social_instagram && (
@@ -249,7 +251,7 @@ export function ProfileHeroSection({
               onPress={handleInstagramPress}
               f={1}
             >
-              <Text>Instagram</Text>
+              <Button.Text>Instagram</Button.Text>
             </Button>
           )}
           {profile.social_website && (
@@ -260,7 +262,7 @@ export function ProfileHeroSection({
               onPress={handleWebsitePress}
               f={1}
             >
-              <Text>{t('profile.public.website')}</Text>
+              <Button.Text>{t('profile.public.website')}</Button.Text>
             </Button>
           )}
         </XStack>

@@ -41,14 +41,35 @@ export const EditProfileScreen = () => {
   if (!profile || !user?.id) {
     return <FullscreenSpinner />
   }
-  return <EditProfileForm userId={user.id} initial={{ name: profile.name, about: profile.about }} />
+  return (
+    <EditProfileForm
+      userId={user.id}
+      initial={{
+        name: profile.name,
+        about: profile.about,
+        location: profile.location,
+        social_instagram: profile.social_instagram,
+        social_website: profile.social_website,
+        social_whatsapp: profile.social_whatsapp,
+        show_contact_on_profile: profile.show_contact_on_profile,
+      }}
+    />
+  )
 }
 
 const EditProfileForm = ({
   initial,
   userId,
 }: {
-  initial: { name: string | null; about: string | null }
+  initial: {
+    name: string | null
+    about: string | null
+    location: string | null
+    social_instagram: string | null
+    social_website: string | null
+    social_whatsapp: string | null
+    show_contact_on_profile: boolean | null
+  }
   userId: string
 }) => {
   const { params } = useParams()
@@ -68,12 +89,25 @@ const EditProfileForm = ({
   const ProfileSchema = z.object({
     name: formFields.text.describe(`${t('profile.name')} // ${t('profile.name_placeholder')}`),
     about: formFields.textarea.describe(`${t('profile.about')} // ${t('profile.about_placeholder')}`),
+    location: formFields.text.optional().describe(`${t('profile.location')} // ${t('profile.location_placeholder')}`),
+    social_instagram: formFields.text.optional().describe(`${t('profile.instagram_handle')} // ${t('profile.instagram_placeholder')}`),
+    social_website: formFields.text.optional().describe(`${t('profile.website_url')} // ${t('profile.website_placeholder')}`),
+    social_whatsapp: formFields.text.optional().describe(`${t('profile.whatsapp_number')} // ${t('profile.whatsapp_placeholder')}`),
+    show_contact_on_profile: formFields.boolean_checkbox.optional().describe(`${t('profile.show_contact_on_profile')}`),
   })
   const mutation = useMutation({
     async mutationFn(data: z.infer<typeof ProfileSchema>) {
       await supabase
         .from('profiles')
-        .update({ name: data.name, about: data.about })
+        .update({
+          name: data.name,
+          about: data.about,
+          location: data.location || null,
+          social_instagram: data.social_instagram || null,
+          social_website: data.social_website || null,
+          social_whatsapp: data.social_whatsapp || null,
+          show_contact_on_profile: data.show_contact_on_profile || false,
+        })
         .eq('id', userId)
     },
 
@@ -115,13 +149,6 @@ const EditProfileForm = ({
     <FormWrapper>
       <FormWrapper.Body>
         <YStack gap="$4">
-          {/* Settings Button - Top Right */}
-          <XStack pos='absolute' right={"$1"} zIndex={10} jc="flex-end">
-            <Button circular onPress={handleSettings}>
-              <Cog size={28} />
-            </Button>
-          </XStack>
-
           {/* Avatar */}
           <YStack ai="center" jc="center">
             <UploadAvatar>
@@ -144,6 +171,11 @@ const EditProfileForm = ({
             defaultValues={{
               name: initial.name ?? '',
               about: initial.about ?? '',
+              location: initial.location ?? '',
+              social_instagram: initial.social_instagram ?? '',
+              social_website: initial.social_website ?? '',
+              social_whatsapp: initial.social_whatsapp ?? '',
+              show_contact_on_profile: initial.show_contact_on_profile ?? false,
             }}
             onSubmit={(values) => mutation.mutate(values)}
             renderAfter={({ submit }) => (

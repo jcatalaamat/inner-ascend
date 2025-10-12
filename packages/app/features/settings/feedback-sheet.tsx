@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button, Input, Select, Sheet, TextArea, YStack, XStack, H4, Text, Adapt, useToastController } from '@my/ui'
 import { MessageSquarePlus, X } from '@tamagui/lucide-icons'
 import { useTranslation } from 'react-i18next'
@@ -7,30 +7,32 @@ import { usePostHog } from 'posthog-react-native'
 import * as Device from 'expo-device'
 import * as Application from 'expo-application'
 
-type FeedbackType = 'feedback' | 'feature_request' | 'bug_report'
+type FeedbackType = 'feedback' | 'feature_request' | 'bug_report' | 'support' | 'contact' | 'delete_account'
 
 interface FeedbackSheetProps {
   open: boolean
   onOpenChange: (open: boolean) => void
+  initialType?: FeedbackType
 }
 
-export const FeedbackSheet = ({ open, onOpenChange }: FeedbackSheetProps) => {
+export const FeedbackSheet = ({ open, onOpenChange, initialType = 'feedback' }: FeedbackSheetProps) => {
   const { t } = useTranslation()
   const supabase = useSupabase()
   const toast = useToastController()
   const posthog = usePostHog()
 
-  const [type, setType] = useState<FeedbackType>('feedback')
+  const [type, setType] = useState<FeedbackType>(initialType)
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
-  // Track when sheet is opened
-  useState(() => {
+  // Track when sheet is opened and reset type to initialType
+  useEffect(() => {
     if (open) {
-      posthog?.capture('feedback_sheet_opened')
+      setType(initialType)
+      posthog?.capture('feedback_sheet_opened', { type: initialType })
     }
-  })
+  }, [open, initialType, posthog])
 
   const handleSubmit = async () => {
     if (!title.trim() || !description.trim()) {
@@ -149,6 +151,15 @@ export const FeedbackSheet = ({ open, onOpenChange }: FeedbackSheetProps) => {
                 </Select.Item>
                 <Select.Item index={2} value="bug_report">
                   <Select.ItemText>{t('feedback.types.bug_report') || 'Bug Report'}</Select.ItemText>
+                </Select.Item>
+                <Select.Item index={3} value="support">
+                  <Select.ItemText>{t('feedback.types.support') || 'Support Request'}</Select.ItemText>
+                </Select.Item>
+                <Select.Item index={4} value="contact">
+                  <Select.ItemText>{t('feedback.types.contact') || 'General Contact'}</Select.ItemText>
+                </Select.Item>
+                <Select.Item index={5} value="delete_account">
+                  <Select.ItemText>{t('feedback.types.delete_account') || 'Delete Account Request'}</Select.ItemText>
                 </Select.Item>
               </Select.Viewport>
             </Select.Content>

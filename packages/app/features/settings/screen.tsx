@@ -21,14 +21,20 @@ export const SettingsScreen = () => {
   const posthog = usePostHog()
   const { profile } = useUser()
   const [feedbackOpen, setFeedbackOpen] = useState(false)
+  const [feedbackType, setFeedbackType] = useState<'feedback' | 'feature_request' | 'bug_report' | 'support' | 'contact' | 'delete_account'>('feedback')
 
   useEffect(() => {
     posthog?.capture('settings_screen_viewed')
   }, [posthog])
 
+  const openFeedbackSheet = (type: typeof feedbackType) => {
+    setFeedbackType(type)
+    setFeedbackOpen(true)
+  }
+
   return (
     <YStack f={1}>
-      <FeedbackSheet open={feedbackOpen} onOpenChange={setFeedbackOpen} />
+      <FeedbackSheet open={feedbackOpen} onOpenChange={setFeedbackOpen} initialType={feedbackType} />
 
       <ScrollView>
         <Settings>
@@ -93,7 +99,7 @@ export const SettingsScreen = () => {
             )}
             {/* Help & Support */}
             <Settings.Group>
-              <SettingsHelpSupportItems onOpenFeedback={() => setFeedbackOpen(true)} />
+              <SettingsHelpSupportItems openFeedbackSheet={openFeedbackSheet} />
             </Settings.Group>
             {isWeb && <Separator boc="$color3" mx="$-4" bw="$0.25" />}
             {/* About & Legal */}
@@ -129,7 +135,7 @@ export const SettingsScreen = () => {
             {isWeb && <Separator boc="$color3" mx="$-4" bw="$0.25" />}
             {/* Account Actions */}
             <Settings.Group>
-              <SettingsDeleteAccountAction />
+              <SettingsDeleteAccountAction openFeedbackSheet={openFeedbackSheet} />
               <SettingsItemLogoutAction />
             </Settings.Group>
           </Settings.Items>
@@ -156,7 +162,7 @@ const SettingsThemeAction = () => {
 }
 
 
-const SettingsHelpSupportItems = ({ onOpenFeedback }: { onOpenFeedback: () => void }) => {
+const SettingsHelpSupportItems = ({ openFeedbackSheet }: { openFeedbackSheet: (type: 'feedback' | 'support' | 'contact') => void }) => {
   const { t } = useTranslation()
   const toast = useToastController()
 
@@ -187,23 +193,9 @@ const SettingsHelpSupportItems = ({ onOpenFeedback }: { onOpenFeedback: () => vo
     )
   }
 
-  const handleEmailPress = () => {
-    handleContactPress(
-      'mailto:hello@mazunteconnect.com?subject=Mazunte%20Connect%20-%20Feedback',
-      t('settings.contact_unavailable_email')
-    )
-  }
-
-  const handleSupportPress = () => {
-    handleContactPress(
-      'mailto:hello@mazunteconnect.com?subject=Mazunte%20Connect%20-%20Support%20Request',
-      t('settings.contact_unavailable_email')
-    )
-  }
-
   return (
     <>
-      <Settings.Item icon={MessageSquarePlus} onPress={onOpenFeedback} accentTheme="orange">
+      <Settings.Item icon={MessageSquarePlus} onPress={() => openFeedbackSheet('feedback')} accentTheme="orange">
         {t('settings.send_feedback')}
       </Settings.Item>
       <Settings.Item icon={MessageCircle} onPress={handleWhatsAppPress} accentTheme="green">
@@ -212,43 +204,21 @@ const SettingsHelpSupportItems = ({ onOpenFeedback }: { onOpenFeedback: () => vo
       <Settings.Item icon={Instagram} onPress={handleInstagramPress} accentTheme="purple">
         {t('settings.contact_instagram')}
       </Settings.Item>
-      <Settings.Item icon={Mail} onPress={handleEmailPress} accentTheme="blue">
+      <Settings.Item icon={Mail} onPress={() => openFeedbackSheet('contact')} accentTheme="blue">
         {t('settings.contact_email')}
       </Settings.Item>
-      <Settings.Item icon={HelpCircle} onPress={handleSupportPress} accentTheme="blue">
+      <Settings.Item icon={HelpCircle} onPress={() => openFeedbackSheet('support')} accentTheme="blue">
         {t('settings.contact_support')}
       </Settings.Item>
     </>
   )
 }
 
-const SettingsDeleteAccountAction = () => {
+const SettingsDeleteAccountAction = ({ openFeedbackSheet }: { openFeedbackSheet: (type: 'delete_account') => void }) => {
   const { t } = useTranslation()
-  const toast = useToastController()
-  const supabase = useSupabase()
-
-  const handleDeleteAccountPress = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser()
-      const userEmail = user?.email || 'unknown'
-      const userId = user?.id || 'unknown'
-
-      const emailBody = `I would like to request deletion of my account.%0D%0A%0D%0AUser Email: ${userEmail}%0D%0AUser ID: ${userId}`
-      const url = `mailto:hello@mazunteconnect.com?subject=Account%20Deletion%20Request&body=${emailBody}`
-
-      const canOpen = await Linking.canOpenURL(url)
-      if (canOpen) {
-        await Linking.openURL(url)
-      } else {
-        toast.show(t('settings.contact_unavailable_email'), { duration: 5000 })
-      }
-    } catch (error) {
-      toast.show(t('settings.contact_unavailable_email'), { duration: 5000 })
-    }
-  }
 
   return (
-    <Settings.Item icon={Trash2} accentTheme="red" onPress={handleDeleteAccountPress}>
+    <Settings.Item icon={Trash2} accentTheme="red" onPress={() => openFeedbackSheet('delete_account')}>
       {t('settings.delete_account')}
     </Settings.Item>
   )

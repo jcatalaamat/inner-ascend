@@ -236,11 +236,14 @@
     "explore_events_places": "Explore Events & Places",
     "events": "Events",
     "places": "Places",
+    "services": "Services",
     "no_favorite_events": "No favorite events yet",
     "no_favorite_places": "No favorite places yet",
+    "no_favorite_services": "No favorite services yet",
     "tap_heart_to_save": "Tap ❤️ on events to save them",
     "tap_heart_events": "Tap ❤️ on events to save them",
-    "tap_heart_places": "Tap ❤️ on places to save them"
+    "tap_heart_places": "Tap ❤️ on places to save them",
+    "tap_heart_services": "Tap ❤️ on services to save them"
   },
   "profile": {
     "title": "Profile",
@@ -306,7 +309,34 @@
     "whatsapp_placeholder": "+52 ...",
     "website": "Website",
     "website_placeholder": "https://...",
-    "show_contact": "Show contact info on profile"
+    "show_contact": "Show contact info on profile",
+    "my_profile": "My Profile",
+    "personal_view": "Personal",
+    "creator_view": "Creator",
+    "my_favorites": "My Favorites",
+    "my_events": "My Events",
+    "my_places": "My Places",
+    "upcoming_events_tab": "Upcoming",
+    "past_events_tab": "Past",
+    "quick_settings": "Quick Settings",
+    "more_settings": "More Settings",
+    "edit_profile_button": "Edit Profile",
+    "view_public_profile": "View Public",
+    "share_my_profile": "Share",
+    "no_favorites_yet": "No favorites yet",
+    "no_services_yet": "No services created yet",
+    "no_events_yet": "No events created yet",
+    "no_places_yet": "No places added yet",
+    "tap_heart_to_favorite": "Tap ❤️ on events, places, or services to save them here",
+    "create_your_first": "Create your first {{type}}",
+    "view_all": "View All",
+    "social_links": "Social Links",
+    "instagram_handle": "Instagram",
+    "website_url": "Website",
+    "whatsapp_number": "WhatsApp",
+    "show_contact_on_profile": "Show contact info on public profile",
+    "profile_shared": "Profile link shared!",
+    "profile_link_copied": "Profile link copied to clipboard!"
   },
   "languages": {
     "english": "English",
@@ -373,10 +403,14 @@
     "contact_instagram": "DM us on Instagram",
     "contact_email": "Send us an Email",
     "contact_support": "Contact Support",
+    "help_and_support": "Help & Support",
     "delete_account": "Delete Account",
     "contact_unavailable_whatsapp": "WhatsApp not available. Contact us at +34 611 144 170",
     "contact_unavailable_instagram": "Instagram not available. Find us @mazunteconnect",
-    "contact_unavailable_email": "Email not configured. Contact us at hello@mazunteconnect.com"
+    "contact_unavailable_email": "Email not configured. Contact us at hello@mazunteconnect.com",
+    "contact_email_sent": "Email sent successfully",
+    "contact_email_failed": "Failed to send email. Please try again.",
+    "delete_account_request_sent": "Account deletion request sent successfully"
   },
   "feedback": {
     "title": "Send Feedback",
@@ -391,7 +425,10 @@
     "types": {
       "feedback": "General Feedback",
       "feature_request": "Feature Request",
-      "bug_report": "Bug Report"
+      "bug_report": "Bug Report",
+      "support": "Support Request",
+      "contact": "General Contact",
+      "delete_account": "Delete Account Request"
     }
   },
   "device_info": {

@@ -19,11 +19,14 @@ npx supabase db push
 When you run migrations, these are applied in order:
 
 1. **20251009000000_initial_schema.sql** - Base schema (profiles, events, places, etc.)
-2. **20251011000000_add_saved_searches.sql** - Saved searches table
-3. **20251011010000_add_reports_system.sql** - Reports table with auto-hide triggers
-4. **20251012000000_set_admins.sql** - Sets admin status for jordicatalaamat@gmail.com and ninamorel.mv@gmail.com
-5. **20251012010000_add_report_email_webhook.sql** - Creates webhook trigger and pg_net extension
-6. **20251012030000_update_webhook_with_hardcoded_values.sql** - Updates webhook function with credentials
+2. **20251010000000_add_feedback_table.sql** - Feedback table for user feedback and feature requests
+3. **20251011000000_add_saved_searches.sql** - Saved searches table
+4. **20251011010000_add_reports_system.sql** - Reports table with auto-hide triggers
+5. **20251012000000_set_admins.sql** - Sets admin status for jordicatalaamat@gmail.com and ninamorel.mv@gmail.com
+6. **20251012010000_add_report_email_webhook.sql** - Creates webhook trigger and pg_net extension for reports
+7. **20251012030000_update_webhook_with_hardcoded_values.sql** - Updates report webhook function with credentials
+8. **20251112000000_add_feedback_email_webhook.sql** - Creates webhook trigger for feedback emails
+9. **20251112010000_update_feedback_webhook_hardcoded.sql** - Updates feedback webhook function with credentials
 
 ## What Needs Manual Configuration
 
@@ -40,7 +43,14 @@ npx supabase secrets set RESEND_API_KEY=re_your_key_here
 ### 2. Redeploy Edge Functions
 
 ```bash
+# Report email notifications (triggered by database webhook)
 npx supabase functions deploy send-report-email --no-verify-jwt
+
+# Feedback email notifications (triggered by database webhook)
+npx supabase functions deploy send-feedback-email --no-verify-jwt
+
+# Contact/Support emails (called directly from app)
+npx supabase functions deploy send-contact-email --no-verify-jwt
 ```
 
 ## Admin Users
@@ -229,24 +239,57 @@ CREATE EXTENSION IF NOT EXISTS pg_net;
 
 - [ ] Run `npx supabase db reset` or `npx supabase db push`
 - [ ] Set Resend API key: `npx supabase secrets set RESEND_API_KEY=...`
-- [ ] Deploy Edge Function: `npx supabase functions deploy send-report-email --no-verify-jwt`
+- [ ] Deploy Edge Functions:
+  - [ ] `npx supabase functions deploy send-report-email --no-verify-jwt`
+  - [ ] `npx supabase functions deploy send-feedback-email --no-verify-jwt`
+  - [ ] `npx supabase functions deploy send-contact-email --no-verify-jwt`
 - [ ] Verify admins are set (should be automatic)
 - [ ] Test: Create a report and check email
+- [ ] Test: Submit feedback via app and check email
+- [ ] Test: Use contact/support buttons and check email
 - [ ] Test: View report in admin dashboard
 
 ## Files Reference
 
+### Admin & Reports
 - **Admin Dashboard UI**: `packages/app/features/admin/`
 - **Report Components**: `packages/app/components/ReportButton.tsx`, `ReportSheet.tsx`
-- **Edge Function**: `supabase/functions/send-report-email/index.ts`
-- **Migrations**: `supabase/migrations/2025101*.sql`
+- **Report Edge Function**: `supabase/functions/send-report-email/index.ts`
+- **Report Migrations**: `supabase/migrations/2025101*.sql`
 - **Types**: `packages/app/utils/report-types.ts`, `filter-types.ts`
-- **Translations**: `packages/app/i18n/locales/en.json`, `es.json` (reports.* keys)
+
+### Feedback & Contact
+- **Feedback Sheet**: `packages/app/features/settings/feedback-sheet.tsx`
+- **Settings Screen**: `packages/app/features/settings/screen.tsx` (contact handlers)
+- **Feedback Edge Function**: `supabase/functions/send-feedback-email/index.ts`
+- **Contact Edge Function**: `supabase/functions/send-contact-email/index.ts`
+- **Feedback Migrations**: `supabase/migrations/20251010000000_add_feedback_table.sql`, `20251112*.sql`
+
+### Translations
+- **English**: `packages/app/i18n/locales/en.json` (reports.*, feedback.*, settings.* keys)
+- **Spanish**: `packages/app/i18n/locales/es.json` (reports.*, feedback.*, settings.* keys)
 
 ## Current Configuration
 
-- **Resend API Key**: Set in Supabase secrets
-- **Email From**: `onboarding@resend.dev` (test domain)
-- **Email To**: `jordicatalaamat@gmail.com`
-- **Edge Function URL**: `https://ddbuvzotcasyanocqcsh.supabase.co/functions/v1/send-report-email`
-- **Service Role Key**: Hardcoded in webhook function
+### Email Settings
+- **Resend API Key**: Set in Supabase secrets (`re_LB4oCnK3_CqRjijWYvDtXqqh7QqCCZBDJ`)
+- **Report Emails**:
+  - From: `Mazunte Connect Alerts <alerts@mazunteconnect.com>`
+  - To: `alerts@mazunteconnect.com`
+- **Feedback Emails**:
+  - From: `Mazunte Connect <hello@mazunteconnect.com>`
+  - To: `hello@mazunteconnect.com`
+  - Reply-to: User's email
+- **Contact Emails**:
+  - From: `Mazunte Connect <hello@mazunteconnect.com>`
+  - To: `hello@mazunteconnect.com`
+  - Reply-to: User's email
+
+### Edge Functions
+- **Report Email**: `https://ddbuvzotcasyanocqcsh.supabase.co/functions/v1/send-report-email`
+- **Feedback Email**: `https://ddbuvzotcasyanocqcsh.supabase.co/functions/v1/send-feedback-email`
+- **Contact Email**: `https://ddbuvzotcasyanocqcsh.supabase.co/functions/v1/send-contact-email`
+
+### Service Role Key
+- Hardcoded in webhook functions (both reports and feedback)
+- Used for authentication when webhooks call Edge Functions

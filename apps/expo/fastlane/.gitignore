@@ -10,8 +10,8 @@ test_output/
 xcov_report/
 
 # Screenshots (optional - comment out if you want to commit screenshots)
-screenshots/**/*.png
-screenshots/**/*.jpg
+# screenshots/**/*.png
+# screenshots/**/*.jpg
 
 # Fastlane reports
 report.xml

@@ -886,5 +886,44 @@
     "updated": "Búsqueda actualizada exitosamente",
     "deleted": "Búsqueda eliminada exitosamente",
     "error": "Error al guardar búsqueda. Por favor, intenta de nuevo."
+  },
+  "rsvp": {
+    "title": "¿Asistirás?",
+    "description": "Avísale al organizador si vendrás",
+    "button": "Confirmar",
+    "change_rsvp": "Cambiar Confirmación",
+    "cancel_rsvp": "Cancelar Confirmación",
+    "status": {
+      "going": "Asistiré",
+      "interested": "Interesado",
+      "maybe": "Tal vez"
+    },
+    "status_descriptions": {
+      "going": "¡Ahí estaré!",
+      "interested": "Puede que asista",
+      "maybe": "No estoy seguro"
+    },
+    "submit": "Actualizar Confirmación",
+    "people_going": "{{count}} asistirá",
+    "people_going_plural": "{{count}} asistirán",
+    "people_interested": "{{count}} interesado",
+    "people_interested_plural": "{{count}} interesados",
+    "people_maybe": "{{count}} tal vez",
+    "people_maybe_plural": "{{count}} tal vez",
+    "attendees": "Asistentes",
+    "attendees_section_title": "¿Quién Va?",
+    "you_and_others": "Tú y {{count}} persona más",
+    "you_and_others_plural": "Tú y {{count}} personas más",
+    "just_you": "¡Solo tú por ahora!",
+    "no_attendees": "¡Sé el primero en confirmar!",
+    "view_all": "Ver Todos",
+    "show_more": "+{{count}} más",
+    "success": "¡Confirmación actualizada exitosamente!",
+    "error": "Error al actualizar confirmación. Intenta de nuevo.",
+    "error_not_logged_in": "Debes iniciar sesión para confirmar asistencia.",
+    "removed": "Confirmación cancelada exitosamente",
+    "going_badge": "¡Asistirás!",
+    "interested_badge": "Estás interesado",
+    "maybe_badge": "Marcaste tal vez"
   }
 }

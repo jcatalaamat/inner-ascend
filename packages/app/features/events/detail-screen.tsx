@@ -14,7 +14,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { FavoritesProvider } from 'app/contexts/FavoritesContext'
 import { LinearGradient } from '@tamagui/linear-gradient'
 import { ReportButton } from 'app/components/ReportButton'
+import { RsvpButton } from 'app/components/RsvpButton'
+import { AttendeesSection } from 'app/components/AttendeeList'
 import { useRouter } from 'solito/router'
+import { useEventAttendeesQuery, useEventAttendeeCountsQuery, useUserRsvpQuery } from 'app/utils/react-query/useRsvpQuery'
 
 let MapView: any = null
 let Marker: any = null
@@ -43,6 +46,18 @@ function EventDetailScreenContent({ id }: EventDetailScreenProps) {
   const router = useRouter()
   const [imageViewerVisible, setImageViewerVisible] = useState(false)
   const { showInterstitial, isEnabled } = useAdInterstitial()
+
+  // RSVP data
+  const { data: attendees, refetch: refetchAttendees } = useEventAttendeesQuery(id)
+  const { data: attendeeCounts, refetch: refetchCounts } = useEventAttendeeCountsQuery(id)
+  const { data: userRsvp, refetch: refetchUserRsvp } = useUserRsvpQuery(id)
+
+  const handleRsvpChange = () => {
+    // Refetch all RSVP-related data when user updates their RSVP
+    refetchAttendees()
+    refetchCounts()
+    refetchUserRsvp()
+  }
 
   useEffect(() => {
     if (event) {
@@ -354,29 +369,49 @@ function EventDetailScreenContent({ id }: EventDetailScreenProps) {
             )}
           </YStack>
 
+          {/* RSVP Button - Primary CTA */}
+          <RsvpButton
+            eventId={event.id}
+            currentStatus={userRsvp?.status}
+            size="$5"
+            fullWidth
+            onRsvpChange={handleRsvpChange}
+          />
+
+          {/* Attendees Section */}
+          {attendees && attendeeCounts && (
+            <>
+              <YStack h={1} bg="$borderColor" />
+              <AttendeesSection
+                attendees={attendees}
+                goingCount={attendeeCounts.going}
+                currentUserStatus={userRsvp?.status}
+              />
+            </>
+          )}
+
+          {/* Divider */}
+          <YStack h={1} bg="$borderColor" />
+
           {/* Primary Contact CTA */}
           {(event.contact_whatsapp || event.contact_phone) && (
             <YStack gap="$2">
               {event.contact_whatsapp && (
                 <Button
-                  size="$5"
-                  bg="$green9"
-                  color="white"
+                  size="$4"
+                  variant="outlined"
                   icon={MessageCircle}
                   onPress={handleWhatsAppPress}
-                  pressStyle={{ bg: '$green10' }}
                 >
                   {t('events.detail.contact_whatsapp')}
                 </Button>
               )}
               {event.contact_phone && !event.contact_whatsapp && (
                 <Button
-                  size="$5"
-                  bg="$blue9"
-                  color="white"
+                  size="$4"
+                  variant="outlined"
                   icon={Phone}
                   onPress={handlePhonePress}
-                  pressStyle={{ bg: '$blue10' }}
                 >
                   {t('events.detail.call')} {event.contact_phone}
                 </Button>

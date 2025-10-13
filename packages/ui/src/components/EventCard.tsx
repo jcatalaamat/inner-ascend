@@ -1,11 +1,12 @@
 import type { Database } from '@my/supabase/types'
-import { Calendar, Leaf, MapPin, Phone } from '@tamagui/lucide-icons'
+import { Calendar, Leaf, MapPin, Phone, Users } from '@tamagui/lucide-icons'
 import { useState, memo } from 'react'
 import { Button, Card, type CardProps, H6, Image, Paragraph, Text, Theme, XStack, YStack } from 'tamagui'
 import { FavoriteButtonWrapper } from './FavoriteButtonWrapper'
 import { useTranslation } from 'react-i18next'
 import { formatDate, formatTime } from '../../../app/utils/date-helpers'
 import i18n from '../../../app/i18n'
+import { useEventAttendeeCountsQuery } from '../../../app/utils/react-query/useRsvpQuery'
 
 type Event = Database['public']['Tables']['events']['Row']
 
@@ -14,6 +15,7 @@ export type EventCardProps = {
   onPress?: () => void
   showFavorite?: boolean
   onToggleFavorite?: () => void
+  showAttendees?: boolean
 } & Omit<CardProps, 'onPress'>
 
 // Category colors
@@ -26,10 +28,13 @@ const categoryColors: Record<string, string> = {
   other: 'gray',
 }
 
-const EventCardComponent = ({ event, onPress, showFavorite = false, onToggleFavorite, ...props }: EventCardProps) => {
+const EventCardComponent = ({ event, onPress, showFavorite = false, onToggleFavorite, showAttendees = true, ...props }: EventCardProps) => {
   const [hover, setHover] = useState(false)
   const { t } = useTranslation()
   const locale = i18n.language === 'es' ? 'es-ES' : 'en-US'
+  const { data: attendeeCounts } = useEventAttendeeCountsQuery(event.id)
+
+  const goingCount = attendeeCounts?.going || 0
 
   return (
     <Card
@@ -144,6 +149,16 @@ const EventCardComponent = ({ event, onPress, showFavorite = false, onToggleFavo
                 </Text>
               )}
             </XStack>
+
+            {/* Attendee Count - Show if people are going */}
+            {showAttendees && goingCount > 0 && (
+              <XStack ai="center" gap="$1.5">
+                <Users size={14} color="white" />
+                <Text fontSize="$3" color="white" fontWeight="600" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.3)' }}>
+                  {t('rsvp.people_going', { count: goingCount })}
+                </Text>
+              </XStack>
+            )}
           </YStack>
         </YStack>
       )}

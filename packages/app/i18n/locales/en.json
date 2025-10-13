@@ -884,5 +884,44 @@
     "updated": "Search updated successfully",
     "deleted": "Search deleted successfully",
     "error": "Failed to save search. Please try again."
+  },
+  "rsvp": {
+    "title": "Are you attending?",
+    "description": "Let the organizer know if you're coming",
+    "button": "RSVP",
+    "change_rsvp": "Change RSVP",
+    "cancel_rsvp": "Cancel RSVP",
+    "status": {
+      "going": "Going",
+      "interested": "Interested",
+      "maybe": "Maybe"
+    },
+    "status_descriptions": {
+      "going": "I'll be there!",
+      "interested": "Might attend",
+      "maybe": "Not sure yet"
+    },
+    "submit": "Update RSVP",
+    "people_going": "{{count}} going",
+    "people_going_plural": "{{count}} going",
+    "people_interested": "{{count}} interested",
+    "people_interested_plural": "{{count}} interested",
+    "people_maybe": "{{count}} maybe",
+    "people_maybe_plural": "{{count}} maybe",
+    "attendees": "Attendees",
+    "attendees_section_title": "Who's Going",
+    "you_and_others": "You and {{count}} other",
+    "you_and_others_plural": "You and {{count}} others",
+    "just_you": "Just you so far!",
+    "no_attendees": "Be the first to RSVP!",
+    "view_all": "View All",
+    "show_more": "+{{count}} more",
+    "success": "RSVP updated successfully!",
+    "error": "Failed to update RSVP. Please try again.",
+    "error_not_logged_in": "You must be logged in to RSVP.",
+    "removed": "RSVP removed successfully",
+    "going_badge": "You're going!",
+    "interested_badge": "You're interested",
+    "maybe_badge": "You marked maybe"
   }
 }

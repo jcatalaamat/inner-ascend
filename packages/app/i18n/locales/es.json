@@ -896,12 +896,16 @@
     "status": {
       "going": "Asistiré",
       "interested": "Interesado",
-      "maybe": "Tal vez"
+      "maybe": "Tal vez",
+      "watching": "Siguiendo",
+      "cant_go": "No Puedo Ir"
     },
     "status_descriptions": {
       "going": "¡Ahí estaré!",
       "interested": "Puede que asista",
-      "maybe": "No estoy seguro"
+      "maybe": "No estoy seguro",
+      "watching": "Solo siguiendo actualizaciones",
+      "cant_go": "No podré asistir"
     },
     "submit": "Actualizar Confirmación",
     "people_going": "{{count}} asistirá",
@@ -924,6 +928,8 @@
     "removed": "Confirmación cancelada exitosamente",
     "going_badge": "¡Asistirás!",
     "interested_badge": "Estás interesado",
-    "maybe_badge": "Marcaste tal vez"
+    "maybe_badge": "Marcaste tal vez",
+    "watching_badge": "Estás siguiendo",
+    "cant_go_badge": "No puedes ir"
   }
 }

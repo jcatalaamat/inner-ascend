@@ -27,10 +27,11 @@ interface RsvpSheetProps {
   onRsvpChange?: () => void
 }
 
-const RSVP_STATUSES: { value: AttendeeStatus; labelKey: string; descriptionKey: string }[] = [
-  { value: 'going', labelKey: 'rsvp.status.going', descriptionKey: 'rsvp.status_descriptions.going' },
-  { value: 'interested', labelKey: 'rsvp.status.interested', descriptionKey: 'rsvp.status_descriptions.interested' },
-  { value: 'maybe', labelKey: 'rsvp.status.maybe', descriptionKey: 'rsvp.status_descriptions.maybe' },
+const RSVP_STATUSES: { value: AttendeeStatus; labelKey: string; descriptionKey: string; theme: string }[] = [
+  { value: 'going', labelKey: 'rsvp.status.going', descriptionKey: 'rsvp.status_descriptions.going', theme: 'green' },
+  { value: 'interested', labelKey: 'rsvp.status.interested', descriptionKey: 'rsvp.status_descriptions.interested', theme: 'blue' },
+  { value: 'watching', labelKey: 'rsvp.status.watching', descriptionKey: 'rsvp.status_descriptions.watching', theme: 'orange' },
+  { value: 'cant_go', labelKey: 'rsvp.status.cant_go', descriptionKey: 'rsvp.status_descriptions.cant_go', theme: 'red' },
 ]
 
 export function RsvpSheet({ open, onOpenChange, eventId, currentStatus, onRsvpChange }: RsvpSheetProps) {
@@ -172,9 +173,9 @@ export function RsvpSheet({ open, onOpenChange, eventId, currentStatus, onRsvpCh
                     py="$3"
                     px="$3"
                     borderRadius="$3"
-                    bg={status === s.value ? '$green2' : 'transparent'}
+                    bg={status === s.value ? `$${s.theme}2` : 'transparent'}
                     borderWidth={status === s.value ? 1 : 0}
-                    borderColor="$green6"
+                    borderColor={status === s.value ? `$${s.theme}6` : 'transparent'}
                     cursor="pointer"
                     onPress={() => setStatus(s.value)}
                   >

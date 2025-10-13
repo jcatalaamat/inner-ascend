@@ -894,12 +894,16 @@
     "status": {
       "going": "Going",
       "interested": "Interested",
-      "maybe": "Maybe"
+      "maybe": "Maybe",
+      "watching": "Watching",
+      "cant_go": "Can't Go"
     },
     "status_descriptions": {
       "going": "I'll be there!",
       "interested": "Might attend",
-      "maybe": "Not sure yet"
+      "maybe": "Not sure yet",
+      "watching": "Just following updates",
+      "cant_go": "Can't make it"
     },
     "submit": "Update RSVP",
     "people_going": "{{count}} going",
@@ -922,6 +926,8 @@
     "removed": "RSVP removed successfully",
     "going_badge": "You're going!",
     "interested_badge": "You're interested",
-    "maybe_badge": "You marked maybe"
+    "maybe_badge": "You marked maybe",
+    "watching_badge": "You're watching",
+    "cant_go_badge": "You can't go"
   }
 }

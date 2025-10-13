@@ -45,16 +45,8 @@ export function RsvpButton({
       return t('rsvp.button')
     }
     // Show status in button text when user has RSVP'd
-    switch (currentStatus) {
-      case 'going':
-        return `✓ ${t('rsvp.status.going')}`
-      case 'interested':
-        return `★ ${t('rsvp.status.interested')}`
-      case 'maybe':
-        return `? ${t('rsvp.status.maybe')}`
-      default:
-        return t('rsvp.change_rsvp')
-    }
+    const icon = getAttendeeStatusIcon(currentStatus)
+    return `${icon} ${t(`rsvp.status.${currentStatus}`)}`
   }
 
   // Determine button theme based on status
@@ -67,7 +59,11 @@ export function RsvpButton({
       case 'interested':
         return 'blue'
       case 'maybe':
-        return 'yellow'
+        return 'gray'
+      case 'watching':
+        return 'orange'
+      case 'cant_go':
+        return 'red'
       default:
         return 'green'
     }

@@ -44,11 +44,12 @@ export function useEventAttendeeCountsQuery(eventId: string) {
   return useQuery({
     queryKey: ['event_attendee_counts', eventId],
     queryFn: async () => {
-      // Get counts by status
+      // Get counts by status (excluding 'cant_go' from public counts)
       const { data, error } = await supabase
         .from('event_attendees')
         .select('status')
         .eq('event_id', eventId)
+        .neq('status', 'cant_go') // Don't include "cant_go" in public counts
 
       if (error) {
         throw error
@@ -58,6 +59,8 @@ export function useEventAttendeeCountsQuery(eventId: string) {
         going: 0,
         interested: 0,
         maybe: 0,
+        watching: 0,
+        cant_go: 0, // Always 0 in public view
         total: 0,
       }
 
@@ -65,6 +68,7 @@ export function useEventAttendeeCountsQuery(eventId: string) {
         if (item.status === 'going') counts.going++
         else if (item.status === 'interested') counts.interested++
         else if (item.status === 'maybe') counts.maybe++
+        else if (item.status === 'watching') counts.watching++
         counts.total++
       })
 

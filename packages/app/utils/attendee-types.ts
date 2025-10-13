@@ -3,7 +3,7 @@
  * Similar pattern to report-types.ts
  */
 
-export type AttendeeStatus = 'going' | 'interested' | 'maybe'
+export type AttendeeStatus = 'going' | 'interested' | 'maybe' | 'watching' | 'cant_go'
 
 export interface EventAttendee {
   id: string
@@ -31,6 +31,8 @@ export interface EventAttendeeCounts {
   going: number
   interested: number
   maybe: number
+  watching: number
+  cant_go: number
   total: number
 }
 
@@ -56,7 +58,7 @@ export const hasRsvp = (status: AttendeeStatus | null | undefined): boolean => {
 }
 
 /**
- * Helper function to get attendee status color
+ * Helper function to get attendee status color (Tamagui theme)
  */
 export const getAttendeeStatusColor = (status: AttendeeStatus): string => {
   switch (status) {
@@ -66,6 +68,10 @@ export const getAttendeeStatusColor = (status: AttendeeStatus): string => {
       return '$blue9'
     case 'maybe':
       return '$gray9'
+    case 'watching':
+      return '$orange9'
+    case 'cant_go':
+      return '$red9'
     default:
       return '$gray9'
   }
@@ -82,7 +88,27 @@ export const getAttendeeStatusIcon = (status: AttendeeStatus): string => {
       return '★'
     case 'maybe':
       return '?'
+    case 'watching':
+      return '👁'
+    case 'cant_go':
+      return '✕'
     default:
       return ''
   }
+}
+
+/**
+ * Helper function to check if status should be shown publicly
+ * "cant_go" is private and not shown in public counts/lists
+ */
+export const isPublicStatus = (status: AttendeeStatus): boolean => {
+  return status !== 'cant_go'
+}
+
+/**
+ * Helper function to check if status counts toward attendance
+ * Only "going" counts as confirmed attendance
+ */
+export const isAttendingStatus = (status: AttendeeStatus): boolean => {
+  return status === 'going'
 }

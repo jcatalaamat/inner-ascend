@@ -112,14 +112,63 @@ deploy_flow() {
         "🔄 Both                  Staging → Production (auto)" \
         "⬅️  Cancel               Never mind, go back")
 
+    # If cancelled, go back
+    if [[ "$DEPLOY_TARGET" == *"Cancel"* ]]; then
+        show_main_menu
+        return
+    fi
+
+    # Choose platform
+    clear
+    gum style \
+        --border normal \
+        --margin "1" --padding "1 2" \
+        --border-foreground 86 \
+        "Platform Selection"
+
+    echo ""
+    gum style --foreground 51 --italic --align center "Which platform(s)?"
+    echo ""
+
+    PLATFORM=$(gum choose \
+        --height 6 \
+        --cursor "📱 " \
+        --cursor.foreground 212 \
+        --selected.foreground 212 \
+        --selected.bold \
+        --header.foreground 240 \
+        --header "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" \
+        "🍎 iOS only           TestFlight/App Store" \
+        "🤖 Android only       Google Play" \
+        "📦 Both platforms     iOS + Android" \
+        "⬅️  Back              Go back")
+
+    # Parse platform choice
+    if [[ "$PLATFORM" == *"iOS only"* ]]; then
+        PLATFORM_FLAG="ios"
+    elif [[ "$PLATFORM" == *"Android only"* ]]; then
+        PLATFORM_FLAG="android"
+    elif [[ "$PLATFORM" == *"Both platforms"* ]]; then
+        PLATFORM_FLAG="all"
+    else
+        deploy_flow
+        return
+    fi
+
     case "$DEPLOY_TARGET" in
         *"Staging only"*)
-            gum style --foreground 212 "Deploying to staging..."
+            gum style --foreground 212 "Deploying to staging ($PLATFORM_FLAG)..."
             echo ""
-            ./scripts/deploy-staging.sh
+            ./scripts/deploy-staging.sh --platform "$PLATFORM_FLAG"
 
             gum style --foreground 212 "✓ Staging deployment complete!"
-            gum style --foreground 86 "Test on TestFlight, then run Deploy Release → Production when ready"
+            if [[ "$PLATFORM_FLAG" == "ios" ]]; then
+                gum style --foreground 86 "Test on TestFlight, then run Deploy Release → Production when ready"
+            elif [[ "$PLATFORM_FLAG" == "android" ]]; then
+                gum style --foreground 86 "Test on Google Play Internal Testing, then run Deploy Release → Production when ready"
+            else
+                gum style --foreground 86 "Test on both platforms, then run Deploy Release → Production when ready"
+            fi
             echo ""
             ;;
 
@@ -132,17 +181,25 @@ deploy_flow() {
                 return
             fi
 
-            gum style --foreground 212 "Deploying to production..."
+            gum style --foreground 212 "Deploying to production ($PLATFORM_FLAG)..."
             echo ""
-            ./scripts/deploy-production.sh -y
+            ./scripts/deploy-production.sh --platform "$PLATFORM_FLAG" -y
 
             gum style --foreground 212 "✓ Production deployment complete!"
-            gum style --foreground 86 "Your app is now in Apple's review queue"
+            if [[ "$PLATFORM_FLAG" == "ios" ]]; then
+                gum style --foreground 86 "Your app is now in Apple's review queue"
+            elif [[ "$PLATFORM_FLAG" == "android" ]]; then
+                gum style --foreground 86 "Your app is now in Google Play's review queue"
+            else
+                gum style --foreground 86 "Your apps are now in both review queues"
+            fi
             echo ""
 
-            if gum confirm "Upload metadata/screenshots to App Store?"; then
-                metadata_upload_menu
-                return
+            if [[ "$PLATFORM_FLAG" == "ios" || "$PLATFORM_FLAG" == "all" ]]; then
+                if gum confirm "Upload metadata/screenshots to App Store?"; then
+                    metadata_upload_menu
+                    return
+                fi
             fi
             ;;
 
@@ -150,7 +207,12 @@ deploy_flow() {
             CURRENT_VERSION=$(get_current_version)
 
             gum style --foreground 86 "This will build and deploy to both staging and production"
-            gum style --foreground 86 "Staging first (v${CURRENT_VERSION}), then production (sequential, ~20-30 min total)"
+            if [[ "$PLATFORM_FLAG" == "all" ]]; then
+                gum style --foreground 86 "Staging first (iOS + Android), then production (iOS + Android)"
+                gum style --foreground 86 "Sequential builds, ~40-60 min total"
+            else
+                gum style --foreground 86 "Staging first (v${CURRENT_VERSION}), then production (sequential, ~20-30 min total)"
+            fi
             echo ""
 
             gum style --foreground 202 "⚠️  IMPORTANT: Have you bumped the version for production?"
@@ -163,25 +225,35 @@ deploy_flow() {
                 return
             fi
 
-            gum style --foreground 212 "Step 1/2: Deploying to staging..."
+            gum style --foreground 212 "Step 1/2: Deploying to staging ($PLATFORM_FLAG)..."
             echo ""
-            ./scripts/deploy-staging.sh
+            ./scripts/deploy-staging.sh --platform "$PLATFORM_FLAG"
 
             gum style --foreground 212 "✓ Staging deployment complete!"
             echo ""
 
-            gum style --foreground 212 "Step 2/2: Deploying to production..."
+            gum style --foreground 212 "Step 2/2: Deploying to production ($PLATFORM_FLAG)..."
             echo ""
-            ./scripts/deploy-production.sh -y
+            ./scripts/deploy-production.sh --platform "$PLATFORM_FLAG" -y
 
             gum style --foreground 212 "✓ Both deployments complete!"
-            gum style --foreground 86 "Staging: TestFlight (test before approving production)"
-            gum style --foreground 86 "Production: App Store review queue"
+            if [[ "$PLATFORM_FLAG" == "ios" ]]; then
+                gum style --foreground 86 "Staging: TestFlight (test before approving production)"
+                gum style --foreground 86 "Production: App Store review queue"
+            elif [[ "$PLATFORM_FLAG" == "android" ]]; then
+                gum style --foreground 86 "Staging: Google Play Internal Testing"
+                gum style --foreground 86 "Production: Google Play review queue"
+            else
+                gum style --foreground 86 "Staging: TestFlight + Google Play Internal Testing"
+                gum style --foreground 86 "Production: App Store + Google Play review queues"
+            fi
             echo ""
 
-            if gum confirm "Upload metadata/screenshots to App Store?"; then
-                metadata_upload_menu
-                return
+            if [[ "$PLATFORM_FLAG" == "ios" || "$PLATFORM_FLAG" == "all" ]]; then
+                if gum confirm "Upload metadata/screenshots to App Store?"; then
+                    metadata_upload_menu
+                    return
+                fi
             fi
             ;;
 
@@ -191,7 +263,15 @@ deploy_flow() {
             ;;
     esac
 
-    gum style --foreground 86 "Done! Monitor at: https://appstoreconnect.apple.com"
+    gum style --foreground 86 "Done! Monitor at:"
+    if [[ "$PLATFORM_FLAG" == "ios" ]]; then
+        gum style --foreground 86 "  🍎 https://appstoreconnect.apple.com"
+    elif [[ "$PLATFORM_FLAG" == "android" ]]; then
+        gum style --foreground 86 "  🤖 https://play.google.com/console"
+    else
+        gum style --foreground 86 "  🍎 https://appstoreconnect.apple.com"
+        gum style --foreground 86 "  🤖 https://play.google.com/console"
+    fi
     echo ""
     gum input --placeholder "Press Enter to return to main menu..."
     show_main_menu

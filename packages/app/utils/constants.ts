@@ -1,5 +1,5 @@
 /**
- * Constants for Mazunte Connect
+ * Constants for Inner Ascend
  * Event categories, place types, colors, and other app-wide constants
  */
 
@@ -63,7 +63,7 @@ export const PRICE_RANGES = ['$', '$$', '$$$', '$$$$'] as const
 
 export type PriceRange = (typeof PRICE_RANGES)[number]
 
-// Mazunte coordinates (exact from Wikipedia)
+// Default coordinates
 export const MAZUNTE_CENTER = {
   latitude: 15.666,
   longitude: -96.556,

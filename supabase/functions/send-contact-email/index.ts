@@ -13,7 +13,7 @@ interface ContactRequest {
   type: 'support' | 'general' | 'delete_account'
 }
 
-const ADMIN_EMAIL = 'alerts@mazunteconnect.com'
+const ADMIN_EMAIL = 'alerts@innerascend.app'
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
 
 /**
@@ -123,7 +123,7 @@ serve(async (req) => {
           </div>
 
           <div class="footer">
-            <p>This is an automated message from Mazunte Connect's contact system.</p>
+            <p>This is an automated message from Inner Ascend's contact system.</p>
             <p>Reply directly to this email to respond to the user.</p>
           </div>
         </body>
@@ -131,7 +131,7 @@ serve(async (req) => {
     `
 
     const emailText = `
-${typeLabel} - Mazunte Connect
+${typeLabel} - Inner Ascend
 
 Type: ${typeLabel}
 Subject: ${contactRequest.subject}
@@ -166,7 +166,7 @@ ${contactRequest.user_id ? `User ID: ${contactRequest.user_id}\n` : ''}
         Authorization: `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: 'Mazunte Connect Alerts <alerts@mazunteconnect.com>',
+        from: 'Inner Ascend Alerts <alerts@innerascend.app>',
         to: [ADMIN_EMAIL],
         reply_to: userEmail !== 'Not provided' ? userEmail : ADMIN_EMAIL,
         subject: `${typeEmoji} ${typeLabel}: ${contactRequest.subject}`,

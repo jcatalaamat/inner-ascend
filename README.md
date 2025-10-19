@@ -1,24 +1,57 @@
-# Mazunte Connect 
+# Inner Ascend
 
-A React Native app for discovering events and places in Mazunte, Mexico, with full Spanish/English internationalization support.
+A daily spiritual practice app that combines cosmic guidance with structured shadow work curriculum (Being Human 101), guided meditations, journaling, and progress tracking—all in a dark, immersive mobile experience.
 
-## 🌍 Internationalization (i18n)
+## 🌟 What Is It?
 
-This app supports **Spanish** and **English** languages with automatic device language detection and user preference persistence.
+**Inner Ascend is Co-Star meets Insight Timer meets Mindvalley—but make it Shadow Work.**
 
-### Key Features:
-- **Automatic language detection** based on device settings
-- **Persistent language preference** using AsyncStorage (survives app restarts)
-- **Real-time language switching** in settings
-- **Comprehensive translations** for all UI elements
-- **Localized content** for events, places, categories, and forms
+A comprehensive spiritual growth platform that provides:
+- Daily cosmic weather and guidance
+- Structured 90-day shadow work curriculum (Being Human 101)
+- Guided meditations and practices
+- Journaling with prompts
+- Progress tracking and streaks
 
-### Implementation:
-- **react-i18next** for translation management
-- **expo-localization** for device language detection
-- **AsyncStorage** for preference persistence
-- **LanguageContext** for state management
-- **Translation files** in `packages/app/i18n/locales/`
+## 📱 Core Features
+
+### TODAY (Home)
+- Daily cosmic weather (moon phase, planetary transits)
+- Today's shadow work focus from curriculum
+- Guided practice button
+- Emotional check-in (struggling, processing, clear, integrated)
+- Streak counter
+
+### JOURNEY (Curriculum)
+- Being Human 101: 16 modules
+- Visual progress tracking
+- Signature images for each module
+- Progressive unlocking system
+
+### MODULE VIEW
+- Daily teachings
+- Guided practices
+- Journaling prompts
+- Progress completion
+
+### PRACTICES LIBRARY
+- 7 guided meditations with audio player
+- Journaling prompts by theme
+- Shadow work exercises
+- Standalone or within module flow
+
+### PROGRESS
+- Current & longest streaks
+- Practice breakdown
+- Achievement badges
+- Visual timeline
+
+### JOURNALING
+- Daily prompts
+- Minimal distraction editor
+- Word count & timer
+- Auto-save
+- Entry history
 
 ## 🏗️ Architecture
 
@@ -26,12 +59,12 @@ This app supports **Spanish** and **English** languages with automatic device la
 ```
 ├── apps/
 │   ├── expo/                 # React Native app
-│   ├── next/                 # Next.js web app
+│   ├── next/                 # Next.js web app (future)
 │   └── storybook/           # Component library
 ├── packages/
 │   ├── app/                  # Shared app logic
 │   ├── ui/                   # UI component library
-│   └── api/                   # Backend API
+│   └── api/                  # Backend API
 └── supabase/                 # Database & migrations
 ```
 
@@ -43,50 +76,14 @@ This app supports **Spanish** and **English** languages with automatic device la
 - **React Query** for data fetching
 - **Expo Router** for navigation
 
-## 🎨 UI/UX Patterns
+## 🎨 Design Philosophy
 
-### ScreenWrapper Component:
-Consistent safe area handling across all screens:
-```tsx
-<ScreenWrapper>
-  <YourContent />
-</ScreenWrapper>
-```
-
-### Horizontal Scrolling Filters:
-- Events and Places pages have horizontally scrollable category/type filters
-- Proper touch targets and spacing
-- Localized filter labels
-
-### Two-Step Map Interaction:
-- **First tap**: Shows info popup
-- **Second tap**: Navigates to detail page
-- Prevents accidental navigation
-
-## 📱 Core Features
-
-### Events:
-- Browse upcoming events with category filters
-- Event details with organizer contact
-- Add to favorites functionality
-- Map integration with coordinates
-
-### Places:
-- Discover local businesses and attractions
-- Type-based filtering (restaurant, wellness, etc.)
-- Contact information and social links
-- Eco-conscious and verified badges
-
-### Map:
-- Interactive map with event and place markers
-- Toggle between events, places, or both
-- Two-step interaction for better UX
-- Real coordinates for Mazunte locations
-
-### Favorites:
-- Save events and places
-- Separate tabs for events and places
-- Persistent storage
+**"Dark, immersive, Pinterest-worthy"**
+- Dark theme optimized for contemplation
+- Minimal distractions
+- Beautiful typography and spacing
+- Cosmic/celestial visual elements
+- Smooth animations and transitions
 
 ## 🔧 Development
 
@@ -112,59 +109,34 @@ eas build --profile production --platform ios
 ### Database:
 ```bash
 # Apply migrations
-supabase db push
+npx supabase db push
 
 # Reset database
-supabase db reset
+npx supabase db reset
 ```
 
-## 🌐 Localization Guide
+## 🌐 Environment Variables
 
-### Adding New Translations:
+Required environment variables in `.env`:
+- `EXPO_PUBLIC_SUPABASE_URL`
+- `EXPO_PUBLIC_SUPABASE_ANON_KEY`
+- `EXPO_PUBLIC_URL`
 
-1. **Add keys to translation files:**
-```json
-   // packages/app/i18n/locales/en.json
-   {
-     "new_section": {
-       "key": "English text"
-     }
-   }
-   ```
+## 📊 Database Schema
 
-2. **Add Spanish translation:**
-   ```json
-   // packages/app/i18n/locales/es.json
-   {
-     "new_section": {
-       "key": "Texto en español"
-  }
-}
-```
-
-3. **Use in components:**
-```tsx
-   import { useTranslation } from 'react-i18next'
-   
-   const { t } = useTranslation()
-   return <Text>{t('new_section.key')}</Text>
-   ```
-
-### Translation Key Structure:
-- `common.*` - Common UI elements (buttons, labels)
-- `navigation.*` - Navigation labels
-- `events.*` - Event-related content
-- `places.*` - Place-related content
-- `map.*` - Map interface
-- `favorites.*` - Favorites functionality
-- `profile.*` - User profile
-- `settings.*` - Settings pages
-- `auth.*` - Authentication
+### Core Tables (To Be Designed):
+- `users` - User profiles and preferences
+- `modules` - Being Human 101 curriculum modules
+- `practices` - Meditation and exercise library
+- `journal_entries` - User journaling
+- `progress` - Completion tracking
+- `streaks` - Daily practice streaks
+- `cosmic_data` - Daily cosmic weather
 
 ## 🚀 Deployment
 
 ### Local iOS Builds:
-When building locally with `yarn ios --device`, you need to regenerate the native iOS directory after pulling changes:
+When building locally with `yarn ios --device`, regenerate the native iOS directory:
 
 ```bash
 # From apps/expo directory
@@ -173,52 +145,29 @@ yarn expo:prebuild:clean
 
 This command:
 - Cleans and regenerates the `ios/` directory
-- Applies the `newArchEnabled: false` configuration from app.config.js
+- Applies the `newArchEnabled: false` configuration
 - Runs `pod install` with proper UTF-8 encoding
-- Ensures react-native-google-mobile-ads builds correctly
 
-**Note**: The `ios/` directory is gitignored and must be regenerated locally. The expo-build-properties configuration in app.config.js ensures New Architecture is disabled.
+**Note**: The `ios/` directory is gitignored and must be regenerated locally.
 
 ### EAS Build Profiles:
 - **development**: For testing with development client
 - **staging**: For internal testing and TestFlight
 - **production**: For App Store release
 
-### Environment Variables:
-- `EXPO_PUBLIC_SUPABASE_URL`
-- `EXPO_PUBLIC_SUPABASE_ANON_KEY`
-- `EXPO_PUBLIC_URL`
-
-## 📊 Database Schema
-
-### Events:
-- `id`, `title`, `description`, `date`, `time`
-- `location_name`, `lat`, `lng`
-- `category`, `price`, `organizer_id`
-- `image_url`, `tags`, `eco_conscious`, `verified`
-
-### Places:
-- `id`, `name`, `description`, `type`, `category`
-- `location_name`, `lat`, `lng`
-- `hours`, `price_range`, `contact_*`
-- `images`, `tags`, `eco_conscious`, `verified`
-
-### Favorites:
-- `id`, `user_id`, `item_id`, `type` (event/place)
-
 ## 🎯 Best Practices
 
 ### Component Development:
-- Use `ScreenWrapper` for consistent safe areas
-- Implement `useTranslation` hook for i18n
-- Follow Tamagui design system
-- Use TypeScript for type safety
+- Use Tamagui design system
+- Implement TypeScript for type safety
+- Follow consistent naming conventions
+- Use React Query for data fetching
 
 ### Performance:
-- Use React Query for data fetching
-- Implement proper loading states
 - Optimize images and assets
+- Implement proper loading states
 - Use FlatList for large lists
+- Minimize re-renders
 
 ### Accessibility:
 - Provide proper labels and descriptions
@@ -230,8 +179,8 @@ This command:
 
 ### Global State:
 - **Authentication**: Supabase auth state
-- **Language**: LanguageContext with AsyncStorage
 - **Theme**: Tamagui theme system
+- **User Progress**: React Query cache
 
 ### Local State:
 - **Forms**: React Hook Form with validation
@@ -240,81 +189,46 @@ This command:
 
 ## 📝 Contributing
 
-1. Follow the established patterns for i18n
+1. Follow established patterns
 2. Use TypeScript for all new code
 3. Test on both iOS and Android
-4. Ensure translations are complete
-5. Follow the component library patterns
+4. Maintain design system consistency
+5. Write clear commit messages
 
-## 💰 Monetization (AdMob)
+## 📱 App Configuration
 
-### Implementation:
-- **react-native-google-mobile-ads** v15.8.0 for banner and interstitial ads
-- **PostHog feature flags** for independent A/B testing and gradual rollout:
-  - `enable-banner-ads` - Controls banner ads on Favorites screen
-  - `enable-interstitial-ads` - Controls interstitial ads on Event/Place detail screens
-  - `show-native-ads` - Controls in-feed native ads on Events/Places lists
-- **Banner ads** on Favorites screen (bottom)
-- **Interstitial ads** after every 3rd event view (3-minute frequency cap)
-- **Native ads** in Events and Places lists (every 5 items)
+- **Bundle ID (iOS)**: `com.innerascend.app`
+- **Package (Android)**: `com.innerascend.app`
+- **App Name**: Inner Ascend
+- **Slug**: `inner-ascend`
+- **Owner**: `inner-ascend-expo`
 
-### Ad Placements:
-- Events list screen (native ads in-feed)
-- Places list screen (native ads in-feed)
-- Favorites screen (bottom banner)
-- Event detail screen (interstitial after 3 views)
-- Place detail screen (interstitial after 3 views)
+## 🛠️ Common Issues
 
-### Configuration:
-Ad unit IDs are stored in `.env` file:
-- `EXPO_PUBLIC_ADMOB_IOS_APP_ID`
-- `EXPO_PUBLIC_ADMOB_IOS_EVENTS_BANNER`
-- `EXPO_PUBLIC_ADMOB_IOS_PLACES_BANNER`
-- `EXPO_PUBLIC_ADMOB_IOS_FAVORITES_BANNER`
-- `EXPO_PUBLIC_ADMOB_IOS_INTERSTITIAL`
-- (Similar Android keys)
+### Build Failures:
+- Ensure `expo-build-properties` plugin is configured with `newArchEnabled: false`
+- Run `npx expo prebuild --clean` if you see codegen errors
 
-### Build Configuration:
-**IMPORTANT**: The app must have New Architecture explicitly disabled to build with react-native-google-mobile-ads.
+### Database Connection:
+- Verify Supabase credentials in `.env`
+- Check RLS policies are configured
+- Ensure migrations are applied
 
-The fix is configured in `apps/expo/app.config.js` using `expo-build-properties`:
-```javascript
-[
-  'expo-build-properties',
-  {
-    ios: { newArchEnabled: false },
-    android: { newArchEnabled: false }
-  }
-]
-```
+## 🎭 Project Vision
 
-**📖 For detailed documentation about this fix, see [docs/ADMOB_NEW_ARCHITECTURE_FIX.md](docs/ADMOB_NEW_ARCHITECTURE_FIX.md)**
+Inner Ascend is designed to be the definitive shadow work companion app—combining the daily engagement of Co-Star, the meditation library of Insight Timer, and the structured curriculum of Mindvalley, all focused specifically on shadow work and inner transformation.
 
-This document explains:
-- Why the fix is needed
-- How it works for EAS and local builds
-- What happens if you delete the ios/ folder
-- How to verify the configuration
-- Troubleshooting steps
+**Target Market**: Spiritually curious individuals (25-45) who have tried meditation apps but want deeper personal growth work with structure and guidance.
 
-## 🐛 Common Issues
+**Pricing**: $17/month or $144/year (positioned between Insight Timer and Mindvalley)
 
-### AdMob Build Failures:
-- Ensure `expo-build-properties` plugin is configured with `newArchEnabled: false` in `apps/expo/app.config.js`
-- This prevents react-native-google-mobile-ads from looking for New Architecture codegen specs
-- Run `npx expo prebuild --clean` if you see `RNGoogleMobileAdsSpec.h` not found errors
+## 📚 Resources
 
-### Language Not Persisting:
-- Check AsyncStorage implementation
-- Verify LanguageProvider wrapping
-- Ensure proper initialization order
+- [Expo Documentation](https://docs.expo.dev/)
+- [Tamagui Documentation](https://tamagui.dev/)
+- [Supabase Documentation](https://supabase.com/docs)
+- [React Native Documentation](https://reactnative.dev/)
 
-### Safe Area Issues:
-- Use ScreenWrapper component
-- Check safe area insets
-- Test on different device sizes
+---
 
-### Translation Missing:
-- Add keys to both language files
-- Check key structure and nesting
-- Verify useTranslation hook usage
+Built with ❤️ for inner transformation

@@ -1,5 +1,5 @@
 {
-  "name": "mazunte-connect",
+  "name": "inner-ascend",
   "private": true,
   "workspaces": [
     "apps/*",

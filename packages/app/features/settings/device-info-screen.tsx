@@ -49,8 +49,8 @@ export const DeviceInfoScreen = () => {
   }
 
   const deviceInfo = {
-    appName: 'Mazunte Connect',
-    appVersion: '1.0.1',
+    appName: 'Inner Ascend',
+    appVersion: '1.0.0',
     platform: Platform.OS,
     platformVersion: Platform.Version,
     deviceName: Device.deviceName || 'Unknown',
@@ -67,7 +67,7 @@ export const DeviceInfoScreen = () => {
   }
 
   const copyDeviceInfo = async () => {
-    const infoText = `${t('device_info.title')} - Mazunte Connect:
+    const infoText = `${t('device_info.title')} - Inner Ascend:
 
 ${t('device_info.app_version')}: ${deviceInfo.appName} v${deviceInfo.appVersion}
 ${t('device_info.platform')}: ${deviceInfo.platform} ${deviceInfo.platformVersion}

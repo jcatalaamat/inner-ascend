@@ -23,7 +23,7 @@ interface WebhookPayload {
   old_record: Feedback | null
 }
 
-const ADMIN_EMAIL = 'alerts@mazunteconnect.com'
+const ADMIN_EMAIL = 'alerts@innerascend.app'
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
 
 /**
@@ -133,7 +133,7 @@ serve(async (req) => {
         <body>
           <div class="header">
             <h1 style="margin: 0;">${typeEmoji} New ${typeLabel}</h1>
-            <p style="margin: 5px 0 0 0;">User feedback submitted via Mazunte Connect app</p>
+            <p style="margin: 5px 0 0 0;">User feedback submitted via Inner Ascend app</p>
           </div>
 
           <div class="content">
@@ -160,7 +160,7 @@ serve(async (req) => {
           </div>
 
           <div class="footer">
-            <p>This is an automated notification from Mazunte Connect's feedback system.</p>
+            <p>This is an automated notification from Inner Ascend's feedback system.</p>
             <p>Reply directly to this email to contact the user.</p>
           </div>
         </body>
@@ -168,7 +168,7 @@ serve(async (req) => {
     `
 
     const emailText = `
-New ${typeLabel} - Mazunte Connect
+New ${typeLabel} - Inner Ascend
 
 Type: ${typeLabel}
 Title: ${feedback.title}
@@ -205,7 +205,7 @@ Submitted: ${new Date(feedback.created_at).toLocaleString()}
         Authorization: `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: 'Mazunte Connect Alerts <alerts@mazunteconnect.com>',
+        from: 'Inner Ascend Alerts <alerts@innerascend.app>',
         to: [ADMIN_EMAIL],
         reply_to: feedback.user_email || ADMIN_EMAIL,
         subject: `${typeEmoji} ${typeLabel}: ${feedback.title}`,

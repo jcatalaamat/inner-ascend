@@ -2,11 +2,11 @@ require('dotenv').config({ path: '../../.env' })
 
 export default {
   expo: {
-    name: 'Mazunte Connect',
-    slug: 'mazunte-connect',
+    name: 'Inner Ascend',
+    slug: 'inner-ascend',
     jsEngine: 'hermes',
-    scheme: 'mazunteconnect',
-    version: '1.2.8',
+    scheme: 'innerascend',
+    version: '1.0.0',
     orientation: 'portrait',
     icon: './assets/icon.png',
     userInterfaceStyle: 'automatic',
@@ -22,8 +22,8 @@ export default {
     assetBundlePatterns: ['**/*'],
     ios: {
       supportsTablet: true,
-      bundleIdentifier: 'com.mazunte.connect',
-      buildNumber: '7',
+      bundleIdentifier: 'com.innerascend.app',
+      buildNumber: '1',
       icon: './assets/icon.png',
       infoPlist: {
         ITSAppUsesNonExemptEncryption: false,
@@ -47,13 +47,13 @@ export default {
         foregroundImage: './assets/adaptive-icon.png',
         backgroundColor: '#FFFFFF',
       },
-      package: 'com.mazunte.connect',
+      package: 'com.innerascend.app',
       permissions: [
         'android.permission.RECORD_AUDIO',
         'android.permission.ACCESS_FINE_LOCATION',
         'android.permission.ACCESS_COARSE_LOCATION',
       ],
-      versionCode: 4,
+      versionCode: 1,
       config: {
         googleMaps: {
           apiKey: process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
@@ -105,7 +105,7 @@ export default {
       [
         'expo-location',
         {
-          locationAlwaysAndWhenInUsePermission: 'Allow Mazunte Connect to use your location to show nearby events and places.',
+          locationAlwaysAndWhenInUsePermission: 'Allow Inner Ascend to use your location for personalized cosmic guidance.',
         },
       ],
       [

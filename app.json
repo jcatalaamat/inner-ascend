@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Mazunte Connect",
-    "slug": "mazunte-connect",
-    "version": "1.0.3",
+    "name": "Inner Ascend",
+    "slug": "inner-ascend",
+    "version": "1.0.0",
     "owner": "inner-ascend-expo",
     "extra": {
       "eas": {
@@ -10,15 +10,15 @@
       }
     },
     "ios": {
-      "bundleIdentifier": "com.inner-ascend.mazunte-connect",
-      "buildNumber": "30",
+      "bundleIdentifier": "com.innerascend.app",
+      "buildNumber": "1",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
-      "package": "com.innerascend.mazunteconnect",
-      "versionCode": 30
+      "package": "com.innerascend.app",
+      "versionCode": 1
     }
   }
 }

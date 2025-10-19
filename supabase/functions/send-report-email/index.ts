@@ -23,7 +23,7 @@ interface WebhookPayload {
   old_record: Report | null
 }
 
-const ADMIN_EMAIL = 'alerts@mazunteconnect.com'
+const ADMIN_EMAIL = 'alerts@innerascend.app'
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
 
 /**
@@ -183,15 +183,15 @@ serve(async (req) => {
           ` : ''}
 
           <div class="footer">
-            <p>This is an automated notification from Mazunte Connect's content moderation system.</p>
-            <p>You're receiving this because you're an admin at Mazunte Connect.</p>
+            <p>This is an automated notification from Inner Ascend's content moderation system.</p>
+            <p>You're receiving this because you're an admin at Inner Ascend.</p>
           </div>
         </body>
       </html>
     `
 
     const emailText = `
-New Content Report - Mazunte Connect
+New Content Report - Inner Ascend
 
 Report ID: ${report.id}
 Item Type: ${report.item_type}
@@ -232,7 +232,7 @@ ${itemUrl ? `View Reported Item: ${itemUrl}` : ''}
         Authorization: `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: 'Mazunte Connect Alerts <alerts@mazunteconnect.com>',
+        from: 'Inner Ascend Alerts <alerts@innerascend.app>',
         to: [ADMIN_EMAIL],
         subject: `🚨 New Report: ${reasonLabel} - ${itemTitle}`,
         html: emailHtml,

@@ -1,6 +1,6 @@
 {
   "version": "1.0.1",
-  "name": "mazunte-connect-app",
+  "name": "inner-ascend-app",
   "main": "index.ts",
   "types": "./index.ts",
   "private": true,

@@ -63,7 +63,7 @@ fastlane init
 
 When prompted:
 - Choose option `4` (Manual setup)
-- App Identifier: `com.mazunte.connect`
+- App Identifier: `com.innerascend.app`
 - Apple ID: Your Apple developer account email
 
 ### Configuration Files

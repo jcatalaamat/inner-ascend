@@ -138,7 +138,7 @@ Before you can submit, you need:
 ### ✅ **2. App Information** (in App Store Connect)
 - [ ] App name: `Mazunte Connect`
 - [ ] Primary language: English (U.K.) or English (U.S.)
-- [ ] Bundle ID: `com.mazunte.connect` (already set)
+- [ ] Bundle ID: `com.innerascend.app` (already set)
 - [ ] SKU: Any unique identifier (e.g., `mazunte-connect-001`)
 
 ### ✅ **3. Screenshots** (Required!)

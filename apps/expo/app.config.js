@@ -22,9 +22,11 @@ export default {
     assetBundlePatterns: ['**/*'],
     ios: {
       supportsTablet: true,
-      bundleIdentifier: 'com.innerascend.app',
+      bundleIdentifier: 'com.innerascend.ios',
+      appleTeamId: '3R96Y2JNG8',
       buildNumber: '1',
       icon: './assets/icon.png',
+      usesAppleSignIn: true,
       infoPlist: {
         ITSAppUsesNonExemptEncryption: false,
         "NSBluetoothAlwaysUsageDescription": "This app uses Bluetooth for nearby device verification during sign-in.",
@@ -39,6 +41,9 @@ export default {
       },
       config: {
         googleMobileAdsAppId: process.env.EXPO_PUBLIC_ADMOB_IOS_APP_ID || 'ca-app-pub-3940256099942544~1458002511', // Test ID
+      },
+      entitlements: {
+        'com.apple.developer.applesignin': ['Default'],
       },
     },
     android: {

@@ -10,14 +10,14 @@
       }
     },
     "ios": {
-      "bundleIdentifier": "com.innerascend.app",
+      "bundleIdentifier": "com.innerascend.ios",
       "buildNumber": "1",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
-      "package": "com.innerascend.app",
+      "package": "com.innerascend.android",
       "versionCode": 1
     }
   }

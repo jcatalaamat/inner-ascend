@@ -4,7 +4,7 @@
 
 # Your Apple ID email
 # Replace with your actual Apple ID
-app_identifier("com.innerascend.app") # The bundle identifier of your app
+app_identifier("com.innerascend.ios") # The bundle identifier of your app
 apple_id("jordicatalaamat@gmail.com") # Your Apple email address
 
 # Uncomment and add your Apple Developer Team ID if you have one

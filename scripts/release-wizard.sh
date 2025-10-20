@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Mazunte Connect Release Wizard
+# Inner Ascend Release Wizard
 # Interactive CLI guide for deploying your app
 
 set -e
@@ -29,7 +29,7 @@ show_main_menu() {
         --align center \
         --width 60 \
         --margin "0" --padding "1" \
-        "🌴🌊 MAZUNTE CONNECT 🌊🌴" \
+        "🌙✨ INNER ASCEND ✨🌙" \
         "RELEASE WIZARD" \
         "════════════════════════"
 

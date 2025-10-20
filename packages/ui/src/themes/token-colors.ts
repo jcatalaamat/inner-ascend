@@ -104,6 +104,24 @@ export const color = {
   black10: '#626262',
   black11: '#a5a5a5',
   black12: '#fff',
+
+  // Inner Ascend Cosmic Colors
+  deepSpace1: '#0A0A0F',  // Almost black with subtle blue undertone
+  deepSpace2: '#121218',  // Card backgrounds
+  deepSpace3: '#1A1A24',  // Elevated surfaces
+  cosmicViolet: '#8B7BF7',  // Primary brand color (deep purple)
+  cosmicVioletHover: '#6B5BD6',  // Hover/active states
+  cosmicVioletLight: '#A99BFF',  // Highlights
+  silverMoon: '#E8E6F0',  // Primary text
+  silverMoon2: '#B8B5C8',  // Secondary text
+  silverMoon3: '#6E6B7D',  // Tertiary/disabled text
+  shadowPurple: '#2D1B3D',  // Deep purple-black for shadows
+  shadowPurple2: '#1F1428',  // Darker elements
+  integrationGreen: '#4ECDC4',  // Success/completed states
+  integrationGreenDark: '#3DA69E',  // Subtle glow for achievements
+  innerChildGold: '#FFD93D',  // Achievements/streaks
+  innerChildGoldDark: '#E8C547',  // Streaks/stats
+
   ...postfixObjKeys(lightColors, 'Light'),
   ...postfixObjKeys(darkColors, 'Dark'),
 }

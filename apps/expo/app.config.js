@@ -13,11 +13,11 @@ export default {
     splash: {
       image: './assets/splash.png',
       contentFit: 'contain',
-      backgroundColor: '#FDDB99',
+      backgroundColor: '#0A0A0F', // Deep space black (cosmic theme)
     },
     updates: {
       fallbackToCacheTimeout: 0,
-      url: 'https://u.expo.dev/f4f14c35-489b-4fc5-bd7e-6e156faf5928',
+      url: 'https://u.expo.dev/0ba86799-99f0-4ef5-9841-46061cfd6e80',
     },
     assetBundlePatterns: ['**/*'],
     ios: {
@@ -45,7 +45,7 @@ export default {
       softwareKeyboardLayoutMode: 'pan',
       adaptiveIcon: {
         foregroundImage: './assets/adaptive-icon.png',
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#0A0A0F', // Deep space black (cosmic theme)
       },
       package: 'com.innerascend.app',
       permissions: [
@@ -131,7 +131,7 @@ export default {
         origin: false,
       },
       eas: {
-        projectId: 'f4f14c35-489b-4fc5-bd7e-6e156faf5928',
+        projectId: '0ba86799-99f0-4ef5-9841-46061cfd6e80',
       },
     },
     runtimeVersion: {

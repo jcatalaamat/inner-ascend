@@ -16,42 +16,76 @@ A comprehensive spiritual growth platform that provides:
 ## 📱 Core Features
 
 ### TODAY (Home)
-- Daily cosmic weather (moon phase, planetary transits)
-- Today's shadow work focus from curriculum
-- Guided practice button
-- Emotional check-in (struggling, processing, clear, integrated)
-- Streak counter
+- Daily cosmic weather (moon phase, planetary transits) [Placeholder]
+- Today's shadow work focus from curriculum [Placeholder]
+- Guided practice button [Placeholder]
+- Emotional check-in (struggling, processing, clear, integrated) [UI Only]
+- Streak counter [Mock Data: 23 days]
 
 ### JOURNEY (Curriculum)
-- Being Human 101: 16 modules
-- Visual progress tracking
-- Signature images for each module
-- Progressive unlocking system
+- Being Human 101: 16 modules [Navigation Working]
+- Visual progress tracking [Placeholder]
+- Module cards showing status (completed/active/locked) [Visual Only]
+- Progressive unlocking system [Future]
 
 ### MODULE VIEW
-- Daily teachings
-- Guided practices
-- Journaling prompts
-- Progress completion
+- Daily teachings [Placeholder]
+- Guided practices list [Placeholder]
+- Journaling prompts [Placeholder]
+- Progress completion button [Non-functional]
 
 ### PRACTICES LIBRARY
-- 7 guided meditations with audio player
-- Journaling prompts by theme
-- Shadow work exercises
-- Standalone or within module flow
+- 7 guided meditations tabs [Navigation Working]
+- Journaling prompts by theme [Placeholder]
+- Shadow work exercises [Placeholder]
+- Standalone or within module flow [Future]
 
 ### PROGRESS
-- Current & longest streaks
-- Practice breakdown
-- Achievement badges
-- Visual timeline
+- Current & longest streaks [Mock Data]
+- Practice breakdown [Mock Data: 42 meditations, 38 journals, 28 exercises]
+- Achievement badges [Placeholder]
+- Visual timeline [Placeholder]
 
 ### JOURNALING
-- Daily prompts
-- Minimal distraction editor
-- Word count & timer
-- Auto-save
-- Entry history
+- Daily prompts [Hardcoded]
+- Minimal distraction text editor [Working]
+- Word count & timer [Word count working, timer placeholder]
+- Auto-save [Future]
+- Entry history [Future]
+
+---
+
+## 🚧 Current Status: SKELETON PHASE
+
+This is a **skeleton refactor** with navigation structure and placeholder content only.
+
+**What's Working:**
+- ✅ 4-tab navigation (TODAY, JOURNEY, PRACTICES, PROGRESS)
+- ✅ Drawer navigation
+- ✅ Module detail navigation (module/[id])
+- ✅ Journaling screen navigation
+- ✅ Cosmic color theme applied
+- ✅ All screens render without errors
+- ✅ Database schema created (fresh start)
+
+**What's NOT Working Yet:**
+- ❌ Real cosmic weather data
+- ❌ Database queries/mutations
+- ❌ Module progression logic
+- ❌ Streak tracking
+- ❌ Meditation audio player
+- ❌ Journaling persistence
+- ❌ Achievement system
+- ❌ User progress tracking
+
+**Old Features Archived:**
+- Events/Places/Services marketplace → `/apps/expo/app/.archive/`
+- Old feature modules → `/packages/app/features/.archive/`
+- Old contexts → `/packages/app/contexts/.archive/`
+
+**Note:** Archive folders use `.archive` (dot prefix) so Metro bundler ignores them during compilation.
+
+---
 
 ## 🏗️ Architecture
 
@@ -124,14 +158,19 @@ Required environment variables in `.env`:
 
 ## 📊 Database Schema
 
-### Core Tables (To Be Designed):
-- `users` - User profiles and preferences
-- `modules` - Being Human 101 curriculum modules
-- `practices` - Meditation and exercise library
-- `journal_entries` - User journaling
-- `progress` - Completion tracking
-- `streaks` - Daily practice streaks
-- `cosmic_data` - Daily cosmic weather
+### Core Tables (Fresh Schema - Oct 19, 2024):
+- `profiles` - User profiles, preferences, and birth chart data
+- `modules` - Being Human 101 curriculum (16 modules seeded)
+- `practices` - Meditation and exercise library (7 meditations seeded)
+- `journal_entries` - User journaling with prompts
+- `user_progress` - Module/practice completion tracking
+- `daily_streaks` - Daily practice streaks
+- `emotional_checkins` - Daily emotional state tracking
+- `cosmic_cache` - Cached daily cosmic weather data
+
+**Migration File:** `supabase/migrations/20251019000000_inner_ascend_schema.sql`
+
+**Note:** All old migrations have been deleted. This is a fresh start for the spiritual practice app.
 
 ## 🚀 Deployment
 

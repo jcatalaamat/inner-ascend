@@ -1,12 +1,13 @@
-Welcome to Mazunte Connect!
+Welcome to Inner Ascend!
 
-This release includes:
-• Browse upcoming events in Mazunte
-• Discover local places and businesses
-• View everything on an interactive map
-• Save your favorite events and places
-• Create and share your own events
-• Full English and Spanish support
-• Dark mode for comfortable viewing
+This initial release includes:
+• 16 Being Human 101 curriculum modules
+• Shadow work and integration practices
+• Daily cosmic guidance and lunar tracking
+• Guided meditations for each module phase
+• Journaling with prompts and word tracking
+• Emotional check-ins to track your state
+• Progress tracking with streak counters
+• Beautiful cosmic dark mode interface
 
-We're excited to help you connect with the Mazunte community!
+Begin your journey of radical self-discovery.

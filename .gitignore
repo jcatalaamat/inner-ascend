@@ -22,6 +22,11 @@
 # production
 /build
 
+# build artifacts
+*.apk
+*.aab
+*.ipa
+
 # debug
 npm-debug.log*
 yarn-debug.log*

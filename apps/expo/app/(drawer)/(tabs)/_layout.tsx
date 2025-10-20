@@ -1,35 +1,21 @@
 import { useTheme, Button } from '@my/ui'
 import { DrawerActions } from '@react-navigation/native'
-import { Briefcase, Calendar, Home, MapPin, Menu, Plus, User } from '@tamagui/lucide-icons'
-import { router, Stack, Tabs, useNavigation, usePathname } from 'expo-router'
+import { BookOpen, CircleDot, Home, Menu, TrendingUp } from '@tamagui/lucide-icons'
+import { Stack, Tabs, useNavigation, usePathname } from 'expo-router'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { useTranslation } from 'react-i18next'
-import { usePostHog, useFeatureFlag } from 'posthog-react-native'
-import { useEffect, useState } from 'react'
 
 export default function Layout() {
   const { accentColor } = useTheme()
   const navigation = useNavigation()
   const pathname = usePathname()
   const insets = useSafeAreaInsets()
-  const { t } = useTranslation()
-  const posthog = usePostHog()
-
-  // Use PostHog hooks for feature flags
-  const disableEventCreation = useFeatureFlag('disable-event-creation')
-  const disablePlaceCreation = useFeatureFlag('disable-place-creation')
-  const disableDrawerMenu = useFeatureFlag('disable-drawer-menu')
-
-  // Show features when flag is undefined (loading) or false (disabled)
-  const showDrawerMenu = !disableDrawerMenu
 
   return (
     <>
       <Stack.Screen
         options={{
-          title: t('app.title'),
+          title: 'Inner Ascend',
           headerShown: false,
-          // headerShown: pathname === '/' || pathname === '/create',
           headerTintColor: accentColor.val,
           headerLeft: () => (
             <Button
@@ -41,12 +27,10 @@ export default function Layout() {
               onPress={() => {
                 navigation.dispatch(DrawerActions.openDrawer())
               }}
-              style={{ display: showDrawerMenu ? 'flex' : 'none' }}
             >
               <Menu size={24} />
             </Button>
           ),
-          headerRight: undefined, // No create button in header anymore - use SearchBar buttons
         }}
       />
       <Tabs
@@ -72,56 +56,41 @@ export default function Layout() {
       >
         <Tabs.Screen
           name="index"
-          key="index"
           options={{
             headerShown: false,
-            title: t('navigation.home'),
-            tabBarIcon: ({ size, color, focused }) => (
-              <Home color={focused ? '$color11' : '$color10'} size={22} strokeWidth={focused ? 2.5 : 2} />
+            title: 'Today',
+            tabBarIcon: ({ focused }) => (
+              <Home color={focused ? '$cosmicViolet' : '$silverMoon2'} size={22} strokeWidth={focused ? 2.5 : 2} />
             ),
           }}
         />
         <Tabs.Screen
-          name="events"
-          key="events"
+          name="journey"
           options={{
             headerShown: false,
-            title: t('navigation.events'),
-            tabBarIcon: ({ size, color, focused }) => (
-              <Calendar color={focused ? '$color11' : '$color10'} size={22} strokeWidth={focused ? 2.5 : 2} />
+            title: 'Journey',
+            tabBarIcon: ({ focused }) => (
+              <BookOpen color={focused ? '$cosmicViolet' : '$silverMoon2'} size={22} strokeWidth={focused ? 2.5 : 2} />
             ),
           }}
         />
         <Tabs.Screen
-          name="places"
-          key="places"
+          name="practices"
           options={{
             headerShown: false,
-            title: t('navigation.places'),
-            tabBarIcon: ({ size, color, focused }) => (
-              <MapPin color={focused ? '$color11' : '$color10'} size={22} strokeWidth={focused ? 2.5 : 2} />
+            title: 'Practices',
+            tabBarIcon: ({ focused }) => (
+              <CircleDot color={focused ? '$cosmicViolet' : '$silverMoon2'} size={22} strokeWidth={focused ? 2.5 : 2} />
             ),
           }}
         />
         <Tabs.Screen
-          name="services"
-          key="services"
+          name="progress"
           options={{
             headerShown: false,
-            title: t('navigation.services'),
-            tabBarIcon: ({ size, color, focused }) => (
-              <Briefcase color={focused ? '$color11' : '$color10'} size={22} strokeWidth={focused ? 2.5 : 2} />
-            ),
-          }}
-        />
-        <Tabs.Screen
-          name="profile"
-          key="profile"
-          options={{
-            headerShown: false,
-            title: t('navigation.profile'),
-            tabBarIcon: ({ size, color, focused }) => (
-              <User color={focused ? '$color11' : '$color10'} size={22} strokeWidth={focused ? 2.5 : 2} />
+            title: 'Progress',
+            tabBarIcon: ({ focused }) => (
+              <TrendingUp color={focused ? '$cosmicViolet' : '$silverMoon2'} size={22} strokeWidth={focused ? 2.5 : 2} />
             ),
           }}
         />

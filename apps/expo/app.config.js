@@ -13,7 +13,7 @@ export default {
     splash: {
       image: './assets/splash.png',
       contentFit: 'contain',
-      backgroundColor: '#FDDB99',
+      backgroundColor: '#0A0A0F', // Deep space black (cosmic theme)
     },
     updates: {
       fallbackToCacheTimeout: 0,
@@ -45,7 +45,7 @@ export default {
       softwareKeyboardLayoutMode: 'pan',
       adaptiveIcon: {
         foregroundImage: './assets/adaptive-icon.png',
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#0A0A0F', // Deep space black (cosmic theme)
       },
       package: 'com.innerascend.app',
       permissions: [

@@ -3,7 +3,7 @@ require('dotenv').config({ path: '../../.env' })
 export default {
   expo: {
     name: 'Inner Ascend',
-    slug: 'inner-ascend',
+    slug: 'mazunte-connect', // Temporary: EAS still has old slug cached
     jsEngine: 'hermes',
     scheme: 'innerascend',
     version: '1.0.0',

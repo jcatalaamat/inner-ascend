@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Mazunte Connect Commit Wizard
+# Inner Ascend Commit Wizard
 # Interactive git commit helper
 
 set -e
@@ -22,7 +22,7 @@ gum style \
     --align center \
     --width 50 \
     --margin "0" --padding "1" \
-    "🌴 GIT COMMIT WIZARD 🌴" \
+    "🌙 GIT COMMIT WIZARD 🌙" \
     "════════════════════"
 
 echo ""
@@ -149,7 +149,7 @@ if gum confirm "Push to remote?"; then
         --padding "1 2" \
         "✨ SUCCESS! ✨" \
         "Committed & pushed to GitHub!" \
-        "🌴 Beach vibes delivered 🌊"
+        "🌙 Cosmic vibes delivered ✨"
 else
     gum style --foreground 51 "✓ Committed locally (not pushed)"
 fi

@@ -53,10 +53,10 @@ export const OnboardingControls = ({
         jc="center"
         gap="$2"
         borderWidth={4}
-        borderColor="$color11"
-        shadowColor="$color11"
+        borderColor="$color8"
+        shadowColor="$color8"
         shadowOffset={{ width: 0, height: 4 }}
-        shadowOpacity={1}
+        shadowOpacity={0.3}
         shadowRadius={0}
         onPress={() => handleGoNext()}
         pressStyle={{

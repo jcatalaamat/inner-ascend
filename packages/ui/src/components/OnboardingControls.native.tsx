@@ -28,6 +28,8 @@ export const OnboardingControls = ({
       <Button
         size="$4"
         chromeless
+        col="$color10"
+        fontWeight="600"
         pressStyle={{
           bg: '$color5',
           scale: 0.96,
@@ -35,7 +37,7 @@ export const OnboardingControls = ({
         br="$3"
         onPress={() => handleSkip()}
       >
-        <Button.Text col="$color10" fontWeight="600" size="$4">Skip</Button.Text>
+        Skip
       </Button>
 
       <Button
@@ -43,6 +45,9 @@ export const OnboardingControls = ({
         size="$5"
         br="$4"
         bg="$color10"
+        col="$color1"
+        fontWeight="800"
+        letterSpacing={-0.5}
         borderWidth={4}
         borderColor="$color11"
         shadowColor="$color11"
@@ -57,14 +62,7 @@ export const OnboardingControls = ({
         onPress={() => handleGoNext()}
         iconAfter={isLastStep ? undefined : ChevronRight}
       >
-        <Button.Text
-          col="$color1"
-          fontWeight="800"
-          size="$5"
-          letterSpacing={-0.5}
-        >
-          {isLastStep ? 'Start My Journey' : 'Continue'}
-        </Button.Text>
+        {isLastStep ? 'Start My Journey' : 'Continue'}
       </Button>
     </XStack>
   )

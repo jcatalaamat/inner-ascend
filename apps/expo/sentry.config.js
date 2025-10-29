@@ -7,7 +7,19 @@ const getEnvironment = () => {
 
 // Simple, safe initialization for Expo
 Sentry.init({
-  dsn: 'https://2f77c6b4748e9a863a593894e56f4cff@o4510118163906560.ingest.de.sentry.io/4510118172491856',
+  dsn: 'https://cfd237d96798eab930bed44777afa8a2@o4510118163906560.ingest.de.sentry.io/4510273641250896',
+
+  // Adds more context data to events (IP address, cookies, user, etc.)
+  // For more information, visit: https://docs.sentry.io/platforms/react-native/data-management/data-collected/
+  sendDefaultPii: true,
+
+  // Enable Logs
+  enableLogs: true,
+
+  // Configure Session Replay
+  replaysSessionSampleRate: 0.1,
+  replaysOnErrorSampleRate: 1,
+  integrations: [Sentry.mobileReplayIntegration(), Sentry.feedbackIntegration()],
 
   // Enable debug mode in development
   debug: __DEV__,
@@ -34,6 +46,9 @@ Sentry.init({
     }
     return event;
   },
+
+  // uncomment the line below to enable Spotlight (https://spotlightjs.com)
+  // spotlight: __DEV__,
 });
 
 // Log initialization (always log to help debug crashes)

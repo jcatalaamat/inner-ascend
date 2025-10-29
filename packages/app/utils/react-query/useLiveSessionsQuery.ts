@@ -72,7 +72,7 @@ export function usePastSessionsQuery() {
  */
 export function useUserRsvpsQuery() {
   const supabase = useSupabase()
-  const user = useUser()
+  const { user } = useUser()
 
   return useQuery({
     queryKey: ['session-rsvps', user?.id],
@@ -128,7 +128,7 @@ export function useSessionRsvpsQuery(sessionId: string) {
  */
 export function useRsvpMutation() {
   const supabase = useSupabase()
-  const user = useUser()
+  const { user } = useUser()
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -179,7 +179,7 @@ export function useRsvpMutation() {
  */
 export function useRemoveRsvpMutation() {
   const supabase = useSupabase()
-  const user = useUser()
+  const { user } = useUser()
   const queryClient = useQueryClient()
 
   return useMutation({

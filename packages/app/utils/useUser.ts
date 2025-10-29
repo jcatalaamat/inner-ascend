@@ -1,4 +1,5 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useEffect } from 'react'
 
 import { useSessionContext } from './supabase/useSessionContext'
 import { useSupabase } from './supabase/useSupabase'
@@ -7,6 +8,8 @@ function useProfile() {
   const { session } = useSessionContext()
   const user = session?.user
   const supabase = useSupabase()
+  const queryClient = useQueryClient()
+
   const { data, isPending, refetch } = useQuery({
     queryKey: ['profile', user?.id],
     queryFn: async () => {
@@ -22,7 +25,15 @@ function useProfile() {
       }
       return data
     },
+    enabled: !!user?.id,
   })
+
+  // Clear all queries when user logs out
+  useEffect(() => {
+    if (!user) {
+      queryClient.clear()
+    }
+  }, [user, queryClient])
 
   return { data, isPending, refetch }
 }

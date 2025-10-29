@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { router } from 'expo-router'
 import { useMeditationsQuery, useExercisesQuery, useJournalingPromptsQuery } from 'app/utils/react-query/usePracticesQuery'
 import { PracticeDetailSheet } from 'app/components/PracticeDetailSheet'
+import { FloatingMenuButton } from 'app/components/FloatingMenuButton'
 
 // Theme metadata for journaling prompts
 const themeMetadata: Record<string, { icon: string; title: string }> = {
@@ -48,6 +49,7 @@ export default function PracticesScreen() {
 
   return (
     <YStack flex={1} backgroundColor="$deepSpace1">
+      <FloatingMenuButton />
       <ScrollView
         contentContainerStyle={{
           paddingTop: insets.top,

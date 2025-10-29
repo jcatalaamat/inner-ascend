@@ -5,6 +5,7 @@ import { useProgressSummaryQuery } from 'app/utils/react-query/useUserProgressQu
 import { useStreakStatsQuery } from 'app/utils/react-query/useStreakQuery'
 import { useRecentJournalEntriesQuery, useJournalStatsQuery } from 'app/utils/react-query/useJournalEntriesQuery'
 import { useEmotionalCheckInsQuery } from 'app/utils/react-query/useEmotionalCheckInMutation'
+import { FloatingMenuButton } from 'app/components/FloatingMenuButton'
 
 export default function ProgressScreen() {
   const insets = useSafeAreaInsets()
@@ -52,6 +53,7 @@ export default function ProgressScreen() {
 
   return (
     <YStack flex={1} backgroundColor="$deepSpace1">
+      <FloatingMenuButton />
       <ScrollView
         contentContainerStyle={{
           paddingTop: insets.top,

@@ -11,7 +11,7 @@
         "buildConfiguration": "Debug"
       },
       "env": {
-        "GOOGLE_IOS_SCHEME": "com.googleusercontent.apps.7491021027-dj901lvn943vgmstd41vraejfpinucra"
+        "GOOGLE_IOS_SCHEME": "com.googleusercontent.apps.1065698463479-vkv369urpqtpdcuhlokiavvf1medcptv"
       }
     },
     "staging": {
@@ -27,9 +27,9 @@
         "EXPO_PUBLIC_URL": "https://staging.innerascend.app",
         "EXPO_PUBLIC_SUPABASE_URL": "https://cavtcmaplbycdoyyprss.supabase.co",
         "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNhdnRjbWFwbGJ5Y2RveXlwcnNzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE0MzE4MzcsImV4cCI6MjA3NzAwNzgzN30.CbVmQ-NGVj5aGoTaRW8hJRyvHB7MIlA_2nOkTcd9VYQ",
-        "GOOGLE_IOS_SCHEME": "com.googleusercontent.apps.7491021027-dj901lvn943vgmstd41vraejfpinucra",
-        "GOOGLE_IOS_CLIENT_ID": "7491021027-dj901lvn943vgmstd41vraejfpinucra.apps.googleusercontent.com",
-        "GOOGLE_WEB_CLIENT_ID": "7491021027-09gk5vafhlcii1nh3hvp7g7fh9kts3al.apps.googleusercontent.com"
+        "GOOGLE_IOS_SCHEME": "com.googleusercontent.apps.1065698463479-vkv369urpqtpdcuhlokiavvf1medcptv",
+        "GOOGLE_IOS_CLIENT_ID": "1065698463479-vkv369urpqtpdcuhlokiavvf1medcptv.apps.googleusercontent.com",
+        "GOOGLE_WEB_CLIENT_ID": "1065698463479-soqfhb6vi0487v0a0g2bn8uc86qo4ut3.apps.googleusercontent.com"
       }
     },
     "preview": {

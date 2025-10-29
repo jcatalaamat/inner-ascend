@@ -9,6 +9,7 @@ import {
   useUserRsvpsQuery,
 } from 'app/utils/react-query/useLiveSessionsQuery'
 import type { Database } from '@my/supabase/types'
+import { FloatingMenuButton } from 'app/components/FloatingMenuButton'
 
 type LiveSession = Database['public']['Tables']['live_sessions']['Row']
 
@@ -211,6 +212,7 @@ export default function CommunityScreen() {
 
   return (
     <YStack flex={1} backgroundColor="$deepSpace1">
+      <FloatingMenuButton />
       <ScrollView
         contentContainerStyle={{
           paddingTop: insets.top,

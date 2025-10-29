@@ -7,6 +7,7 @@ import { useProgressSummaryQuery } from 'app/utils/react-query/useUserProgressQu
 import { useStreakStatsQuery } from 'app/utils/react-query/useStreakQuery'
 import { useEmotionalCheckInMutation, useTodayCheckInQuery } from 'app/utils/react-query/useEmotionalCheckInMutation'
 import { useCosmicWeatherQuery } from 'app/utils/react-query/useCosmicWeatherQuery'
+import { FloatingMenuButton } from 'app/components/FloatingMenuButton'
 
 type EmotionalState = 'struggling' | 'processing' | 'clear' | 'integrated'
 
@@ -100,6 +101,7 @@ export default function TodayScreen() {
 
   return (
     <YStack flex={1} backgroundColor="$deepSpace1">
+      <FloatingMenuButton />
       <ScrollView
         contentContainerStyle={{
           paddingTop: insets.top + 8,

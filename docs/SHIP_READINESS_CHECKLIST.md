@@ -60,7 +60,7 @@ Areas to audit:
 ## 6. App Store Requirements
 - Verify app.json has correct version and build numbers
 - Check all required app icons and splash screens exist
-- Verify bundle identifiers are correct (com.innerascend.ios)
+- Verify bundle identifiers are correct (com.innerascend.app)
 - Check privacy policy and terms of service are accessible
 - Verify all required permissions have proper descriptions
 - Check app metadata in fastlane folder is complete and accurate
@@ -221,7 +221,7 @@ Please provide the audit in this format:
 
 ### App Store Connect
 - [ ] App created in App Store Connect
-- [ ] Bundle ID matches (com.innerascend.ios)
+- [ ] Bundle ID matches (com.innerascend.app)
 - [ ] App icons uploaded (all required sizes)
 - [ ] Screenshots prepared (all required sizes)
 - [ ] App name: "Inner Ascend"

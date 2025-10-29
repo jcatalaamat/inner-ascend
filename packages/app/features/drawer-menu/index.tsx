@@ -1,18 +1,15 @@
-import { Avatar, Paragraph, Settings, XStack, YStack, getTokens, useWindowDimensions, Text, H6, Button } from '@my/ui'
+import { Avatar, Paragraph, Settings, XStack, YStack, getTokens } from '@my/ui'
 import { DrawerContentScrollView } from '@react-navigation/drawer'
-import { Box, Cog, Milestone, ShoppingCart, User, Users, X } from '@tamagui/lucide-icons'
+import { Cog } from '@tamagui/lucide-icons'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useUser } from 'app/utils/useUser'
 import { SolitoImage } from 'solito/image'
 import { useLink } from 'solito/link'
-import { useState } from 'react'
 
 export function DrawerMenu(props) {
   const { profile, avatarUrl } = useUser()
   const name = profile?.name
   const insets = useSafeAreaInsets()
-  const height = useWindowDimensions().height
-  const [headerDismissed, setHeaderDismissed] = useState(false)
 
   return (
     <YStack f={1} bg="$background">
@@ -28,21 +25,6 @@ export function DrawerMenu(props) {
           <Settings>
             <Settings.Items>
               <Settings.Group>
-                <Settings.Item icon={User} {...useLink({ href: '/profile/edit' })} accentTheme="pink">
-                  Edit profile
-                </Settings.Item>
-                {/* <Settings.Item icon={Box} accentTheme="green">
-                  My Items
-                </Settings.Item>
-                <Settings.Item icon={Users} accentTheme="orange">
-                  Refer Your Friends
-                </Settings.Item>
-                <Settings.Item icon={Milestone} accentTheme="gray">
-                  Address Info
-                </Settings.Item>
-                <Settings.Item icon={ShoppingCart} accentTheme="blue">
-                  Purchase History
-                </Settings.Item> */}
                 <Settings.Item {...useLink({ href: '/settings' })} icon={Cog}>
                   Settings
                 </Settings.Item>

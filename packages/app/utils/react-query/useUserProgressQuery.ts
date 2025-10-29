@@ -12,7 +12,7 @@ type UserProgressInsert = Database['public']['Tables']['user_progress']['Insert'
  */
 export function useUserProgressQuery() {
   const supabase = useSupabase()
-  const user = useUser()
+  const { user } = useUser()
 
   return useQuery({
     queryKey: ['user-progress', user?.id],
@@ -41,7 +41,7 @@ export function useUserProgressQuery() {
  */
 export function useModuleProgressQuery(moduleId: number) {
   const supabase = useSupabase()
-  const user = useUser()
+  const { user } = useUser()
 
   return useQuery({
     queryKey: ['module-progress', user?.id, moduleId],
@@ -202,7 +202,7 @@ export function useProgressSummaryQuery() {
  */
 export function useCompleteModuleDayMutation() {
   const supabase = useSupabase()
-  const user = useUser()
+  const { user } = useUser()
   const queryClient = useQueryClient()
 
   return useMutation({

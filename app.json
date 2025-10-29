@@ -10,7 +10,7 @@
       }
     },
     "ios": {
-      "bundleIdentifier": "com.innerascend.ios",
+      "bundleIdentifier": "com.innerascend.app",
       "buildNumber": "1",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
@@ -19,6 +19,16 @@
     "android": {
       "package": "com.innerascend.android",
       "versionCode": 1
-    }
+    },
+    "plugins": [
+      [
+        "@sentry/react-native/expo",
+        {
+          "url": "https://sentry.io/",
+          "project": "inner-ascend-app",
+          "organization": "inner-ascend"
+        }
+      ]
+    ]
   }
 }

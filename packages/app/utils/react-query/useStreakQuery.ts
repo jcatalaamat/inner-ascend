@@ -12,7 +12,7 @@ type DailyStreakInsert = Database['public']['Tables']['daily_streaks']['Insert']
  */
 export function useDailyStreaksQuery() {
   const supabase = useSupabase()
-  const user = useUser()
+  const { user } = useUser()
 
   return useQuery({
     queryKey: ['daily-streaks', user?.id],
@@ -129,7 +129,7 @@ export function useStreakStatsQuery() {
  */
 export function useRecordPracticeMutation() {
   const supabase = useSupabase()
-  const user = useUser()
+  const { user } = useUser()
   const queryClient = useQueryClient()
 
   return useMutation({

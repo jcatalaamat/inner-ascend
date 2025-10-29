@@ -57,13 +57,15 @@ enable_confirmations = true
 # `twitter`, `slack`, `spotify`, `workos`, `zoom`.
 
 [auth.external.google]
-# COMMENTED OUT: Google Sign-In functionality
-enabled = false
+# Google Sign-In functionality
+# IMPORTANT: You must set GOOGLE_WEB_CLIENT_ID and GOOGLE_SECRET in your .env file
+# See docs/OAUTH_SETUP_GUIDE.md for detailed setup instructions
+enabled = true
 
-# client_id = "env(GOOGLE_WEB_CLIENT_ID)"
-# secret = "env(GOOGLE_SECRET)"
-# # Overrides the default auth redirectUrl.
-# redirect_uri = "http://127.0.0.1:54321/auth/v1/callback"
+client_id = "env(GOOGLE_WEB_CLIENT_ID)"
+secret = "env(GOOGLE_SECRET)"
+# Overrides the default auth redirectUrl.
+redirect_uri = "http://127.0.0.1:54321/auth/v1/callback"
 
 # Overrides the default auth provider URL. Used to support self-hosted gitlab, single-tenant Azure,
 # or any other third-party OIDC providers.

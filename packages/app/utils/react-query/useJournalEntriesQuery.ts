@@ -12,7 +12,7 @@ type JournalEntryInsert = Database['public']['Tables']['journal_entries']['Inser
  */
 export function useJournalEntriesQuery() {
   const supabase = useSupabase()
-  const user = useUser()
+  const { user } = useUser()
 
   return useQuery({
     queryKey: ['journal-entries', user?.id],
@@ -41,7 +41,7 @@ export function useJournalEntriesQuery() {
  */
 export function useRecentJournalEntriesQuery(limit: number = 5) {
   const supabase = useSupabase()
-  const user = useUser()
+  const { user } = useUser()
 
   return useQuery({
     queryKey: ['recent-journal-entries', user?.id, limit],
@@ -71,7 +71,7 @@ export function useRecentJournalEntriesQuery(limit: number = 5) {
  */
 export function useJournalEntryQuery(entryId: string) {
   const supabase = useSupabase()
-  const user = useUser()
+  const { user } = useUser()
 
   return useQuery({
     queryKey: ['journal-entry', entryId, user?.id],
@@ -105,7 +105,7 @@ export function useJournalEntryQuery(entryId: string) {
  */
 export function useJournalStatsQuery() {
   const supabase = useSupabase()
-  const user = useUser()
+  const { user } = useUser()
 
   return useQuery({
     queryKey: ['journal-stats', user?.id],
@@ -148,7 +148,7 @@ export function useJournalStatsQuery() {
  */
 export function useCreateJournalEntryMutation() {
   const supabase = useSupabase()
-  const user = useUser()
+  const { user } = useUser()
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -197,7 +197,7 @@ export function useCreateJournalEntryMutation() {
  */
 export function useUpdateJournalEntryMutation() {
   const supabase = useSupabase()
-  const user = useUser()
+  const { user } = useUser()
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -243,7 +243,7 @@ export function useUpdateJournalEntryMutation() {
  */
 export function useDeleteJournalEntryMutation() {
   const supabase = useSupabase()
-  const user = useUser()
+  const { user } = useUser()
   const queryClient = useQueryClient()
 
   return useMutation({

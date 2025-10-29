@@ -502,7 +502,7 @@ I've completed a systematic review of all 10 critical features of the Inner Asce
 
 3. **Sign in with Apple bundle ID verification needed**
    - **Location**: [apps/expo/app.json](apps/expo/app.json)
-   - **Issue**: Bundle ID changed to `com.innerascend.ios` - verify Apple Developer matches
+   - **Issue**: Bundle ID changed to `com.innerascend.app` - verify Apple Developer matches
    - **Fix**: Check Apple Developer Console and EAS config
    - **Time**: 10min
 

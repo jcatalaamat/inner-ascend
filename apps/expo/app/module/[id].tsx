@@ -101,28 +101,99 @@ export default function ModuleScreen() {
     )
   }
 
-  // Module exists but no content (Modules 2-16)
+  // Module exists but no content (Modules 2-16) - Enhanced placeholder
   if (!moduleContent || !dayContent) {
+    // Try to load outline data for this module
+    const moduleOutlines = require('app/content/modules-4-16-outlines.json')
+    const moduleOutline = moduleOutlines.modules.find((m: any) => m.id === moduleId)
+
     return (
-      <ScrollView padding="$4" backgroundColor="$deepSpace1" contentContainerStyle={{ paddingTop: insets.top }}>
+      <ScrollView padding="$4" backgroundColor="$deepSpace1" contentContainerStyle={{ paddingTop: insets.top, paddingBottom: insets.bottom }}>
         <Text fontSize="$7" fontWeight="bold" color="$silverMoon" marginBottom="$2">
           Module {module.sequence_order}: {module.title}
         </Text>
         <Text fontSize="$4" color="$silverMoon2" marginBottom="$4">
-          {module.duration_days} days
+          {module.duration_days} days · Full content coming early 2026
         </Text>
 
-        <Card padding="$6" backgroundColor="$deepSpace2" alignItems="center">
-          <Text fontSize="$6" marginBottom="$3">
-            🔒
-          </Text>
-          <Text fontSize="$6" fontWeight="600" color="$silverMoon" marginBottom="$2" textAlign="center">
-            Content Coming Soon
-          </Text>
-          <Text color="$silverMoon2" textAlign="center" fontSize="$3" lineHeight="$2">
-            This module is part of the Being Human 101 journey. Full content will be available soon. For now, focus on completing Module 1.
-          </Text>
-        </Card>
+        {/* What You'll Explore Section */}
+        {moduleOutline && (
+          <>
+            <Card padding="$5" backgroundColor="$deepSpace2" marginBottom="$4">
+              <Text fontSize="$6" fontWeight="600" color="$cosmicViolet" marginBottom="$3">
+                🔍 What You'll Explore
+              </Text>
+              <Text color="$silverMoon2" fontSize="$3" lineHeight="$3" marginBottom="$3">
+                {moduleOutline.overview}
+              </Text>
+              {moduleOutline.keyConceptsweek && moduleOutline.keyConceptsweek.length > 0 && (
+                <YStack gap="$1">
+                  {moduleOutline.keyConceptsweek.map((concept: string, idx: number) => (
+                    <Text key={idx} color="$silverMoon2" fontSize="$3" lineHeight="$2">
+                      • {concept}
+                    </Text>
+                  ))}
+                </YStack>
+              )}
+            </Card>
+
+            {/* The Journey Ahead - Day Titles */}
+            <Card padding="$5" backgroundColor="$deepSpace2" marginBottom="$4">
+              <Text fontSize="$6" fontWeight="600" color="$cosmicViolet" marginBottom="$3">
+                📅 The Journey Ahead
+              </Text>
+              <YStack gap="$2">
+                {moduleOutline.dayTitles.map((dayTitle: string, idx: number) => (
+                  <Text key={idx} color="$silverMoon2" fontSize="$3" lineHeight="$2">
+                    {dayTitle}
+                  </Text>
+                ))}
+              </YStack>
+            </Card>
+
+            {/* Reflection Section */}
+            <Card padding="$5" backgroundColor="$deepSpace2" marginBottom="$4">
+              <Text fontSize="$6" fontWeight="600" color="$cosmicViolet" marginBottom="$3">
+                💭 Prepare Your Mind
+              </Text>
+              <Text color="$silverMoon2" fontSize="$3" lineHeight="$3" marginBottom="$3">
+                This module builds on your previous work. While you wait, consider these questions:
+              </Text>
+              <Button
+                theme="active"
+                size="$4"
+                onPress={() => router.push('/journaling')}
+              >
+                <Text>Start Journaling →</Text>
+              </Button>
+            </Card>
+          </>
+        )}
+
+        {/* Generic fallback if no outline exists */}
+        {!moduleOutline && (
+          <Card padding="$6" backgroundColor="$deepSpace2" alignItems="center">
+            <Text fontSize="$6" marginBottom="$3">
+              🔒
+            </Text>
+            <Text fontSize="$6" fontWeight="600" color="$silverMoon" marginBottom="$2" textAlign="center">
+              Content Coming Soon
+            </Text>
+            <Text color="$silverMoon2" textAlign="center" fontSize="$3" lineHeight="$2">
+              This module is part of the Being Human 101 journey. Full content will be available soon.
+            </Text>
+          </Card>
+        )}
+
+        {/* Back to Journey Button */}
+        <Button
+          size="$4"
+          theme="alt2"
+          onPress={() => router.push('/journey')}
+          marginTop="$2"
+        >
+          <Text>← Return to Journey</Text>
+        </Button>
       </ScrollView>
     )
   }
@@ -321,16 +392,50 @@ export default function ModuleScreen() {
           <Text color="$integrationGreen" fontSize="$5" fontWeight="600">
             ✓ Day {selectedDay} Complete!
           </Text>
-          {selectedDay < module.duration_days && (
-            <Button
-              size="$4"
-              theme="active"
-              marginTop="$3"
-              onPress={() => setSelectedDay(selectedDay + 1)}
-            >
-              Continue to Day {selectedDay + 1} →
-            </Button>
-          )}
+          {selectedDay < module.duration_days && (() => {
+            // Check if next day is locked (same logic as day navigator)
+            const nextDayNum = selectedDay + 1
+            const isNextDayCompleted = moduleProgress?.some(p => p.day_number === nextDayNum)
+            const currentDayProgress = moduleProgress?.find(p => p.day_number === selectedDay)
+
+            // Check if 24 hours have passed since current day completion
+            let is24HoursPassed = true
+            if (currentDayProgress?.completed_at) {
+              const completedTime = new Date(currentDayProgress.completed_at).getTime()
+              const now = new Date().getTime()
+              const hoursPassed = (now - completedTime) / (1000 * 60 * 60)
+              is24HoursPassed = hoursPassed >= 24
+            }
+
+            const isNextDayLocked = !isNextDayCompleted && !is24HoursPassed
+
+            // Calculate hours remaining
+            let hoursRemaining = 0
+            if (isNextDayLocked && currentDayProgress?.completed_at) {
+              const completedTime = new Date(currentDayProgress.completed_at).getTime()
+              const now = new Date().getTime()
+              const hoursPassed = (now - completedTime) / (1000 * 60 * 60)
+              hoursRemaining = Math.ceil(24 - hoursPassed)
+            }
+
+            return (
+              <Button
+                size="$4"
+                theme="active"
+                marginTop="$3"
+                onPress={() => !isNextDayLocked && setSelectedDay(nextDayNum)}
+                disabled={isNextDayLocked}
+                opacity={isNextDayLocked ? 0.3 : 1}
+              >
+                <Text>
+                  {isNextDayLocked
+                    ? `🔒 Day ${nextDayNum} (${hoursRemaining}h)`
+                    : `Continue to Day ${nextDayNum} →`
+                  }
+                </Text>
+              </Button>
+            )
+          })()}
         </Card>
       )}
     </ScrollView>

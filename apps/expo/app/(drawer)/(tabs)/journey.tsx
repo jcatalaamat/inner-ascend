@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useModulesQuery } from 'app/utils/react-query/useModulesQuery'
 import { useUserProgressQuery } from 'app/utils/react-query/useUserProgressQuery'
 import { useUser } from 'app/utils/useUser'
+import { FloatingMenuButton } from 'app/components/FloatingMenuButton'
 
 export default function JourneyScreen() {
   const insets = useSafeAreaInsets()
@@ -31,6 +32,7 @@ export default function JourneyScreen() {
 
   return (
     <YStack flex={1} backgroundColor="$deepSpace1">
+      <FloatingMenuButton />
       <ScrollView
         contentContainerStyle={{
           paddingTop: insets.top,
@@ -43,7 +45,7 @@ export default function JourneyScreen() {
           JOURNEY
         </Text>
         <Text fontSize="$5" color="$silverMoon2" marginBottom="$4">
-          Being Human 101 · {modules?.length || 16} Modules
+          Being Human 101 · {String(modules?.length || 16)} Modules
         </Text>
 
         {modules?.map((module) => {
@@ -146,10 +148,10 @@ export default function JourneyScreen() {
               onPress={() => isUnlocked && router.push(`/module/${module.id}`)}
             >
               <Text fontSize="$6" fontWeight="600" color={textColor} marginBottom="$1">
-                {icon} Module {module.sequence_order}: {module.title}
+                {icon} Module {String(module.sequence_order)}: {module.title}
               </Text>
               <Text fontSize="$3" color="$silverMoon2">
-                {module.duration_days} days · {statusText}
+                {String(module.duration_days)} days · {statusText || 'Loading...'}
               </Text>
             </Card>
           )

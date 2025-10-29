@@ -84,16 +84,15 @@ export const Onboarding = ({ onOnboarded, autoSwipe, steps }: OnboardingProps) =
     <Theme name={currentStep.theme as ThemeName}>
       <YStack
         f={1}
-        bg="$color3"
+        bg="$color2"
         ov="hidden"
         pb={safeAreaInsets.bottom}
         pr={safeAreaInsets.right}
         pt={safeAreaInsets.top}
         pl={safeAreaInsets.left}
       >
-        <AnimatePresence>
-          <Background key={key} />
-        </AnimatePresence>
+        {/* Simplified clean background - no animations for Gumroad style */}
+        <YStack fullscreen bg="$color2" />
 
         <YStack f={1} {...panResponder.panHandlers}>
           <AnimatePresence>
@@ -101,7 +100,8 @@ export const Onboarding = ({ onOnboarded, autoSwipe, steps }: OnboardingProps) =
           </AnimatePresence>
         </YStack>
 
-        <XStack gap={10} jc="center" my="$4">
+        {/* Progress dots with Gumroad-style bold borders */}
+        <XStack gap={12} jc="center" my="$5">
           {Array.from(Array(stepsCount)).map((_, idx) => {
             const isActive = idx === stepIdx
             return <Point key={idx} active={isActive} onPress={() => setStepIdx(idx)} />
@@ -121,11 +121,17 @@ export const Onboarding = ({ onOnboarded, autoSwipe, steps }: OnboardingProps) =
 const Point = ({ active, onPress }: { active: boolean; onPress: () => void }) => {
   return (
     <YStack
-      br="$10"
-      w={active ? 30 : 10}
-      h={10}
+      br="$2"
+      w={active ? 40 : 12}
+      h={12}
       onPress={onPress}
-      bg={active ? '$color7' : '$color6'}
+      bg={active ? '$color10' : '$color6'}
+      borderWidth={active ? 3 : 0}
+      borderColor="$color11"
+      animation="quick"
+      pressStyle={{
+        scale: 0.9,
+      }}
     />
   )
 }

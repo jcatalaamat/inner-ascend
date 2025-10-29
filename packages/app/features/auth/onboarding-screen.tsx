@@ -1,26 +1,16 @@
 import { Onboarding, OnboardingStepInfo, StepContent } from '@my/ui'
-import { Calendar, Home, Shield } from '@tamagui/lucide-icons'
+import { BookOpen, Sparkles, TrendingUp } from '@tamagui/lucide-icons'
 import React from 'react'
 import { useRouter } from 'solito/router'
 
 const steps: OnboardingStepInfo[] = [
   {
-    theme: 'orange',
+    theme: 'purple',
     Content: () => (
       <StepContent
-        title="Find authentic spiritual events wherever you travel"
-        icon={Calendar}
-        description="No more scattered WhatsApp groups — discover satsangs, kirtans, retreats, and ceremonies in one trusted place"
-      />
-    ),
-  },
-  {
-    theme: 'green',
-    Content: () => (
-      <StepContent
-        title="Step into conscious communities"
-        icon={Home}
-        description="Connect with retreat centers, eco-farms, ashrams, and local conscious hubs to deepen your journey"
+        title="Your Spiritual Journey Companion"
+        icon={BookOpen}
+        description="A student manual for the soul. Navigate shadow work, meditation, and personal transformation with structure and clarity."
       />
     ),
   },
@@ -28,9 +18,19 @@ const steps: OnboardingStepInfo[] = [
     theme: 'blue',
     Content: () => (
       <StepContent
-        title="Safe, inclusive, and respectful"
-        icon={Shield}
-        description="Verified hosts, community reviews, and cultural etiquette cards help you feel at home — anywhere in the world"
+        title="Practice Daily, Transform Deeply"
+        icon={Sparkles}
+        description="Track your emotional check-ins, meditation practices, and journaling. Build streaks, measure progress, witness your evolution."
+      />
+    ),
+  },
+  {
+    theme: 'yellow',
+    Content: () => (
+      <StepContent
+        title="Guided by Ancient Wisdom"
+        icon={TrendingUp}
+        description="16 comprehensive modules from Being Human 101. Learn shadow work, inner child healing, and conscious living — one lesson at a time."
       />
     ),
   },

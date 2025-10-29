@@ -37,8 +37,9 @@ export const OnboardingControls = ({
       <XStack
         jc="space-between"
         ai="center"
-        p="$5"
-        gap="$5"
+        px="$6"
+        pb="$4"
+        gap="$4"
         pos="absolute"
         b={0}
         l={0}
@@ -46,21 +47,37 @@ export const OnboardingControls = ({
         $sm={{ dsp: 'none' }}
       >
         <Button
-          chromeless
-          f={1}
-          br="$10"
-          circular
+          size="$5"
+          br="$4"
+          bg="$color5"
+          borderWidth={3}
+          borderColor="$color8"
+          pressStyle={{
+            bg: '$color6',
+            y: 2,
+          }}
           onPress={() => handleGoPrev()}
-          iconAfter={ChevronLeft}
+          icon={ChevronLeft}
+          disabled={currentIdx === 0}
+          opacity={currentIdx === 0 ? 0.3 : 1}
         />
 
         <Button
-          chromeless
-          f={1}
-          br="$10"
-          circular
+          size="$5"
+          br="$4"
+          bg="$color8"
+          borderWidth={3}
+          borderColor="$color10"
+          col="$color1"
+          fontWeight="700"
+          pressStyle={{
+            bg: '$color9',
+            y: 2,
+          }}
           onPress={() => handleGoNext()}
-          iconAfter={ChevronRight}
+          icon={ChevronRight}
+          disabled={currentIdx === stepsCount - 1}
+          opacity={currentIdx === stepsCount - 1 ? 0.3 : 1}
         />
       </XStack>
     </>

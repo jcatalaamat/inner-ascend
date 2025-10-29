@@ -1,9 +1,7 @@
-import { usePostHog } from 'posthog-react-native'
 import { useUser } from 'app/utils/useUser'
 
 // Data filtering utilities
 export const useDataFiltering = () => {
-  const posthog = usePostHog()
   const { user } = useUser()
 
   // Check if user is internal (for filtering)
@@ -37,7 +35,6 @@ export const useDataFiltering = () => {
   const captureFiltered = (event: string, properties?: Record<string, any>) => {
     // Skip tracking for internal users in production
     if (__DEV__ || !isInternalUser()) {
-      posthog?.capture(event, {
         ...properties,
         is_internal_user: isInternalUser(),
         is_test_user: isTestUser(),
@@ -50,7 +47,6 @@ export const useDataFiltering = () => {
   // Filtered identify function
   const identifyFiltered = (distinctId: string, properties?: Record<string, any>) => {
     if (__DEV__ || !isInternalUser()) {
-      posthog?.identify(distinctId, {
         ...properties,
         is_internal_user: isInternalUser(),
         is_test_user: isTestUser(),

@@ -2,17 +2,14 @@ import { FormWrapper, H2, H4, KVTable, Separator, SizableText, YStack, isWeb, st
 import { useUser } from 'app/utils/useUser'
 import { Link } from 'solito/link'
 import { useTranslation } from 'react-i18next'
-import { usePostHog } from 'posthog-react-native'
 import { useEffect } from 'react'
 
 export const GeneralSettingsScreen = () => {
   const { t } = useTranslation()
   const { user, profile } = useUser()
-  const posthog = usePostHog()
 
   useEffect(() => {
-    posthog?.capture('settings_general_viewed')
-  }, [posthog])
+  }, [])
 
   return (
     <FormWrapper>

@@ -17,7 +17,6 @@ import { FormProvider, useForm, useFormContext, useWatch } from 'react-hook-form
 import { createParam } from 'solito'
 import { Link } from 'solito/link'
 import { z } from 'zod'
-import { usePostHog } from 'posthog-react-native'
 
 import { SocialLogin } from './components/SocialLogin'
 
@@ -32,7 +31,6 @@ export const SignUpScreen = () => {
   const supabase = useSupabase()
   const updateParams = useUpdateParams()
   const { params } = useParams()
-  const posthog = usePostHog()
 
   useEffect(() => {
     if (params?.email) {
@@ -58,10 +56,6 @@ export const SignUpScreen = () => {
 
     if (error) {
       const errorMessage = error?.message.toLowerCase()
-      posthog?.capture('sign_up_failed', {
-        method: 'email',
-        error: errorMessage
-      })
       if (errorMessage.includes('email')) {
         form.setError('email', { type: 'custom', message: errorMessage })
       } else if (errorMessage.includes('password')) {
@@ -69,10 +63,6 @@ export const SignUpScreen = () => {
       } else {
         form.setError('password', { type: 'custom', message: errorMessage })
       }
-    } else {
-      posthog?.capture('sign_up_success', {
-        method: 'email'
-      })
     }
   }
 

@@ -1,6 +1,5 @@
 import type { Database } from '@my/supabase/types'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { usePostHog } from 'posthog-react-native'
 
 import { useSupabase } from '../supabase/useSupabase'
 
@@ -111,7 +110,6 @@ export function useIsFavorited(userId: string | undefined, itemId: string, itemT
 export function useToggleFavorite() {
   const supabase = useSupabase()
   const queryClient = useQueryClient()
-  const posthog = usePostHog()
 
   return useMutation({
     mutationFn: async ({
@@ -155,13 +153,6 @@ export function useToggleFavorite() {
       }
     },
     onSuccess: (data, variables) => {
-      // Track favorite toggle
-      posthog?.capture('favorite_toggled', {
-        action: data.action,
-        item_type: data.itemType,
-        item_id: data.itemId
-      })
-
       // Invalidate favorites query
       queryClient.invalidateQueries({ queryKey: ['favorites', variables.userId] })
       // Invalidate the specific is-favorited query

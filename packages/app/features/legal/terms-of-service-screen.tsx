@@ -1,16 +1,13 @@
 import { H1, Paragraph, YStack, isWeb, Text } from '@my/ui'
 import { ScrollView } from 'react-native'
 import { useTranslation } from 'react-i18next'
-import { usePostHog } from 'posthog-react-native'
 import { useEffect } from 'react'
 
 export const TermsOfServiceScreen = () => {
   const { t } = useTranslation()
-  const posthog = usePostHog()
 
   useEffect(() => {
-    posthog?.capture('terms_of_service_viewed')
-  }, [posthog])
+  }, [])
   
   return (
     <ScrollView>

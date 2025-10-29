@@ -3,7 +3,6 @@ import { Button, Input, Select, Sheet, TextArea, YStack, XStack, H4, Text, Adapt
 import { MessageSquarePlus, X } from '@tamagui/lucide-icons'
 import { useTranslation } from 'react-i18next'
 import { useSupabase } from 'app/utils/supabase/useSupabase'
-import { usePostHog } from 'posthog-react-native'
 import * as Device from 'expo-device'
 import * as Application from 'expo-application'
 
@@ -19,7 +18,6 @@ export const FeedbackSheet = ({ open, onOpenChange, initialType = 'feedback' }: 
   const { t } = useTranslation()
   const supabase = useSupabase()
   const toast = useToastController()
-  const posthog = usePostHog()
 
   const [type, setType] = useState<FeedbackType>(initialType)
   const [title, setTitle] = useState('')
@@ -30,9 +28,8 @@ export const FeedbackSheet = ({ open, onOpenChange, initialType = 'feedback' }: 
   useEffect(() => {
     if (open) {
       setType(initialType)
-      posthog?.capture('feedback_sheet_opened', { type: initialType })
     }
-  }, [open, initialType, posthog])
+  }, [open, initialType])
 
   const handleSubmit = async () => {
     if (!title.trim() || !description.trim()) {
@@ -68,14 +65,6 @@ export const FeedbackSheet = ({ open, onOpenChange, initialType = 'feedback' }: 
 
       if (error) throw error
 
-      // Track successful submission
-      posthog?.capture('feedback_submitted', {
-        type,
-        title_length: title.trim().length,
-        description_length: description.trim().length,
-        has_user: !!user?.id
-      })
-
       toast.show(t('feedback.success') || 'Thank you for your feedback!', {
         duration: 3000
       })
@@ -88,10 +77,6 @@ export const FeedbackSheet = ({ open, onOpenChange, initialType = 'feedback' }: 
       onOpenChange(false)
     } catch (error) {
       console.error('Failed to submit feedback:', error)
-      posthog?.capture('feedback_submission_failed', {
-        type,
-        error: error instanceof Error ? error.message : 'Unknown error'
-      })
       toast.show(t('feedback.error') || 'Failed to submit feedback', {
         duration: 5000
       })

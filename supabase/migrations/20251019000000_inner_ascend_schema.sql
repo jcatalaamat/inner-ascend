@@ -1,8 +1,8 @@
 -- Inner Ascend - Fresh Start Schema
 -- Spiritual practice app with Being Human 101 curriculum
 
--- Enable UUID extension
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+-- Enable pgcrypto for gen_random_uuid() (built-in to modern Postgres/Supabase)
+-- CREATE EXTENSION IF NOT EXISTS "pgcrypto"; -- Not needed, gen_random_uuid() is built-in
 
 -- ============================================================================
 -- PROFILES TABLE
@@ -68,7 +68,7 @@ INSERT INTO modules (id, title, description, duration_days, sequence_order) VALU
 -- PRACTICES TABLE (Meditations, Exercises, Journaling Prompts)
 -- ============================================================================
 CREATE TABLE practices (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   title TEXT NOT NULL,
   type TEXT NOT NULL CHECK (type IN ('meditation', 'exercise', 'journaling')),
   duration_minutes INTEGER,
@@ -92,7 +92,7 @@ INSERT INTO practices (title, type, duration_minutes, description) VALUES
 -- USER PROGRESS TABLE
 -- ============================================================================
 CREATE TABLE user_progress (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
   module_id INTEGER REFERENCES modules(id) ON DELETE CASCADE,
   practice_id UUID REFERENCES practices(id) ON DELETE CASCADE,
@@ -114,7 +114,7 @@ CREATE POLICY "Users can insert own progress" ON user_progress
 -- JOURNAL ENTRIES TABLE
 -- ============================================================================
 CREATE TABLE journal_entries (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
   module_id INTEGER REFERENCES modules(id) ON DELETE SET NULL,
   prompt TEXT,
@@ -143,7 +143,7 @@ CREATE POLICY "Users can delete own journal entries" ON journal_entries
 -- DAILY STREAKS TABLE
 -- ============================================================================
 CREATE TABLE daily_streaks (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
   practice_date DATE NOT NULL DEFAULT CURRENT_DATE,
   practices_completed INTEGER DEFAULT 0,
@@ -167,7 +167,7 @@ CREATE POLICY "Users can update own streaks" ON daily_streaks
 -- EMOTIONAL CHECK-INS TABLE
 -- ============================================================================
 CREATE TABLE emotional_checkins (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
   emotion_state TEXT NOT NULL CHECK (emotion_state IN ('struggling', 'processing', 'clear', 'integrated')),
   checkin_date DATE NOT NULL DEFAULT CURRENT_DATE,
@@ -188,7 +188,7 @@ CREATE POLICY "Users can insert own emotional checkins" ON emotional_checkins
 -- COSMIC CACHE TABLE (for caching daily cosmic weather)
 -- ============================================================================
 CREATE TABLE cosmic_cache (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   cache_date DATE NOT NULL UNIQUE,
   moon_phase TEXT,
   moon_sign TEXT,

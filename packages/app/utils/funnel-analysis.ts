@@ -1,62 +1,36 @@
-import { usePostHog } from 'posthog-react-native'
+// No-op funnel analysis implementation (PostHog removed)
 
-// Funnel analysis utilities
 export const useFunnelAnalysis = () => {
-  const posthog = usePostHog()
-
-  const trackFunnelStep = (
-    funnelName: string,
-    step: string,
-    stepNumber: number,
-    totalSteps: number,
-    properties?: Record<string, any>
-  ) => {
-    posthog?.capture('funnel_step_completed', {
-      funnel_name: funnelName,
-      step,
-      step_number: stepNumber,
-      total_steps: totalSteps,
-      completion_percentage: (stepNumber / totalSteps) * 100,
-      ...properties,
-    })
-  }
-
-  const trackFunnelConversion = (
-    funnelName: string,
-    conversionType: string,
-    properties?: Record<string, any>
-  ) => {
-    posthog?.capture('funnel_conversion', {
-      funnel_name: funnelName,
-      conversion_type: conversionType,
-      ...properties,
-    })
-  }
-
-  const trackFunnelDropoff = (
-    funnelName: string,
-    step: string,
-    stepNumber: number,
-    reason?: string,
-    properties?: Record<string, any>
-  ) => {
-    posthog?.capture('funnel_dropoff', {
-      funnel_name: funnelName,
-      step,
-      step_number: stepNumber,
-      dropoff_reason: reason,
-      ...properties,
-    })
-  }
-
   return {
-    trackFunnelStep,
-    trackFunnelConversion,
-    trackFunnelDropoff,
+    trackFunnelStep: (
+      funnelName: string,
+      step: string,
+      stepNumber: number,
+      totalSteps: number,
+      properties?: Record<string, any>
+    ) => {
+      // No-op
+    },
+    trackFunnelConversion: (
+      funnelName: string,
+      conversionType: string,
+      properties?: Record<string, any>
+    ) => {
+      // No-op
+    },
+    trackFunnelDropoff: (
+      funnelName: string,
+      step: string,
+      stepNumber: number,
+      reason?: string,
+      properties?: Record<string, any>
+    ) => {
+      // No-op
+    },
   }
 }
 
-// Predefined funnels
+// Predefined funnels (kept for backward compatibility)
 export const FUNNELS = {
   USER_ONBOARDING: {
     name: 'user_onboarding',
@@ -104,33 +78,15 @@ export const FUNNELS = {
   },
 } as const
 
-// Helper functions for common funnels
+// Helper functions (no-op)
 export const trackUserOnboardingStep = (step: string, stepNumber: number) => {
-  const { trackFunnelStep } = useFunnelAnalysis()
-  trackFunnelStep(
-    FUNNELS.USER_ONBOARDING.name,
-    step,
-    stepNumber,
-    FUNNELS.USER_ONBOARDING.steps.length
-  )
+  // No-op
 }
 
 export const trackEventCreationStep = (step: string, stepNumber: number) => {
-  const { trackFunnelStep } = useFunnelAnalysis()
-  trackFunnelStep(
-    FUNNELS.EVENT_CREATION.name,
-    step,
-    stepNumber,
-    FUNNELS.EVENT_CREATION.steps.length
-  )
+  // No-op
 }
 
 export const trackPlaceCreationStep = (step: string, stepNumber: number) => {
-  const { trackFunnelStep } = useFunnelAnalysis()
-  trackFunnelStep(
-    FUNNELS.PLACE_CREATION.name,
-    step,
-    stepNumber,
-    FUNNELS.PLACE_CREATION.steps.length
-  )
+  // No-op
 }

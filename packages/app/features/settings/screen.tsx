@@ -8,7 +8,6 @@ import { useLink } from 'solito/link'
 import { LanguageSwitcher } from 'app/components/LanguageSwitcher'
 import { useTranslation } from 'react-i18next'
 import { Linking } from 'react-native'
-import { usePostHog } from 'posthog-react-native'
 import { useEffect, useState } from 'react'
 import { FeedbackSheet } from './feedback-sheet'
 import { useUser } from 'app/utils/useUser'
@@ -18,14 +17,12 @@ export const SettingsScreen = () => {
   const media = useMedia()
   const pathname = usePathname()
   const { t } = useTranslation()
-  const posthog = usePostHog()
   const { profile } = useUser()
   const [feedbackOpen, setFeedbackOpen] = useState(false)
   const [feedbackType, setFeedbackType] = useState<'feedback' | 'feature_request' | 'bug_report' | 'support' | 'contact' | 'delete_account'>('feedback')
 
   useEffect(() => {
-    posthog?.capture('settings_screen_viewed')
-  }, [posthog])
+  }, [])
 
   const openFeedbackSheet = (type: typeof feedbackType) => {
     setFeedbackType(type)

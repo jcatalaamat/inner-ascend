@@ -16,7 +16,6 @@ import { useUser } from 'app/utils/useUser'
 import { useRouter } from 'solito/router'
 import { z } from 'zod'
 import { useTranslation } from 'react-i18next'
-import { usePostHog } from 'posthog-react-native'
 import { useEffect } from 'react'
 
 export const ChangeEmailScreen = () => {
@@ -25,11 +24,9 @@ export const ChangeEmailScreen = () => {
   const supabase = useSupabase()
   const toast = useToastController()
   const router = useRouter()
-  const posthog = usePostHog()
 
   useEffect(() => {
-    posthog?.capture('settings_change_email_viewed')
-  }, [posthog])
+  }, [])
   
   const ChangeEmailSchema = z.object({
     email: formFields.text.email().describe(`${t('settings.new_email')} // ${t('settings.new_email_placeholder')}`),

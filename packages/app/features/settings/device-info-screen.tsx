@@ -1,7 +1,6 @@
 import { Paragraph, ScrollView, Separator, Settings, YStack, isWeb, useMedia } from '@my/ui'
 import { Book, Copy, Info, Smartphone } from '@tamagui/lucide-icons'
 import { useTranslation } from 'react-i18next'
-import { usePostHog } from 'posthog-react-native'
 import { Platform, Alert, Clipboard } from 'react-native'
 import { useLanguage } from 'app/contexts/LanguageContext'
 import { useUser } from 'app/utils/useUser'
@@ -13,40 +12,7 @@ export const DeviceInfoScreen = () => {
   const { t } = useTranslation()
   const { currentLanguage } = useLanguage()
   const { profile } = useUser()
-  const posthog = usePostHog()
   const [copied, setCopied] = useState(false)
-
-  useEffect(() => {
-    posthog?.capture('settings_device_info_viewed')
-  }, [posthog])
-
-  // Get PostHog distinct ID
-  const getPostHogId = () => {
-    try {
-      // PostHog React Native API methods
-      if (posthog?.getDistinctId) {
-        return posthog.getDistinctId()
-      }
-      if (posthog?.distinctId) {
-        return posthog.distinctId
-      }
-      if (posthog?.get_distinct_id) {
-        return posthog.get_distinct_id()
-      }
-      if (posthog?.distinct_id) {
-        return posthog.distinct_id
-      }
-      // Try to get from person properties
-      if (posthog?.getPersonProperties) {
-        const props = posthog.getPersonProperties()
-        return props?.distinct_id || props?.$distinct_id || 'Not available'
-      }
-      return 'Not available'
-    } catch (error) {
-      console.log('PostHog ID error:', error)
-      return 'Not available'
-    }
-  }
 
   const deviceInfo = {
     appName: 'Inner Ascend',
@@ -62,7 +28,6 @@ export const DeviceInfoScreen = () => {
     language: currentLanguage,
     userId: profile?.id || 'Not logged in',
     userEmail: profile?.email || 'Not logged in',
-    posthogDistinctId: getPostHogId(),
     timestamp: new Date().toISOString(),
   }
 
@@ -75,7 +40,6 @@ ${t('device_info.device')}: ${deviceInfo.deviceName} (${deviceInfo.deviceModel})
 ${t('device_info.brand')}: ${deviceInfo.deviceBrand}
 ${t('device_info.language')}: ${deviceInfo.language}
 ${t('device_info.user_id')}: ${deviceInfo.userId}
-${t('device_info.posthog_id')}: ${deviceInfo.posthogDistinctId}
 Timestamp: ${deviceInfo.timestamp}
 
 Please include this information when reporting bugs or issues.`
@@ -126,9 +90,6 @@ Please include this information when reporting bugs or issues.`
               </Settings.Item>
               <Settings.Item icon={Info} accentTheme="gray">
                 {t('device_info.user_id')}: {deviceInfo.userId}
-              </Settings.Item>
-              <Settings.Item icon={Info} accentTheme="gray">
-                {t('device_info.posthog_id')}: {deviceInfo.posthogDistinctId}
               </Settings.Item>
             </Settings.Group>
           </Settings.Items>

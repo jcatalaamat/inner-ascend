@@ -23,7 +23,7 @@ interface WebhookPayload {
   old_record: Report | null
 }
 
-const ADMIN_EMAIL = 'alerts@innerascend.app'
+const ADMIN_EMAIL = 'alerts@inner-ascend.com'
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
 
 /**
@@ -91,7 +91,7 @@ serve(async (req) => {
 
       if (event) {
         itemTitle = event.title
-        itemUrl = `https://app.mazunteconnect.com/event/${report.item_id}`
+        itemUrl = `https://app.inner-ascend.com/event/${report.item_id}`
       }
     } else if (report.item_type === 'place') {
       const { data: place } = await supabaseClient
@@ -102,7 +102,7 @@ serve(async (req) => {
 
       if (place) {
         itemTitle = place.name
-        itemUrl = `https://app.mazunteconnect.com/place/${report.item_id}`
+        itemUrl = `https://app.inner-ascend.com/place/${report.item_id}`
       }
     }
 
@@ -119,7 +119,7 @@ serve(async (req) => {
     const reasonLabel = reasonLabels[report.reason] || report.reason
 
     // Build email content
-    const adminDashboardUrl = `https://app.mazunteconnect.com/admin/reports/${report.id}`
+    const adminDashboardUrl = `https://app.inner-ascend.com/admin/reports/${report.id}`
 
     const emailHtml = `
       <!DOCTYPE html>
@@ -232,7 +232,7 @@ ${itemUrl ? `View Reported Item: ${itemUrl}` : ''}
         Authorization: `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: 'Inner Ascend Alerts <alerts@innerascend.app>',
+        from: 'Inner Ascend Alerts <alerts@inner-ascend.com>',
         to: [ADMIN_EMAIL],
         subject: `🚨 New Report: ${reasonLabel} - ${itemTitle}`,
         html: emailHtml,

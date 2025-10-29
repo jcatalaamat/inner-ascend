@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Email Change - Inner Ascend</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: linear-gradient(135deg, #0A0A0F 0%, #1a1a2e 100%); min-height: 100vh;">
+    <table role="presentation" style="width: 100%; border-collapse: collapse;">
+        <tr>
+            <td align="center" style="padding: 40px 20px;">
+                <table role="presentation" style="max-width: 600px; width: 100%; border-collapse: collapse; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); border-radius: 16px; overflow: hidden; box-shadow: 0 20px 60px rgba(138, 103, 245, 0.3);">
+
+                    <!-- Header with cosmic gradient -->
+                    <tr>
+                        <td style="background: linear-gradient(135deg, #8A67F5 0%, #6B4FBB 100%); padding: 60px 40px; text-align: center;">
+                            <div style="font-size: 48px; margin-bottom: 16px;">📧</div>
+                            <h1 style="margin: 0; color: #FFFFFF; font-size: 32px; font-weight: 700; letter-spacing: -0.5px;">
+                                Email Change Request
+                            </h1>
+                            <p style="margin: 16px 0 0; color: rgba(255, 255, 255, 0.9); font-size: 18px; font-weight: 400;">
+                                Confirm your new email address
+                            </p>
+                        </td>
+                    </tr>
+
+                    <!-- Main content -->
+                    <tr>
+                        <td style="padding: 48px 40px;">
+                            <p style="margin: 0 0 24px; color: #E8E8F0; font-size: 16px; line-height: 1.6;">
+                                Hello, fellow traveler 🌟
+                            </p>
+
+                            <p style="margin: 0 0 24px; color: #E8E8F0; font-size: 16px; line-height: 1.6;">
+                                We received a request to change the email address associated with your Inner Ascend account.
+                            </p>
+
+                            <p style="margin: 0 0 32px; color: #E8E8F0; font-size: 16px; line-height: 1.6;">
+                                To complete this change and update your email address, please confirm by clicking the button below:
+                            </p>
+
+                            <!-- CTA Button -->
+                            <table role="presentation" style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <td align="center" style="padding: 0 0 32px;">
+                                        <a href="{{ .ConfirmationURL }}"
+                                           style="display: inline-block; padding: 16px 48px; background: linear-gradient(135deg, #8A67F5 0%, #6B4FBB 100%); color: #FFFFFF; text-decoration: none; border-radius: 8px; font-size: 16px; font-weight: 600; box-shadow: 0 4px 16px rgba(138, 103, 245, 0.4); transition: all 0.3s;">
+                                            Confirm Email Change
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Alternative link -->
+                            <p style="margin: 0 0 24px; color: #A0A0B8; font-size: 14px; line-height: 1.6; text-align: center;">
+                                Or copy and paste this link into your browser:<br>
+                                <a href="{{ .ConfirmationURL }}" style="color: #8A67F5; text-decoration: underline; word-break: break-all;">{{ .ConfirmationURL }}</a>
+                            </p>
+
+                            <div style="margin: 32px 0; padding: 24px; background: rgba(255, 193, 7, 0.1); border-left: 4px solid #FFB800; border-radius: 8px;">
+                                <p style="margin: 0; color: #E8E8F0; font-size: 14px; line-height: 1.6;">
+                                    <strong style="color: #FFB800;">🛡️ Security notice</strong><br><br>
+                                    For your protection, you'll need to confirm this change from <strong>both your old and new email addresses</strong>.<br><br>
+                                    Once both confirmations are complete, your email will be updated and you'll use the new address to sign in.
+                                </p>
+                            </div>
+
+                            <div style="margin: 32px 0 0; padding: 24px; background: rgba(138, 103, 245, 0.1); border-left: 4px solid #8A67F5; border-radius: 8px;">
+                                <p style="margin: 0; color: #E8E8F0; font-size: 14px; line-height: 1.6;">
+                                    <strong style="color: #8A67F5;">📝 What happens next:</strong><br><br>
+                                    1. Confirm from this email ({{ .Email }})<br>
+                                    2. Check your other email address for a second confirmation<br>
+                                    3. Confirm from that email as well<br>
+                                    4. Your email will be updated successfully<br>
+                                    5. Sign in with your new email address
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td style="padding: 32px 40px; background: rgba(10, 10, 15, 0.5); border-top: 1px solid rgba(138, 103, 245, 0.2);">
+                            <p style="margin: 0 0 16px; color: #A0A0B8; font-size: 14px; line-height: 1.6; text-align: center;">
+                                With love and light,<br>
+                                <strong style="color: #8A67F5;">The Inner Ascend Team</strong>
+                            </p>
+
+                            <div style="margin: 24px 0 0; padding-top: 24px; border-top: 1px solid rgba(160, 160, 184, 0.2); text-align: center;">
+                                <p style="margin: 0 0 8px; color: #707088; font-size: 12px; line-height: 1.5;">
+                                    Inner Ascend - Your Journey to Wholeness
+                                </p>
+                                <p style="margin: 0; color: #707088; font-size: 12px; line-height: 1.5;">
+                                    <a href="https://inner-ascend.com" style="color: #8A67F5; text-decoration: none;">inner-ascend.com</a> •
+                                    <a href="mailto:hello@inner-ascend.com" style="color: #8A67F5; text-decoration: none;">hello@inner-ascend.com</a>
+                                </p>
+                                <p style="margin: 16px 0 0; color: #707088; font-size: 11px; line-height: 1.5;">
+                                    If you didn't request this email change, please contact us immediately at<br>
+                                    <a href="mailto:hello@inner-ascend.com" style="color: #8A67F5; text-decoration: none;">hello@inner-ascend.com</a>
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

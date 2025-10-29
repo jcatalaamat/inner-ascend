@@ -1,0 +1,166 @@
+{
+  "meditations": [
+    {
+      "title": "Shadow Integration Meditation",
+      "type": "meditation",
+      "duration_minutes": 12,
+      "description": "Integrate your shadow aspects with compassion",
+      "fullDescription": "This meditation guides you through the process of meeting and integrating the parts of yourself that you've rejected or hidden. Through gentle awareness and compassion, you'll begin to reclaim these shadow aspects and restore wholeness.",
+      "benefits": [
+        "Reduces inner conflict and self-judgment",
+        "Increases self-acceptance and wholeness",
+        "Reveals hidden strengths in rejected parts",
+        "Creates space for authentic self-expression"
+      ],
+      "instructions": "Find a quiet space where you won't be disturbed. Sit comfortably with your spine straight. Close your eyes and take several deep breaths. Follow the guided audio to journey into your inner landscape and meet your shadow self with curiosity and compassion.",
+      "bestFor": "When you're judging yourself harshly or feeling fragmented",
+      "audio_url": null
+    },
+    {
+      "title": "Inner Child Reconnection",
+      "type": "meditation",
+      "duration_minutes": 18,
+      "description": "Reconnect with your younger self",
+      "fullDescription": "A profound journey to meet your inner child—the part of you that holds your earliest wounds and your purest joy. This practice helps you provide the love, safety, and validation that your younger self needed but may not have received.",
+      "benefits": [
+        "Heals childhood wounds",
+        "Restores sense of safety and playfulness",
+        "Accesses creativity and spontaneity",
+        "Develops self-nurturing capacity"
+      ],
+      "instructions": "Create a safe, comfortable space. Have tissues nearby as emotions may arise. Allow yourself to visualize meeting your younger self at different ages. Offer the presence, love, and protection that child needed. Stay as long as feels right.",
+      "bestFor": "Processing childhood wounds or when feeling disconnected from joy",
+      "audio_url": null
+    },
+    {
+      "title": "Somatic Release: Shaking Practice",
+      "type": "meditation",
+      "duration_minutes": 8,
+      "description": "Release trauma through movement",
+      "fullDescription": "Based on Trauma Release Exercises (TRE), this practice uses natural shaking and tremoring to release stored tension and trauma from the body. Animals shake after threatening situations—we can too.",
+      "benefits": [
+        "Releases stored tension and trauma",
+        "Regulates nervous system",
+        "Discharges fight/flight/freeze energy",
+        "Reconnects you with body wisdom"
+      ],
+      "instructions": "Stand with feet hip-width apart. Begin bouncing gently, then allow your body to shake naturally. Let the shaking spread throughout your body. Don't control it—allow your body's innate wisdom to move the energy. Stop when you feel complete.",
+      "bestFor": "After triggering situations or when feeling stuck energy in the body",
+      "audio_url": null
+    },
+    {
+      "title": "Grounding + Anchoring",
+      "type": "meditation",
+      "duration_minutes": 5,
+      "description": "Ground yourself in the present moment",
+      "fullDescription": "A quick yet powerful practice to return to your center when you feel ungrounded, anxious, or scattered. This meditation connects you deeply to the earth and to the present moment.",
+      "benefits": [
+        "Reduces anxiety and overwhelm",
+        "Brings you into present moment",
+        "Stabilizes your energy field",
+        "Creates sense of safety"
+      ],
+      "instructions": "Sit or stand with feet flat on the ground. Feel your connection to the earth. Visualize roots growing from your feet deep into the earth. Breathe slowly and deeply. Notice the solid support beneath you.",
+      "bestFor": "Daily practice, before difficult conversations, or when feeling ungrounded",
+      "audio_url": null
+    },
+    {
+      "title": "Parts Dialogue Guidance",
+      "type": "meditation",
+      "duration_minutes": 15,
+      "description": "Communicate with different parts of yourself",
+      "fullDescription": "This guided meditation teaches you how to dialogue with the various aspects or parts of yourself. You'll learn to hear their concerns, understand their protective roles, and facilitate healing conversations between conflicting parts.",
+      "benefits": [
+        "Reduces internal conflict",
+        "Increases self-understanding",
+        "Heals fragmentation",
+        "Accesses wisdom from all parts"
+      ],
+      "instructions": "Identify a pattern or challenge you're experiencing. Ask 'Which part of me is creating this?' Then allow that part to speak. Listen without judgment. Ask: When were you created? What are you protecting me from? What do you need?",
+      "bestFor": "Understanding recurring patterns or making difficult decisions",
+      "audio_url": null
+    },
+    {
+      "title": "Heart Opening Meditation",
+      "type": "meditation",
+      "duration_minutes": 10,
+      "description": "Open your heart to love and compassion",
+      "fullDescription": "A gentle practice to soften the armoring around your heart and open to greater love—for yourself, for others, and from the universe. This meditation works with the heart chakra to restore flow and connection.",
+      "benefits": [
+        "Dissolves heart walls and defenses",
+        "Increases capacity for love",
+        "Heals relationship wounds",
+        "Cultivates compassion"
+      ],
+      "instructions": "Sit comfortably with your hand on your heart. Breathe into your heart space. Visualize green or pink light expanding from your chest. Remember moments when you felt deeply loved. Allow that feeling to expand.",
+      "bestFor": "After heartbreak, when feeling closed off, or to deepen love",
+      "audio_url": null
+    },
+    {
+      "title": "Integration & Completion",
+      "type": "meditation",
+      "duration_minutes": 14,
+      "description": "Integrate your practice and celebrate progress",
+      "fullDescription": "A powerful completion practice to integrate your healing work, acknowledge your progress, and celebrate how far you've come. This meditation creates closure and prepares you for the next phase of your journey.",
+      "benefits": [
+        "Integrates learning and healing",
+        "Acknowledges progress",
+        "Creates completion",
+        "Builds confidence for next steps"
+      ],
+      "instructions": "Reflect on your journey so far. Notice how you've changed. Acknowledge the courage it took to do this work. Visualize your future self and feel their pride in you. Seal your commitment to continue.",
+      "bestFor": "Completing a module or marking significant milestones",
+      "audio_url": null
+    }
+  ],
+  "exercises": [
+    {
+      "title": "Timeline Creation",
+      "type": "exercise",
+      "duration_minutes": 30,
+      "description": "Map the significant events that shaped your inner self",
+      "instructions": "Create a chronological timeline of your life. Mark 10-20 significant events that had a profound impact on who you are. For each event, note the emotions you felt and the beliefs you formed about yourself."
+    },
+    {
+      "title": "Parts Dialogue Journaling",
+      "type": "exercise",
+      "duration_minutes": 20,
+      "description": "Write a conversation with a part of yourself",
+      "instructions": "Identify a recurring pattern. Ask 'Which part of me creates this?' Write from that part's perspective: 'I am the part that...' Then ask: When were you created? What are you protecting me from? What do you need?"
+    },
+    {
+      "title": "Coping Mechanism Inventory",
+      "type": "exercise",
+      "duration_minutes": 25,
+      "description": "Identify and understand your coping patterns",
+      "instructions": "Create three columns: Coping Mechanism | What I'm Avoiding | What It's Protecting. Fill in your patterns honestly. Then for each, write about when you first developed it and what healthier alternative you might develop."
+    }
+  ],
+  "journaling_prompts": {
+    "shadow_work": [
+      "What part of myself have I been hiding or rejecting?",
+      "What aspects of myself do I judge most harshly?",
+      "If my shadow could speak, what would it say?"
+    ],
+    "inner_child": [
+      "What did my younger self need but not receive?",
+      "What would I say to my 5-year-old self if I could?",
+      "What childhood joy have I lost touch with?"
+    ],
+    "core_wounds": [
+      "What patterns keep repeating in my life?",
+      "What core belief about myself drives my behavior?",
+      "What would my life look like without this wound?"
+    ],
+    "radical_honesty": [
+      "What truth am I avoiding right now?",
+      "Where am I lying to myself?",
+      "What would complete honesty require of me?"
+    ],
+    "integration": [
+      "What did I discover about myself this week?",
+      "How have I changed since starting this journey?",
+      "What am I most grateful for in my healing?"
+    ]
+  }
+}

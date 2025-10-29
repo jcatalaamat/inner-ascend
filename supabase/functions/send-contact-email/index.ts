@@ -13,7 +13,7 @@ interface ContactRequest {
   type: 'support' | 'general' | 'delete_account'
 }
 
-const ADMIN_EMAIL = 'alerts@innerascend.app'
+const ADMIN_EMAIL = 'alerts@inner-ascend.com'
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
 
 /**
@@ -166,7 +166,7 @@ ${contactRequest.user_id ? `User ID: ${contactRequest.user_id}\n` : ''}
         Authorization: `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: 'Inner Ascend Alerts <alerts@innerascend.app>',
+        from: 'Inner Ascend Alerts <alerts@inner-ascend.com>',
         to: [ADMIN_EMAIL],
         reply_to: userEmail !== 'Not provided' ? userEmail : ADMIN_EMAIL,
         subject: `${typeEmoji} ${typeLabel}: ${contactRequest.subject}`,

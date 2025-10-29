@@ -23,7 +23,7 @@ interface WebhookPayload {
   old_record: Feedback | null
 }
 
-const ADMIN_EMAIL = 'alerts@innerascend.app'
+const ADMIN_EMAIL = 'alerts@inner-ascend.com'
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
 
 /**
@@ -205,7 +205,7 @@ Submitted: ${new Date(feedback.created_at).toLocaleString()}
         Authorization: `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: 'Inner Ascend Alerts <alerts@innerascend.app>',
+        from: 'Inner Ascend Alerts <alerts@inner-ascend.com>',
         to: [ADMIN_EMAIL],
         reply_to: feedback.user_email || ADMIN_EMAIL,
         subject: `${typeEmoji} ${typeLabel}: ${feedback.title}`,

@@ -81,3 +81,14 @@ vector_port = 54328
 gcp_project_id = ""
 gcp_project_number = ""
 gcp_jwt_path = "supabase/gcloud.json"
+
+# Edge Runtime configuration for local Edge Functions
+[edge_runtime]
+# Environment variables for Edge Functions
+# IMPORTANT: DO NOT commit API keys to version control
+# This references the .env file which should be in .gitignore
+policy = "per_worker"
+inspector_port = 8083
+
+# Environment variables loaded from supabase/.env
+

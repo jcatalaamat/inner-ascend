@@ -10,7 +10,7 @@ export const useDataFiltering = () => {
     
     const internalDomains = [
       '@yourcompany.com',
-      '@mazunteconnect.com',
+      '@inner-ascend.com',
       '@astralintegration.com',
       '@astral-integration.com',
     ]
@@ -35,24 +35,26 @@ export const useDataFiltering = () => {
   const captureFiltered = (event: string, properties?: Record<string, any>) => {
     // Skip tracking for internal users in production
     if (__DEV__ || !isInternalUser()) {
+      console.log(`[Analytics] Event: ${event}`, {
         ...properties,
         is_internal_user: isInternalUser(),
         is_test_user: isTestUser(),
       })
     } else {
-      console.log(`[PostHog] Skipped tracking for internal user: ${event}`)
+      console.log(`[Analytics] Skipped tracking for internal user: ${event}`)
     }
   }
 
   // Filtered identify function
   const identifyFiltered = (distinctId: string, properties?: Record<string, any>) => {
     if (__DEV__ || !isInternalUser()) {
+      console.log(`[Analytics] Identify: ${distinctId}`, {
         ...properties,
         is_internal_user: isInternalUser(),
         is_test_user: isTestUser(),
       })
     } else {
-      console.log(`[PostHog] Skipped identify for internal user: ${distinctId}`)
+      console.log(`[Analytics] Skipped identify for internal user: ${distinctId}`)
     }
   }
 

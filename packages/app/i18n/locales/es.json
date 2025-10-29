@@ -406,8 +406,8 @@
     "help_and_support": "Ayuda y Soporte",
     "delete_account": "Eliminar Cuenta",
     "contact_unavailable_whatsapp": "WhatsApp no disponible. Contáctanos al +34 611 144 170",
-    "contact_unavailable_instagram": "Instagram no disponible. Encuéntranos en @mazunteconnect",
-    "contact_unavailable_email": "Email no configurado. Contáctanos en hello@mazunteconnect.com",
+    "contact_unavailable_instagram": "Instagram no disponible. Encuéntranos en @innerascend",
+    "contact_unavailable_email": "Email no configurado. Contáctanos en hello@inner-ascend.com",
     "contact_email_sent": "Email enviado exitosamente",
     "contact_email_failed": "Error al enviar email. Inténtalo de nuevo.",
     "delete_account_request_sent": "Solicitud de eliminación de cuenta enviada exitosamente"
@@ -540,10 +540,10 @@
     }
   },
   "about": {
-    "title": "Acerca de Mazunte Connect",
-    "welcome": "¡Bienvenido a Mazunte Connect!",
+    "title": "Acerca de Inner Ascend",
+    "welcome": "¡Bienvenido a Inner Ascend!",
     "mission": "Nuestra Misión:",
-    "mission_text": "Conectar a las personas con la vibrante comunidad de Mazunte mostrando eventos locales, destacando lugares únicos y fomentando conexiones significativas entre residentes y visitantes que comparten el amor por este hermoso pueblo costero.",
+    "mission_text": "Apoyar a las personas en su camino hacia la totalidad a través del trabajo de sombra guiado, prácticas de meditación y herramientas de crecimiento espiritual que fomentan el autodescubrimiento y la transformación interior.",
     "what_we_offer": "Lo que Ofrecemos:",
     "what_we_offer_text": "Descubre eventos próximos, explora negocios locales y atracciones, encuentra actividades comunitarias y mantente conectado con todo lo que sucede en Mazunte. Ya seas un residente de larga data o un visitante por primera vez, nuestra plataforma te ayuda a aprovechar al máximo tu tiempo en este lugar increíble.",
     "community_focus": "Enfoque Comunitario:",
@@ -551,11 +551,11 @@
     "get_involved": "Involúcrate:",
     "get_involved_text": "¿Tienes un evento que compartir? ¿Conoces un gran lugar que otros deberían descubrir? ¿Quieres conectar con personas afines? Únete a nuestra comunidad y ayuda a hacer de Mazunte un lugar aún más conectado y vibrante para vivir y visitar.",
     "contact_us": "Contáctanos:",
-    "contact_us_text": "¿Preguntas, sugerencias o quieres involucrarte? Escríbenos a hello@mazunteconnect.com o conéctate con nosotros a través de la aplicación. ¡Nos encantaría saber de ti!"
+    "contact_us_text": "¿Preguntas, sugerencias o quieres involucrarte? Escríbenos a hello@inner-ascend.com o conéctate con nosotros a través de la aplicación. ¡Nos encantaría saber de ti!"
   },
   "privacy_policy": {
     "title": "Política de Privacidad",
-    "intro": "En Mazunte Connect, estamos comprometidos a proteger tu privacidad e información personal. Esta Política de Privacidad explica cómo recopilamos, usamos y protegemos tus datos cuando usas nuestra plataforma comunitaria para descubrir eventos y lugares en Mazunte, México.",
+    "intro": "En Inner Ascend, estamos comprometidos a proteger tu privacidad e información personal. Esta Política de Privacidad explica cómo recopilamos, usamos y protegemos tus datos cuando usas nuestra plataforma de práctica espiritual para trabajo de sombra, meditación y crecimiento personal.",
     "information_we_collect": "Información que Recopilamos:",
     "information_we_collect_text": "Recopilamos información que proporcionas directamente, como tu nombre, dirección de correo electrónico e información de perfil cuando creas una cuenta. También recopilamos datos de ubicación para mostrarte eventos y lugares cercanos, e información de uso para mejorar nuestros servicios.",
     "how_we_use": "Cómo Usamos tu Información:",
@@ -563,15 +563,15 @@
     "data_security": "Seguridad de Datos:",
     "data_security_text": "Implementamos medidas de seguridad apropiadas para proteger tu información personal contra acceso no autorizado, alteración, divulgación o destrucción. Tus datos se almacenan de forma segura y se encriptan en tránsito.",
     "your_rights": "Tus Derechos:",
-    "your_rights_text": "Tienes derecho a acceder, actualizar o eliminar tu información personal en cualquier momento. También puedes optar por no recibir ciertas comunicaciones de nosotros. Contáctanos en hello@mazunteconnect.com si tienes preguntas sobre tus datos.",
+    "your_rights_text": "Tienes derecho a acceder, actualizar o eliminar tu información personal en cualquier momento. También puedes optar por no recibir ciertas comunicaciones de nosotros. Contáctanos en hello@inner-ascend.com si tienes preguntas sobre tus datos.",
     "changes_to_policy": "Cambios a esta Política:",
     "changes_to_policy_text": "Podemos actualizar esta Política de Privacidad de vez en cuando. Te notificaremos de cualquier cambio publicando la nueva Política de Privacidad en esta página y actualizando la fecha de \"Última Actualización\".",
     "contact_us": "Contáctanos:",
-    "contact_us_text": "Si tienes preguntas sobre esta Política de Privacidad, contáctanos en hello@mazunteconnect.com o a través de nuestros canales de soporte de la aplicación."
+    "contact_us_text": "Si tienes preguntas sobre esta Política de Privacidad, contáctanos en hello@inner-ascend.com o a través de nuestros canales de soporte de la aplicación."
   },
   "terms_of_service": {
     "title": "Términos de Servicio",
-    "intro": "¡Bienvenido a Mazunte Connect! Estos Términos de Servicio (\"Términos\") rigen tu uso de nuestra plataforma comunitaria que te ayuda a descubrir eventos y lugares en Mazunte, México. Al usar nuestra aplicación, aceptas estar sujeto a estos Términos.",
+    "intro": "¡Bienvenido a Inner Ascend! Estos Términos de Servicio (\"Términos\") rigen tu uso de nuestra plataforma de práctica espiritual para trabajo de sombra, meditación y crecimiento personal. Al usar nuestra aplicación, aceptas estar sujeto a estos Términos.",
     "acceptable_use": "Uso Aceptable:",
     "acceptable_use_text": "Aceptas usar Mazunte Connect de manera responsable y respetuosa. No puedes publicar contenido falso, engañoso o dañino. Eres responsable de la precisión de cualquier evento o lugar que crees o compartas. El acoso, spam o actividades ilegales están prohibidos.",
     "user_content": "Contenido del Usuario:",
@@ -581,11 +581,11 @@
     "privacy_and_data": "Privacidad y Datos:",
     "privacy_and_data_text": "Tu privacidad es importante para nosotros. Por favor revisa nuestra Política de Privacidad para entender cómo recopilamos, usamos y protegemos tu información. Usamos tus datos de ubicación solo para mostrarte eventos y lugares relevantes cercanos.",
     "limitation_of_liability": "Limitación de Responsabilidad:",
-    "limitation_of_liability_text": "Mazunte Connect se proporciona \"tal como está\" sin garantías. No somos responsables de la precisión del contenido generado por usuarios o cualquier problema que surja de eventos o lugares listados en nuestra plataforma. Usa la aplicación bajo tu propio criterio.",
+    "limitation_of_liability_text": "Inner Ascend se proporciona \"tal como está\" sin garantías. No somos responsables de los resultados de tu práctica espiritual o cualquier problema que surja del uso de nuestra plataforma. Usa la aplicación bajo tu propio criterio y consulta profesionales cuando sea necesario.",
     "termination": "Terminación:",
     "termination_text": "Podemos suspender o terminar tu cuenta si violas estos Términos. También puedes eliminar tu cuenta en cualquier momento. Al terminar, tu contenido puede ser removido de nuestra plataforma.",
     "contact_information": "Información de Contacto:",
-    "contact_information_text": "Si tienes preguntas sobre estos Términos, contáctanos en hello@mazunteconnect.com. Estos Términos se rigen por la ley mexicana y cualquier disputa se resolverá en tribunales mexicanos."
+    "contact_information_text": "Si tienes preguntas sobre estos Términos, contáctanos en hello@inner-ascend.com. Estos Términos se rigen por la ley aplicable y cualquier disputa se resolverá a través de los canales legales apropiados."
   },
   "tags": {
     "vegan": "Vegano",
@@ -931,5 +931,51 @@
     "maybe_badge": "Marcaste tal vez",
     "watching_badge": "Estás siguiendo",
     "cant_go_badge": "No puedes ir"
+  },
+  "community": {
+    "title": "COMUNIDAD",
+    "subtitle": "Únete a círculos de sanación y talleres en vivo",
+    "tabs": {
+      "upcoming": "Próximas",
+      "past": "Sesiones Pasadas"
+    },
+    "session_types": {
+      "healing_circle": "Círculo de Sanación",
+      "workshop": "Taller",
+      "meditation": "Meditación",
+      "q_and_a": "Preguntas y Respuestas"
+    },
+    "session_type_icons": {
+      "healing_circle": "🌙",
+      "workshop": "📚",
+      "meditation": "🧘",
+      "q_and_a": "💬"
+    },
+    "empty_state": {
+      "title": "No Hay Sesiones Próximas",
+      "description": "Los círculos de sanación y talleres en vivo se anunciarán aquí. Mantente atento a las próximas reuniones en nuestro espacio sagrado."
+    },
+    "past_empty_state": {
+      "title": "No Hay Sesiones Pasadas",
+      "description": "Las sesiones anteriores aparecerán aquí una vez completadas."
+    },
+    "loading": "Cargando sesiones...",
+    "error": "Error al cargar sesiones",
+    "facilitator": "Facilitador",
+    "duration": "{{count}} min",
+    "join_call": "Unirse a la Llamada",
+    "recording_available": "Grabación Disponible",
+    "session_passed": "Sesión Completada",
+    "rsvp_yes": "Voy a Asistir",
+    "rsvp_maybe": "Tal Vez",
+    "rsvp_cancel": "Cancelar Confirmación",
+    "rsvp_success": "¡Confirmación registrada!",
+    "rsvp_error": "Error al confirmar. Intenta de nuevo.",
+    "join_error": "No se puede abrir el enlace de la reunión",
+    "date_format": {
+      "weekday_short": "short",
+      "month_short": "short",
+      "day_numeric": "numeric"
+    }
   }
 }

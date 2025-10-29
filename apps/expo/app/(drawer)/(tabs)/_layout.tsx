@@ -1,6 +1,6 @@
 import { useTheme, Button } from '@my/ui'
 import { DrawerActions } from '@react-navigation/native'
-import { BookOpen, CircleDot, Home, Menu, TrendingUp } from '@tamagui/lucide-icons'
+import { BookOpen, CircleDot, Home, Menu, TrendingUp, Users } from '@tamagui/lucide-icons'
 import { Stack, Tabs, useNavigation, usePathname } from 'expo-router'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
@@ -71,6 +71,16 @@ export default function Layout() {
             title: 'Journey',
             tabBarIcon: ({ focused }) => (
               <BookOpen color={focused ? '$cosmicViolet' : '$silverMoon2'} size={22} strokeWidth={focused ? 2.5 : 2} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="community"
+          options={{
+            headerShown: false,
+            title: 'Community',
+            tabBarIcon: ({ focused }) => (
+              <Users color={focused ? '$cosmicViolet' : '$silverMoon2'} size={22} strokeWidth={focused ? 2.5 : 2} />
             ),
           }}
         />

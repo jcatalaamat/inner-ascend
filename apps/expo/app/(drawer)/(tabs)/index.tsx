@@ -7,7 +7,6 @@ import { useProgressSummaryQuery } from 'app/utils/react-query/useUserProgressQu
 import { useStreakStatsQuery } from 'app/utils/react-query/useStreakQuery'
 import { useEmotionalCheckInMutation, useTodayCheckInQuery } from 'app/utils/react-query/useEmotionalCheckInMutation'
 import { useCosmicWeatherQuery } from 'app/utils/react-query/useCosmicWeatherQuery'
-import { Pressable } from 'react-native'
 
 type EmotionalState = 'struggling' | 'processing' | 'clear' | 'integrated'
 
@@ -187,50 +186,47 @@ export default function TodayScreen() {
                 const isDisabled = checkInMutation.isPending
 
                 return (
-                  <Pressable
+                  <Card
                     key={state.value}
+                    padding="$3.5"
+                    backgroundColor={isSelected ? state.bgColor : '$deepSpace3'}
+                    borderColor={isSelected ? state.color : '$deepSpace3'}
+                    borderWidth={2}
+                    pressStyle={{ opacity: 0.7, scale: 0.98 }}
+                    opacity={isDisabled ? 0.6 : 1}
+                    minHeight={100}
+                    justifyContent="center"
                     onPress={() => !isDisabled && handleCheckIn(state.value)}
                     disabled={isDisabled}
                   >
-                    <Card
-                      padding="$3.5"
-                      backgroundColor={isSelected ? state.bgColor : '$deepSpace3'}
-                      borderColor={isSelected ? state.color : '$deepSpace3'}
-                      borderWidth={2}
-                      pressStyle={{ opacity: 0.7, scale: 0.98 }}
-                      opacity={isDisabled ? 0.6 : 1}
-                      minHeight={100}
-                      justifyContent="center"
-                    >
-                      <YStack alignItems="center" gap="$2">
-                        <Text fontSize="$8">{state.emoji}</Text>
-                        <YStack alignItems="center" gap="$0.5">
-                          <XStack alignItems="center" gap="$1.5">
-                            <Text
-                              fontSize="$4"
-                              fontWeight="600"
-                              color={isSelected ? state.color : '$silverMoon'}
-                              textAlign="center"
-                            >
-                              {state.label}
-                            </Text>
-                            {isSelected && (
-                              <Text fontSize="$3" color="$integrationGreen">✓</Text>
-                            )}
-                          </XStack>
+                    <YStack alignItems="center" gap="$2">
+                      <Text fontSize="$8">{state.emoji}</Text>
+                      <YStack alignItems="center" gap="$0.5">
+                        <XStack alignItems="center" gap="$1.5">
                           <Text
-                            fontSize="$1"
-                            color={isSelected ? '$silverMoon2' : '$silverMoon3'}
+                            fontSize="$4"
+                            fontWeight="600"
+                            color={isSelected ? state.color : '$silverMoon'}
                             textAlign="center"
-                            numberOfLines={2}
-                            lineHeight="$1"
                           >
-                            {state.description}
+                            {state.label}
                           </Text>
-                        </YStack>
+                          {isSelected && (
+                            <Text fontSize="$3" color="$integrationGreen">✓</Text>
+                          )}
+                        </XStack>
+                        <Text
+                          fontSize="$1"
+                          color={isSelected ? '$silverMoon2' : '$silverMoon3'}
+                          textAlign="center"
+                          numberOfLines={2}
+                          lineHeight="$1"
+                        >
+                          {state.description}
+                        </Text>
                       </YStack>
-                    </Card>
-                  </Pressable>
+                    </YStack>
+                  </Card>
                 )
               })}
             </YStack>
@@ -241,50 +237,47 @@ export default function TodayScreen() {
                 const isDisabled = checkInMutation.isPending
 
                 return (
-                  <Pressable
+                  <Card
                     key={state.value}
+                    padding="$3.5"
+                    backgroundColor={isSelected ? state.bgColor : '$deepSpace3'}
+                    borderColor={isSelected ? state.color : '$deepSpace3'}
+                    borderWidth={2}
+                    pressStyle={{ opacity: 0.7, scale: 0.98 }}
+                    opacity={isDisabled ? 0.6 : 1}
+                    minHeight={100}
+                    justifyContent="center"
                     onPress={() => !isDisabled && handleCheckIn(state.value)}
                     disabled={isDisabled}
                   >
-                    <Card
-                      padding="$3.5"
-                      backgroundColor={isSelected ? state.bgColor : '$deepSpace3'}
-                      borderColor={isSelected ? state.color : '$deepSpace3'}
-                      borderWidth={2}
-                      pressStyle={{ opacity: 0.7, scale: 0.98 }}
-                      opacity={isDisabled ? 0.6 : 1}
-                      minHeight={100}
-                      justifyContent="center"
-                    >
-                      <YStack alignItems="center" gap="$2">
-                        <Text fontSize="$8">{state.emoji}</Text>
-                        <YStack alignItems="center" gap="$0.5">
-                          <XStack alignItems="center" gap="$1.5">
-                            <Text
-                              fontSize="$4"
-                              fontWeight="600"
-                              color={isSelected ? state.color : '$silverMoon'}
-                              textAlign="center"
-                            >
-                              {state.label}
-                            </Text>
-                            {isSelected && (
-                              <Text fontSize="$3" color="$integrationGreen">✓</Text>
-                            )}
-                          </XStack>
+                    <YStack alignItems="center" gap="$2">
+                      <Text fontSize="$8">{state.emoji}</Text>
+                      <YStack alignItems="center" gap="$0.5">
+                        <XStack alignItems="center" gap="$1.5">
                           <Text
-                            fontSize="$1"
-                            color={isSelected ? '$silverMoon2' : '$silverMoon3'}
+                            fontSize="$4"
+                            fontWeight="600"
+                            color={isSelected ? state.color : '$silverMoon'}
                             textAlign="center"
-                            numberOfLines={2}
-                            lineHeight="$1"
                           >
-                            {state.description}
+                            {state.label}
                           </Text>
-                        </YStack>
+                          {isSelected && (
+                            <Text fontSize="$3" color="$integrationGreen">✓</Text>
+                          )}
+                        </XStack>
+                        <Text
+                          fontSize="$1"
+                          color={isSelected ? '$silverMoon2' : '$silverMoon3'}
+                          textAlign="center"
+                          numberOfLines={2}
+                          lineHeight="$1"
+                        >
+                          {state.description}
+                        </Text>
                       </YStack>
-                    </Card>
-                  </Pressable>
+                    </YStack>
+                  </Card>
                 )
               })}
             </YStack>

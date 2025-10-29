@@ -70,6 +70,7 @@ fi
 # Set environment variables for local builds
 export LANG=en_US.UTF-8  # Fix fastlane locale warning
 export LC_ALL=en_US.UTF-8
+export EXPO_NO_CAPABILITY_SYNC=1  # Prevent EAS from disabling Sign in with Apple
 
 # Sentry auth token should be set in your ~/.zshrc
 # If not set, the build will fail with auth error

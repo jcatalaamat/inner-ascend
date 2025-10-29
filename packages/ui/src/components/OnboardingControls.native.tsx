@@ -1,5 +1,5 @@
 import { ChevronRight } from '@tamagui/lucide-icons'
-import { Button, XStack } from 'tamagui'
+import { Button, Text, XStack } from 'tamagui'
 
 import { OnboardingControlsProps } from './OnboardingControls'
 
@@ -26,10 +26,7 @@ export const OnboardingControls = ({
   return (
     <XStack jc="space-between" ai="center" px="$6" pb="$5" pt="$3" gap="$4">
       <Button
-        size="$4"
         chromeless
-        col="$color10"
-        fontWeight="600"
         pressStyle={{
           bg: '$color5',
           scale: 0.96,
@@ -37,17 +34,15 @@ export const OnboardingControls = ({
         br="$3"
         onPress={() => handleSkip()}
       >
-        Skip
+        <Text col="$color10" fontWeight="600" size="$4">
+          Skip
+        </Text>
       </Button>
 
       <Button
         f={1}
-        size="$5"
         br="$4"
         bg="$color10"
-        col="$color1"
-        fontWeight="800"
-        letterSpacing={-0.5}
         borderWidth={4}
         borderColor="$color11"
         shadowColor="$color11"
@@ -62,7 +57,9 @@ export const OnboardingControls = ({
         onPress={() => handleGoNext()}
         iconAfter={isLastStep ? undefined : ChevronRight}
       >
-        {isLastStep ? 'Start My Journey' : 'Continue'}
+        <Text col="$color1" fontWeight="800" size="$5" letterSpacing={-0.5}>
+          {isLastStep ? 'Start My Journey' : 'Continue'}
+        </Text>
       </Button>
     </XStack>
   )

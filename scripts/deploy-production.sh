@@ -122,7 +122,7 @@ if [[ "$PLATFORM" == "ios" || "$PLATFORM" == "all" ]]; then
   STEP_CURRENT=$((STEP_CURRENT + 1))
   echo "🍎 Step $STEP_CURRENT/$STEP_TOTAL: Building for iOS production (locally on your Mac)..."
   IOS_IPA_PATH="./build-ios-$(date +%s).ipa"
-  eas build --platform ios --profile production --local --non-interactive --output "$IOS_IPA_PATH"
+  eas build --platform ios --profile production --local --non-interactive --clear-cache --output "$IOS_IPA_PATH"
 
   echo ""
   echo "✅ iOS build completed: $IOS_IPA_PATH"

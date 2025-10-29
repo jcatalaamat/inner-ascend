@@ -36,8 +36,11 @@
       "distribution": "internal"
     },
     "production": {
+      "credentialsSource": "local",
       "ios": {
-        "credentialsSource": "local"
+        "credentialsSource": "local",
+        "simulator": false,
+        "buildConfiguration": "Release"
       }
     }
   },

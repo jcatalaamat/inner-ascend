@@ -1,7 +1,7 @@
-import { Button } from '@my/ui'
 import { useSupabase } from 'app/utils/supabase/useSupabase'
 import { useRouter } from 'solito/router'
 
+import { AuthButton } from './AuthButton'
 import { IconGoogle } from './IconGoogle'
 
 export function GoogleSignIn() {
@@ -23,8 +23,13 @@ export function GoogleSignIn() {
   }
 
   return (
-    <Button br="$10" onPress={() => handleOAuthSignIn()} icon={IconGoogle}>
-      Sign in with Google
-    </Button>
+    <AuthButton
+      onPress={() => handleOAuthSignIn()}
+      icon={IconGoogle}
+      scaleIcon={0.85}
+      iconAfter={null}
+    >
+      Continue with Google
+    </AuthButton>
   )
 }

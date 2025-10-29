@@ -6,7 +6,7 @@ export default {
     slug: 'inner-ascend',
     jsEngine: 'hermes',
     scheme: 'innerascend',
-    version: '1.0.1',
+    version: '1.0.2',
     orientation: 'portrait',
     icon: './assets/icon.png',
     userInterfaceStyle: 'automatic',
@@ -22,7 +22,7 @@ export default {
     assetBundlePatterns: ['**/*'],
     ios: {
       supportsTablet: true,
-      bundleIdentifier: 'com.innerascend.ios',
+      bundleIdentifier: 'com.innerascend.app',
       appleTeamId: '3R96Y2JNG8',
       buildNumber: '1',
       icon: './assets/icon.png',
@@ -35,7 +35,7 @@ export default {
         CFBundleURLTypes: [
           {
             CFBundleURLName: "GoogleSignIn",
-            CFBundleURLSchemes: ['com.googleusercontent.apps.7491021027-dj901lvn943vgmstd41vraejfpinucra']
+            CFBundleURLSchemes: [process.env.GOOGLE_IOS_SCHEME || 'com.googleusercontent.apps.YOUR_GOOGLE_IOS_CLIENT_ID']
           }
         ]
       },
@@ -89,7 +89,8 @@ export default {
         '@react-native-google-signin/google-signin',
         {
           // https://react-native-google-signin.github.io/docs/setting-up/expo
-          iosUrlScheme: 'com.googleusercontent.apps.7491021027-dj901lvn943vgmstd41vraejfpinucra',
+          // This must match the GOOGLE_IOS_SCHEME from your .env file
+          iosUrlScheme: process.env.GOOGLE_IOS_SCHEME || 'com.googleusercontent.apps.YOUR_GOOGLE_IOS_CLIENT_ID',
         },
       ],
       'expo-apple-authentication',

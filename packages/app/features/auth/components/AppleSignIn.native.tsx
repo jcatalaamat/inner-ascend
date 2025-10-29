@@ -1,8 +1,11 @@
 import { initiateAppleSignIn } from 'app/utils/auth/initiateAppleSignIn'
 import { useSupabase } from 'app/utils/supabase/useSupabase'
 import * as AppleAuthentication from 'expo-apple-authentication'
+import { Apple } from '@tamagui/lucide-icons'
 import { Platform } from 'react-native'
 import { useRouter } from 'solito/router'
+
+import { AuthButton } from './AuthButton'
 
 export function AppleSignIn() {
   const supabase = useSupabase()
@@ -49,12 +52,13 @@ export function AppleSignIn() {
   }
 
   return (
-    <AppleAuthentication.AppleAuthenticationButton
-      buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
-      buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
-      cornerRadius={5}
-      style={{ width: '100%', height: 44 }}
+    <AuthButton
       onPress={signInWithApple}
-    />
+      icon={Apple}
+      scaleIcon={0.85}
+      iconAfter={null}
+    >
+      Continue with Apple
+    </AuthButton>
   )
 }

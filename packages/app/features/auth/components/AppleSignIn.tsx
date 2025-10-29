@@ -1,8 +1,8 @@
-import { Button } from '@my/ui'
+import { Apple } from '@tamagui/lucide-icons'
 import { useSupabase } from 'app/utils/supabase/useSupabase'
 import { useRouter } from 'solito/router'
 
-import { IconApple } from './IconApple'
+import { AuthButton } from './AuthButton'
 
 export function AppleSignIn() {
   const router = useRouter()
@@ -22,8 +22,13 @@ export function AppleSignIn() {
   }
 
   return (
-    <Button br="$10" onPress={() => handleOAuthSignIn()} icon={IconApple}>
-      Sign in with Apple
-    </Button>
+    <AuthButton
+      onPress={() => handleOAuthSignIn()}
+      icon={Apple}
+      scaleIcon={0.85}
+      iconAfter={null}
+    >
+      Continue with Apple
+    </AuthButton>
   )
 }

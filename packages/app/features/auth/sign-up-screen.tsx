@@ -79,35 +79,45 @@ export const SignUpScreen = () => {
             password: '',
           }}
           props={{
+            email: {
+              size: '$5',
+            },
             password: {
               secureTextEntry: true,
+              size: '$5',
             },
           }}
           onSubmit={signUpWithEmail}
           renderAfter={({ submit }) => (
             <>
               <Theme inverse>
-                <SubmitButton onPress={() => submit()} br="$10">
-                  Sign Up
+                <SubmitButton onPress={() => submit()} br="$12" h={56}>
+                  Create your account
                 </SubmitButton>
               </Theme>
               <SignInLink />
-              {isWeb && <SocialLogin />}
             </>
           )}
         >
           {(fields) => (
             <>
               <YStack gap="$3" mb="$4">
-                <H2 $sm={{ size: '$8' }}>Get Started</H2>
-                <Paragraph theme="alt2">Create a new account</Paragraph>
+                <H2 $sm={{ size: '$9' }} size="$10">Begin your inner journey</H2>
+                <Paragraph theme="alt1" size="$5">Join thousands doing the work</Paragraph>
               </YStack>
+
+              {/* Social login first - primary method */}
+              <YStack mb="$4">
+                <SocialLogin />
+              </YStack>
+
+              {/* "or" divider */}
+              <YStack ai="center" jc="center" mb="$4">
+                <Paragraph theme="alt2" size="$2" tt="lowercase">or</Paragraph>
+              </YStack>
+
+              {/* Email/password fields */}
               {Object.values(fields)}
-              {!isWeb && (
-                <YStack mt="$4">
-                  <SocialLogin />
-                </YStack>
-              )}
             </>
           )}
         </SchemaForm>
@@ -121,8 +131,8 @@ const SignInLink = () => {
 
   return (
     <Link href={`/sign-in?${new URLSearchParams(email ? { email } : undefined).toString()}`}>
-      <Paragraph ta="center" theme="alt1" mt="$2">
-        Already signed up? <Text textDecorationLine="underline">Sign in</Text>
+      <Paragraph ta="center" theme="alt1" mt="$3">
+        Already have an account? <Text textDecorationLine="underline">Sign in →</Text>
       </Paragraph>
     </Link>
   )

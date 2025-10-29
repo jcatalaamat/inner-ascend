@@ -1,9 +1,9 @@
-import { Button } from '@my/ui'
 import { statusCodes } from '@react-native-google-signin/google-signin'
 import { initiateGoogleSignIn } from 'app/utils/auth/initiateGoogleSignIn'
 import { useSupabase } from 'app/utils/supabase/useSupabase'
 import { useRouter } from 'solito/router'
 
+import { AuthButton } from './AuthButton'
 import { IconGoogle } from './IconGoogle'
 
 export function GoogleSignIn() {
@@ -51,18 +51,13 @@ export function GoogleSignIn() {
   }
 
   return (
-    <Button
+    <AuthButton
       onPress={() => signInWithGoogle()}
       icon={IconGoogle}
-      // styles to make it look like the native Apple button on AppleSignIn.native.tsx
-      scaleIcon={0.75}
-      space="$1.5"
-      bg="transparent"
-      pressStyle={{ bg: 'transparent', o: 0.6, bw: '$0' }}
-      animation="200ms"
-      chromeless
+      scaleIcon={0.85}
+      iconAfter={null}
     >
-      Sign in with Google
-    </Button>
+      Continue with Google
+    </AuthButton>
   )
 }

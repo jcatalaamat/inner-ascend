@@ -19,7 +19,7 @@
       "ios": {
         "simulator": false,
         "buildConfiguration": "Release",
-        "credentialsSource": "remote"
+        "credentialsSource": "local"
       },
       "env": {
         "APP_ENV": "staging",
@@ -35,7 +35,11 @@
     "preview": {
       "distribution": "internal"
     },
-    "production": {}
+    "production": {
+      "ios": {
+        "credentialsSource": "local"
+      }
+    }
   },
   "submit": {
     "production": {}

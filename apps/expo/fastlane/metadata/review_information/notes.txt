@@ -1,0 +1,50 @@
+Thank you for reviewing Inner Ascend!
+
+TEST ACCOUNT:
+Email: reviewer@inner-ascend.com
+Password: InnerAscend2025!
+
+WHAT TO TEST:
+
+1. ONBOARDING FLOW
+   - Launch the app to see the 3-step onboarding introducing the app's purpose
+   - Tap "Start My Journey" on the final onboarding screen
+
+2. SIGN UP / SIGN IN
+   - You can use the test account above to sign in
+   - Or test "Continue with Apple/Google" (optional - test account is faster)
+   - Email/password sign in also works
+
+3. DAILY CHECK-IN (TODAY TAB)
+   - The "How are you feeling today?" section shows emotional check-in options
+   - Select any feeling state (Struggling, Clear, Processing, or Integrated)
+   - The "Cosmic Weather" card provides daily guidance
+   - Note: 1-day streak shows since this is a test account
+
+4. JOURNEY TAB
+   - Browse "Being Human 101" - 16 spiritual growth modules
+   - Module 1 is unlocked and shows progress (Day 2 unlocks in 21h)
+   - Other modules are locked until previous ones complete
+
+5. COMMUNITY TAB
+   - Currently shows "No Upcoming Sessions" placeholder
+   - Future feature for live healing circles and workshops
+
+6. PRACTICES TAB
+   - Browse meditation practices (Shadow Integration, Inner Child Reconnection, etc.)
+   - Each practice shows duration, description, and use case
+   - Note: "Audio coming soon" - audio files will be added post-launch
+
+7. PROGRESS TAB
+   - View practice streaks, emotional journey, module progress
+   - See stats: Total Practices, Days Completed
+   - Journal section shows "Write First Entry" call-to-action
+
+NOTES:
+- This is a spiritual practice and personal growth app
+- All content is designed for self-reflection and healing work
+- No user-generated content or social features (Community tab is for scheduled events only)
+- No in-app purchases at launch
+- App follows Apple's Health & Wellness guidelines
+
+Please let us know if you have any questions!

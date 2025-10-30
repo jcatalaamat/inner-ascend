@@ -17,7 +17,7 @@ export const FloatingMenuButton = memo(function FloatingMenuButton() {
     <YStack
       position="absolute"
       top={insets.top + 12}
-      left={16}
+      right={16}
       zIndex={400}
     >
       <Button

@@ -65,65 +65,67 @@ export const SignInScreen = () => {
   }
 
   return (
-    <FormWrapper>
-      <FormProvider {...form}>
-        <SchemaForm
-          form={form}
-          schema={SignInSchema}
-          defaultValues={{
-            email: params?.email || '',
-            password: '',
-          }}
-          onSubmit={signInWithEmail}
-          props={{
-            email: {
-              size: '$5',
-            },
-            password: {
-              afterElement: <ForgotPasswordLink />,
-              secureTextEntry: true,
-              size: '$5',
-            },
-          }}
-          renderAfter={({ submit }) => {
-            return (
+    <Theme name="purple">
+      <FormWrapper>
+        <FormProvider {...form}>
+          <SchemaForm
+            form={form}
+            schema={SignInSchema}
+            defaultValues={{
+              email: params?.email || '',
+              password: '',
+            }}
+            onSubmit={signInWithEmail}
+            props={{
+              email: {
+                size: '$5',
+              },
+              password: {
+                afterElement: <ForgotPasswordLink />,
+                secureTextEntry: true,
+                size: '$5',
+              },
+            }}
+            renderAfter={({ submit }) => {
+              return (
+                <>
+                  <Theme inverse>
+                    <SubmitButton onPress={() => submit()} br="$12" h={56}>
+                      Sign in with email
+                    </SubmitButton>
+                  </Theme>
+                  <SignUpLink />
+                </>
+              )
+            }}
+          >
+            {(fields) => (
               <>
-                <Theme inverse>
-                  <SubmitButton onPress={() => submit()} br="$12" h={56}>
-                    Sign in with email
-                  </SubmitButton>
-                </Theme>
-                <SignUpLink />
+                <YStack gap="$3" mb="$4">
+                  <H2 $sm={{ size: '$9' }} size="$10">Welcome back to Inner Ascend</H2>
+                  <Paragraph theme="alt1" size="$5">Continue your journey</Paragraph>
+                </YStack>
+
+                {/* Social login first - primary method */}
+                <YStack mb="$4">
+                  <SocialLogin />
+                </YStack>
+
+                {/* "or" divider */}
+                <YStack ai="center" jc="center" mb="$4">
+                  <Paragraph theme="alt2" size="$2" tt="lowercase">or</Paragraph>
+                </YStack>
+
+                {/* Email/password fields */}
+                {Object.values(fields)}
               </>
-            )
-          }}
-        >
-          {(fields) => (
-            <>
-              <YStack gap="$3" mb="$4">
-                <H2 $sm={{ size: '$9' }} size="$10">Welcome back to Inner Ascend</H2>
-                <Paragraph theme="alt1" size="$5">Continue your journey</Paragraph>
-              </YStack>
-
-              {/* Social login first - primary method */}
-              <YStack mb="$4">
-                <SocialLogin />
-              </YStack>
-
-              {/* "or" divider */}
-              <YStack ai="center" jc="center" mb="$4">
-                <Paragraph theme="alt2" size="$2" tt="lowercase">or</Paragraph>
-              </YStack>
-
-              {/* Email/password fields */}
-              {Object.values(fields)}
-            </>
-          )}
-        </SchemaForm>
-        {/* this is displayed when the session is being updated - usually when the user is redirected back from an auth provider */}
-        {isLoadingSession && <LoadingOverlay />}
-      </FormProvider>
-    </FormWrapper>
+            )}
+          </SchemaForm>
+          {/* this is displayed when the session is being updated - usually when the user is redirected back from an auth provider */}
+          {isLoadingSession && <LoadingOverlay />}
+        </FormProvider>
+      </FormWrapper>
+    </Theme>
   )
 }
 

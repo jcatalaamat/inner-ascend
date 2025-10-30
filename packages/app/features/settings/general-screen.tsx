@@ -30,7 +30,7 @@ export const GeneralSettingsScreen = () => {
                 <SizableText fow="900">{t('settings.name')}</SizableText>
               </KVTable.Key>
               <KVTable.Value gap="$4">
-                <SizableText>{profile?.name}</SizableText>
+                <SizableText>{profile?.full_name || 'Not set'}</SizableText>
                 <Link href="/profile/edit">
                   <SizableText textDecorationLine="underline">{t('settings.change')}</SizableText>
                 </Link>
@@ -54,15 +54,6 @@ export const GeneralSettingsScreen = () => {
                 <Link href="/settings/change-email">
                   <SizableText textDecorationLine="underline">{t('settings.change')}</SizableText>
                 </Link>
-              </KVTable.Value>
-            </KVTable.Row>
-
-            <KVTable.Row>
-              <KVTable.Key>
-                <SizableText fow="900">{t('settings.user_id')}</SizableText>
-              </KVTable.Key>
-              <KVTable.Value>
-                <SizableText>{user?.id}</SizableText>
               </KVTable.Value>
             </KVTable.Row>
           </KVTable>

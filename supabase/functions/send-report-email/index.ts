@@ -69,12 +69,12 @@ serve(async (req) => {
     if (report.reporter_id) {
       const { data: profile } = await supabaseClient
         .from('profiles')
-        .select('name')
+        .select('full_name')
         .eq('id', report.reporter_id)
         .single()
 
-      if (profile?.name) {
-        reporterName = profile.name
+      if (profile?.full_name) {
+        reporterName = profile.full_name
       }
     }
 

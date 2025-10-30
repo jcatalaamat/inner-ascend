@@ -73,7 +73,7 @@ const InnerProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <ThemeProvider value={resolvedTheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <StatusBar style={resolvedTheme === 'dark' ? 'light' : 'dark'} />
+      <StatusBar style="light" />
       {children}
     </ThemeProvider>
   )

@@ -3,7 +3,7 @@ import { router } from 'expo-router'
 import { useState, useEffect } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useModuleDayContentQuery } from 'app/utils/react-query/useModuleContentQuery'
-import { useProgressSummaryQuery } from 'app/utils/react-query/useUserProgressQuery'
+import { useProgressSummaryQuery, useModuleProgressQuery } from 'app/utils/react-query/useUserProgressQuery'
 import { useStreakStatsQuery } from 'app/utils/react-query/useStreakQuery'
 import { useEmotionalCheckInMutation, useTodayCheckInQuery } from 'app/utils/react-query/useEmotionalCheckInMutation'
 import { useCosmicWeatherQuery } from 'app/utils/react-query/useCosmicWeatherQuery'
@@ -68,6 +68,39 @@ export default function TodayScreen() {
   const currentModule = progressSummary?.currentModule || 1
   const currentDay = progressSummary?.currentDay || 1
   const { data: dayContent, isLoading } = useModuleDayContentQuery(currentModule, currentDay)
+
+  // Get progress for the current module to check locking
+  const { data: moduleProgress } = useModuleProgressQuery(currentModule)
+
+  // Check if current day is locked (24 hour timer)
+  const isCurrentDayLocked = (() => {
+    if (currentDay === 1) return false // Day 1 is never locked
+
+    const previousDayProgress = moduleProgress?.find(p => p.day_number === currentDay - 1)
+
+    if (!previousDayProgress?.completed_at) return true // Previous day not completed
+
+    const completedTime = new Date(previousDayProgress.completed_at).getTime()
+    const now = new Date().getTime()
+    const hoursPassed = (now - completedTime) / (1000 * 60 * 60)
+
+    return hoursPassed < 24
+  })()
+
+  // Calculate hours remaining if locked
+  const hoursRemaining = (() => {
+    if (!isCurrentDayLocked || currentDay === 1) return 0
+
+    const previousDayProgress = moduleProgress?.find(p => p.day_number === currentDay - 1)
+
+    if (!previousDayProgress?.completed_at) return 0
+
+    const completedTime = new Date(previousDayProgress.completed_at).getTime()
+    const now = new Date().getTime()
+    const hoursPassed = (now - completedTime) / (1000 * 60 * 60)
+
+    return Math.ceil(24 - hoursPassed)
+  })()
 
   // Show success message briefly when check-in changes
   useEffect(() => {
@@ -162,7 +195,7 @@ export default function TodayScreen() {
             How are you feeling today?
           </Text>
           <Text fontSize="$3" color="$silverMoon3" marginBottom="$4">
-            Honoring where you are
+            Daily emotional check-in · Tap to set or update
           </Text>
 
           {/* Success Message */}
@@ -175,7 +208,7 @@ export default function TodayScreen() {
               borderWidth={1}
             >
               <Text color="$integrationGreen" fontSize="$3" textAlign="center">
-                Thank you for honoring your journey
+                Saved for today · You can update anytime before tomorrow
               </Text>
             </Card>
           )}
@@ -316,17 +349,37 @@ export default function TodayScreen() {
             padding="$4"
             marginBottom="$4"
             backgroundColor="$deepSpace2"
-            borderColor="$cosmicViolet"
+            borderColor={isCurrentDayLocked ? '$silverMoon3' : '$cosmicViolet'}
             borderWidth={1}
-            pressStyle={{ opacity: 0.8, scale: 0.98 }}
-            onPress={() => router.push(`/module/${currentModule}?day=${currentDay}`)}
+            opacity={isCurrentDayLocked ? 0.6 : 1}
+            pressStyle={!isCurrentDayLocked ? { opacity: 0.8, scale: 0.98 } : {}}
+            onPress={() => !isCurrentDayLocked && router.push(`/module/${currentModule}?day=${currentDay}`)}
+            disabled={isCurrentDayLocked}
           >
             <XStack alignItems="center" gap="$2" marginBottom="$3">
-              <Text fontSize="$6">🧘</Text>
-              <Text fontSize="$6" fontWeight="600" color="$cosmicViolet">
-                Today's Practice
+              <Text fontSize="$6">{isCurrentDayLocked ? '🔒' : '🧘'}</Text>
+              <Text fontSize="$6" fontWeight="600" color={isCurrentDayLocked ? '$silverMoon3' : '$cosmicViolet'}>
+                {isCurrentDayLocked ? 'Practice Locked' : "Today's Practice"}
               </Text>
             </XStack>
+
+            {/* Locked Message */}
+            {isCurrentDayLocked && (
+              <Card
+                padding="$3"
+                marginBottom="$3"
+                backgroundColor="$deepSpace3"
+                borderColor="$innerChildGold"
+                borderWidth={1}
+              >
+                <Text color="$innerChildGold" fontSize="$3" textAlign="center" fontWeight="600">
+                  ⏰ Unlocks in {hoursRemaining}h
+                </Text>
+                <Text color="$silverMoon3" fontSize="$2" textAlign="center" marginTop="$1">
+                  Integration time is sacred. Your next practice becomes available in {hoursRemaining} {hoursRemaining === 1 ? 'hour' : 'hours'}.
+                </Text>
+              </Card>
+            )}
 
             {/* Module Info */}
             <XStack alignItems="center" gap="$2" marginBottom="$2">
@@ -350,18 +403,18 @@ export default function TodayScreen() {
                 <YStack
                   height="100%"
                   width={`${(currentDay / dayContent.module.duration_days) * 100}%`}
-                  backgroundColor="$cosmicViolet"
+                  backgroundColor={isCurrentDayLocked ? '$silverMoon3' : '$cosmicViolet'}
                 />
               </YStack>
             </YStack>
 
             {/* Day Title */}
-            <Text color="$silverMoon" fontWeight="600" marginBottom="$2" fontSize="$5">
+            <Text color={isCurrentDayLocked ? '$silverMoon3' : '$silverMoon'} fontWeight="600" marginBottom="$2" fontSize="$5">
               {dayContent.day.title}
             </Text>
 
             {/* Teaching Preview */}
-            <Text color="$silverMoon2" fontSize="$3" numberOfLines={2} lineHeight="$2" marginBottom="$3">
+            <Text color={isCurrentDayLocked ? '$silverMoon3' : '$silverMoon2'} fontSize="$3" numberOfLines={2} lineHeight="$2" marginBottom="$3">
               {dayContent.day.teaching.heading}
             </Text>
 
@@ -382,9 +435,11 @@ export default function TodayScreen() {
             </XStack>
 
             {/* Call to Action */}
-            <Text color="$cosmicViolet" fontSize="$3" marginTop="$3" fontWeight="600">
-              Tap to begin →
-            </Text>
+            {!isCurrentDayLocked && (
+              <Text color="$cosmicViolet" fontSize="$3" marginTop="$3" fontWeight="600">
+                Tap to begin →
+              </Text>
+            )}
           </Card>
         ) : (
           /* No active module - Empty state */

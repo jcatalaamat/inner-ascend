@@ -1,11 +1,10 @@
 import { Paragraph, ScrollView, Separator, Settings, YStack, isWeb, useMedia, useToastController } from '@my/ui'
-import { Book, Cog, Info, Lock, LogOut, Mail, Moon, Smartphone, Twitter, MessageCircle, Instagram, HelpCircle, Trash2, MessageSquarePlus, Bell, Shield } from '@tamagui/lucide-icons'
+import { Book, Cog, Info, Lock, LogOut, Mail, Moon, HelpCircle, Trash2, MessageSquarePlus } from '@tamagui/lucide-icons'
 import { useThemeSetting } from 'app/provider/theme'
 import { redirect } from 'app/utils/redirect'
 import { useSupabase } from 'app/utils/supabase/useSupabase'
 import { usePathname } from 'app/utils/usePathname'
 import { useLink } from 'solito/link'
-import { LanguageSwitcher } from 'app/components/LanguageSwitcher'
 import { useTranslation } from 'react-i18next'
 import { Linking } from 'react-native'
 import { useEffect, useState } from 'react'
@@ -39,15 +38,6 @@ export const SettingsScreen = () => {
             {/* App Preferences */}
             <Settings.Group>
               <SettingsThemeAction />
-              <LanguageSwitcher />
-              <Settings.Item
-                icon={Bell}
-                isActive={pathname === '/settings/notifications'}
-                {...useLink({ href: '/settings/notifications' })}
-                accentTheme="blue"
-              >
-                {t('notifications.title')}
-              </Settings.Item>
             </Settings.Group>
             {isWeb && <Separator boc="$color3" mx="$-4" bw="$0.25" />}
             {/* Account Settings */}
@@ -78,22 +68,6 @@ export const SettingsScreen = () => {
               </Settings.Item>
             </Settings.Group>
             {isWeb && <Separator boc="$color3" mx="$-4" bw="$0.25" />}
-            {/* Admin Section (only visible to admins) */}
-            {profile?.is_admin && (
-              <>
-                <Settings.Group>
-                  <Settings.Item
-                    icon={Shield}
-                    isActive={pathname === '/admin/reports'}
-                    {...useLink({ href: '/admin/reports' })}
-                    accentTheme="red"
-                  >
-                    {t('admin.title')}
-                  </Settings.Item>
-                </Settings.Group>
-                {isWeb && <Separator boc="$color3" mx="$-4" bw="$0.25" />}
-              </>
-            )}
             {/* Help & Support */}
             <Settings.Group>
               <SettingsHelpSupportItems openFeedbackSheet={openFeedbackSheet} />
@@ -125,9 +99,6 @@ export const SettingsScreen = () => {
                   {t('settings.about')}
                 </Settings.Item>
               )}
-              <Settings.Item icon={Smartphone} {...useLink({ href: '/settings/device-info' })} accentTheme="purple">
-                {t('settings.device_information')}
-              </Settings.Item>
             </Settings.Group>
             {isWeb && <Separator boc="$color3" mx="$-4" bw="$0.25" />}
             {/* Account Actions */}
@@ -161,50 +132,16 @@ const SettingsThemeAction = () => {
 
 const SettingsHelpSupportItems = ({ openFeedbackSheet }: { openFeedbackSheet: (type: 'feedback' | 'support' | 'contact') => void }) => {
   const { t } = useTranslation()
-  const toast = useToastController()
-
-  const handleContactPress = async (url: string, fallbackMessage: string) => {
-    try {
-      const canOpen = await Linking.canOpenURL(url)
-      if (canOpen) {
-        await Linking.openURL(url)
-      } else {
-        toast.show(fallbackMessage, { duration: 5000 })
-      }
-    } catch (error) {
-      toast.show(fallbackMessage, { duration: 5000 })
-    }
-  }
-
-  const handleWhatsAppPress = () => {
-    handleContactPress(
-      'https://wa.me/34611144170?text=Hi!%20I%27d%20like%20to%20share%20feedback%20about%20Mazunte%20Connect',
-      t('settings.contact_unavailable_whatsapp')
-    )
-  }
-
-  const handleInstagramPress = () => {
-    handleContactPress(
-      'https://instagram.com/mazunteconnect',
-      t('settings.contact_unavailable_instagram')
-    )
-  }
 
   return (
     <>
       <Settings.Item icon={MessageSquarePlus} onPress={() => openFeedbackSheet('feedback')} accentTheme="orange">
         {t('settings.send_feedback')}
       </Settings.Item>
-      <Settings.Item icon={MessageCircle} onPress={handleWhatsAppPress} accentTheme="green">
-        {t('settings.contact_whatsapp')}
-      </Settings.Item>
-      <Settings.Item icon={Instagram} onPress={handleInstagramPress} accentTheme="purple">
-        {t('settings.contact_instagram')}
-      </Settings.Item>
       <Settings.Item icon={Mail} onPress={() => openFeedbackSheet('contact')} accentTheme="blue">
         {t('settings.contact_email')}
       </Settings.Item>
-      <Settings.Item icon={HelpCircle} onPress={() => openFeedbackSheet('support')} accentTheme="blue">
+      <Settings.Item icon={HelpCircle} onPress={() => openFeedbackSheet('support')} accentTheme="purple">
         {t('settings.contact_support')}
       </Settings.Item>
     </>

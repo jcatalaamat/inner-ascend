@@ -67,62 +67,64 @@ export const SignUpScreen = () => {
   }
 
   return (
-    <FormProvider {...form}>
-      {form.formState.isSubmitSuccessful ? (
-        <CheckYourEmail />
-      ) : (
-        <SchemaForm
-          form={form}
-          schema={SignUpSchema}
-          defaultValues={{
-            email: params?.email || '',
-            password: '',
-          }}
-          props={{
-            email: {
-              size: '$5',
-            },
-            password: {
-              secureTextEntry: true,
-              size: '$5',
-            },
-          }}
-          onSubmit={signUpWithEmail}
-          renderAfter={({ submit }) => (
-            <>
-              <Theme inverse>
-                <SubmitButton onPress={() => submit()} br="$12" h={56}>
-                  Create your account
-                </SubmitButton>
-              </Theme>
-              <SignInLink />
-            </>
-          )}
-        >
-          {(fields) => (
-            <>
-              <YStack gap="$3" mb="$4">
-                <H2 $sm={{ size: '$9' }} size="$10">Begin your inner journey</H2>
-                <Paragraph theme="alt1" size="$5">Join thousands doing the work</Paragraph>
-              </YStack>
+    <Theme name="purple">
+      <FormProvider {...form}>
+        {form.formState.isSubmitSuccessful ? (
+          <CheckYourEmail />
+        ) : (
+          <SchemaForm
+            form={form}
+            schema={SignUpSchema}
+            defaultValues={{
+              email: params?.email || '',
+              password: '',
+            }}
+            props={{
+              email: {
+                size: '$5',
+              },
+              password: {
+                secureTextEntry: true,
+                size: '$5',
+              },
+            }}
+            onSubmit={signUpWithEmail}
+            renderAfter={({ submit }) => (
+              <>
+                <Theme inverse>
+                  <SubmitButton onPress={() => submit()} br="$12" h={56}>
+                    Create your account
+                  </SubmitButton>
+                </Theme>
+                <SignInLink />
+              </>
+            )}
+          >
+            {(fields) => (
+              <>
+                <YStack gap="$3" mb="$4">
+                  <H2 $sm={{ size: '$9' }} size="$10">Begin your inner journey</H2>
+                  <Paragraph theme="alt1" size="$5">Join thousands doing the work</Paragraph>
+                </YStack>
 
-              {/* Social login first - primary method */}
-              <YStack mb="$4">
-                <SocialLogin />
-              </YStack>
+                {/* Social login first - primary method */}
+                <YStack mb="$4">
+                  <SocialLogin />
+                </YStack>
 
-              {/* "or" divider */}
-              <YStack ai="center" jc="center" mb="$4">
-                <Paragraph theme="alt2" size="$2" tt="lowercase">or</Paragraph>
-              </YStack>
+                {/* "or" divider */}
+                <YStack ai="center" jc="center" mb="$4">
+                  <Paragraph theme="alt2" size="$2" tt="lowercase">or</Paragraph>
+                </YStack>
 
-              {/* Email/password fields */}
-              {Object.values(fields)}
-            </>
-          )}
-        </SchemaForm>
-      )}
-    </FormProvider>
+                {/* Email/password fields */}
+                {Object.values(fields)}
+              </>
+            )}
+          </SchemaForm>
+        )}
+      </FormProvider>
+    </Theme>
   )
 }
 

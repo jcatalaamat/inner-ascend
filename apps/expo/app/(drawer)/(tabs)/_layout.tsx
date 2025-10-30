@@ -1,6 +1,6 @@
 import { useTheme, Button } from '@my/ui'
 import { DrawerActions } from '@react-navigation/native'
-import { BookOpen, CircleDot, Home, Menu, TrendingUp, Users } from '@tamagui/lucide-icons'
+import { BookOpen, CircleDot, Home, Menu, User } from '@tamagui/lucide-icons'
 import { Stack, Tabs, useNavigation, usePathname } from 'expo-router'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
@@ -75,16 +75,6 @@ export default function Layout() {
           }}
         />
         <Tabs.Screen
-          name="community"
-          options={{
-            headerShown: false,
-            title: 'Community',
-            tabBarIcon: ({ focused }) => (
-              <Users color={focused ? '$cosmicViolet' : '$silverMoon2'} size={22} strokeWidth={focused ? 2.5 : 2} />
-            ),
-          }}
-        />
-        <Tabs.Screen
           name="practices"
           options={{
             headerShown: false,
@@ -95,13 +85,19 @@ export default function Layout() {
           }}
         />
         <Tabs.Screen
-          name="progress"
+          name="me"
           options={{
             headerShown: false,
-            title: 'Progress',
+            title: 'Me',
             tabBarIcon: ({ focused }) => (
-              <TrendingUp color={focused ? '$cosmicViolet' : '$silverMoon2'} size={22} strokeWidth={focused ? 2.5 : 2} />
+              <User color={focused ? '$cosmicViolet' : '$silverMoon2'} size={22} strokeWidth={focused ? 2.5 : 2} />
             ),
+          }}
+        />
+        <Tabs.Screen
+          name="community"
+          options={{
+            href: null,
           }}
         />
       </Tabs>

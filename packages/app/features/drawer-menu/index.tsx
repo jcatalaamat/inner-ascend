@@ -3,12 +3,10 @@ import { DrawerContentScrollView } from '@react-navigation/drawer'
 import { Cog } from '@tamagui/lucide-icons'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useUser } from 'app/utils/useUser'
-import { SolitoImage } from 'solito/image'
 import { useLink } from 'solito/link'
 
 export function DrawerMenu(props) {
-  const { profile, avatarUrl } = useUser()
-  const name = profile?.name
+  const { displayName, avatarUrl } = useUser()
   const insets = useSafeAreaInsets()
 
   return (
@@ -34,15 +32,21 @@ export function DrawerMenu(props) {
 
           <XStack gap="$4" mb="$7" mt="auto" ai="center" px="$4">
             <Avatar circular size="$3">
-              <SolitoImage
-                src={avatarUrl}
-                alt="your avatar"
-                width={getTokens().size['3'].val}
-                height={getTokens().size['3'].val}
+              <Avatar.Image
+                source={{
+                  uri: avatarUrl,
+                  width: getTokens().size['3'].val,
+                  height: getTokens().size['3'].val,
+                }}
               />
+              <Avatar.Fallback bc="$cosmicViolet" ai="center" jc="center">
+                <Paragraph color="$silverMoon" fontWeight="bold">
+                  {displayName.charAt(0).toUpperCase()}
+                </Paragraph>
+              </Avatar.Fallback>
             </Avatar>
             <Paragraph ta="center" ml="$-1.5">
-              {name ?? 'No Name'}
+              {displayName}
             </Paragraph>
           </XStack>
         </YStack>

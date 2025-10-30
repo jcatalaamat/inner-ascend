@@ -71,12 +71,12 @@ serve(async (req) => {
     if (feedback.user_id) {
       const { data: profile } = await supabaseClient
         .from('profiles')
-        .select('name')
+        .select('full_name')
         .eq('id', feedback.user_id)
         .single()
 
-      if (profile?.name) {
-        userName = profile.name
+      if (profile?.full_name) {
+        userName = profile.full_name
       }
     }
 

@@ -2883,13 +2883,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@iabtcf/core@npm:^1.5.3":
-  version: 1.5.6
-  resolution: "@iabtcf/core@npm:1.5.6"
-  checksum: 10/8e43f5b5b4c8e21f5f51d24e40836e7432c65eb6d832dbcc51a8124a817004b544766ec4dc9f1813e9a06082e0af4f1865aca37e0f34f9945a80bb23344c0460
-  languageName: node
-  linkType: hard
-
 "@ide/backoff@npm:^1.0.0":
   version: 1.0.0
   resolution: "@ide/backoff@npm:1.0.0"
@@ -16376,7 +16369,6 @@ __metadata:
     react-native-clean-project: "npm:^4.0.3"
     react-native-dotenv: "npm:^3.4.9"
     react-native-gesture-handler: "npm:~2.24.0"
-    react-native-google-mobile-ads: "npm:^15.8.0"
     react-native-maps: "npm:1.20.1"
     react-native-reanimated: "npm:~3.17.5"
     react-native-safe-area-context: "npm:5.4.0"
@@ -24028,21 +24020,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-google-mobile-ads@npm:^15.8.0":
-  version: 15.8.3
-  resolution: "react-native-google-mobile-ads@npm:15.8.3"
-  dependencies:
-    "@iabtcf/core": "npm:^1.5.3"
-    use-deep-compare-effect: "npm:^1.8.1"
-  peerDependencies:
-    expo: ">=47.0.0"
-  peerDependenciesMeta:
-    expo:
-      optional: true
-  checksum: 10/816a66e24e31be8512d66f34bb50bf73df544fa7e93d869d5e98318d9dd0c9b0565de9c006750401ea292f56c14e2fd6eacc82a167daefb4512c757bdffd1599
-  languageName: node
-  linkType: hard
-
 "react-native-is-edge-to-edge@npm:1.1.7":
   version: 1.1.7
   resolution: "react-native-is-edge-to-edge@npm:1.1.7"
@@ -28143,18 +28120,6 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 10/adf06a7b6a27d3651c325ac9b66d2b82ccacaed7450b85b211d123e91d9a23cb5a587fcc6db5b4fd07ac7233e5abf024d30cf02ddc2ec46bca712151c0836151
-  languageName: node
-  linkType: hard
-
-"use-deep-compare-effect@npm:^1.8.1":
-  version: 1.8.1
-  resolution: "use-deep-compare-effect@npm:1.8.1"
-  dependencies:
-    "@babel/runtime": "npm:^7.12.5"
-    dequal: "npm:^2.0.2"
-  peerDependencies:
-    react: ">=16.13"
-  checksum: 10/1b16c391ebd3378c38ab298fdf86c82183fc1125c24ae43c2fe73c0184ab5527e22d42ddaeddde8dc8b50b0a8e5752d262e0a6eb8e49c67369d76d86b9d655ac
   languageName: node
   linkType: hard
 

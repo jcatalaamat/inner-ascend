@@ -1,5 +1,5 @@
 import { Paragraph, ScrollView, Separator, Settings, YStack, isWeb, useMedia, useToastController } from '@my/ui'
-import { Book, Cog, Info, Lock, LogOut, Mail, Moon, HelpCircle, Trash2, MessageSquarePlus } from '@tamagui/lucide-icons'
+import { Book, Cog, Info, Lock, LogOut, Mail, Moon } from '@tamagui/lucide-icons'
 import { useThemeSetting } from 'app/provider/theme'
 import { redirect } from 'app/utils/redirect'
 import { useSupabase } from 'app/utils/supabase/useSupabase'
@@ -8,7 +8,6 @@ import { useLink } from 'solito/link'
 import { useTranslation } from 'react-i18next'
 import { Linking } from 'react-native'
 import { useEffect, useState } from 'react'
-import { FeedbackSheet } from './feedback-sheet'
 import { useUser } from 'app/utils/useUser'
 
 
@@ -17,21 +16,9 @@ export const SettingsScreen = () => {
   const pathname = usePathname()
   const { t } = useTranslation()
   const { profile } = useUser()
-  const [feedbackOpen, setFeedbackOpen] = useState(false)
-  const [feedbackType, setFeedbackType] = useState<'feedback' | 'feature_request' | 'bug_report' | 'support' | 'contact' | 'delete_account'>('feedback')
-
-  useEffect(() => {
-  }, [])
-
-  const openFeedbackSheet = (type: typeof feedbackType) => {
-    setFeedbackType(type)
-    setFeedbackOpen(true)
-  }
 
   return (
     <YStack f={1}>
-      <FeedbackSheet open={feedbackOpen} onOpenChange={setFeedbackOpen} initialType={feedbackType} />
-
       <ScrollView>
         <Settings>
           <Settings.Items>
@@ -68,11 +55,6 @@ export const SettingsScreen = () => {
               </Settings.Item>
             </Settings.Group>
             {isWeb && <Separator boc="$color3" mx="$-4" bw="$0.25" />}
-            {/* Help & Support */}
-            <Settings.Group>
-              <SettingsHelpSupportItems openFeedbackSheet={openFeedbackSheet} />
-            </Settings.Group>
-            {isWeb && <Separator boc="$color3" mx="$-4" bw="$0.25" />}
             {/* About & Legal */}
             <Settings.Group>
               <Settings.Item
@@ -103,7 +85,6 @@ export const SettingsScreen = () => {
             {isWeb && <Separator boc="$color3" mx="$-4" bw="$0.25" />}
             {/* Account Actions */}
             <Settings.Group>
-              <SettingsDeleteAccountAction openFeedbackSheet={openFeedbackSheet} />
               <SettingsItemLogoutAction />
             </Settings.Group>
           </Settings.Items>
@@ -129,34 +110,6 @@ const SettingsThemeAction = () => {
   )
 }
 
-
-const SettingsHelpSupportItems = ({ openFeedbackSheet }: { openFeedbackSheet: (type: 'feedback' | 'support' | 'contact') => void }) => {
-  const { t } = useTranslation()
-
-  return (
-    <>
-      <Settings.Item icon={MessageSquarePlus} onPress={() => openFeedbackSheet('feedback')} accentTheme="orange">
-        {t('settings.send_feedback')}
-      </Settings.Item>
-      <Settings.Item icon={Mail} onPress={() => openFeedbackSheet('contact')} accentTheme="blue">
-        {t('settings.contact_email')}
-      </Settings.Item>
-      <Settings.Item icon={HelpCircle} onPress={() => openFeedbackSheet('support')} accentTheme="purple">
-        {t('settings.contact_support')}
-      </Settings.Item>
-    </>
-  )
-}
-
-const SettingsDeleteAccountAction = ({ openFeedbackSheet }: { openFeedbackSheet: (type: 'delete_account') => void }) => {
-  const { t } = useTranslation()
-
-  return (
-    <Settings.Item icon={Trash2} accentTheme="red" onPress={() => openFeedbackSheet('delete_account')}>
-      {t('settings.delete_account')}
-    </Settings.Item>
-  )
-}
 
 const SettingsItemLogoutAction = () => {
   const supabase = useSupabase()

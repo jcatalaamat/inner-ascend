@@ -55,6 +55,7 @@ export default {
         'android.permission.ACCESS_COARSE_LOCATION',
       ],
       versionCode: 1,
+      enableProguardInReleaseBuilds: true,
       config: {
         googleMaps: {
           apiKey: process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,

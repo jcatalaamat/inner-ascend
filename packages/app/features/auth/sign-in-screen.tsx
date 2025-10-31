@@ -65,8 +65,7 @@ export const SignInScreen = () => {
   }
 
   return (
-    <Theme name="purple">
-      <FormWrapper>
+    <FormWrapper>
         <FormProvider {...form}>
           <SchemaForm
             form={form}
@@ -125,7 +124,6 @@ export const SignInScreen = () => {
           {isLoadingSession && <LoadingOverlay />}
         </FormProvider>
       </FormWrapper>
-    </Theme>
   )
 }
 

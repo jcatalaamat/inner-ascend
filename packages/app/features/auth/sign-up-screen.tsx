@@ -67,8 +67,7 @@ export const SignUpScreen = () => {
   }
 
   return (
-    <Theme name="purple">
-      <FormProvider {...form}>
+    <FormProvider {...form}>
         {form.formState.isSubmitSuccessful ? (
           <CheckYourEmail />
         ) : (
@@ -124,7 +123,6 @@ export const SignUpScreen = () => {
           </SchemaForm>
         )}
       </FormProvider>
-    </Theme>
   )
 }
 

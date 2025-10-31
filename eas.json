@@ -21,8 +21,7 @@
       },
       "ios": {
         "simulator": false,
-        "buildConfiguration": "Release",
-        "credentialsSource": "local"
+        "buildConfiguration": "Release"
       },
       "env": {
         "APP_ENV": "staging",

@@ -29,6 +29,11 @@ docs/Student Manual/
 *.aab
 *.ipa
 
+# Android credentials
+*.keystore
+!debug.keystore
+apps/expo/credentials.json
+
 # debug
 npm-debug.log*
 yarn-debug.log*

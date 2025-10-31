@@ -141,6 +141,7 @@ if [[ "$PLATFORM" == "android" || "$PLATFORM" == "all" ]]; then
   STEP_CURRENT=$((STEP_CURRENT + 1))
   echo "🤖 Step $STEP_CURRENT/$STEP_TOTAL: Building for Android (AAB for Play Store)..."
   ANDROID_AAB_PATH="./build-android-$(date +%s).aab"
+
   eas build --platform android --profile production --local --non-interactive --output "$ANDROID_AAB_PATH"
 
   echo ""

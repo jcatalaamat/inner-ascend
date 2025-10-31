@@ -13,9 +13,9 @@
         "EXPO_PUBLIC_URL": "https://unistack-next-delta.vercel.app",
         "EXPO_PUBLIC_SUPABASE_URL": "https://zzihauppkhzxcppyskqq.supabase.co",
         "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp6aWhhdXBwa2h6eGNwcHlza3FxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA4NzMzMjAsImV4cCI6MjA3NjQ0OTMyMH0._lA5ujjlOJm8e-C2LVkrJhTA7gDOgVYceML21JIogf0",
-        "GOOGLE_IOS_SCHEME": "com.googleusercontent.apps.7491021027-dj901lvn943vgmstd41vraejfpinucra",
-        "GOOGLE_IOS_CLIENT_ID": "7491021027-dj901lvn943vgmstd41vraejfpinucra.apps.googleusercontent.com",
-        "GOOGLE_WEB_CLIENT_ID": "7491021027-vtrrafmgot4ndkpgalt20i6v8hgigasf.apps.googleusercontent.com"
+        "GOOGLE_IOS_SCHEME": "com.googleusercontent.apps.1065698463479-vkv369urpqtpdcuhlokiavvf1medcptv",
+        "GOOGLE_IOS_CLIENT_ID": "1065698463479-vkv369urpqtpdcuhlokiavvf1medcptv.apps.googleusercontent.com",
+        "GOOGLE_WEB_CLIENT_ID": "1065698463479-soqfhb6vi0487v0a0g2bn8uc86qo4ut3.apps.googleusercontent.com"
       },
       "ios": {
         "simulator": true,
@@ -31,9 +31,9 @@
         "EXPO_PUBLIC_URL": "https://unistack-next-delta.vercel.app",
         "EXPO_PUBLIC_SUPABASE_URL": "https://zzihauppkhzxcppyskqq.supabase.co",
         "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp6aWhhdXBwa2h6eGNwcHlza3FxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA4NzMzMjAsImV4cCI6MjA3NjQ0OTMyMH0._lA5ujjlOJm8e-C2LVkrJhTA7gDOgVYceML21JIogf0",
-        "GOOGLE_IOS_SCHEME": "com.googleusercontent.apps.7491021027-dj901lvn943vgmstd41vraejfpinucra",
-        "GOOGLE_IOS_CLIENT_ID": "7491021027-dj901lvn943vgmstd41vraejfpinucra.apps.googleusercontent.com",
-        "GOOGLE_WEB_CLIENT_ID": "7491021027-vtrrafmgot4ndkpgalt20i6v8hgigasf.apps.googleusercontent.com"
+        "GOOGLE_IOS_SCHEME": "com.googleusercontent.apps.1065698463479-vkv369urpqtpdcuhlokiavvf1medcptv",
+        "GOOGLE_IOS_CLIENT_ID": "1065698463479-vkv369urpqtpdcuhlokiavvf1medcptv.apps.googleusercontent.com",
+        "GOOGLE_WEB_CLIENT_ID": "1065698463479-soqfhb6vi0487v0a0g2bn8uc86qo4ut3.apps.googleusercontent.com"
       },
       "ios": {
         "image": "latest"
@@ -49,9 +49,9 @@
         "EXPO_PUBLIC_URL": "https://unistack-next-delta.vercel.app",
         "EXPO_PUBLIC_SUPABASE_URL": "https://zzihauppkhzxcppyskqq.supabase.co",
         "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp6aWhhdXBwa2h6eGNwcHlza3FxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA4NzMzMjAsImV4cCI6MjA3NjQ0OTMyMH0._lA5ujjlOJm8e-C2LVkrJhTA7gDOgVYceML21JIogf0",
-        "GOOGLE_IOS_SCHEME": "com.googleusercontent.apps.7491021027-dj901lvn943vgmstd41vraejfpinucra",
-        "GOOGLE_IOS_CLIENT_ID": "7491021027-dj901lvn943vgmstd41vraejfpinucra.apps.googleusercontent.com",
-        "GOOGLE_WEB_CLIENT_ID": "7491021027-vtrrafmgot4ndkpgalt20i6v8hgigasf.apps.googleusercontent.com"
+        "GOOGLE_IOS_SCHEME": "com.googleusercontent.apps.1065698463479-vkv369urpqtpdcuhlokiavvf1medcptv",
+        "GOOGLE_IOS_CLIENT_ID": "1065698463479-vkv369urpqtpdcuhlokiavvf1medcptv.apps.googleusercontent.com",
+        "GOOGLE_WEB_CLIENT_ID": "1065698463479-soqfhb6vi0487v0a0g2bn8uc86qo4ut3.apps.googleusercontent.com"
       },
       "android": {
         "buildType": "apk"
@@ -74,9 +74,9 @@
         "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp6aWhhdXBwa2h6eGNwcHlza3FxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA4NzMzMjAsImV4cCI6MjA3NjQ0OTMyMH0._lA5ujjlOJm8e-C2LVkrJhTA7gDOgVYceML21JIogf0",
         "EXPO_PUBLIC_POSTHOG_API_KEY": "phc_BkmJVuwBbxUTgPNSmFJqComY0An1HnUmWe0VzBZUIu9",
         "EXPO_PUBLIC_POSTHOG_HOST": "https://eu.i.posthog.com",
-        "GOOGLE_IOS_SCHEME": "com.googleusercontent.apps.7491021027-dj901lvn943vgmstd41vraejfpinucra",
-        "GOOGLE_IOS_CLIENT_ID": "7491021027-dj901lvn943vgmstd41vraejfpinucra.apps.googleusercontent.com",
-        "GOOGLE_WEB_CLIENT_ID": "7491021027-vtrrafmgot4ndkpgalt20i6v8hgigasf.apps.googleusercontent.com"
+        "GOOGLE_IOS_SCHEME": "com.googleusercontent.apps.1065698463479-vkv369urpqtpdcuhlokiavvf1medcptv",
+        "GOOGLE_IOS_CLIENT_ID": "1065698463479-vkv369urpqtpdcuhlokiavvf1medcptv.apps.googleusercontent.com",
+        "GOOGLE_WEB_CLIENT_ID": "1065698463479-soqfhb6vi0487v0a0g2bn8uc86qo4ut3.apps.googleusercontent.com"
       },
       "ios": {
         "image": "latest"
@@ -97,9 +97,9 @@
         "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp6aWhhdXBwa2h6eGNwcHlza3FxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA4NzMzMjAsImV4cCI6MjA3NjQ0OTMyMH0._lA5ujjlOJm8e-C2LVkrJhTA7gDOgVYceML21JIogf0",
         "EXPO_PUBLIC_POSTHOG_API_KEY": "phc_BkmJVuwBbxUTgPNSmFJqComY0An1HnUmWe0VzBZUIu9",
         "EXPO_PUBLIC_POSTHOG_HOST": "https://eu.i.posthog.com",
-        "GOOGLE_IOS_SCHEME": "com.googleusercontent.apps.7491021027-dj901lvn943vgmstd41vraejfpinucra",
-        "GOOGLE_IOS_CLIENT_ID": "7491021027-dj901lvn943vgmstd41vraejfpinucra.apps.googleusercontent.com",
-        "GOOGLE_WEB_CLIENT_ID": "7491021027-vtrrafmgot4ndkpgalt20i6v8hgigasf.apps.googleusercontent.com"
+        "GOOGLE_IOS_SCHEME": "com.googleusercontent.apps.1065698463479-vkv369urpqtpdcuhlokiavvf1medcptv",
+        "GOOGLE_IOS_CLIENT_ID": "1065698463479-vkv369urpqtpdcuhlokiavvf1medcptv.apps.googleusercontent.com",
+        "GOOGLE_WEB_CLIENT_ID": "1065698463479-soqfhb6vi0487v0a0g2bn8uc86qo4ut3.apps.googleusercontent.com"
       },
       "ios": {
         "image": "latest"
@@ -115,9 +115,9 @@
         "EXPO_PUBLIC_URL": "https://unistack-next-delta.vercel.app",
         "EXPO_PUBLIC_SUPABASE_URL": "https://zzihauppkhzxcppyskqq.supabase.co",
         "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp6aWhhdXBwa2h6eGNwcHlza3FxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA4NzMzMjAsImV4cCI6MjA3NjQ0OTMyMH0._lA5ujjlOJm8e-C2LVkrJhTA7gDOgVYceML21JIogf0",
-        "GOOGLE_IOS_SCHEME": "com.googleusercontent.apps.7491021027-dj901lvn943vgmstd41vraejfpinucra",
-        "GOOGLE_IOS_CLIENT_ID": "7491021027-dj901lvn943vgmstd41vraejfpinucra.apps.googleusercontent.com",
-        "GOOGLE_WEB_CLIENT_ID": "7491021027-vtrrafmgot4ndkpgalt20i6v8hgigasf.apps.googleusercontent.com"
+        "GOOGLE_IOS_SCHEME": "com.googleusercontent.apps.1065698463479-vkv369urpqtpdcuhlokiavvf1medcptv",
+        "GOOGLE_IOS_CLIENT_ID": "1065698463479-vkv369urpqtpdcuhlokiavvf1medcptv.apps.googleusercontent.com",
+        "GOOGLE_WEB_CLIENT_ID": "1065698463479-soqfhb6vi0487v0a0g2bn8uc86qo4ut3.apps.googleusercontent.com"
       },
       "android": {
         "buildType": "app-bundle"

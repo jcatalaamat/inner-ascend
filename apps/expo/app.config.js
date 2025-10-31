@@ -35,6 +35,9 @@ export default {
           {
             CFBundleURLName: "GoogleSignIn",
             CFBundleURLSchemes: [process.env.GOOGLE_IOS_SCHEME || 'com.googleusercontent.apps.YOUR_GOOGLE_IOS_CLIENT_ID']
+          },
+          {
+            CFBundleURLSchemes: ['com.innerascend.app']
           }
         ]
       },

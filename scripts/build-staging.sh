@@ -64,6 +64,7 @@ fi
 # Set environment variables for local builds
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
+export EXPO_NO_CAPABILITY_SYNC=1  # Prevent EAS from disabling Sign in with Apple
 
 # Check for Sentry token
 if [ -z "$SENTRY_AUTH_TOKEN" ]; then

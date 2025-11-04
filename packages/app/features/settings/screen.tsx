@@ -1,5 +1,5 @@
 import { Paragraph, ScrollView, Separator, Settings, YStack, isWeb, useMedia, useToastController } from '@my/ui'
-import { Book, Cog, Info, Lock, LogOut, Mail, Moon } from '@tamagui/lucide-icons'
+import { Book, Cog, Info, Lock, LogOut, Mail, Moon, Trash2 } from '@tamagui/lucide-icons'
 import { useThemeSetting } from 'app/provider/theme'
 import { redirect } from 'app/utils/redirect'
 import { useSupabase } from 'app/utils/supabase/useSupabase'
@@ -85,6 +85,7 @@ export const SettingsScreen = () => {
             {isWeb && <Separator boc="$color3" mx="$-4" bw="$0.25" />}
             {/* Account Actions */}
             <Settings.Group>
+              <SettingsItemDeleteAccountAction />
               <SettingsItemLogoutAction />
             </Settings.Group>
           </Settings.Items>
@@ -110,6 +111,20 @@ const SettingsThemeAction = () => {
   )
 }
 
+
+const SettingsItemDeleteAccountAction = () => {
+  const { t } = useTranslation()
+
+  const handleDeleteAccount = () => {
+    Linking.openURL('https://inner-ascend.com/delete-account.html')
+  }
+
+  return (
+    <Settings.Item icon={Trash2} accentTheme="red" onPress={handleDeleteAccount}>
+      {t('settings.delete_account')}
+    </Settings.Item>
+  )
+}
 
 const SettingsItemLogoutAction = () => {
   const supabase = useSupabase()
